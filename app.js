@@ -135,7 +135,7 @@ router.route('/feeds/new')
 	    analysis: [
             {
                 number: 1,
-                date: new Date(),
+                date: '12-11-2016',
                 isNaturalWet: false,
                 dryMaterial: '33',
                 ph: 12,
