@@ -1,0 +1,4 @@
+<span class="group-buttons">
+  <md-button ng-repeat="item in groupButtons.items track by $index" class="button" data-ng-class="{selected: groupButtons.selected === item}" data-ng-click="groupButtons.onClick(item)">{{item.number || item}}</md-button>
+  <md-button class="button" ng-if="groupButtons.allowAdd" data-ng-click="groupButtons.onAddHandler()">+</md-button>
+</span>

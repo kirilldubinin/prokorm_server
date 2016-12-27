@@ -1,0 +1,25 @@
+.feed-edit {
+  border: 3px solid #FF9800;
+  padding: 20px 10px 0 10px; }
+  .feed-edit .feed-edit-header {
+    min-height: 50px;
+    border-bottom: 3px solid #FF9800; }
+    .feed-edit .feed-edit-header.analysis .title {
+      margin-right: 30px; }
+    .feed-edit .feed-edit-header .title {
+      margin-right: 30px; }
+    .feed-edit .feed-edit-header .group-buttons {
+      margin-top: -10px; }
+  .feed-edit .feed-edit-content {
+    overflow: auto; }
+    .feed-edit .feed-edit-content .feed-property {
+      width: 90%; }
+      .feed-edit .feed-edit-content .feed-property.booleanProperty {
+        margin: 0; }
+      .feed-edit .feed-edit-content .feed-property .md-errors-spacer {
+        display: none; }
+      .feed-edit .feed-edit-content .feed-property .self-explanation-link:hover {
+        color: #3F51B5; }
+  .feed-edit .feed-edit-actions {
+    min-height: 60px;
+    height: 60px; }

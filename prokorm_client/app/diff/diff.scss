@@ -1,0 +1,71 @@
+.diff-card {
+	padding: 0 20px;
+    height: 100%;
+    overflow: hidden;
+
+    .feed-header {
+    	padding-top: 12px;
+    	.feed-composition {
+    		font-size: 12px;
+    	}
+    	.feed-storage {
+    		font-size: 12px;
+    	}
+    }
+    
+    .diff-title {
+    	color: #3F51B5;
+	    font-size: 20px;
+	    padding-bottom: 12px;
+	    border-bottom: 3px solid #FF9800;
+
+	    h2 {
+	    	margin-top: 12px;
+	    }
+    }
+
+	.diff-dashboard {
+		height: calc(100% - 75px);
+		overflow: auto;
+		ul, li {
+			list-style-type: none;
+			margin: 0;
+			padding:0;
+			font-size: 12px;
+		}
+
+		li {
+			
+		}
+
+		.root-property {
+			color: #6a6c6f;
+		}
+
+		.property-label {
+			color: #6a6c6f;
+		    border-bottom: 1px solid #ddd;
+		    padding: 6px 2px;
+		}
+
+		.property-values {
+			
+			/*&:hover {
+				background-color: #BBDEFB;
+				border-bottom: 1px solid #BBDEFB;	
+			}*/
+			.property-value {
+				color: #333;
+			    padding: 6px 20px;
+			    min-width: 60px;
+			    text-align: right;
+			    border-left: 1px solid #FF9800;
+			    border-bottom: 1px solid #DDD;
+
+			    /*&.odd {
+			    	background-color: #f0f0f0;
+			    }*/
+			}
+		}
+	}
+}

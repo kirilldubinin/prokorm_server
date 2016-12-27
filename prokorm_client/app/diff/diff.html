@@ -1,0 +1,38 @@
+<div class="diff-card">
+  <div layout="row" class="diff-title">
+    <h2 flex="25">Сравнение</h2>
+    <div flex class="feed-header" ng-repeat="header in diff.headers">
+      {{header.name}} <b>{{header.year}}</b>
+      <br/>
+      <span class="feed-composition">{{header.composition}},</span>
+      <span class="feed-storage">{{header.storage}}</span>
+    </div>
+  </div>
+    <!--<div>
+      <label>Выделить показатель:</label>
+      <md-radio-group ng-model="data.group1">
+        <md-radio-button value="more">Больше</md-radio-button>
+        <md-radio-button value="less">Меньше</md-radio-button>
+      </md-radio-group>
+    </div>-->
+  <div class="diff-dashboard" layout="row">
+    <ul flex class="property-list">
+
+      <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in diff.diffRows">
+        <h4 class="root-property">{{property.label}}</h4>
+        <ul ng-if="property.children">
+
+          <li class="property-values" ng-repeat="child in property.children" ng-switch="child.key" layout="row">
+            <span flex="25" class="property-label">{{child.label}}</span>  
+
+            <span ng-class-odd="'odd'" ng-class-even="'even'" flex class="property-value" ng-repeat="value in child.values" layout="row">
+              <span ng-repeat="v in value track by $index" flex>
+                {{v}}  
+              </span>
+            </span>  
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

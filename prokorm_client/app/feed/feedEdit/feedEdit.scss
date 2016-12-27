@@ -1,0 +1,51 @@
+.feed-edit {
+	
+	border: 3px solid #FF9800;
+    padding: 20px 10px 0 10px;
+
+	.feed-edit-header {
+
+		&.analysis {
+			.title {
+			    margin-right: 30px;
+			}
+		}
+		min-height: 50px;
+	    border-bottom: 3px solid #FF9800;
+
+	    .title {
+		    margin-right: 30px;
+		}
+
+		.group-buttons {
+			margin-top: -10px;
+		}
+	}
+
+	.feed-edit-content {
+		overflow: auto;
+		.feed-property {
+
+			&.booleanProperty {
+				margin: 0;
+			}
+
+			width: 90%;
+			.md-errors-spacer {
+				display: none;
+			}
+
+			.self-explanation-link {
+				&:hover {
+					color: #3F51B5;
+				}
+			}
+		}
+	}
+
+	.feed-edit-actions {
+		min-height: 60px;
+		height: 60px;
+	}
+} 
+

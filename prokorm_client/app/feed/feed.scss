@@ -1,0 +1,138 @@
+.feed {
+
+	.weight-control {
+		border: 2px solid #009688;
+	    height: 29px;
+	    border-radius: 3px;
+	    font-size: 22px;
+	    margin-top: 16px;
+
+		.balance {
+			display: none;
+		    color: #FF9800;
+		    padding: 2px 4px;
+		    font-weight: 600;
+		}
+
+		.total {
+		    background-color: #009688;
+		    color: #fff;
+		    padding: 2px 4px;
+		    font-weight: 600;
+		}
+
+		&.opened {
+
+			.balance {
+				display: inline;
+			}
+
+			border-color: #FF9800;
+			.left {
+				display: none;
+				color: #FF9800;
+			}
+
+			.total {
+			    background-color: #FF9800;
+			}
+		}
+	}
+	
+	.feed-list {
+		font-size: 11px;
+	    height: calc(100% - 60px);
+	    overflow: auto;
+	    padding-top: 0;
+
+		.feed-item {
+
+			button {
+				padding: 0 10px;			
+			}
+
+			&.selected {
+				background-color: #BBDEFB;
+			}
+
+			&.inDiff {
+				background-color: #BBDEFB;	
+			}
+
+			cursor: pointer;
+			background-color: #fff;
+			min-height: 68px;
+			border-bottom: 1px solid #eee;
+			button {
+				&.md-no-style {
+					min-height: 68px;
+				} 
+			}
+			.md-list-item-text {
+				line-height: normal;
+			}
+
+			.year {
+			    /* float: right; */
+			    color: #3F51B5;
+			    font-weight: bold;
+			    margin-top: 2px;
+			}
+
+			.title {
+				color: #333;
+			    font-size: 16px;
+			}
+
+			.source {
+				font-size: 10px;
+				margin-top: 2px;
+			}
+
+			.composition {
+				font-size: 10px;
+				color: #333;
+			}
+
+			.weight {
+				&.weight-control {
+					margin-top: 5px;
+				    line-height: 15px;
+				    height: 18px;
+				    float: right;
+				    font-size: 11px;
+				}
+			}
+
+			&.done {
+				background-color: #ddd;
+				p, b {
+					color: #999;
+				}
+
+				.weight {
+					&.weight-control {
+						border: none;
+						color: #999;
+						.left {
+							display: none;
+						}
+						.total {
+							color: #999;
+							background-color: transparent;
+							padding: 0;
+						}
+					}
+				}
+			}
+		}
+	}	
+
+	.navigator {
+		height: calc(100% - 14px);
+		margin-right: 0;
+	}
+	.dashboard { 
+		height: calc(100% - 14px);
+	}
+}

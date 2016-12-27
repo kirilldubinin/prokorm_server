@@ -1,0 +1,40 @@
+<section class="main-header" layout="row">
+    <div class="prokorm-title" flex="">
+        ПРОКОРМ
+    </div>
+    <!--<div flex="80" class="user-company">
+        {{home.sessionData.user.name}}
+    </div>-->
+    <div class="user-name">
+        <ng-md-icon icon="account_circle">
+        </ng-md-icon>
+        {{home.sessionData.user.tenantFullName}}
+        <md-menu>
+            <md-button aria-label="Menu" class="md-icon-button" ng-click="home.openMenu($mdOpenMenu, $event)">
+                <ng-md-icon icon="menu">
+        		</ng-md-icon>
+            </md-button>
+            <md-menu-content width="4">
+                <md-menu-item>
+                    <md-button ng-click="home.logout()">
+                        <ng-md-icon style="fill: #999" icon="logout">
+                        </ng-md-icon>
+                        Logout
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="home.settings($event)">
+                        <ng-md-icon style="fill: #999" icon="settings_applications">
+                        </ng-md-icon>
+                        Settings
+                    </md-button>
+                </md-menu-item>
+            </md-menu-content>
+        </md-menu>
+    </div>
+    <!--<md-button aria-label="Settings" class="md-icon-button md-primary">
+        <i class="material-icons orange600">face</i>
+    </md-button>-->
+</section>
+<section class="main-content" ui-view="">
+</section>

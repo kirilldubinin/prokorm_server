@@ -1,0 +1,62 @@
+<div layout="row" class="feed">
+  <md-card class="navigator" md-theme="default" md-theme-watch flex="20">
+    <div class="list-header" layout="row">
+      <div flex class="module-name">Корма</div>
+      <md-button ng-click="feed.goToHome()" ng-if="feed.isDiffMode" class="md-fab md-mini md-primary">
+        <ng-md-icon class="back-icon" icon="arrow_back" size="24">
+        </ng-md-icon>
+      </md-button>
+      <md-button ng-click="feed.goToDiff()" ng-if="!feed.isDiffMode" class="md-fab md-mini md-primary" aria-label="сравнить">
+        <ng-md-icon class="diff-icon" icon="view_column" size="24">
+        </ng-md-icon>
+      </md-button>
+      <div><md-button ng-click="feed.goToAdd()" ng-if="!feed.isDiffMode" class="md-fab md-mini md-primary add-feed-btn" aria-label="добавить">
+        <ng-md-icon class="add-icon" icon="plus_one" size="24">
+        </ng-md-icon>
+      </md-button></div>
+      <div class="header-actions">
+        
+      </div>
+    </div>
+    <md-list  class="md-dense feed-list">
+      
+      <md-list-item ng-repeat="feedItem in feed.feedItems" 
+        class="md-3-line feed-item {{feedItem.feedType}}"
+        ng-click="feed.onFeedClick(feedItem)" 
+        ng-class="{
+          done: feedItem.done,
+          opened: feedItem.opened,
+          selected: feedItem === feed.selectedItem, 
+          inDiff: feed.inDiff(feedItem)
+        }">
+        <div class="md-list-item-text">
+          <div layout="row">
+            <p flex class="title">{{feedItem.name}}</p>
+            <span class="weight weight-control" ng-class="{opened: feedItem.opened}">
+              <span class="balance">{{feedItem.balanceWeight}}</span>
+              <span class="total">{{feedItem.totalWeight}}</span>
+            </span>
+          </div>
+          
+          <div layout="row">
+            <p flex class="composition">{{feedItem.composition}}</p>
+            <b class="year">{{feedItem.year}}</b>  
+          </div>
+          
+          <div layout="row">
+            <p flex class="source">
+              {{feedItem.field}}
+            </p>
+            <p class="source">
+              {{feedItem.storage}}
+            </p>
+          </div>
+          
+        </div>
+      </md-list-item> 
+      <md-divider ></md-divider>
+    </md-list>
+  </md-card>
+  <md-card class="dashboard" md-theme="default" md-theme-watch flex="80" ui-view>
+  </md-card>
+</div>

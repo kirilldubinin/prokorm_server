@@ -1,0 +1,53 @@
+<md-subheader class="feed-filter" class="md-no-sticky">
+	<div layout="row">
+		<md-input-container flex>
+			<label>Год</label>
+            <md-select ng-model="user.state">
+            	<md-option>
+                	2016
+            	</md-option>
+            	<md-option>
+                	2015
+            	</md-option>
+            </md-select>
+		</md-input-container>
+		<md-input-container flex>
+		    <label>Тип</label>
+		    <md-select ng-model="user.state">
+            	<md-option>
+                	Сенаж
+            	</md-option>
+            	<md-option>
+                	Силос
+            	</md-option>
+            	<md-option>
+                	Сено
+            	</md-option>
+            </md-select>
+		</md-input-container>
+	</div>
+	<div layout="row">
+		<md-input-container flex>
+			<label>Состав</label>
+            <input type="text"/>
+		</md-input-container>
+		<md-input-container flex>
+		    <label>Поле</label>
+		    <input type="text"/>
+		</md-input-container>
+	</div>
+
+	<div layout="row">
+		<md-input-container flex>
+			<label>Хранение</label>
+            <input type="text"/>
+		</md-input-container>
+	</div>
+
+	<div layout="row">
+		<md-checkbox>
+        	Только полные
+    	</md-checkbox>
+	</div>
+
+</md-subheader>

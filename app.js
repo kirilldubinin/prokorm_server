@@ -1,222 +1,62 @@
-// server.js
-
-// BASE SETUP
-// =============================================================================
-
-// call the packages we need
-var express    = require('express');        // call express
-var app        = express();                 // define our app using express
-var bodyParser = require('body-parser');
-var Q = require('q');
-var _ = require('lodash');
-
-var log4js = require('log4js');
-var logger = log4js.getLogger();
-var diff = require('./feed/feed.diff');
-var view = require('./feed/feed.view');
-var feedToUI = require('./feed/feed.view');
-
-// MODELS
-var Feed = require('./models/feed');
-//
-
-// configure app to use bodyParser()
-// this will let us get the data from a POST
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-var port = process.env.PORT || 8080;        // set our port
-
-// configure mongoose
+// set up ======================================================================
+var express = require('express');
+var app = express();
 var mongoose = require('mongoose');
-//var logger = require('./libs/log')(module);
-mongoose.connect('mongodb://localhost:27017/feed');
+var port = process.env.PORT || 8080;
+var database = require('./config/database');
+var morgan = require('morgan');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
+var passport = require('passport');
+var session = require('express-session');
+var flash = require('connect-flash');
 
+// configuration ===============================================================
+mongoose.connect(database.localUrl);    // Connect to local MongoDB instance. A remoteUrl is also available (modulus.io)
 var db = mongoose.connection;
-db.on('error', function (err) {
+db.on('error', function(err) {
     //log.error('connection error:', err.message);
 });
-db.once('open', function callback () {
+db.once('open', function callback() {
     //log.info("Connected to DB!");
 });
 
-// ROUTES FOR OUR API
-// =============================================================================
-var router = express.Router();              // get an instance of the express Router
+app.use(express.static('./prokorm_client'));        // set the static files location /public/img will be /img for users
+app.use(morgan('dev')); // log every request to the console
+app.use(bodyParser.urlencoded({'extended': 'true'})); // parse application/x-www-form-urlencoded
+app.use(bodyParser.json()); // parse application/json
+app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse application/vnd.api+json as json
+app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request
+app.use(cookieParser());
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
-router.get('/', function(req, res) {
-    res.json({ message: 'hooray! welcome to our api!' });   
+app.use(session({ secret: 'prokorm_kirill' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
+
+// tmp ========================================================================
+
+var schedule = require('node-schedule');
+ 
+var rule = new schedule.RecurrenceRule();
+rule.minute = 1;
+ 
+var j = schedule.scheduleJob(rule, function(){
+  console.log('The answer to life, the universe, and everything!');
 });
 
-router.route('/feeds')
-.post(function(req, res) {
+// routes ======================================================================
+require('./route/routes.js')(app);
 
-	var feed = new Feed();
-    feed.general = req.body.general;
-    feed.analysis = req.body.analysis;
-    feed.harvest = req.body.harvest;
-    feed.feeding = req.body.feeding;
+// tmp ========================================================================
+/*var Feed = require('./models/feed');
+var diff = require('./feed/feed.diff');
+Feed.findById('585fee90ab385419c9d50c45').then(function (f) {
+	debugger;
+	diff([f]);
+})*/
 
-	feed.save(function(err, newFeed) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'OK', id: newFeed._id });
-        });   
-})
-.get(function(req, res) {
-    Feed.find().lean().exec(function (err, feeds) {
-        if (err)
-            res.send(err);
-
-        var shortFeeds = _.map(feeds, function (feed) {
-        	return _.merge({}, feed.general, {_id: feed._id});
-        });
-        
-        res.json(shortFeeds);
-    });
-});
-
-router.route('/feeds/:feed_id/view')
-.get(function(req, res) {
-    Feed.findById(req.params.feed_id).lean().exec(function(err, feed) {
-        if (err)
-            res.send(err);
-        res.json(view(feed));
-    });
-});
-
-router.route('/feeds/:feed_id')
-.get(function(req, res) {
-    Feed.findById(req.params.feed_id, function(err, feed) {
-        if (err)
-            res.send(err);
-        res.json(feed);
-    });
-})
-.put(function(req, res) {
-
-    Feed.findById(req.params.feed_id, function(err, feed) {
-        if (err)
-            res.send(err);
-
-        feed.general = req.body.general;
-        feed.analysis = req.body.analysis;
-        feed.harvest = req.body.harvest;
-        feed.feeding = req.body.feeding;
-
-        // save the bear
-        feed.save(function(err, updatedFeed) {
-            if (err)
-                res.send(err);
-
-            res.json({ message: 'OK', id: updatedFeed._id });
-        });
-
-    });  
-})
-.delete(function(req, res) {
-    Feed.remove({
-        _id: req.params.feed_id
-    }, function(err, bear) {
-        if (err)
-            res.send(err);
-
-        res.json({ message: 'OK', id: req.params.feed_id });
-    });
-});
-
-router.route('/feeds/new')
-.post(function(req, res) {
-
-	res.json({
-        analysis: [
-            {
-                isNaturalWet: false,
-                number: 1,
-                date: '12-11-2016',
-                dryMaterial: '33',
-                ph: 12,
-                milkAcid: '23',
-                aceticAcid: '33',
-                oilAcid: '23',
-                dve: '44',
-                oeb: '55',
-                vos: '231',
-                vcos: '22',
-                fos: '11',
-                nel: '21.21',
-                nelvc: '211',
-                exchangeEnergy: '400',
-                nxp: '32',
-                rnb: '23',
-                udp: '311',
-                crudeAsh: '565',
-                nh3: '454',
-                nitrates: '343',
-                crudeProtein: '343',
-                solubleCrudeProtein: '22',
-                crudeFat: '3',
-                sugar: '21',
-                starch: '32',
-                starchPasses: '455',
-                crudeFiber: '34',
-                ndf: '23',
-                adf: '11',
-                adl: '43',
-                calcium: '54',
-                phosphorus: '43',
-                carotene: '21'
-            }
-        ],
-		general: {
-	        name: 'Сенаж',
-	        field: '123.32',
-	        composition: 'Люцерна',
-	        year: 2016,
-	        totalWeight: '2200',
-	        opened: false,
-	        storage: 'Траншея #4',
-	        done: false
-	    },
-	    harvest: {
-	        cutNumber: 1,
-	        preservative: 'Sano',
-	        dosage: '150гр/50 тонн',
-	        film: '',
-	        start: '11-06-2016',
-	        end: '23-11-2016'
-	    },
-	    feeding: {
-	        start: '',
-	        end: '',
-	        tonnPerDay: ''
-    	}
-    });
-});
-
-router.route('/feeds/diff')
-.post(function(req, res) {
-	var feedIds = req.body.feedIds;
-	var promises = _.map(feedIds, function (feedId) {
-		return Feed.findById(feedId);
-	});
-
-	Q.all(promises).then(function (feeds) {
-        res.json(diff(feeds));
-	}, function(err) {
-		res.send(err);
-	});
-})
-
-// more routes for our API will happen here
-
-// REGISTER OUR ROUTES -------------------------------
-// all of our routes will be prefixed with /api
-app.use('/api', router);
-
-// START THE SERVER
-// =============================================================================
+// listen (start app with node server.js) ======================================
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log("App listening on port " + port);

@@ -1,0 +1,60 @@
+.main-header {
+	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #6a6c6f;
+    font-size: 22px;
+    padding: 2px 0px 2px 8px;
+    background-color: #3F51B5;
+    color: #fff;
+	.user-company {
+		
+	}
+	.user-name {
+		
+	}
+
+	.prokorm-title {
+		line-height: 40px;
+	}
+}
+
+.main-content {
+	height: calc(100% - 46px);
+    overflow-y: hidden;
+
+    .feed {
+    	height: 100%;
+		overflow-y: hidden;    	
+    }
+}
+
+.list-header {
+	height: 60px;
+	border-bottom: 1px solid #ddd;
+	.module-name {
+		font-size: 22px;
+	    color: #6a6c6f;
+	    text-transform: uppercase;
+	    padding: 12px;
+	}
+
+	.md-fab {
+		&.add-feed-btn {
+
+			.add-icon {
+				margin-bottom: 5px;
+			}
+
+			/*.diff-icon {
+				margin-bottom: 12px;
+    			margin-left: -6px;	
+			}
+
+			.back-icon {
+				margin-bottom: 12px;
+    			margin-left: -6px;
+			}*/
+
+			font-size: 32px;
+		}		
+	}
+}
