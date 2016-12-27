@@ -3,21 +3,11 @@ var Schema = mongoose.Schema;
 
 // Feed
 var FeedSchema = new Schema({
-    general: {
-        name: String,
-        field: String,
-        composition: String,
-        year: Number,
-        weight: Number,
-        opened: Boolean,
-        storage: String,
-        done: Boolean
-    },
     analysis: [
         {
+            isNaturalWet: Boolean,
             number: Number,
             date: String,
-            isNaturalWet: Boolean,
             dryMaterial: Number,
             ph: Number,
             milkAcid: Number,
@@ -52,6 +42,16 @@ var FeedSchema = new Schema({
             carotene: Number,
         }
     ],
+    general: {
+        name: String,
+        field: String,
+        composition: String,
+        year: Number,
+        totalWeight: Number,
+        opened: Boolean,
+        storage: String,
+        done: Boolean
+    },
     harvest: {
         cutNumber: Number,
         preservative: String,

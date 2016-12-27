@@ -13,7 +13,8 @@ var _ = require('lodash');
 var log4js = require('log4js');
 var logger = log4js.getLogger();
 var diff = require('./feed/feed.diff');
-var feedToUI = require('./feed/feed.ui');
+var view = require('./feed/feed.view');
+var feedToUI = require('./feed/feed.view');
 
 // MODELS
 var Feed = require('./models/feed');
@@ -55,13 +56,13 @@ router.route('/feeds')
     feed.general = req.body.general;
     feed.analysis = req.body.analysis;
     feed.harvest = req.body.harvest;
-    //feed.feeding = req.body.feeding;
+    feed.feeding = req.body.feeding;
 
-	feed.save(function(err) {
+	feed.save(function(err, newFeed) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'OK' });
+            res.json({ message: 'OK', id: newFeed._id });
         });   
 })
 .get(function(req, res) {
@@ -74,6 +75,15 @@ router.route('/feeds')
         });
         
         res.json(shortFeeds);
+    });
+});
+
+router.route('/feeds/:feed_id/view')
+.get(function(req, res) {
+    Feed.findById(req.params.feed_id).lean().exec(function(err, feed) {
+        if (err)
+            res.send(err);
+        res.json(view(feed));
     });
 });
 
@@ -97,11 +107,11 @@ router.route('/feeds/:feed_id')
         feed.feeding = req.body.feeding;
 
         // save the bear
-        feed.save(function(err) {
+        feed.save(function(err, updatedFeed) {
             if (err)
                 res.send(err);
 
-            res.json({ message: 'OK' });
+            res.json({ message: 'OK', id: updatedFeed._id });
         });
 
     });  
@@ -113,30 +123,19 @@ router.route('/feeds/:feed_id')
         if (err)
             res.send(err);
 
-        res.json({ message: 'OK' });
+        res.json({ message: 'OK', id: req.params.feed_id });
     });
 });
 
 router.route('/feeds/new')
 .post(function(req, res) {
 
-	console.log('new');
 	res.json({
-		general: {
-	        name: 'Сенаж',
-	        field: '123.32',
-	        composition: 'Люцерна',
-	        year: 2016,
-	        weight: '2200',
-	        opened: false,
-	        storage: 'Траншея #4',
-	        done: false
-	    },
-	    analysis: [
+        analysis: [
             {
+                isNaturalWet: false,
                 number: 1,
                 date: '12-11-2016',
-                isNaturalWet: false,
                 dryMaterial: '33',
                 ph: 12,
                 milkAcid: '23',
@@ -169,8 +168,18 @@ router.route('/feeds/new')
                 calcium: '54',
                 phosphorus: '43',
                 carotene: '21'
-    	    }
+            }
         ],
+		general: {
+	        name: 'Сенаж',
+	        field: '123.32',
+	        composition: 'Люцерна',
+	        year: 2016,
+	        totalWeight: '2200',
+	        opened: false,
+	        storage: 'Траншея #4',
+	        done: false
+	    },
 	    harvest: {
 	        cutNumber: 1,
 	        preservative: 'Sano',
