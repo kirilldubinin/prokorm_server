@@ -3,6 +3,7 @@
     angular.module('prokorm').controller('DiffController', DiffController);
 
     function DiffController(feedHttp, diff, _) {
+        
     	var vm = this;
     	vm.propertiesForDiff = [];
 
@@ -14,6 +15,7 @@
 
     		if (!feedsForDiff.length) {
     			vm.diffRows = [];
+                vm.headers = [];
     			return;
     		}
 

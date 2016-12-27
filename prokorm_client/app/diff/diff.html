@@ -19,11 +19,24 @@
     <ul flex class="property-list">
 
       <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in diff.diffRows">
-        <h4 class="root-property">{{property.label}}</h4>
-        <ul ng-if="property.children">
+
+        <h4 class="root-property">
+          {{property.label}}
+          <a href="#" ng-click="property.hidden = !property.hidden">
+            {{ property.hidden ? 'показать' : 'скрыть' }}
+          </a>
+        </h4>
+
+        <ul ng-if="property.children && !property.hidden">
 
           <li class="property-values" ng-repeat="child in property.children" ng-switch="child.key" layout="row">
+            
             <span flex="25" class="property-label">{{child.label}}</span>  
+
+            <!-- DRY Control -->
+            <md-checkbox ng-change="" ng-if="property.key === 'isNaturalWet'" ng-repeat="value in child.values" class="md-primary" ng-model="">
+                ({{ block.controls.isNaturalWet.values[$index] ? 'Да' : 'Нет' }})
+            </md-checkbox> 
 
             <span ng-class-odd="'odd'" ng-class-even="'even'" flex class="property-value" ng-repeat="value in child.values" layout="row">
               <span ng-repeat="v in value track by $index" flex>
@@ -33,6 +46,24 @@
           </li>
         </ul>
       </li>
+
+      <li class="property-row" ng-if="property.key !== 'analysis'" ng-repeat="property in diff.diffRows">
+        <h4 class="root-property">
+          {{property.label}}
+          <a href="#" ng-click="property.hidden = !property.hidden">
+            {{ property.hidden ? 'показать' : 'скрыть' }}
+          </a>
+        </h4>
+        <ul ng-if="property.children && !property.hidden">
+          <li class="property-values" ng-repeat="child in property.children" layout="row">
+            <span flex="25" class="property-label">{{child.label}}</span>  
+            <span flex  class="property-value" ng-repeat="value in child.values track by $index">
+              {{value}}
+            </span>  
+          </li>
+        </ul>
+      </li>
+
     </ul>
   </div>
 </div>
