@@ -48,7 +48,7 @@
             </label>
 
             <!-- DRY Control -->
-            <md-checkbox ng-change="feedView.drySwicth(block, data, $index)" ng-if="key === 'isNaturalWet'" ng-repeat="v in data.values track by $index" class="md-primary" ng-model="block.controls.isNaturalWet.values[$index]">
+            <md-checkbox ng-if="key === 'isNaturalWet'" ng-repeat="v in data.values track by $index" class="md-primary dry-switch" ng-model="block.controls.isNaturalWet.values[$index]">
                 ({{ block.controls.isNaturalWet.values[$index] ? 'Да' : 'Нет' }})
             </md-checkbox> 
 

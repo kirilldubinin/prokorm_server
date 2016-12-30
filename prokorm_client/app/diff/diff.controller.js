@@ -3,9 +3,10 @@
     angular.module('prokorm').controller('DiffController', DiffController);
 
     function DiffController(feedHttp, diff, _) {
-        
+
     	var vm = this;
     	vm.propertiesForDiff = [];
+        vm._ = _;
 
         // if diff.getFeeds is not empty
         updateDiffRows(diff.getFeeds());
@@ -24,7 +25,9 @@
                 return f._id;
             });
     		feedHttp.diffFeeds(ids).then(function (result) {
-    			vm.headers = result.headers;
+
+                vm.dryRawValues = result.dryRawValues;
+                vm.headers = result.headers;
                 vm.diffRows = result.diffs;
     		});
     	}	

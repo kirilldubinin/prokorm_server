@@ -52,3 +52,6 @@
       /*&.odd {
 			    	background-color: #f0f0f0;
 			    }*/ }
+      .diff-card .diff-dashboard .property-values .property-value .dry-switch {
+        padding: 0;
+        margin: 0; }

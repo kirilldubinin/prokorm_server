@@ -50,12 +50,12 @@ var j = schedule.scheduleJob(rule, function(){
 require('./route/routes.js')(app);
 
 // tmp ========================================================================
-/*var Feed = require('./models/feed');
+var Feed = require('./models/feed');
 var diff = require('./feed/feed.diff');
 Feed.findById('585fee90ab385419c9d50c45').then(function (f) {
 	debugger;
 	diff([f]);
-})*/
+})
 
 // listen (start app with node server.js) ======================================
 app.listen(port);

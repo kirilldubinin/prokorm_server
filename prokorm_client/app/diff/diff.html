@@ -33,14 +33,21 @@
             
             <span flex="25" class="property-label">{{child.label}}</span>  
 
-            <!-- DRY Control -->
-            <md-checkbox ng-change="" ng-if="property.key === 'isNaturalWet'" ng-repeat="value in child.values" class="md-primary" ng-model="">
-                ({{ block.controls.isNaturalWet.values[$index] ? 'Да' : 'Нет' }})
-            </md-checkbox> 
-
             <span ng-class-odd="'odd'" ng-class-even="'even'" flex class="property-value" ng-repeat="value in child.values" layout="row">
-              <span ng-repeat="v in value track by $index" flex>
-                {{v}}  
+              
+              <!-- DRY Control -->
+              <span flex ng-if="child.key === 'isNaturalWet'" ng-repeat="v in diff.dryRawValues[$index] track by $index">
+                <md-checkbox class="md-primary dry-switch" ng-model="diff.dryRawValues[$parent.$parent.$index][$index]">
+                  ({{ diff.dryRawValues[$parent.$parent.$index][$index] ? 'Да' : 'Нет' }})
+                </md-checkbox>
+              </span> 
+
+              <span flex ng-if="child.key !== 'isNaturalWet'" ng-repeat="v in value track by $index">
+                {{
+                  (diff._.isNumber(v.dryValue) || diff._.isNumber(v.rawValue)) ? 
+                  (diff.dryRawValues[$parent.$parent.$index][$index] ? v.dryValue : v.rawValue) :
+                  (diff._.isObject(v) ? '' : v)
+                }}
               </span>
             </span>  
           </li>
