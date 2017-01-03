@@ -37,6 +37,11 @@
                 })
             }
         });
+
+        vm.convertToDate = function (str) {
+            return new Date(str);
+        }
+
         vm.onAnalysisAdd = function() {
 
             // copy current 

@@ -20,6 +20,8 @@
         display: none; }
       .feed-edit .feed-edit-content .feed-property .self-explanation-link:hover {
         color: #3F51B5; }
+    .feed-edit .feed-edit-content .checkbox span {
+      font-size: 12px; }
   .feed-edit .feed-edit-actions {
     min-height: 60px;
     height: 60px; }

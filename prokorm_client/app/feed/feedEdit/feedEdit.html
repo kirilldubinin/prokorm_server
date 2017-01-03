@@ -21,17 +21,17 @@
 
             <div ng-if="block.key !== 'analysis' || feedEdit.currentAnalysis === subSection.initialItem" flex class="edit-block-sub-section" ng-repeat="subSection in block.subSections">
 
-                <md-input-container class="feed-property" ng-repeat="(key, data) in subSection.controls" ng-class="{booleanProperty : data.isBoolean}">
-                    
-                    <!-- BOOLEAN -->  
-                    <md-checkbox ng-if="data.isBoolean" class="md-primary" ng-model="subSection.initialItem[data.key]">
-                        {{data.label}}: ({{ subSection.initialItem[data.key] ? 'Да' : 'Нет' }})
-                    </md-checkbox>                  
-
+                <md-input-container ng-repeat="(key, data) in subSection.controls" class="feed-property" ng-class="{booleanProperty : data.isBoolean}">
+                
                     <!-- LABEL -->
                     <label ng-if="!data.isBoolean" class="self-explanation-link">
                         {{data.label}}  {{data.dimension}}
                     </label>
+
+                    <!-- BOOLEAN -->  
+                    <md-checkbox ng-if="data.isBoolean" class="checkbox md-primary" ng-model="subSection.initialItem[data.key]">
+                        {{data.label}}: ({{ subSection.initialItem[data.key] ? 'Да' : 'Нет' }})
+                    </md-checkbox>                  
 
                     <!-- SELECT -->
                     <md-select ng-if="data.isEnum" ng-model="subSection.initialItem[data.key]">
@@ -41,10 +41,14 @@
                     </md-select>
 
                     <!-- INPUT NUMBER -->
-                    <input ng-if="!data.isBoolean && data.isNumber && !data.isEnum" type="number" ng-model="subSection.initialItem[data.key]"/>
+                    <input ng-disabled="data.isDisabled" ng-if="data.isNumber" type="number" ng-model="subSection.initialItem[data.key]"/>
 
-                    <!-- INPUT -->
-                    <input ng-if="!data.isBoolean && !data.isNumber && !data.isEnum" ng-model="subSection.initialItem[data.key]"/>
+                    <!-- INPUT DATE -->
+                    <md-datepicker class="date-picker" ng-if="data.isDate" ng-model="subSection.initialItem[data.key]"></md-datepicker>
+
+                    <!-- INPUT OTHER -->
+                    <input ng-disabled="data.isDisabled" ng-model="subSection.initialItem[data.key]"
+                    ng-if="!data.isBoolean && !data.isNumber && !data.isEnum && !data.isDate" />
 
                 </md-input-container>    
             </div>

@@ -32,28 +32,8 @@
         }; 
 
         feedHttp.getFeedView(feedId).then(function(feedView) {
-          vm.feed = feedView;
-          vm.feedItemSections = [{
-              width: 40,
-              label: 'analysis',
-              key: 'analysis',
-              controls: feedView.analysis
-          }, {
-              width: 20,
-              label: 'general',
-              key: 'general',
-              controls: feedView.general
-          }, {
-              width: 20,
-              label: 'harvest',
-              key: 'harvest',
-              controls: feedView.harvest
-          }, {
-              width: 20,
-              label: 'feeding',
-              key: 'feeding',
-              controls: feedView.feeding
-          }];
+          vm.feed = feedView.general;
+          vm.feedItemSections = feedView.feedItemSections;
         });
     }
 })();

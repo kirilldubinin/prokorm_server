@@ -2,15 +2,35 @@ var _ = require('lodash');
 var lang = require('./lang');
 var dimension = require('./dimension');
 
-function convertToControl(item) {
+var disabledFields = {
+    'analysis.number': 'disabled'
+};
+
+var enumFields = {
+    'general.feedType': 'enum'
+};
+
+var dateFields = {
+    'analysis.date': 'date',
+    'harvest.start': 'date',
+    'harvest.end': 'date',
+    'feeding.start': 'date',
+    'feeding.end': 'date'
+};
+
+function convertToControl(item, parentKey) {
 
     var editObj = {};
     _.each(item, function(value, key) {
         if (item.hasOwnProperty(key)) {
             editObj[key] = {
-                isEnum: key === 'feedType',
+
+                isEnum: enumFields[parentKey + '.' + key],
                 isNumber: _.isNumber(value),
                 isBoolean: value === true || value === false,
+                isDisabled: disabledFields[parentKey + '.' + key],
+                isDate: _.isDate(value),// dateFields[parentKey + '.' + key],
+
                 label: lang(key),
                 dimension: dimension(key),
                 key: key
@@ -25,7 +45,7 @@ function getEmptyFeed() {
         analysis: [{
             isNaturalWet: false,
             number: 1,
-            date: '12-11-2016',
+            date: new Date(),
             dryMaterial: 33,
             ph: 12,
             milkAcid: 23,
@@ -77,12 +97,12 @@ function getEmptyFeed() {
             preservative: 'Sano',
             dosage: '150гр/50 тонн',
             film: '',
-            start: '11-06-2016',
-            end: '23-11-2016'
+            start: new Date(),
+            end: new Date()
         },
         feeding: {
-            start: '',
-            end: '',
+            start: new Date(),
+            end: new Date(),
             tonnPerDay: 4
         }
     }
@@ -99,7 +119,7 @@ function convert(feed) {
         subSections: _.map(feed.analysis, function(analys) {
             return {
                 initialItem: analys,
-                controls: convertToControl(analys)
+                controls: convertToControl(analys, 'analysis')
             }
         })
     }, {
@@ -108,7 +128,7 @@ function convert(feed) {
         key: 'general',
         subSections: [{
             initialItem: feed.general,
-            controls: convertToControl(feed.general)
+            controls: convertToControl(feed.general, 'general')
         }]
     }, {
         width: 20,
@@ -116,7 +136,7 @@ function convert(feed) {
         key: 'harvest',
         subSections: [{
             initialItem: feed.harvest,
-            controls: convertToControl(feed.harvest)
+            controls: convertToControl(feed.harvest, 'harvest')
         }]
     }, {
         width: 20,
@@ -124,7 +144,7 @@ function convert(feed) {
         key: 'feeding',
         subSections: [{
             initialItem: feed.feeding,
-            controls: convertToControl(feed.feeding)
+            controls: convertToControl(feed.feeding, 'feeding')
         }]
     }];
 }

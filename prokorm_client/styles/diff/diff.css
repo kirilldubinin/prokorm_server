@@ -14,7 +14,8 @@
     padding-bottom: 12px;
     border-bottom: 3px solid #FF9800; }
     .diff-card .diff-title h2 {
-      margin-top: 12px; }
+      margin-top: 12px;
+      font-size: 18px; }
   .diff-card .diff-dashboard {
     height: calc(100% - 75px);
     overflow: auto; }

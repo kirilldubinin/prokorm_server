@@ -11,7 +11,7 @@ var FeedSchema = new Schema({
                 required: true,
                 unique: true
             },
-            date: String,
+            date: Date,
             dryMaterial: Number,
             ph: Number,
             milkAcid: Number,
@@ -64,12 +64,12 @@ var FeedSchema = new Schema({
         preservative: String,
         dosage: String,
         film: String,
-        start: String,
-        end: String,
+        start: Date,
+        end: Date,
     },
     feeding: {
-        start: String,
-        end: String,
+        start: Date,
+        end: Date,
         tonnPerDay: Number
     }
 });

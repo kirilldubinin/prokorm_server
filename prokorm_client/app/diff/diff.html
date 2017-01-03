@@ -31,7 +31,7 @@
 
           <li class="property-values" ng-repeat="child in property.children" ng-switch="child.key" layout="row">
             
-            <span flex="25" class="property-label">{{child.label}}</span>  
+            <span flex="25" class="property-label">{{child.label}} {{child.dimension}}</span>  
 
             <span ng-class-odd="'odd'" ng-class-even="'even'" flex class="property-value" ng-repeat="value in child.values" layout="row">
               

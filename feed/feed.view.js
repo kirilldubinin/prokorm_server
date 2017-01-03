@@ -19,7 +19,6 @@ function convertToControl(item) {
             viewObj[key] = {
                 label: lang(key),
                 value: convertValue(key, value),
-                data: value,
                 dimension: dimension(key),
                 key: key
             }
@@ -64,11 +63,30 @@ function convert(feed) {
     var generalView = convertToControl(feed.general);
     var harvestView = convertToControl(feed.harvest);
     var feedingView = convertToControl(feed.feeding);
+
     return {
-        analysis: analysisView,
-        general: generalView,
-        harvest: harvestView,
-        feeding: feedingView
-    }
+        general: feed.general,
+        feedItemSections: [{
+            width: 40,
+            label: 'analysis',
+            key: 'analysis',
+            controls: analysisView
+        }, {
+            width: 20,
+            label: 'general',
+            key: 'general',
+            controls: generalView
+        }, {
+            width: 20,
+            label: 'harvest',
+            key: 'harvest',
+            controls: harvestView
+        }, {
+            width: 20,
+            label: 'feeding',
+            key: 'feeding',
+            controls: feedingView
+        }]
+    };
 }
 module.exports = convert;

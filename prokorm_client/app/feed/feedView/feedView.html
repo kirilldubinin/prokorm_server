@@ -1,13 +1,13 @@
 <div class="feed-view">
   <div layout="row" class="feed-title">
-    <h2 class="feed-name">{{feedView.feed.general.name.value}} 
-      <b>{{feedView.feed.general.year.value}}</b>
-      <div class="feed-composition">{{feedView.feed.general.composition.value}}</div>
+    <h2 class="feed-name">{{feedView.feed.name}} 
+      <b>{{feedView.feed.year}}</b>
+      <div class="feed-composition">{{feedView.feed.composition}}</div>
     </h2>
     <!--<div class="weight-wrapper" ng-class="{opened: feedView.feed.general.opened.value}"> -->
-      <span class="weight-control" ng-class="{opened: feedView.feed.general.opened.data}">
-        <span class="balance">{{feedView.feed.general.balanceWeight.value}}</span>
-        <span class="total">{{feedView.feed.general.totalWeight.value}}</span>
+      <span class="weight-control" ng-class="{opened: feedView.feed.opened}">
+        <span class="balance">{{feedView.feed.balanceWeight}}</span>
+        <span class="total">{{feedView.feed.totalWeight}}</span>
       </span>
     <!--</div>-->
     <div class="actions" flex>
