@@ -11,15 +11,18 @@ var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
+var log = require('./libs/log');
+var winston = require('winston');
+
 
 // configuration ===============================================================
 mongoose.connect(database.localUrl);    // Connect to local MongoDB instance. A remoteUrl is also available (modulus.io)
 var db = mongoose.connection;
 db.on('error', function(err) {
-    //log.error('connection error:', err.message);
+    winston.error('connection error:', err.message);
 });
 db.once('open', function callback() {
-    //log.info("Connected to DB!");
+    winston.info("Connected to DB!");
 });
 
 app.use(express.static('./prokorm_client'));        // set the static files location /public/img will be /img for users
@@ -49,13 +52,7 @@ var j = schedule.scheduleJob(rule, function(){
 // routes ======================================================================
 require('./route/routes.js')(app);
 
-// tmp ========================================================================
-var Feed = require('./models/feed');
-var diff = require('./feed/feed.diff');
-Feed.findById('585fee90ab385419c9d50c45').then(function (f) {
-	debugger;
-	diff([f]);
-})
+// tmp =========================================================================
 
 // listen (start app with node server.js) ======================================
 app.listen(port);

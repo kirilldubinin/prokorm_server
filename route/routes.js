@@ -1,7 +1,6 @@
 // set up ======================================================================
 var Q = require('q');
 var _ = require('lodash');
-var passGenerator = require('generate-password');
 // models ======================================================================
 var Feed = require('../models/feed');
 var Tenant = require('../models/tenant');
@@ -10,6 +9,7 @@ var User = require('../models/user');
 var diff = require('../feed/feed.diff');
 var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
+var registration = require('../authentication/registration');
 var CustomStrategy = require('../authentication/local');
 
 // routes =====================================================================
@@ -39,7 +39,18 @@ module.exports = function(app) {
 
     // registration =====================================
     app.post('/api/registration', function(req, res) {
-        var newTenant = new Tenant();
+
+        registration.createTenant(req.body, function (err, user) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.json({
+                    message: 'На Ваш электронный адрес отправлено письмо.'
+                });
+            }
+        });
+
+        /*var newTenant = new Tenant();
         newTenant.loginName = req.body.loginname;
         newTenant.email = req.body.email;
         newTenant.createdAt = new Date();
@@ -67,7 +78,7 @@ module.exports = function(app) {
                     }
                 });
             }
-        });
+        });*/
     });
 
     // login ============================================

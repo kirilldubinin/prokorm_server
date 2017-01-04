@@ -43,8 +43,8 @@ function convertToControl(item, parentKey) {
 function getEmptyFeed() {
     return {
         analysis: [{
-            isNaturalWet: false,
             number: 1,
+            isNaturalWet: false,
             date: new Date(),
             dryMaterial: 33,
             ph: 12,
