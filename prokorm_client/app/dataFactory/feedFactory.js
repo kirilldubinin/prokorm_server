@@ -63,8 +63,10 @@ angular.module('prokorm').config(['$httpProvider', function($httpProvider) {
         }
     }
 }]);
-angular.module('prokorm').factory('feedHttp', ['$http', function($http) {
-    var urlBase = 'http://localhost:8080/api/';
+angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($http, $location) {
+
+    var host = $location.host();
+    var urlBase = host + '/api/';
     var urlBaseFeed = urlBase + 'feeds/';
     var feedHttp = {};
     // login
