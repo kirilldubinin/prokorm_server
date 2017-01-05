@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('LoginController', LoginController);
     /** @ngInject */
-    function LoginController($http, $state, sessionData) {
+    function LoginController($http, $state, sessionData, feedHttp) {
         var vm = this;
         vm.user = {
             tenantname: 'prokorm',
@@ -10,16 +10,13 @@
             password: 'yc5NhI'
         };
         vm.do = function () {
-            $http.post('http://localhost:8080/api/signin', vm.user).then(
+            feedHttp.login(vm.user).then(
                 function(response) {
-                    if (response.data) {
-
-                        // set session user
-                        sessionData.setSessionUser(response.data);
-                        $state.go('farm.instance.feed', { 'id': response.data.tenantName });
-                    }
+                    // set session user
+                    sessionData.setSessionUser(response);
+                    $state.go('farm.instance.feed', { 'id': response.tenantName });
                 }, function (err) {
-                    vm.info = err.data.message;
+                    vm.info = err.message;
                 }
             );
         }

@@ -23,6 +23,10 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
+
+	// listen (start app with node server.js) ======================================
+	app.listen(port);
+	console.log("App listening on port " + port);
 });
 
 app.use(express.static('./prokorm_client'));        // set the static files location /public/img will be /img for users
@@ -53,7 +57,3 @@ var j = schedule.scheduleJob(rule, function(){
 require('./route/routes.js')(app);
 
 // tmp =========================================================================
-
-// listen (start app with node server.js) ======================================
-app.listen(port);
-console.log("App listening on port " + port);

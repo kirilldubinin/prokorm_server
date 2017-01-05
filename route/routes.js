@@ -11,14 +11,11 @@ var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
 var registration = require('../authentication/registration');
 var CustomStrategy = require('../authentication/local');
-
 // routes =====================================================================
 module.exports = function(app) {
-
     var authStrategy = new CustomStrategy(app);
 
     function isAuthenticated(req, res, next) {
-
         // do any checks you want to in here
         // CHECK THE USER STORED IN SESSION FOR A CUSTOM VARIABLE
         // you can do this however you want with whatever variables you set up
@@ -26,71 +23,59 @@ module.exports = function(app) {
             return next();
         } else {
             // IF A USER ISN'T LOGGED IN
-            res.status(401).send({message: 'Authentication failed'});
+            res.status(401).send({
+                message: 'Authentication failed'
+            });
             //res.redirect('/');    
         }
     }
-	
     app.get('/api/', function(req, res) {
         res.json({
-            message: 'hooray! welcome to our api!'
+            message: 'PROKORM API'
         });
     });
-
     // registration =====================================
     app.post('/api/registration', function(req, res) {
-
-        registration.createTenant(req.body, function (err, user) {
-            if (err) {
-                console.log(err);
+        // check if tenant name is exist
+        Tenant.findOne({
+            loginName: req.body.loginname
+        }).lean().exec(function(err, exist) {
+            console.log(exist);
+            if (exist) {
+                res.status(406).send({
+                    message: 'Компания c именем "' + req.body.loginname + '"" уже существует. Пожалуйста, укажите другое имя.'
+                });
             } else {
-                res.json({
-                    message: 'На Ваш электронный адрес отправлено письмо.'
-                });
-            }
-        });
-
-        /*var newTenant = new Tenant();
-        newTenant.loginName = req.body.loginname;
-        newTenant.email = req.body.email;
-        newTenant.createdAt = new Date();
-        newTenant.save(function(err, _tenant) {
-            if (err) res.send(err);
-            else {
-                // create first user in new tenant
-                // user will have admin right and user name will be the same as a tenant name
-                var newUser = new User();
-                newUser.tenantId = _tenant._id;
-                newUser.name = _tenant.loginName;
-                newUser.email = _tenant.email;
-                newUser.password = passGenerator.generate({
-                    length: 6,
-                    numbers: true
-                });
-                newUser.createdAt = new Date();
-                newUser.save(function(err, _user) {
-                    if (err) {
-                        console.log(err);
+                User.findOne({
+                    email: req.body.email
+                }).lean().exec(function(err, exist) {
+                    console.log(exist);
+                    if (exist) {
+                        res.status(406).send({
+                            message: 'Компания c E-Mail "' + req.body.email + '"" уже существует. Пожалуйста, укажите другой E-Mail.'
+                        });
                     } else {
-                        res.json({
-                            message: 'На электронный адрес отправлен логин и пароль для входу в систему "ПРОКОРМ"'
+                        registration.createTenant(req.body, function(err, user) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                res.json({
+                                    message: 'На электронный адрес ' + req.body.email + ' отправлено письмо с дальнейшими инструкциями.'
+                                });
+                            }
                         });
                     }
                 });
             }
-        });*/
+        });
     });
-
     // login ============================================
     app.post('/api/signin', function(req, res) {
-        
         //console.log(req.body);
         // yc5NhI
         // add validation before calling the authenicate() method
         authStrategy.authenticate(req, function(err, user, tenant) {
-
-        	if (!err && user && tenant && user.tenantId.equals(tenant._id)) {
-
+            if (!err && user && tenant && user.tenantId.equals(tenant._id)) {
                 // set tenant data for user object
                 var sessionUser = {
                     name: user.name,
@@ -99,42 +84,39 @@ module.exports = function(app) {
                     tenantName: tenant.loginName,
                     tenantFullName: tenant.fullName || tenant.loginName
                 };
-
                 console.log(sessionUser);
-        		req.logIn(sessionUser, function(err) {
-
+                req.logIn(sessionUser, function(err) {
                     if (err) {
-	                	res.json(err);
-	                } else {
-	                	// you can send a json response instead of redirecting the user
-		                res.json({
+                        res.json(err);
+                    } else {
+                        // you can send a json response instead of redirecting the user
+                        res.json({
                             username: user.name,
                             tenantFullName: tenant.fullName || tenant.loginName,
                             tenantName: tenant.loginName
-                        });	
-	                }
-	            });
+                        });
+                    }
+                });
             } else {
-                return res.status(401).send({message: 'Invalid email or password.'});
+                return res.status(401).send({
+                    message: 'Invalid email or password.'
+                });
             }
         });
     });
-
     app.post('/api/logout', isAuthenticated, function(req, res) {
-        
         req.logout();
-        res.status(401).send({message: 'Authentication failed'});
-    });    
-
+        res.status(401).send({
+            message: 'Authentication failed'
+        });
+    });
     // session data =====================================
-    app.get('/api/sessionData',isAuthenticated, function(req, res) {
-        
+    app.get('/api/sessionData', isAuthenticated, function(req, res) {
         var sessionUser = req.user;
         res.json({
             user: sessionUser
         });
     });
-
     // feed =============================================
     // new feed
     app.post('/api/feeds', isAuthenticated, function(req, res) {
@@ -225,9 +207,8 @@ module.exports = function(app) {
             res.send(err);
         });
     });
-
     // application =================================================
-    app.get('*', function (req, res) {
+    app.get('*', function(req, res) {
         res.sendFile(__dirname + './../prokorm_client/index.html'); // load the single view file (angular will handle the page changes on the front-end)
     });
 }

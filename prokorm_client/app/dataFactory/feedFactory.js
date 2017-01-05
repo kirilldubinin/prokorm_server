@@ -10,6 +10,10 @@ angular.module('prokorm').config(['$httpProvider', function($httpProvider) {
     // extra
     $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
     $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+
+    function isAPIrequest(url) {
+        return /^\/?api\//.test(url)
+    }
     $httpProvider.interceptors.push(function($q, $injector) {
         return {
             // optional method
@@ -23,13 +27,20 @@ angular.module('prokorm').config(['$httpProvider', function($httpProvider) {
             },
             // optional method
             'response': function(response) {
-                // do something on success
+
+                if (isAPIrequest(response.config.url)) {
+                    return response.data;
+                }
                 return response;
             },
             // optional method
             'responseError': function(rejection) {
                 if (rejection.status === 401) {
                     $injector.get('$state').transitionTo('farm.login');
+                }
+
+                if (isAPIrequest(rejection.config.url)) {
+                    return $q.reject(rejection.data)
                 }
                 return $q.reject(rejection);
             }
@@ -65,63 +76,44 @@ angular.module('prokorm').config(['$httpProvider', function($httpProvider) {
 }]);
 angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($http, $location) {
 
-    var host = $location.host();
+    var host = '';
     var urlBase = host + '/api/';
     var urlBaseFeed = urlBase + 'feeds/';
     var feedHttp = {};
     // login
     feedHttp.logout = function() {
-        return $http.post(urlBase + 'logout/').then(function(response) {
-            if (response.data) {
-                return response.data;
-            }
-        });
+        return $http.post(urlBase + 'logout/');
     };
+
+    feedHttp.login = function(user) {
+        return $http.post(urlBase + 'signin/', user);
+    };
+
+    feedHttp.registration = function(user) {
+        return $http.post(urlBase + 'registration/', user);
+    };
+
     // sessionData
     feedHttp.getSessionData = function() {
-        return $http.get(urlBase + 'sessionData/').then(function(response) {
-            if (response.data) {
-                return response.data;
-            }
-        });
+        return $http.get(urlBase + 'sessionData/')
     };
     // feed
     feedHttp.getFeeds = function() {
-        return $http.get(urlBaseFeed).then(function(response) {
-            if (response.data) {
-                return response.data;
-            }
-        });
+        return $http.get(urlBaseFeed);
     };
     feedHttp.saveFeed = function(feed) {
         var methode = feed._id ? 'put' : 'post';
         var url = feed._id ? (urlBaseFeed + feed._id) : urlBaseFeed
-        return $http[methode](url, feed).then(function(response) {
-            if (response.data) {
-                return response.data;
-            }
-        });
+        return $http[methode](url, feed);
     };
     feedHttp.getFeedView = function(feedId) {
-        return $http.get(urlBaseFeed + feedId + '/view').then(function(response) {
-            if (response.data) {
-                return response.data;
-            }
-        });
+        return $http.get(urlBaseFeed + feedId + '/view');
     };
     feedHttp.getFeedEdit = function(feedId) {
-        return $http.get(urlBaseFeed + feedId + '/edit').then(function(response) {
-            if (response.data) {
-                return response.data;
-            }
-        });
+        return $http.get(urlBaseFeed + feedId + '/edit');
     };
     feedHttp.getEmptyFeed = function() {
-        return $http.post(urlBaseFeed + 'new').then(function(response) {
-            if (response.data) {
-                return response.data;
-            }
-        });
+        return $http.post(urlBaseFeed + 'new');
     }
     feedHttp.deleteFeed = function(feedId) {
         return $http.delete(urlBaseFeed + feedId);
@@ -129,10 +121,6 @@ angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($h
     feedHttp.diffFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'diff', {
             feedIds: feedIds
-        }).then(function(response) {
-            if (response.data) {
-                return response.data;
-            }
         });
     }
     return feedHttp;

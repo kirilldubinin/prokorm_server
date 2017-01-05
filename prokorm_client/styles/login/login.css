@@ -11,17 +11,17 @@
   .login-screen .farm-login {
     opacity: 0.9;
     max-width: 300px !important; }
-    .login-screen .farm-login .login-input p {
-      font-size: 14px;
-      margin-bottom: 4px;
-      padding: 0;
-      color: #3f51b5; }
     .login-screen .farm-login .login-input input {
       padding: 10px 4px;
       border: 1px solid #999;
       border-radius: 2px;
       width: 100%;
       color: #333; }
+    .login-screen .farm-login p {
+      font-size: 14px;
+      margin-bottom: 4px;
+      padding: 0;
+      color: #3f51b5; }
     .login-screen .farm-login md-card-actions {
       margin-bottom: 20px;
       margin-left: 16px;

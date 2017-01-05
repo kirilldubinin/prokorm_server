@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('RegistrationController', RegistrationController);
     /** @ngInject */
-    function RegistrationController($http) {
+    function RegistrationController($http, feedHttp) {
         var vm = this;
         vm.user = {
             loginname: '',
@@ -10,14 +10,14 @@
         };
         vm.do = function () {
             vm.error = '';
-            $http.post('http://localhost:8080/api/registration', vm.user).then(
+            feedHttp.registration(vm.user).then(
                 function(response) {
-                    if (response.data && response.data.message) {
-                        vm.successMessage = response.data.message;
+                    if (response && response.message) {
+                        vm.successMessage = response.message;
                     }
                 }, 
                 function(err) {
-                    vm.error = err;
+                    vm.error = err.message;
                 }
             );
         }
