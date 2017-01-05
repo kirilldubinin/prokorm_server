@@ -5,9 +5,9 @@
     function LoginController($http, $state, sessionData, feedHttp) {
         var vm = this;
         vm.user = {
-            tenantname: 'prokorm',
-            username: 'prokorm',
-            password: 'yc5NhI'
+            tenantname: '',
+            username: '',
+            password: ''
         };
         vm.do = function () {
             feedHttp.login(vm.user).then(
