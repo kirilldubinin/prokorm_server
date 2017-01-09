@@ -5,6 +5,10 @@
     function FeedEdiController($window, $stateParams, $state, $scope, feedHttp, _) {
         var vm = this;
 
+        vm.feedItem = {
+            analysis: []
+        };
+
         vm.feedTypes = [
             {
                 value: 'none',
@@ -31,15 +35,21 @@
             vm.feedItemSections = feed;
 
             //set analysis list
-            vm.feedItem = {
-                analysis: _.map(feed[0].subSections, function(subSection) {
-                    return subSection.initialItem;
-                })
-            }
+            vm.feedItem.analysis = _.map(feed[0].subSections, function(subSection) {
+                return subSection.initialItem;
+            });
         });
 
-        vm.convertToDate = function (str) {
-            return new Date(str);
+        vm.deleteCurrentAnalysis = function () {
+            vm.feedItemSections[0].subSections = _.filter(vm.feedItemSections[0].subSections, 
+                function (sebSection) {
+                    return sebSection.initialItem !== vm.currentAnalysis;
+                });
+
+            //set analysis list
+            vm.feedItem.analysis = _.map(vm.feedItemSections[0].subSections, function(subSection) {
+                return subSection.initialItem;
+            });
         }
 
         vm.onAnalysisAdd = function() {
@@ -47,14 +57,16 @@
             // copy current 
             var newAnalysis = _.clone(vm.currentAnalysis);
             delete newAnalysis._id;
-            newAnalysis.number = vm.feedItem.analysis.length + 1;
+
+            var max = _.maxBy(vm.feedItem.analysis, 'number');
+            newAnalysis.number = max.number + 1;
             vm.feedItem.analysis.push(newAnalysis);
 
             var currentNumber = vm.currentAnalysis.number;
 
             var section = _.clone(_.first(_.filter(vm.feedItemSections[0].subSections, function (subSection) {
-                    return subSection.initialItem.number === currentNumber;
-                })));
+                return subSection.initialItem.number === currentNumber;
+            })));
 
             vm.feedItemSections[0].subSections.push({
                 controls: section.controls,

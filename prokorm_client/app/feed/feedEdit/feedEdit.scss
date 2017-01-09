@@ -5,11 +5,16 @@
 
 	.feed-edit-header {
 
-		&.analysis {
+		.analysis {
 			.title {
-			    margin-right: 30px;
+			    margin-right: 15px;
 			}
 		}
+
+		.title {
+			text-transform: uppercase;
+		}
+
 		min-height: 50px;
 	    border-bottom: 3px solid #FF9800;
 
@@ -18,7 +23,18 @@
 		}
 
 		.group-buttons {
-			margin-top: -10px;
+			margin-top: -8px;
+		}
+
+		.delete-analysis-btn {
+			margin-top: -8px;	
+		}
+
+		.analysis-btn {
+			width: 40px;
+		    min-width: 40px;
+		    margin: 0 8px 0 0;
+		    margin-top: -8px;
 		}
 	}
 
@@ -69,6 +85,7 @@
 	.feed-edit-actions {
 		min-height: 60px;
 		height: 60px;
+		border-top: 3px solid #FF9800;
 	}
 
 

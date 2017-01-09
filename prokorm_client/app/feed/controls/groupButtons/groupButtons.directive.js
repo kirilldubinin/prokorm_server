@@ -8,6 +8,7 @@
             items: '=',
             allowAdd: '=',
             onAdd: '&',
+            onDelete: '&',
             onSelect: '&'
           },
           replace: true,    
@@ -22,16 +23,16 @@
 
     var self = this;
     
-    $scope.$watch('self.items.length', function () {
+    $scope.items = self.items;
+    $scope.$watchCollection('items.length', function () {
+
+      console.log(self.items.length);
       self.selected = _.last(self.items);
       self.onSelect({item: self.selected});  
-    });
-
-    self.onAddHandler = function () {
-      self.onAdd();
-    };
+    }, true);
 
     self.onClick = function (item) {
+      console.log(self.items.length);
       self.selected = item;
       self.onSelect({item: self.selected});
     };

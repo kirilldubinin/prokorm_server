@@ -11,9 +11,34 @@ var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
 var registration = require('../authentication/registration');
 var CustomStrategy = require('../authentication/local');
+var winston = require('winston');
 // routes =====================================================================
 module.exports = function(app) {
     var authStrategy = new CustomStrategy(app);
+
+    function checkUserRightForFeed(feed, req, res) {
+        var check = feed.createdBy.tenantId.equals(req.user.tenantId);
+        if (res && !check) {
+            res.status(403).send({message: 'You dont have permission for this object.'});
+            return false;   
+        }
+
+        return check;
+    }
+
+    function errorHandler(err, req, res) {
+
+        winston.error(err.name + ':', err.message);
+        if (err.name === 'ValidationError') {
+            return res.status(406).json({
+                message: err.message
+            });            
+        } 
+
+        return res.status(400).json({
+            message: err.message || err.message
+        });
+    }
 
     function isAuthenticated(req, res, next) {
         // do any checks you want to in here
@@ -120,13 +145,24 @@ module.exports = function(app) {
     // feed =============================================
     // new feed
     app.post('/api/feeds', isAuthenticated, function(req, res) {
+
         var feed = new Feed();
+
+        feed.createdAt = new Date();
+        feed.createdBy = {
+            userId: req.user._id,
+            tenantId: req.user.tenantId
+        }
+
         feed.general = req.body.general;
         feed.analysis = req.body.analysis;
         feed.harvest = req.body.harvest;
         feed.feeding = req.body.feeding;
         feed.save(function(err, newFeed) {
-            if (err) res.send(err);
+
+            if (err) {
+                return errorHandler(err, req, res);
+            }
             else {
                 res.json({
                     message: 'OK',
@@ -137,8 +173,16 @@ module.exports = function(app) {
     });
     // get feeds for feed list
     app.get('/api/feeds', isAuthenticated, function(req, res) {
-        Feed.find().lean().exec(function(err, feeds) {
-            if (err) res.send(err);
+        Feed.find({'createdBy.tenantId': req.user.tenantId}).lean().exec(function(err, feeds) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+
+            // double check
+            feeds = _.filter(feeds, function (f) {
+                return checkUserRightForFeed(f, req);
+            });
+
             var shortFeeds = _.map(feeds, function(feed) {
                 return _.merge({}, feed.general, {
                     _id: feed._id
@@ -148,35 +192,48 @@ module.exports = function(app) {
         });
     });
     // get feed by id for view mode
-    app.get('/api/feeds/:feed_id/view', function(req, res) {
+    app.get('/api/feeds/:feed_id/view', isAuthenticated, function(req, res) {
         Feed.findById(req.params.feed_id).lean().exec(function(err, feed) {
-            if (err) res.send(err);
-            res.json(view(feed));
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+            if (checkUserRightForFeed(feed, req, res)) {
+                res.json(view(feed));    
+            }
         });
     });
     // get feed by id for edit mode
-    app.get('/api/feeds/:feed_id/edit', function(req, res) {
+    app.get('/api/feeds/:feed_id/edit', isAuthenticated, function(req, res) {
         Feed.findById(req.params.feed_id).lean().exec(function(err, feed) {
-            if (err) res.send(err);
-            res.json(edit(feed));
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+            if (checkUserRightForFeed(feed, req, res)) {
+                res.json(edit(feed));    
+            }
         });
     });
     // update feed by id
-    app.put('/api/feeds/:feed_id', function(req, res) {
+    app.put('/api/feeds/:feed_id', isAuthenticated, function(req, res) {
         Feed.findById(req.params.feed_id, function(err, feed) {
-            if (err) res.send(err);
-            feed.general = req.body.general;
-            feed.analysis = req.body.analysis;
-            feed.harvest = req.body.harvest;
-            feed.feeding = req.body.feeding;
-            // save the bear
-            feed.save(function(err, updatedFeed) {
-                if (err) res.send(err);
-                res.json({
-                    message: 'OK',
-                    id: updatedFeed._id
-                });
-            });
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+            if (checkUserRightForFeed(feed, req, res)) {
+                // !!! do not update createdBy and createdAt !!!
+                feed.general = req.body.general;
+                feed.analysis = req.body.analysis;
+                feed.harvest = req.body.harvest;
+                feed.feeding = req.body.feeding;
+                // save the bear
+                feed.save(function(err, updatedFeed) {
+                    if (err) res.send(err);
+                    res.json({
+                        message: 'OK',
+                        id: updatedFeed._id
+                    });
+                });        
+            }
         });
     });
     // delete feed by id
@@ -184,7 +241,10 @@ module.exports = function(app) {
         Feed.remove({
             _id: req.params.feed_id
         }, function(err, bear) {
-            if (err) res.send(err);
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+
             res.json({
                 message: 'OK',
                 id: req.params.feed_id
@@ -202,6 +262,11 @@ module.exports = function(app) {
             return Feed.findById(feedId);
         });
         Q.all(promises).then(function(feeds) {
+
+            feeds = _.filter(feeds, function(f) {
+                return checkUserRightForFeed(f, req);
+            });
+
             res.json(diff(feeds));
         }, function(err) {
             res.send(err);

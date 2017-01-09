@@ -4,12 +4,21 @@
   .feed-edit .feed-edit-header {
     min-height: 50px;
     border-bottom: 3px solid #FF9800; }
-    .feed-edit .feed-edit-header.analysis .title {
-      margin-right: 30px; }
+    .feed-edit .feed-edit-header .analysis .title {
+      margin-right: 15px; }
+    .feed-edit .feed-edit-header .title {
+      text-transform: uppercase; }
     .feed-edit .feed-edit-header .title {
       margin-right: 30px; }
     .feed-edit .feed-edit-header .group-buttons {
-      margin-top: -10px; }
+      margin-top: -8px; }
+    .feed-edit .feed-edit-header .delete-analysis-btn {
+      margin-top: -8px; }
+    .feed-edit .feed-edit-header .analysis-btn {
+      width: 40px;
+      min-width: 40px;
+      margin: 0 8px 0 0;
+      margin-top: -8px; }
   .feed-edit .feed-edit-content {
     overflow: auto; }
     .feed-edit .feed-edit-content .feed-property {
@@ -31,4 +40,5 @@
       padding-left: 0; }
   .feed-edit .feed-edit-actions {
     min-height: 60px;
-    height: 60px; }
+    height: 60px;
+    border-top: 3px solid #FF9800; }

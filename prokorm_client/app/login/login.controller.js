@@ -4,8 +4,10 @@
     /** @ngInject */
     function LoginController($http, $state, sessionData, feedHttp) {
         var vm = this;
+
+        vm.tenantName = $state.params.tenant;
         vm.user = {
-            tenantname: '',
+            tenantname: vm.tenantName || '',
             username: '',
             password: ''
         };

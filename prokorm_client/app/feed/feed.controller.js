@@ -2,14 +2,20 @@
     'use strict';
     angular.module('prokorm').controller('FeedController', FeedController);
 
-    function FeedController($scope, $window, feedHttp, $state, diff) {
+    function FeedController($scope, $window, feedHttp, $state, $mdDialog, diff) {
         var vm = this;
-
+        var originatorEv;
+        
         feedHttp.getFeeds().then(function(feeds) {
             vm.feedItems = feeds;
         });
 
         vm.inDiff = diff.inDiff;
+
+        vm.openMenu = function($mdOpenMenu, ev) {
+            originatorEv = ev;
+            $mdOpenMenu(ev);
+        };
 
         vm.goToAdd = function() {
             vm.selectedItem = null;

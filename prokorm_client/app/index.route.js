@@ -34,7 +34,16 @@
         url: '/login',
         templateUrl: 'app/login/login.html',
         controller: 'LoginController',
-        controllerAs: 'login'  
+        controllerAs: 'login'
+      })
+      .state('farm.login.tenant', {
+        url: '/:tenant',
+        templateUrl: 'app/login/login.html',
+        controller: 'LoginController',
+        controllerAs: 'login',
+        params: {
+          tenant: undefined
+        }
       })
       .state('farm.instance', {
         url: '/:id',

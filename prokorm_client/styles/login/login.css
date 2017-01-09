@@ -10,7 +10,8 @@
     background-color: transparent; }
   .login-screen .farm-login {
     opacity: 0.9;
-    max-width: 300px !important; }
+    max-width: 400px !important;
+    margin: 0 auto; }
     .login-screen .farm-login .login-input input {
       padding: 10px 4px;
       border: 1px solid #999;

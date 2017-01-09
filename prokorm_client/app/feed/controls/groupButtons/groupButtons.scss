@@ -1,41 +1,17 @@
 .group-buttons {
-	.button {
+	
+	.group-buttons-items {
+		margin-right: 10px;
+	}
 
-		&.selected {
-			background-color: rgb(63,81,181);
-			color: #FFF;
-			border-color: rgb(63,81,181);
-		}
+	.group-buttons-actions {
+		text-align: right;
+    	padding-right: 20px;
+	}
 
-		&:first-child {
-			border-radius: 3px 0 0 3px;
-		}
-
-		&:last-child {
-			border-radius: 0 3px 3px 0;
-			border-right: 1px solid #999;
-		}
-
-		border-radius: 0;
-		border: 1px solid #999;
-	    border-right: none;
-	    margin: 0;
-	    padding: 0;
-	    width: 32px !important;
-	    height: 32px !important;
-	    max-width: 32px !important;
-	    min-width: 32px !important;
-	    float: left;
-
-		.md-button {
-			width: 100%;
-		    min-width: 0;
-		    margin: 0;
-		    padding: 0;
-		    min-height: 0;
-		    height: 32px;
-		    line-height: 32px;
-		    vertical-align: top;
-		}
+	.md-button {
+		margin: 0;
+	    width: 40px;
+	    min-width: 40px;
 	}
 }

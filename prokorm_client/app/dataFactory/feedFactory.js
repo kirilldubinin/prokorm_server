@@ -35,6 +35,8 @@ angular.module('prokorm').config(['$httpProvider', function($httpProvider) {
             },
             // optional method
             'responseError': function(rejection) {
+
+                alert(rejection.data.message || rejection.data.name);
                 if (rejection.status === 401) {
                     $injector.get('$state').transitionTo('farm.login');
                 }

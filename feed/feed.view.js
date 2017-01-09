@@ -2,11 +2,26 @@ var _ = require('lodash');
 var lang = require('./lang');
 var dimension = require('./dimension');
 
+var dateFields = {
+    'analysis.date': 'date',
+    'harvest.start': 'date',
+    'harvest.end': 'date',
+    'feeding.start': 'date',
+    'feeding.end': 'date'
+};
+
 function convertValue(key, val) {
+
     if (key === 'feedType') {
         return lang(val);
+    } else if (key === 'isNaturalWet') {
+        return val;
     } else if (_.isBoolean(val)) {
         return lang(val);
+    } else if (_.isDate(val)) {
+        return ('0' + val.getDate()).slice(-2) + '/'
+             + ('0' + (val.getMonth()+1)).slice(-2) + '/'
+             + val.getFullYear();
     }
     return val;
 }
@@ -49,7 +64,7 @@ function convert(feed) {
                         rawValue: isNaturalWet ? initialValue : calc
                     };
                 } else {
-                    return initialValue;
+                    return convertValue(key, initialValue);
                 }
             });
             analysisView[key] = {

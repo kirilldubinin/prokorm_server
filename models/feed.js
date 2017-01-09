@@ -3,14 +3,25 @@ var Schema = mongoose.Schema;
 
 // Feed
 var FeedSchema = new Schema({
+    createdAt: {
+        type: Date,
+        default: Date.now,
+        required: true
+    },
+    createdBy: {
+        userId:  {
+            type: Schema.Types.ObjectId,
+            required: true    
+        }, 
+        tenantId: {
+            type: Schema.Types.ObjectId,
+            required: true 
+        }
+    },
     analysis: [
         {
             isNaturalWet: Boolean,
-            number: {
-                type: Number,  
-                required: true,
-                unique: true
-            },
+            number: Number,
             date: Date,
             dryMaterial: Number,
             ph: Number,
