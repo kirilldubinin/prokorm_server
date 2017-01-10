@@ -12,8 +12,10 @@
         }
         vm.isDrySwitch = true;
         vm.diff = function() {
-            $state.go('farm.instance.feed.diff');
-            diff.toggleFeed(vm.feed);
+            $state.go('farm.instance.feed.diff', {
+              'feeds': [feedId].join(':')
+            });
+            //diff.toggleFeed(vm.feed);
         }
         vm.edit = function() {
             $state.go('farm.instance.feed.edit', {

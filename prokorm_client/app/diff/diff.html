@@ -33,19 +33,19 @@
             
             <span flex="25" class="property-label">{{child.label}} {{child.dimension}}</span>  
 
-            <span ng-class-odd="'odd'" ng-class-even="'even'" flex class="property-value" ng-repeat="value in child.values" layout="row">
-              
+            <span ng-class-odd="'odd'" ng-class-even="'even'" flex class="property-value" ng-repeat="value in child.values" layout="row" ng-init="valueIdx = $index">
               <!-- DRY Control -->
-              <span flex ng-if="child.key === 'isNaturalWet'" ng-repeat="v in diff.dryRawValues[$index] track by $index">
-                <md-checkbox class="md-primary dry-switch" ng-model="diff.dryRawValues[$parent.$parent.$index][$index]">
-                  ({{ diff.dryRawValues[$parent.$parent.$index][$index] ? 'Да' : 'Нет' }})
+              <span flex ng-if="child.key === 'isNaturalWet'" ng-repeat="v in diff.dryRawValues[valueIdx] track by $index">
+                <md-checkbox class="md-primary dry-switch" ng-model="diff.dryRawValues[valueIdx][$index]">
+                  ({{ diff.dryRawValues[valueIdx][$index] ? 'Да' : 'Нет' }})
                 </md-checkbox>
               </span> 
 
-              <span flex ng-if="child.key !== 'isNaturalWet'" ng-repeat="v in value track by $index">
+              <span flex ng-if="child.key !== 'isNaturalWet'" 
+              ng-class="{max: child.maxDryValue === v.dryValue || child.maxDryValue === v }" ng-repeat="v in value track by $index">
                 {{
                   (diff._.isNumber(v.dryValue) || diff._.isNumber(v.rawValue)) ? 
-                  (diff.dryRawValues[$parent.$parent.$index][$index] ? v.dryValue : v.rawValue) :
+                  (diff.dryRawValues[valueIdx][$index] ? v.rawValue : v.dryValue) :
                   (diff._.isObject(v) ? '' : v)
                 }}
               </span>

@@ -19,13 +19,27 @@ function convertValue(key, val) {
     return val;
 }
 
-function convertToControl(item) {
+function convertToControl(item, code) {
     return _.map(item, function(value, key) {
         if (item.hasOwnProperty(key)) {
+            
+            if (code === 'analysis') {
+                var allDryValues = [];
+                _.forEach(value.values, function (values) {
+                    _.forEach(values, function (value) {
+
+                        if (_.isNumber(value.dryValue || value)) {
+                            allDryValues.push(value.dryValue || value)
+                        }
+                    });
+                });
+                console.log(allDryValues);
+            }
             return {
                 label: lang(key),
                 dimension: dimension(key),
                 key: key,
+                maxDryValue: _.max(allDryValues),
                 values: value.values,
                 children: (value && !value.values && !_.isArray(value) && !_.isNumber(value) && !_.isString(value)) ? convertToControl(value) : null
             }
@@ -42,7 +56,7 @@ function getDiff(feeds) {
     };
     _.each(allProps, function(props) {
         _.each(feeds, function(feed, feedIndex) {
-            var isNaturalWet = feed.analysis.isNaturalWet;
+            
             var lastProp = null;
             var lastValue = null;
 
@@ -76,6 +90,9 @@ function getDiff(feeds) {
                                     rawValue: null
                                 });    
                             } else {
+
+                                var isNaturalWet = result.dryRawValues[feedIndex][index1];
+
                                 var dryMaterial = val / 100;
                                 var calc = Math.round(lastValue[index1] * dryMaterial * 100) / 100;
                                 dryWetValue.push({
@@ -104,6 +121,27 @@ function getDiff(feeds) {
             });
         });
     });
+
+    // set max and min for analysis
+    /*_.forEach(result.diff['analysis'], function (analysRow) {
+        var allValues = [];
+        _.forEach(analysRow.values, function(values) {
+            _.forEach(values, function(value) {
+                if (_.isObject(value)) {
+
+                } else if (_.isNumber(value)) {
+                    allValues.push(value);
+                }
+            })    
+        });
+
+        analysRow.maxValue = _.max(allValues);
+        analysRow.minValue = _.min(allValues);
+    });
+
+    console.log('maxValue');
+    console.log(result.diff['analysis'][0].maxValue);*/
+
     var diffs = [{
         label: lang('general'),
         key: 'general',
@@ -111,7 +149,7 @@ function getDiff(feeds) {
     }, {
         label: lang('analysis'),
         key: 'analysis',
-        children: convertToControl(result.diff['analysis'])
+        children: convertToControl(result.diff['analysis'], 'analysis')
     }, {
         label: lang('harvest'),
         key: 'harvest',

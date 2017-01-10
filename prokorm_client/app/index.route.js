@@ -60,10 +60,13 @@
         controller: 'FeedController',
         controllerAs: 'feed'
       }).state('farm.instance.feed.diff', {
-        url: '/diff',
+        url: '/diff/:feeds',
         templateUrl: 'app/diff/diff.html',
         controller: 'DiffController',
-        controllerAs: 'diff'
+        controllerAs: 'diff',
+        params: {
+          feeds: undefined
+        }
       }).state('farm.instance.feed.new', {
         url: '/new',
         templateUrl: 'app/feed/feedEdit/feedEdit.html',

@@ -92,22 +92,22 @@ function convert(feed) {
         general: feed.general,
         feedItemSections: [{
             width: 40,
-            label: 'analysis',
+            label: lang('analysis'),
             key: 'analysis',
             controls: analysisSortView
         }, {
             width: 20,
-            label: 'general',
+            label: lang('general'),
             key: 'general',
             controls: generalSortView
         }, {
             width: 20,
-            label: 'harvest',
+            label: lang('harvest'),
             key: 'harvest',
             controls: harvestSortView
         }, {
             width: 20,
-            label: 'feeding',
+            label: lang('feeding'),
             key: 'feeding',
             controls: feedingSortView
         }]

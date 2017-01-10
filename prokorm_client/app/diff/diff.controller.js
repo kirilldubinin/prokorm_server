@@ -2,11 +2,13 @@
     'use strict';
     angular.module('prokorm').controller('DiffController', DiffController);
 
-    function DiffController(feedHttp, diff, _) {
+    function DiffController($scope, feedHttp, $stateParams, diff, _) {
 
     	var vm = this;
     	vm.propertiesForDiff = [];
         vm._ = _;
+
+        var feeds = $stateParams.feeds;
 
         // if diff.getFeeds is not empty
         updateDiffRows(diff.getFeeds());
@@ -20,16 +22,18 @@
     			return;
     		}
 
-    		// request for diff
-            var ids = _.map(feedsForDiff, function (f) {
-                return f._id;
-            });
-    		feedHttp.diffFeeds(ids).then(function (result) {
+    		feedHttp.diffFeeds(feedsForDiff).then(function (result) {
 
                 vm.dryRawValues = result.dryRawValues;
                 vm.headers = result.headers;
                 vm.diffRows = result.diffs;
     		});
     	}	
+
+        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
+            if (newState.name === 'farm.instance.feed.diff') {
+                updateDiffRows(params.feeds.split(':'));
+            }
+        });
     }
 })();

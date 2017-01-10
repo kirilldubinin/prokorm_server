@@ -43,6 +43,9 @@
       border-bottom: 1px solid #FF9800; }
     .diff-card .diff-dashboard .property-values:hover .property-label {
       border-bottom: 1px solid #FF9800; }
+    .diff-card .diff-dashboard .property-values:hover .max {
+      font-weight: bold;
+      color: #FF9800; }
     .diff-card .diff-dashboard .property-values .property-value {
       color: #333;
       padding: 6px 20px;
