@@ -15,9 +15,7 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    //addField_CODE_for_FEED_ANALYSIS();
-    console.log('Feed.getSkeleton()');
-    console.log(Feed.getSkeleton());
+    addField_CODE_for_FEED_ANALYSIS();
 });
 
 function addField_CODE_for_FEED_ANALYSIS () {
