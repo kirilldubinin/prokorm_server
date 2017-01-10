@@ -37,7 +37,7 @@ function dimension(key) {
         adl: 'г',
         calcium: 'г',
         phosphorus: 'г',
-        carotene: 'г'
+        carotene: 'мг'
     };
 
     return dimensionObj[key] || '';

@@ -35,7 +35,8 @@ function lang(key) {
         // analysis
         dryMaterial: 'Сухое вещество',
         isNaturalWet: 'Натуральная влажность',
-        number: 'Номер',
+        number: 'Номер исследования',
+        code: 'Код исследования',
         milkAcid: 'Молочная кислота',
         aceticAcid: 'Уксусная кислота',
         oilAcid: 'Масляная кислота',

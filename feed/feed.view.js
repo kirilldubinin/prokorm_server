@@ -1,6 +1,7 @@
 var _ = require('lodash');
 var lang = require('./lang');
 var dimension = require('./dimension');
+var Feed = require('../models/feed');
 
 var dateFields = {
     'analysis.date': 'date',
@@ -79,28 +80,36 @@ function convert(feed) {
     var harvestView = convertToControl(feed.harvest);
     var feedingView = convertToControl(feed.feeding);
 
+    // sort field
+    var goldFeed = Feed.getEmptyFeed();
+
+    var analysisSortView = Feed.sort(analysisView, 'analysis');
+    var generalSortView = Feed.sort(generalView, 'general');
+    var harvestSortView = Feed.sort(harvestView, 'harvest');
+    var feedingSortView = Feed.sort(feedingView, 'feeding');
+
     return {
         general: feed.general,
         feedItemSections: [{
             width: 40,
             label: 'analysis',
             key: 'analysis',
-            controls: analysisView
+            controls: analysisSortView
         }, {
             width: 20,
             label: 'general',
             key: 'general',
-            controls: generalView
+            controls: generalSortView
         }, {
             width: 20,
             label: 'harvest',
             key: 'harvest',
-            controls: harvestView
+            controls: harvestSortView
         }, {
             width: 20,
             label: 'feeding',
             key: 'feeding',
-            controls: feedingView
+            controls: feedingSortView
         }]
     };
 }
