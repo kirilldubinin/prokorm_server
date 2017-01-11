@@ -1,84 +1,91 @@
-<div layout="row" class="feed">
-  <md-card class="navigator" md-theme="default" md-theme-watch flex="20">
-    <div class="list-header" layout="row">
-      <div flex class="module-name">
-        Корма
-        <span ng-if="feed.feedItems.length" class="feed-amount">({{feed.feedItems.length}})</span>
-      </div>
-      <md-button ng-click="feed.goToHome()" ng-if="feed.isDiffMode" class="md-fab md-mini md-primary">
-        <ng-md-icon class="back-icon" icon="arrow_back" size="24">
-        </ng-md-icon>
-      </md-button>
-
-      <md-menu ng-if="!feed.isDiffMode">
-        <md-button aria-label="Menu" class="md-fab md-mini md-primary" ng-click="feed.openMenu($mdOpenMenu, $event)">
-          <ng-md-icon icon="menu">
-          </ng-md-icon>
-        </md-button>
-        <md-menu-content width="3">
-            <md-menu-item>
-                <md-button ng-click="feed.goToAdd()">
-                    <ng-md-icon style="fill: #888" icon="plus_one">
+<div class="feed" layout="row">
+    <md-card class="navigator" flex="20" md-theme="default" md-theme-watch="">
+        <div class="list-header" layout="row">
+            <div class="module-name" flex="">
+                Корма
+                <span class="feed-amount" ng-if="feed.feedItems.length">
+                    ({{feed.feedItems.length}})
+                </span>
+            </div>
+            <md-button class="md-fab md-mini md-primary" ng-click="feed.goToHome()" ng-if="feed.isDiffMode">
+                <ng-md-icon class="back-icon" icon="arrow_back" size="24">
+                </ng-md-icon>
+            </md-button>
+            <md-menu ng-if="!feed.isDiffMode">
+                <md-button aria-label="Menu" class="md-fab md-mini md-primary" ng-click="feed.openMenu($mdOpenMenu, $event)">
+                    <ng-md-icon icon="menu">
                     </ng-md-icon>
-                    Добавить
                 </md-button>
-            </md-menu-item>
-            <md-menu-item>
-                <md-button ng-click="feed.goToDiff()">
-                    <ng-md-icon style="fill: #888" icon="view_column">
-                    </ng-md-icon>
-                    Сравнить
-                </md-button>
-            </md-menu-item>
-        </md-menu-content>
-      </md-menu>
-    </div>
-    <md-list class="feed-list">
-      
-      <md-list-item 
-        class="md-3-line feed-item"
-        ng-click="feed.onFeedClick(feedItem)" 
-        ng-class="{
+                <md-menu-content width="3">
+                    <md-menu-item>
+                        <md-button ng-click="feed.goToAdd()">
+                            <ng-md-icon icon="plus_one" style="fill: #888">
+                            </ng-md-icon>
+                            Добавить
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="feed.goToDiff()">
+                            <ng-md-icon icon="view_column" style="fill: #888">
+                            </ng-md-icon>
+                            Сравнить
+                        </md-button>
+                    </md-menu-item>
+                </md-menu-content>
+            </md-menu>
+        </div>
+        <md-list class="feed-list">
+            <md-list-item class="md-3-line feed-item" ng-class="{
           done: feedItem.done,
           opened: feedItem.opened,
           selected: feedItem === feed.selectedItem, 
           inDiff: feed.inDiff(feedItem)
-        }" ng-repeat="feedItem in feed.feedItems" >
-
-        <div class="md-list-item-text">
-          <div layout="row">
-            <p flex class="title">{{feedItem.name}}</p>
-            <span class="weight weight-control" ng-class="{opened: feedItem.opened}">
-              <span class="balance">{{feedItem.balanceWeight}}</span>
-              <span class="total">{{feedItem.totalWeight}}</span>
-            </span>
-          </div>
-          
-          <div layout="row">
-            <p flex class="composition">{{feedItem.feedType ? 
+        }" ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems">
+                <div class="md-list-item-text">
+                    <div layout="row">
+                        <p class="title" flex="">
+                            {{feedItem.name}}
+                        </p>
+                        <span class="weight weight-control" ng-class="{opened: feedItem.opened}">
+                            <span class="balance">
+                                {{feedItem.balanceWeight}}
+                            </span>
+                            <span class="total">
+                                {{feedItem.totalWeight}}
+                            </span>
+                        </span>
+                    </div>
+                    <div layout="row">
+                        <p class="composition" flex="">
+                            {{feedItem.feedType ? 
               feedItem.feedType + ': ' + feedItem.composition : feedItem.composition}}
-            </p>
-            <b class="year">{{feedItem.year}}</b>  
-          </div>
-          
-          <div layout="row">
-            <p flex class="source">
-              {{feedItem.field}}
-            </p>
-            <p class="source">
-              {{feedItem.storage}}
-            </p>
-          </div>
-        </div>
-      </md-list-item> 
-      <md-divider ></md-divider>
-    </md-list>
-  </md-card>
-  <md-card class="dashboard" md-theme="default" md-theme-watch flex="80" ui-view>
-    <md-content flex layout-padding>
-      <p>
-        Для добавления нового корма нажмите +1
-      </p>
-    </md-content>
-  </md-card>
+                        </p>
+                        <b class="year">
+                            {{feedItem.year}}
+                        </b>
+                    </div>
+                    <div layout="row">
+                        <p class="source" flex="">
+                            {{feedItem.field}}
+                        </p>
+                        <p class="source">
+                            {{feedItem.storage}}
+                        </p>
+                    </div>
+                </div>
+            </md-list-item>
+            <md-divider>
+            </md-divider>
+        </md-list>
+    </md-card>
+    <md-card class="dashboard" flex="80" md-theme="default" md-theme-watch="" ui-view="">
+        <md-content flex="" layout-padding="">
+            <md-button class="md-primary" md-no-ink="">
+                Добавить корм
+            </md-button>
+            <md-button class="md-primary" md-no-ink="">
+                Сравнить корма
+            </md-button>
+        </md-content>
+    </md-card>
 </div>

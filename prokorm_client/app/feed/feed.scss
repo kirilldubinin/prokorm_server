@@ -5,7 +5,7 @@
 	    height: 29px;
 	    border-radius: 3px;
 	    font-size: 22px;
-	    margin-top: 16px;
+	    margin: auto;
 
 		.balance {
 			display: none;
@@ -47,7 +47,7 @@
 
 		.feed-item {
 
-			button {
+			.md-button {
 				padding: 0 10px;			
 			}
 
@@ -73,24 +73,24 @@
 			}
 
 			.year {
-			    /* float: right; */
 			    color: #3F51B5;
 			    font-weight: bold;
 			    margin-top: 2px;
+			    font-size: 12px;
 			}
 
 			.title {
 				color: #333;
-			    font-size: 16px;
+			    font-size: 18px;
 			}
 
 			.source {
-				font-size: 10px;
+				font-size: 12px;
 				margin-top: 2px;
 			}
 
 			.composition {
-				font-size: 10px;
+				font-size: 12px;
 				color: #333;
 			}
 

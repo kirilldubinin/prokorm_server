@@ -43,11 +43,37 @@
           id: undefined
         }
       })
+      // ration =======================================================
+      .state('farm.instance.ration', {
+        url: '/ration',
+        templateUrl: 'app/ration/ration.html',
+        controller: 'RationController',
+        controllerAs: 'ration',
+        data: {
+          module: 'ration'
+        }
+      })
+      .state('farm.instance.ration.instance', {
+        url: '/:rationId',
+        templateUrl: 'app/ration/rationView/rationView.html',
+        controller: 'RationViewController',
+        controllerAs: 'rationView',
+        params: {
+          rationId: undefined
+        },
+        data: {
+          module: 'catalog'
+        }
+      })
+      // catalog =======================================================
       .state('farm.instance.catalog', {
         url: '/catalog',
         templateUrl: 'app/catalog/catalog.html',
         controller: 'CatalogController',
-        controllerAs: 'catalog' 
+        controllerAs: 'catalog',
+        data: {
+          module: 'catalog'
+        }
       })
       .state('farm.instance.catalog.instance', {
         url: '/:terms',
@@ -56,6 +82,9 @@
         controllerAs: 'catalogContent',
         params: {
           terms: undefined
+        },
+        data: {
+          module: 'catalog'
         }
       })
       // feed ==========================================================

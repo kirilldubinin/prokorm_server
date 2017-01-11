@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('HomeController', HomeController);
     /** @ngInject */
-    function HomeController($scope, feedHttp, $mdDialog) {
+    function HomeController($scope, $state,  feedHttp, $mdDialog) {
         var originatorEv;
         var vm = this;
         vm.currentModule = '';
@@ -13,7 +13,8 @@
             originatorEv = ev;
             $mdOpenMenu(ev);
         };
-        vm.onModuleClick = function(module) {
+        vm.goToModule = function(module) {
+            $state.go('farm.instance.' + module);
             //$window.location.href = '#/farm/kamenskoe' + module.url;
         }
 

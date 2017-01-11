@@ -5,10 +5,11 @@
   .feed-view .feed-title {
     color: #3F51B5;
     font-size: 20px;
-    margin-bottom: 20px; }
-    .feed-view .feed-title .feed-name {
-      margin-right: 30px;
-      margin-top: 12px; }
+    margin: 10px 0 20px 0; }
+    .feed-view .feed-title h2 {
+      margin: auto; }
+      .feed-view .feed-title h2 b {
+        margin: 0 20px; }
     .feed-view .feed-title .actions {
       line-height: 58px;
       text-align: right; }
@@ -57,7 +58,9 @@
     .feed-view .feed-properties .property {
       padding: 6px 0; }
       .feed-view .feed-properties .property:hover {
-        background-color: #BBDEFB; }
+        background-color: #BBDEFB;
+        border-radius: 3px;
+        color: #fff; }
       .feed-view .feed-properties .property label {
         width: 80px;
         display: inline-block;

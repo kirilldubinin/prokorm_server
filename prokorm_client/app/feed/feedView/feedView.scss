@@ -6,15 +6,14 @@
 	.feed-title {
 		color: #3F51B5;
 	    font-size: 20px;
-	    margin-bottom: 20px;
+	    margin: 10px 0 20px 0;
 
-		.feed-name {
-			margin-right: 30px;
-    		margin-top: 12px;
-			b {
-				
-			}
-		}
+	    h2 {
+	    	margin: auto;
+	    	b{
+	    		margin: 0 20px;
+	    	}
+	    }
 
 		.actions {
 			line-height: 58px;
@@ -67,6 +66,8 @@
 
 			&:hover {
 				background-color: #BBDEFB;
+			    border-radius: 3px;
+			    color: #fff;
 			}
 
 			padding: 6px 0;

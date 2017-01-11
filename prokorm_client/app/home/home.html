@@ -4,7 +4,7 @@
     </div>
 
     <div flex class="modules">
-        <md-button ng-class="{ 'md-raised': module.key === home.currentModule }" ng-repeat="module in home.sessionData.user.modules" class="">
+        <md-button ng-class="{ 'md-raised': module.key === home.currentModule }" ng-repeat="module in home.sessionData.user.modules" ng-click="home.goToModule(module.key)">
           {{module.name}}
         </md-button>    
     </div>

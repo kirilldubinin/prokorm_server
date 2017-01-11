@@ -6,10 +6,11 @@
   background-color: #3F51B5;
   color: #fff; }
   .main-header .prokorm-title {
-    line-height: 40px; }
+    line-height: 46px;
+    font-size: 28px; }
 
 .main-content {
-  height: calc(100% - 46px);
+  height: calc(100% - 52px);
   overflow-y: hidden; }
   .main-content .feed {
     height: 100%;
