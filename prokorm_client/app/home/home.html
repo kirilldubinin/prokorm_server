@@ -1,6 +1,12 @@
 <section class="main-header" layout="row">
-    <div class="prokorm-title" flex="">
+    <div class="prokorm-title" flex="20">
         ПРОКОРМ
+    </div>
+
+    <div flex class="modules">
+        <md-button ng-class="{ 'md-raised': module.key === home.currentModule }" ng-repeat="module in home.sessionData.user.modules" class="">
+          {{module.name}}
+        </md-button>    
     </div>
     <!--<div flex="80" class="user-company">
         {{home.sessionData.user.name}}

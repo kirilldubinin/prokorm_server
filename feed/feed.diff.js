@@ -15,6 +15,10 @@ function convertValue(key, val) {
         return lang(val);
     } else if (_.isBoolean(val)) {
         return lang(val);
+    } else if (_.isDate(val)) {
+        return ('0' + val.getDate()).slice(-2) + '/'
+             + ('0' + (val.getMonth()+1)).slice(-2) + '/'
+             + val.getFullYear();
     }
     return val;
 }

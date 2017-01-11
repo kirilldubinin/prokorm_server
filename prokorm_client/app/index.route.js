@@ -58,11 +58,15 @@
           terms: undefined
         }
       })
+      // feed ==========================================================
       .state('farm.instance.feed', {
         url: '/feed',
         templateUrl: 'app/feed/feed.html',
         controller: 'FeedController',
-        controllerAs: 'feed'
+        controllerAs: 'feed',
+        data: {
+          module: 'feed'
+        }
       }).state('farm.instance.feed.diff', {
         url: '/diff/:feeds',
         templateUrl: 'app/diff/diff.html',
@@ -70,12 +74,17 @@
         controllerAs: 'diff',
         params: {
           feeds: undefined
+        },data: {
+          module: 'feed'
         }
       }).state('farm.instance.feed.new', {
         url: '/new',
         templateUrl: 'app/feed/feedEdit/feedEdit.html',
         controller: 'FeedEditController',
-        controllerAs: 'feedEdit'
+        controllerAs: 'feedEdit',
+        data: {
+          module: 'feed'
+        }
       }).state('farm.instance.feed.edit', {
         url: '/:feedId/edit',
         templateUrl: 'app/feed/feedEdit/feedEdit.html',
@@ -83,6 +92,9 @@
         controllerAs: 'feedEdit',
         params: {
           feedId: undefined
+        },
+        data: {
+          module: 'feed'
         }
       }).state('farm.instance.feed.instance', {
         url: '/:feedId',
@@ -91,6 +103,9 @@
         controllerAs: 'feedView',
         params: {
           feedId: undefined
+        },
+        data: {
+          module: 'feed'
         }
       });
 

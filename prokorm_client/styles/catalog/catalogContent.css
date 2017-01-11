@@ -1,0 +1,9 @@
+.catalog-view {
+  padding: 0 20px;
+  height: 100%;
+  overflow: hidden; }
+  .catalog-view .catalog-title {
+    color: #3F51B5;
+    font-size: 20px !important;
+    border-bottom: 3px solid #FF9800;
+    padding: 20px 0 12px 0; }

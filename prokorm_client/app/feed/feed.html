@@ -55,7 +55,9 @@
           </div>
           
           <div layout="row">
-            <p flex class="composition">{{feedItem.composition}}</p>
+            <p flex class="composition">{{feedItem.feedType ? 
+              feedItem.feedType + ': ' + feedItem.composition : feedItem.composition}}
+            </p>
             <b class="year">{{feedItem.year}}</b>  
           </div>
           

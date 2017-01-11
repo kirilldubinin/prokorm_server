@@ -13,8 +13,11 @@ var edit = require('../feed/feed.edit');
 var registration = require('../authentication/registration');
 var CustomStrategy = require('../authentication/local');
 var winston = require('winston');
+var lang = require('../feed/lang');
+var modules = require('../config/modules');
 // routes =====================================================================
 module.exports = function(app) {
+
     var authStrategy = new CustomStrategy(app);
 
     function checkUserRightForFeed(feed, req, res) {
@@ -108,7 +111,8 @@ module.exports = function(app) {
                     _id: user._id,
                     tenantId: tenant._id,
                     tenantName: tenant.loginName,
-                    tenantFullName: tenant.fullName || tenant.loginName
+                    tenantFullName: tenant.fullName || tenant.loginName,
+                    modules: modules
                 };
                 console.log(sessionUser);
                 req.logIn(sessionUser, function(err) {
@@ -186,7 +190,10 @@ module.exports = function(app) {
 
             var shortFeeds = _.map(feeds, function(feed) {
                 return _.merge({}, feed.general, {
-                    _id: feed._id
+                    _id: feed._id,
+                    feedType: (feed.general.feedType === 'none' ? 
+                        '' : lang(feed.general.feedType)),
+                    field: 'Поле: ' + feed.general.field
                 });
             });
             res.json(shortFeeds);

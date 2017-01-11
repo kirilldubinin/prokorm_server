@@ -2,29 +2,13 @@
     'use strict';
     angular.module('prokorm').controller('HomeController', HomeController);
     /** @ngInject */
-    function HomeController($state, feedHttp, $mdDialog) {
+    function HomeController($scope, feedHttp, $mdDialog) {
         var originatorEv;
         var vm = this;
+        vm.currentModule = '';
         feedHttp.getSessionData().then(function(data) {
             vm.sessionData = data;
         });
-        vm.modules = [{
-            name: 'Здания',
-            img: 'img/ic_home_white_48px.svg',
-            url: '/building'
-        }, {
-            name: 'Корма',
-            img: 'img/ic_layers_white_48px.svg',
-            url: '/feed'
-        }, {
-            name: 'Рационы',
-            img: 'img/ic_chrome_reader_mode_white_48px.svg',
-            url: '/ration'
-        }, {
-            name: 'Молоко',
-            img: 'img/ic_opacity_white_48px.svg',
-            url: '/milk'
-        }];
         vm.openMenu = function($mdOpenMenu, ev) {
             originatorEv = ev;
             $mdOpenMenu(ev);
@@ -36,5 +20,9 @@
         vm.logout = function () {
             feedHttp.logout();
         }
+
+        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
+            vm.currentModule = newState.data.module;
+        });
     }
 })();
