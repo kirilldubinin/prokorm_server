@@ -117,7 +117,7 @@ angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($h
     };
     feedHttp.getEmptyFeed = function() {
         return $http.post(urlBaseFeed + 'new');
-    }
+    };
     feedHttp.deleteFeed = function(feedId) {
         return $http.delete(urlBaseFeed + feedId);
     };
@@ -125,6 +125,16 @@ angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($h
         return $http.post(urlBaseFeed + 'diff', {
             feedIds: feedIds
         });
-    }
+    };
+
+    // catalog
+    feedHttp.getCatalog = function () {
+        return $http.get(urlBase + 'catalog');
+    };
+
+    feedHttp.getCatalogContentByKey = function (key) {
+        return $http.get(urlBase + 'catalog/' + key);
+    };    
+
     return feedHttp;
 }]);

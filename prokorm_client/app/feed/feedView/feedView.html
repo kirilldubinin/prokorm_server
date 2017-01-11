@@ -43,10 +43,13 @@
         <ul ng-switch-when="analysis" class="feed-properties" ng-class="block.key">
           <li ng-switch="key" class="property" ng-repeat="(key, data) in block.controls" layout="row">
             <!-- LABEL -->
-            <label flex>
-                {{data.label}}<lable ng-if="data.dimension">, {{data.dimension}}</lable> 
+            <label flex ng-class="{catalogLink: data.catalogLink}" ng-href="data.catalogLink">
+                <a ng-if="data.catalogLink" ng-href="{{data.catalogLink}}">{{data.label}}</a>
+                <lable ng-if="!data.catalogLink">{{data.label}}</lable>
+                <lable ng-if="data.dimension">, {{data.dimension}}</lable> 
             </label>
 
+            
             <!-- DRY Control -->
             <md-checkbox ng-if="key === 'isNaturalWet'" ng-repeat="v in data.values track by $index" class="md-primary dry-switch" ng-model="block.controls.isNaturalWet.values[$index]">
                 ({{ block.controls.isNaturalWet.values[$index] ? 'Да' : 'Нет' }})

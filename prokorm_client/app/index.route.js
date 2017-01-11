@@ -12,18 +12,6 @@
         abstract: true,
         templateUrl: 'app/rootTemplate.html',
       })
-      .state('farm.catalog', {
-        url: '/catalog',
-        templateUrl: 'app/catalog/catalog.html',
-        controller: 'CatalogController',
-        controllerAs: 'catalog' 
-      })
-      .state('farm.catalog.instance', {
-        url: '/catalog/:terms',
-        templateUrl: 'app/catalog/catalogContent.html',
-        controller: 'CatalogContentController',
-        controllerAs: 'catalogContent' 
-      })
       .state('farm.registration', {
         url: '/registration',
         templateUrl: 'app/login/registration.html',
@@ -54,7 +42,23 @@
         params: {
           id: undefined
         }
-      }).state('farm.instance.feed', {
+      })
+      .state('farm.instance.catalog', {
+        url: '/catalog',
+        templateUrl: 'app/catalog/catalog.html',
+        controller: 'CatalogController',
+        controllerAs: 'catalog' 
+      })
+      .state('farm.instance.catalog.instance', {
+        url: '/:terms',
+        templateUrl: 'app/catalog/catalogContent.html',
+        controller: 'CatalogContentController',
+        controllerAs: 'catalogContent',
+        params: {
+          terms: undefined
+        }
+      })
+      .state('farm.instance.feed', {
         url: '/feed',
         templateUrl: 'app/feed/feed.html',
         controller: 'FeedController',

@@ -63,6 +63,10 @@
         display: inline-block;
         text-align: right;
         color: rgba(0, 0, 0, 0.54); }
+        .feed-view .feed-properties .property label a {
+          color: rgba(0, 0, 0, 0.54); }
+          .feed-view .feed-properties .property label a:hover {
+            color: #3F51B5; }
       .feed-view .feed-properties .property .value {
         margin-left: 10px;
         font-weight: 500;

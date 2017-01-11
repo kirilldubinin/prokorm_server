@@ -5,6 +5,7 @@ var _ = require('lodash');
 var Feed = require('../models/feed');
 var Tenant = require('../models/tenant');
 var User = require('../models/user');
+var Catalog = require('../models/catalog');
 // helpers =====================================================================
 var diff = require('../feed/feed.diff');
 var view = require('../feed/feed.view');
@@ -198,7 +199,7 @@ module.exports = function(app) {
                 return errorHandler(err, req, res);
             }
             if (checkUserRightForFeed(feed, req, res)) {
-                res.json(view(feed));    
+                res.json(view(feed, req.user));    
             }
         });
     });
@@ -237,7 +238,7 @@ module.exports = function(app) {
         });
     });
     // delete feed by id
-    app.delete('/api/feeds/:feed_id', function(req, res) {
+    app.delete('/api/feeds/:feed_id', isAuthenticated, function(req, res) {
         Feed.remove({
             _id: req.params.feed_id
         }, function(err, bear) {
@@ -252,11 +253,11 @@ module.exports = function(app) {
         });
     });
     // get feed skeleton
-    app.post('/api/feeds/new', function(req, res) {
+    app.post('/api/feeds/new', isAuthenticated, function(req, res) {
         res.json(edit());
     });
     // get feeds diff
-    app.post('/api/feeds/diff', function(req, res) {
+    app.post('/api/feeds/diff', isAuthenticated, function(req, res) {
         var feedIds = req.body.feedIds;
         var promises = _.map(feedIds, function(feedId) {
             return Feed.findById(feedId);
@@ -272,6 +273,38 @@ module.exports = function(app) {
             res.send(err);
         });
     });
+
+    // catalog =====================================================
+    app.get('/api/catalog', isAuthenticated, function (req, res) {
+        Catalog.find().lean().exec(function(err, items) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+
+            var shortItems = _.map(items, function (item) {
+                return {
+                    key: item.key,
+                    short: item.ru_short
+                }
+            });
+            res.status(200).json(shortItems);
+        });
+    });
+
+    app.get('/api/catalog/:key', isAuthenticated, function (req, res) {
+        Catalog.findOne({key: req.params.key}).lean().exec(function(err, item) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+            var result = {
+                key: item.key,
+                short: item.ru_short,
+                content: item.ru_content
+            }
+            res.status(200).json(result);
+        });
+    });    
+
     // application =================================================
     app.get('*', function(req, res) {
         res.sendFile(__dirname + './../prokorm_client/index.html'); // load the single view file (angular will handle the page changes on the front-end)

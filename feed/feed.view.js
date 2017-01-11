@@ -42,18 +42,50 @@ function convertToControl(item) {
     });
     return viewObj;
 };
-var propertyForRecalculate = ['milkAcid', 'aceticAcid', 'oilAcid', 'dve', 'oeb', 'vos', 'vcos', 'fos', 'nel', 'nelvc', 'exchangeEnergy', 'nxp', 'rnb', 'udp', 'crudeAsh', 'nh3', 'nitrates', 'crudeProtein', 'solubleCrudeProtein', 'crudeFat', 'sugar', 'starch', 'starchPasses', 'crudeFiber', 'ndf', 'adf', 'adl', 'calcium', 'phosphorus', 'carotene', ];
-var propertyWithHelp = ['milkAcid'];
+var propertyForRecalculate = {
+    milkAcid: 'milkAcid', 
+    aceticAcid: 'aceticAcid', 
+    oilAcid: 'oilAcid',
+    dve: 'dve', 
+    oeb: 'oeb', 
+    vos: 'vos', 
+    vcos: 'vcos', 
+    fos: 'fos', 
+    nel: 'nel', 
+    nelvc: 'nelvc', 
+    exchangeEnergy: 'exchangeEnergy', 
+    nxp: 'nxp', 
+    rnb: 'rnb', 
+    udp: 'udp', 
+    crudeAsh: 'crudeAsh', 
+    nh3: 'nh3', 
+    nitrates: 'nitrates', 
+    crudeProtein: 'crudeProtein', 
+    solubleCrudeProtein: 'solubleCrudeProtein', 
+    crudeFat: 'crudeFat', 
+    sugar: 'sugar', 
+    starch: 'starch', 
+    starchPasses: 'starchPasses', 
+    crudeFiber: 'crudeFiber', 
+    ndf: 'ndf', 
+    adf: 'adf', 
+    adl: 'adl', 
+    calcium: 'calcium', 
+    phosphorus: 'phosphorus', 
+    carotene: 'carotene'
+}; 
 
-function convert(feed) {
+var propertyWithHelp = {
+    milkAcid: 'milkAcid'
+};
+
+function convert(feed, sessionData) {
     var analysisView = {};
     var firstAnalys = feed.analysis[0];
     _.each(firstAnalys, function(value, key) {
         // check if value not empty
         if (key !== '_id' && (_.isBoolean(value) || _.isNumber(value) || value)) {
-            var canBerecalcalated = _.some(propertyForRecalculate, function(p) {
-                return p === key;
-            });
+            var canBerecalcalated = propertyForRecalculate[key];
             var values = _.map(feed.analysis, function(a) {
                 var initialValue = a[key];
                 if (canBerecalcalated) {
@@ -73,6 +105,9 @@ function convert(feed) {
                 values: values,
                 label: lang(key),
                 dimension: dimension(key),
+                catalogLink: propertyWithHelp[key] ?
+                    ('/#/farm/' + sessionData.tenantName + '/catalog/' + propertyWithHelp[key]) :
+                    undefined
             }
         }
     });

@@ -75,6 +75,13 @@
 				display: inline-block;
 				text-align: right;
 				color: rgba(0,0,0,0.54);
+
+				a {
+					color: rgba(0, 0, 0, 0.54);
+					&:hover {
+						color: #3F51B5;						
+					}
+				}
 			}
 			.value {
 			    margin-left: 10px;
