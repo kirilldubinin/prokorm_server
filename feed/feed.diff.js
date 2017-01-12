@@ -100,10 +100,13 @@ function getDiff(feeds) {
                                 var isNaturalWet = result.dryRawValues[feedIndex][index1];
 
                                 var dryMaterial = val / 100;
-                                var calc = Math.round(lastValue[index1] * dryMaterial * 100) / 100;
+
+                                var calcRaw = Math.round(lastValue[index1] * dryMaterial * 100) / 100;
+                                var calcDry = Math.round((lastValue[index1] / dryMaterial * 100)) / 100;
+                                
                                 dryWetValue.push({
-                                    dryValue: isNaturalWet ? calc : lastValue[index1],
-                                    rawValue: isNaturalWet ? lastValue[index1] : calc
+                                    dryValue: isNaturalWet ? calcDry : lastValue[index1],
+                                    rawValue: isNaturalWet ? lastValue[index1] : calcRaw
                                 });    
                             }
                         });
