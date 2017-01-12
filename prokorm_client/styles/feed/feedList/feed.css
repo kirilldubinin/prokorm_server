@@ -1,0 +1,86 @@
+.feed .weight-control {
+  border: 2px solid #009688;
+  height: 29px;
+  border-radius: 3px;
+  font-size: 22px;
+  margin: auto; }
+  .feed .weight-control .balance {
+    display: none;
+    color: #FF9800;
+    padding: 2px 4px;
+    font-weight: 600; }
+  .feed .weight-control .total {
+    background-color: #009688;
+    color: #fff;
+    padding: 2px 4px;
+    font-weight: 600; }
+  .feed .weight-control.opened {
+    border-color: #FF9800; }
+    .feed .weight-control.opened .balance {
+      display: inline; }
+    .feed .weight-control.opened .left {
+      display: none;
+      color: #FF9800; }
+    .feed .weight-control.opened .total {
+      background-color: #FF9800; }
+
+.feed .feed-list {
+  font-size: 11px;
+  height: calc(100% - 60px);
+  overflow: auto;
+  padding-top: 0; }
+  .feed .feed-list .feed-item {
+    cursor: pointer;
+    background-color: #fff;
+    min-height: 68px;
+    border-bottom: 1px solid #eee; }
+    .feed .feed-list .feed-item .md-button {
+      padding: 0 10px; }
+    .feed .feed-list .feed-item.selected {
+      background-color: #BBDEFB; }
+    .feed .feed-list .feed-item.inDiff {
+      background-color: #BBDEFB; }
+    .feed .feed-list .feed-item button.md-no-style {
+      min-height: 68px; }
+    .feed .feed-list .feed-item .md-list-item-text {
+      line-height: normal; }
+    .feed .feed-list .feed-item .year {
+      color: #3F51B5;
+      font-weight: bold;
+      margin-top: 2px;
+      font-size: 12px; }
+    .feed .feed-list .feed-item .title {
+      color: #333;
+      font-size: 18px; }
+    .feed .feed-list .feed-item .source {
+      font-size: 12px;
+      margin-top: 2px; }
+    .feed .feed-list .feed-item .composition {
+      font-size: 12px;
+      color: #333; }
+    .feed .feed-list .feed-item .weight.weight-control {
+      margin-top: 5px;
+      line-height: 15px;
+      height: 18px;
+      float: right;
+      font-size: 11px; }
+    .feed .feed-list .feed-item.done {
+      background-color: #ddd; }
+      .feed .feed-list .feed-item.done p, .feed .feed-list .feed-item.done b {
+        color: #999; }
+      .feed .feed-list .feed-item.done .weight.weight-control {
+        border: none;
+        color: #999; }
+        .feed .feed-list .feed-item.done .weight.weight-control .left {
+          display: none; }
+        .feed .feed-list .feed-item.done .weight.weight-control .total {
+          color: #999;
+          background-color: transparent;
+          padding: 0; }
+
+.feed .navigator {
+  height: calc(100% - 14px);
+  margin-right: 0; }
+
+.feed .dashboard {
+  height: calc(100% - 14px); }

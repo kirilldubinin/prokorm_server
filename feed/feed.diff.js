@@ -16,37 +16,57 @@ function convertValue(key, val) {
     } else if (_.isBoolean(val)) {
         return lang(val);
     } else if (_.isDate(val)) {
-        return ('0' + val.getDate()).slice(-2) + '/'
-             + ('0' + (val.getMonth()+1)).slice(-2) + '/'
-             + val.getFullYear();
+        return ('0' + val.getDate()).slice(-2) + '/' + ('0' + (val.getMonth() + 1)).slice(-2) + '/' + val.getFullYear();
     }
     return val;
 }
 
 function convertToControl(item, code) {
-    return _.map(item, function(value, key) {
+    var result = [];
+    _.forEach(item, function(value, key) {
+
         if (item.hasOwnProperty(key)) {
             var allDryValues = [];
             if (code === 'analysis') {
-                _.forEach(value.values, function (values) {
-                    _.forEach(values, function (value) {
-
+                _.forEach(value.values, function(values) {
+                    _.forEach(values, function(value) {
                         if (!_.isNull(value) && _.isNumber(value.dryValue || value)) {
                             allDryValues.push(value.dryValue || value)
                         }
                     });
                 });
             }
-            return {
-                label: lang(key),
-                dimension: dimension(key),
-                key: key,
-                maxDryValue: allDryValues.length ? _.max(allDryValues) : undefined,
-                values: value.values
-                //children: (value && !value.values && !_.isArray(value) && !_.isNumber(value) && !_.isString(value)) ? convertToControl(value) : null
+
+            // check if some values exist
+            var some = _.some(value.values, function(values) {
+
+                if (_.isArray(values)) {
+                    return _.some(values, function(value) {
+                        if (_.isObject(value)) {
+
+                            return _.isNumber(value.dryValue) && _.isNumber(value.rawValue);
+                        } else {
+                            return value || _.isBoolean(value) || _.isNumber(value);
+                        }
+                    });
+                } else {
+                    return !_.isNull(value);
+                }
+                
+            });
+            if (some) {
+                result.push({
+                    label: lang(key),
+                    dimension: dimension(key),
+                    key: key,
+                    maxDryValue: allDryValues.length ? _.max(allDryValues) : undefined,
+                    values: value.values
+                });
             }
         }
     });
+
+    return result;
 };
 
 function getDiff(feeds) {
@@ -56,59 +76,47 @@ function getDiff(feeds) {
         diff: {},
         dryRawValues: []
     };
-
-    console.log('_.each(allProps, function(props)');
-
-    try {
     _.each(allProps, function(props) {
         _.each(feeds, function(feed, feedIndex) {
-            
             var lastProp = null;
             var lastValue = null;
-
             _.each(props, function(prop, index) {
-
                 // set dryRawValues
                 if (prop === 'isNaturalWet') {
-                    result.dryRawValues.push(_.map(lastValue, 'isNaturalWet'));   
+                    result.dryRawValues.push(_.map(lastValue, 'isNaturalWet'));
                 }
-
                 // get value
                 if (lastValue && _.isArray(lastValue)) {
-                    lastValue = _.map(lastValue, prop);
+                    lastValue = _.map(lastValue, prop).filter(function(o) {
+                        return !_.isNull(o)
+                    });
                 } else {
                     lastValue = lastValue ? lastValue[prop] : feed[prop];
                 }
+
+                // return for empty lastValue
+                //if (_.isArray(lastValue) && _.size(lastValue) === 0) {
+                    //return;
+                //}
+
                 // get property
                 if (lastProp) {
-                    var dryWetValue;
+                    var dryWetValue = null;
                     var canBerecalcalated = _.some(propertyForRecalculate, function(p) {
                         return p === prop;
                     });
                     // get dry and wet value
                     if (canBerecalcalated) {
-                        dryWetValue = [];
                         _.forEach(lastProp.analysis.dryMaterial.values[feedIndex], function(val, index1) {
-
-                            if (!_.isNumber(lastValue[index1])) {
-                                dryWetValue.push({
-                                    dryValue: null,
-                                    rawValue: null
-                                });    
-                            } else {
-
-                                var isNaturalWet = result.dryRawValues[feedIndex][index1];
-
-                                var dryMaterial = val / 100;
-
-                                var calcRaw = Math.round(lastValue[index1] * dryMaterial * 100) / 100;
-                                var calcDry = Math.round((lastValue[index1] / dryMaterial * 100)) / 100;
-                                
-                                dryWetValue.push({
-                                    dryValue: isNaturalWet ? calcDry : lastValue[index1],
-                                    rawValue: isNaturalWet ? lastValue[index1] : calcRaw
-                                });    
-                            }
+                            var isNaturalWet = result.dryRawValues[feedIndex][index1];
+                            var dryMaterial = val / 100;
+                            var calcRaw = Math.round(lastValue[index1] * dryMaterial * 100) / 100;
+                            var calcDry = Math.round((lastValue[index1] / dryMaterial * 100)) / 100;
+                            !dryWetValue && (dryWetValue = []);
+                            dryWetValue.push({
+                                dryValue: isNaturalWet ? calcDry : lastValue[index1],
+                                rawValue: isNaturalWet ? lastValue[index1] : calcRaw
+                            });
                         });
                     }
                     if (!lastProp[props[index - 1]][prop]) {
@@ -120,7 +128,6 @@ function getDiff(feeds) {
                     }
                     lastProp = lastProp[props[index - 1]];
                     dryWetValue = null;
-                        
                 } else {
                     if (!result.diff[prop]) {
                         result.diff[prop] = {};
@@ -131,30 +138,8 @@ function getDiff(feeds) {
         });
     });
 
-    } catch(e) {
-        console.log(e);
-    }   
-
-    // set max and min for analysis
-    /*_.forEach(result.diff['analysis'], function (analysRow) {
-        var allValues = [];
-        _.forEach(analysRow.values, function(values) {
-            _.forEach(values, function(value) {
-                if (_.isObject(value)) {
-
-                } else if (_.isNumber(value)) {
-                    allValues.push(value);
-                }
-            })    
-        });
-
-        analysRow.maxValue = _.max(allValues);
-        analysRow.minValue = _.min(allValues);
-    });
-
-    console.log('maxValue');
-    console.log(result.diff['analysis'][0].maxValue);*/
-
+    console.log(result.diff['analysis']);
+    
     var diffs = [{
         label: lang('general'),
         key: 'general',

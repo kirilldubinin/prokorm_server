@@ -36,11 +36,12 @@
         </div>
         <md-list class="feed-list">
             <md-list-item class="md-3-line feed-item" ng-class="{
-          done: feedItem.done,
-          opened: feedItem.opened,
-          selected: feedItem === feed.selectedItem, 
-          inDiff: feed.inDiff(feedItem)
-        }" ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems">
+                  done: feedItem.done,
+                  opened: feedItem.opened,
+                  selected: (feedItem === feed.selectedItem || feed.diffFeeds.indexOf(feedItem._id) > -1), 
+                  inDiff: feed.inDiff(feedItem)
+                }" 
+            ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems">
                 <div class="md-list-item-text">
                     <div layout="row">
                         <p class="title" flex="">

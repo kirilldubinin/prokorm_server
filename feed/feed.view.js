@@ -84,7 +84,7 @@ function convert(feed, sessionData) {
     var firstAnalys = feed.analysis[0];
     _.each(firstAnalys, function(value, key) {
         // check if value not empty
-        if (key !== '_id' && (_.isBoolean(value) || _.isNumber(value) || value)) {
+        if (key !== '_id') {
             var canBerecalcalated = propertyForRecalculate[key];
             var values = _.map(feed.analysis, function(a) {
                 var initialValue = a[key];
@@ -102,14 +102,26 @@ function convert(feed, sessionData) {
                     return convertValue(key, initialValue);
                 }
             });
-            analysisView[key] = {
-                key: key,
-                values: values,
-                label: lang(key),
-                dimension: dimension(key),
-                catalogLink: propertyWithHelp[key] ?
-                    ('/#/farm/' + sessionData.tenantName + '/catalog/' + propertyWithHelp[key]) :
-                    undefined
+
+            // check if some values exist
+            var some = _.some(values, function(value) {
+                if (_.isObject(value)) {
+                    return _.isNumber(value.dryValue) && _.isNumber(value.rawValue);
+                } else {
+                    return value || _.isBoolean(value) || _.isNumber(value);
+                }
+            });
+
+            if (some) {
+                analysisView[key] = {
+                    key: key,
+                    values: values,
+                    label: lang(key),
+                    dimension: dimension(key),
+                    catalogLink: propertyWithHelp[key] ?
+                        ('/#/farm/' + sessionData.tenantName + '/catalog/' + propertyWithHelp[key]) :
+                        undefined
+                }
             }
         }
     });

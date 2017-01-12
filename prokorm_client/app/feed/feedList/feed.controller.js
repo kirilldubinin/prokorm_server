@@ -64,11 +64,13 @@
             // update list after switch to diff mode
             if (vm.isDiffMode) {
                 vm.selectedItem = null;
+                vm.diffFeeds = params.feeds.split(':');
             } 
             // update list after delete or add new feed
             else if (newState.name === 'farm.instance.feed' || 
                         (oldState.name === 'farm.instance.feed.new' && 
                         newState.name === 'farm.instance.feed.instance')) {
+                vm.diffFeeds = null;
                 feedHttp.getFeeds().then(function(feeds) {
                     vm.feedItems = feeds;
                 });

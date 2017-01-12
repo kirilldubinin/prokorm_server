@@ -90,7 +90,7 @@
       // feed ==========================================================
       .state('farm.instance.feed', {
         url: '/feed',
-        templateUrl: 'app/feed/feed.html',
+        templateUrl: 'app/feed/feedList/feed.html',
         controller: 'FeedController',
         controllerAs: 'feed',
         data: {
@@ -98,7 +98,7 @@
         }
       }).state('farm.instance.feed.diff', {
         url: '/diff/:feeds',
-        templateUrl: 'app/diff/diff.html',
+        templateUrl: 'app/feed/diff/diff.html',
         controller: 'DiffController',
         controllerAs: 'diff',
         params: {

@@ -1,0 +1,99 @@
+.diff-card {
+	padding: 0 20px;
+    height: 100%;
+    overflow: hidden;
+
+    .feed-header {
+    	padding-top: 12px;
+    	.feed-composition {
+    		font-size: 12px;
+    	}
+    	.feed-storage {
+    		font-size: 12px;
+    	}
+    }
+    
+    .diff-title {
+    	color: #3F51B5;
+	    font-size: 20px;
+	    padding-bottom: 12px;
+	    border-bottom: 3px solid #FF9800;
+
+	    h2 {
+	    	margin-top: 12px;
+	    	font-size: 18px;
+	    }
+    }
+
+	.diff-dashboard {
+		height: calc(100% - 75px);
+		overflow: auto;
+		ul, li {
+			list-style-type: none;
+			margin: 0;
+			padding:0;
+			font-size: 12px;
+		}
+
+		li {
+			
+		}
+
+		.root-property {
+			font-size: 14px;
+		    margin: 20px 0 10px 0;
+		    padding: 0;
+		    font-weight: normal;
+		    text-transform: uppercase;
+
+		    a {
+		    	color: #3F51B5;
+			    font-size: 12px;
+			    margin-left: 10px;
+			    text-transform: initial;
+		    }
+		}
+
+		.property-label {
+			color: #6a6c6f;
+		    border-bottom: 1px solid #ddd;
+		    padding: 6px 2px;
+		}
+
+		.property-values {
+			
+			&:hover {
+
+				.property-value {
+					border-bottom: 1px solid #FF9800;
+				}
+
+				.property-label {
+					border-bottom: 1px solid #FF9800;
+				}
+
+				.max {
+			    	font-weight: bold;
+			    	color: #FF9800;
+			    }
+			}
+			.property-value {
+				color: #333;
+			    padding: 6px 20px;
+			    min-width: 60px;
+			    text-align: right;
+			    border-left: 1px solid #FF9800;
+			    border-bottom: 1px solid #DDD;
+
+			    /*&.odd {
+			    	background-color: #f0f0f0;
+			    }*/
+
+			    .dry-switch {
+			    	padding: 0;
+			    	margin: 0;
+			    }
+			}
+		}
+	}
+}
