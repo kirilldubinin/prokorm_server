@@ -26,8 +26,8 @@ function convertValue(key, val) {
 function convertToControl(item, code) {
     return _.map(item, function(value, key) {
         if (item.hasOwnProperty(key)) {
+            var allDryValues = [];
             if (code === 'analysis') {
-                var allDryValues = [];
                 _.forEach(value.values, function (values) {
                     _.forEach(values, function (value) {
 
@@ -42,8 +42,8 @@ function convertToControl(item, code) {
                 dimension: dimension(key),
                 key: key,
                 maxDryValue: allDryValues.length ? _.max(allDryValues) : undefined,
-                values: value.values,
-                children: (value && !value.values && !_.isArray(value) && !_.isNumber(value) && !_.isString(value)) ? convertToControl(value) : null
+                values: value.values
+                //children: (value && !value.values && !_.isArray(value) && !_.isNumber(value) && !_.isString(value)) ? convertToControl(value) : null
             }
         }
     });
