@@ -26,24 +26,22 @@ function convertValue(key, val) {
 function convertToControl(item, code) {
     return _.map(item, function(value, key) {
         if (item.hasOwnProperty(key)) {
-            
             if (code === 'analysis') {
                 var allDryValues = [];
                 _.forEach(value.values, function (values) {
                     _.forEach(values, function (value) {
 
-                        if (_.isNumber(value.dryValue || value)) {
+                        if (!_.isNull(value) && _.isNumber(value.dryValue || value)) {
                             allDryValues.push(value.dryValue || value)
                         }
                     });
                 });
-                console.log(allDryValues);
             }
             return {
                 label: lang(key),
                 dimension: dimension(key),
                 key: key,
-                maxDryValue: _.max(allDryValues),
+                maxDryValue: allDryValues.length ? _.max(allDryValues) : undefined,
                 values: value.values,
                 children: (value && !value.values && !_.isArray(value) && !_.isNumber(value) && !_.isString(value)) ? convertToControl(value) : null
             }
