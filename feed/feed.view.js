@@ -91,10 +91,12 @@ function convert(feed, sessionData) {
                 if (canBerecalcalated) {
                     var isNaturalWet = a.isNaturalWet;
                     var dryMaterial = a.dryMaterial / 100;
-                    var calc = Math.round(initialValue * dryMaterial * 100) / 100;
+                    var calcRaw = Math.round(initialValue * dryMaterial * 100) / 100;
+                    var calcDry = Math.round((initialValue / dryMaterial * 100)) / 100;
+                    
                     return {
-                        dryValue: isNaturalWet ? calc : initialValue,
-                        rawValue: isNaturalWet ? initialValue : calc
+                        dryValue: isNaturalWet ? calcDry : initialValue,
+                        rawValue: isNaturalWet ? initialValue : calcRaw
                     };
                 } else {
                     return convertValue(key, initialValue);
