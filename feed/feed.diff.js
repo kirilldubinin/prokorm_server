@@ -58,6 +58,10 @@ function getDiff(feeds) {
         diff: {},
         dryRawValues: []
     };
+
+    console.log('_.each(allProps, function(props)');
+
+    try {
     _.each(allProps, function(props) {
         _.each(feeds, function(feed, feedIndex) {
             
@@ -125,6 +129,10 @@ function getDiff(feeds) {
             });
         });
     });
+
+    } catch(e) {
+        console.log(e);
+    }   
 
     // set max and min for analysis
     /*_.forEach(result.diff['analysis'], function (analysRow) {
