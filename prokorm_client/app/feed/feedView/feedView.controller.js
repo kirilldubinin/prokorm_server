@@ -5,7 +5,7 @@
     function FeedViewController($mdDialog, $stateParams, $state, feedHttp, diff, _) {
         
         var vm = this;
-
+        vm._ = _;
         var feedId = $stateParams.feedId;
         if (!feedId) {
             return;
