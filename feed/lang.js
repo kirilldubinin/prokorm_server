@@ -22,6 +22,14 @@ function lang(key) {
         haylage: 'Сенаж',
         silage: 'Силос',
         grain: 'Зерно',
+
+        straw: 'Солома',
+        hay: 'Сено',
+        oilcake: 'Жмых',
+        meal: 'Шрот',
+        greenWeight: 'Зеленая масса',
+        tmr: 'ТМР',
+
         totalWeight: 'Всего',
         balanceWeight: 'Осталось',
 
@@ -60,12 +68,13 @@ function lang(key) {
         sugar: 'Сахар',
         starch: 'Крахмал',
         starchPasses: 'Крахмал проходящий',
+        starchPassesPercent: 'Крахмал проходящий',
         crudeFiber: 'Сырая клетчатка',
         ndf: 'Нейтрально-детергентная клетчатка, NDF',
-        ndfDigested: 'Усвояемость',
+        ndfDigested: 'Усвояемость NDF',
         adf: 'Кислотно-детергентная клетчатка, ADF',
         adl: 'Лигнин, ADL',
-        calcium: 'Калиций',
+        calcium: 'Кальций',
         phosphorus: 'Фосфор',
         carotene: 'Каротин',
 

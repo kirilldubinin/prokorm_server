@@ -15,8 +15,28 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    addField_CODE_for_FEED_ANALYSIS();
+    addField_starchPassesPercent_for_FEED_ANALYSIS();
 });
+
+function addField_starchPassesPercent_for_FEED_ANALYSIS () {
+
+    Feed.find().then(function(feeds) {
+        feeds.forEach(function (feed){
+            feed.analysis.forEach(function (analys) {
+                if (analys.starchPassesPercent === undefined) {
+                    winston.info('update feed with name: ' + feed.general.name);
+                    analys.starchPassesPercent = 0;
+                }
+            });
+
+            feed.save(function(err, _feed) {
+                if (err) {
+                    winston.error(err);
+                }
+            });  
+        });
+    });
+} 
 
 function addField_CODE_for_FEED_ANALYSIS () {
 

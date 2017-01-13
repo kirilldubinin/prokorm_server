@@ -25,6 +25,30 @@
             {
                 value: 'grain',
                 name: 'Зерно'
+            },
+            {
+                value: 'straw',
+                name: 'Солома'
+            },
+            {
+                value: 'hay',
+                name: 'Сено'
+            },
+            {
+                value: 'oilcake',
+                name: 'Жмых'
+            },
+            {
+                value: 'meal',
+                name: 'Шрот'
+            },
+            {
+                value: 'greenWeight',
+                name: 'Зеленая масса'
+            },
+            {
+                value: 'tmr',
+                name: 'TMR'
             }
         ];
 
