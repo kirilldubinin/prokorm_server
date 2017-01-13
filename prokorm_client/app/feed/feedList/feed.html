@@ -80,15 +80,19 @@
     </md-card>
     <md-card class="dashboard" flex="80" md-theme="default" md-theme-watch="" ui-view="">
         <md-content layout-padding="">
-            <md-button class="md-primary" md-no-ink="">
+            <md-button class="md-primary" ng-click="feed.goToAdd()" md-no-ink="">
                 Добавить корм
             </md-button>
-            <md-button class="md-primary" md-no-ink="">
+            <md-button class="md-primary" ng-click="feed.goToDiff()" md-no-ink="">
                 Сравнить корма
             </md-button>
 
+            <md-button class="md-primary" ng-click="feed.goToAverage()" md-no-ink="">
+                Средний корм
+            </md-button>
+
             <div layout="row">
-                <md-card layout-padding="16" class="dashboard-card dashboard-balance" flex="50">
+                <md-card ng-if="feed.dashboard.balance.length" layout-padding="16" class="dashboard-card dashboard-balance" flex="50">
                     <h2>
                         Доступные корма
                     </h2>
@@ -126,7 +130,7 @@
                         </li>
                     </ul>
                 </md-card>
-                <md-card layout-padding="" class="dashboard-card dashboard-no-analysis" flex="50">
+                <md-card ng-if="feed.dashboard.noAnalysis.length" layout-padding="" class="dashboard-card dashboard-no-analysis" flex="50">
                     <h2>
                         Корма без анализов
                     </h2>

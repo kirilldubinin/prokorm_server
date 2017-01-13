@@ -22,6 +22,7 @@ function lang(key) {
         haylage: 'Сенаж',
         silage: 'Силос',
         grain: 'Зерно',
+        cornSilage: 'Силосованное зерно',
 
         straw: 'Солома',
         hay: 'Сено',

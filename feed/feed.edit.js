@@ -29,7 +29,7 @@ function convertToControl(item, parentKey) {
                 isNumber: _.isNumber(value),
                 isBoolean: value === true || value === false,
                 isDisabled: disabledFields[parentKey + '.' + key],
-                isDate: _.isDate(value),// dateFields[parentKey + '.' + key],
+                isDate: dateFields[parentKey + '.' + key],
 
                 label: lang(key),
                 dimension: dimension(key),

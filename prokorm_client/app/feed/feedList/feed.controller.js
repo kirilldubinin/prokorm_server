@@ -36,6 +36,12 @@
             diff.clear();
             $state.go('farm.instance.feed.diff');
         };
+        vm.goTAverage = function() {
+            vm.selectedItem = null;
+            diff.clear();
+            $state.go('farm.instance.feed.average');
+        };
+
         vm.onFeedClick = function(feedItem) {
             if (vm.isDiffMode) {
 
@@ -70,8 +76,13 @@
                 vm.selectedItem = null;
                 vm.diffFeeds = params.feeds.split(':');
             } 
+            else if (newState.name === 'farm.instance.feed') {
+                feedHttp.getFeedDashboard().then(function(dashboard) {
+                    vm.dashboard = dashboard;
+                });
+            }
             // update list after delete or add new feed
-            else if (newState.name === 'farm.instance.feed' || 
+            else if (newState.name === 'farm.instance.feed' || oldState.name === 'farm.instance.feed.edit' || 
                         (oldState.name === 'farm.instance.feed.new' && 
                         newState.name === 'farm.instance.feed.instance')) {
                 vm.diffFeeds = null;

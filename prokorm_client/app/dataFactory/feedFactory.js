@@ -36,7 +36,7 @@ angular.module('prokorm').config(['$httpProvider', function($httpProvider) {
             // optional method
             'responseError': function(rejection) {
 
-                alert(rejection.data.message || rejection.data.name);
+                console.log(rejection.data.message || rejection.data.name);
                 if (rejection.status === 401) {
                     $injector.get('$state').transitionTo('farm.login');
                 }
@@ -120,6 +120,9 @@ angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($h
     };
     feedHttp.getEmptyFeed = function() {
         return $http.post(urlBaseFeed + 'new');
+    };
+    feedHttp.getEmptyAnalysis = function() {
+        return $http.post(urlBaseFeed + 'newAnalysis');
     };
     feedHttp.deleteFeed = function(feedId) {
         return $http.delete(urlBaseFeed + feedId);

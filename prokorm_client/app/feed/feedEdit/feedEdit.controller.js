@@ -27,6 +27,10 @@
                 name: 'Зерно'
             },
             {
+                value: 'cornSilage',
+                name: 'Силосованное зерно'
+            },
+            {
                 value: 'straw',
                 name: 'Солома'
             },
@@ -57,7 +61,6 @@
         var promise = feedId ? feedHttp.getFeedEdit(feedId) : feedHttp.getEmptyFeed();
         promise.then(function(feed) {
             vm.feedItemSections = feed;
-
             //set analysis list
             vm.feedItem.analysis = _.map(feed[0].subSections, function(subSection) {
                 return subSection.initialItem;
@@ -78,23 +81,19 @@
 
         vm.onAnalysisAdd = function() {
 
-            // copy current 
-            var newAnalysis = _.clone(vm.currentAnalysis);
-            delete newAnalysis._id;
+            feedHttp.getEmptyAnalysis().then(function (newAnalysis) {
+                // if no any analysis
+                if (vm.feedItem.analysis && vm.feedItem.analysis.length) {
+                    var max = _.maxBy(vm.feedItem.analysis, 'number');
+                    newAnalysis.number = max.number + 1;
+                    vm.feedItem.analysis.push(newAnalysis);
+                }
 
-            var max = _.maxBy(vm.feedItem.analysis, 'number');
-            newAnalysis.number = max.number + 1;
-            vm.feedItem.analysis.push(newAnalysis);
-
-            var currentNumber = vm.currentAnalysis.number;
-
-            var section = _.clone(_.first(_.filter(vm.feedItemSections[0].subSections, function (subSection) {
-                return subSection.initialItem.number === currentNumber;
-            })));
-
-            vm.feedItemSections[0].subSections.push({
-                controls: section.controls,
-                initialItem: newAnalysis
+                vm.feedItemSections[0].subSections.push(newAnalysis);
+                //set analysis list
+                vm.feedItem.analysis = _.map(vm.feedItemSections[0].subSections, function(subSection) {
+                    return subSection.initialItem;
+                });
             });
         };
         vm.onAnalysisSelect = function(item) {

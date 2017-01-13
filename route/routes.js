@@ -239,7 +239,7 @@ module.exports = function(app) {
                     _id: feed._id,
                     feedType: (feed.general.feedType === 'none' ? 
                         '' : lang(feed.general.feedType)),
-                    field: 'Поле: ' + feed.general.field
+                    field: feed.general.field ? ('Поле: ' + feed.general.field) : undefined
                 });
             });
             res.json(shortFeeds);
@@ -309,6 +309,16 @@ module.exports = function(app) {
     app.post('/api/feeds/new', isAuthenticated, function(req, res) {
         res.json(edit());
     });
+
+    // get analysis skeleton
+    app.post('/api/feeds/newAnalysis', isAuthenticated, function(req, res) {
+        
+        var emptyFeed = Feed.getEmptyFeed();
+        var editEmptyFeed = edit(emptyFeed);
+        var analysisSubSection = editEmptyFeed[0].subSections[0];
+        res.status(200).json(analysisSubSection);
+    });
+
     // get feeds diff
     app.post('/api/feeds/diff', isAuthenticated, function(req, res) {
         var feedIds = req.body.feedIds;
