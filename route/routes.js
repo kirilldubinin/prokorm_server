@@ -215,7 +215,26 @@ module.exports = function(app) {
                 return checkUserRightForFeed(f, req);
             });
 
-            var shortFeeds = _.map(feeds, function(feed) {
+            //sort
+            // all opened: true
+            // all closed: true
+            // all done: true
+
+            var opened = _.filter(feeds, function (f) {
+                return f.general.opened && !f.general.done;
+            });
+
+            var closed = _.filter(feeds, function (f) {
+                return !f.general.opened && !f.general.done;
+            });
+
+            var done = _.filter(feeds, function (f) {
+                return f.general.done;
+            });            
+
+            var sortedFeeds = _.concat(opened, closed, done);
+
+            var shortFeeds = _.map(sortedFeeds, function(feed) {
                 return _.merge({}, feed.general, {
                     _id: feed._id,
                     feedType: (feed.general.feedType === 'none' ? 
