@@ -53,6 +53,15 @@ var j = schedule.scheduleJob(rule, function(){
   console.log('The answer to life, the universe, and everything!');
 });
 
+var Feed = require('./models/feed');
+var balance = require('./feed/feed.balance');
+
+Feed.find().lean().exec(function(err, feeds) {
+    if (err) {
+        return errorHandler(err, req, res);
+    }
+    balance(feeds);
+});
 // routes ======================================================================
 require('./route/routes.js')(app);
 

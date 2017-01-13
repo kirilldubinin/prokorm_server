@@ -23,7 +23,7 @@
         }
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            vm.currentModule = newState.data.module;
+            vm.currentModule = newState.data && newState.data.module;
         });
     }
 })();

@@ -10,6 +10,7 @@ var Catalog = require('../models/catalog');
 var diff = require('../feed/feed.diff');
 var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
+var balance = require('../feed/feed.balance');
 var registration = require('../authentication/registration');
 var CustomStrategy = require('../authentication/local');
 var winston = require('winston');
@@ -149,6 +150,32 @@ module.exports = function(app) {
     });
     // feed =============================================
     // new feed
+
+    app.get('/api/feeds/dashboard', isAuthenticated, function (req, res) {
+        Feed.find({'createdBy.tenantId': req.user.tenantId, 'general.done': false}).lean().exec(function(err, feeds) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+
+            // double check
+            feeds = _.filter(feeds, function (f) {
+                return checkUserRightForFeed(f, req);
+            });
+
+            res.status(200).json({
+                balance: balance(feeds),
+                noAnalysis: _.map(_.filter(feeds, function (f) {
+                    return !f.analysis.length;
+                }), function (f) {
+                    return {
+                        _id: f._id,
+                        label: f.general.name + ' ' + f.general.year,
+                        url: ('/#/farm/' + req.user.tenantName + '/feed/' + f._id)
+                    };
+                })
+            });
+        });
+    });
     app.post('/api/feeds', isAuthenticated, function(req, res) {
 
         var feed = new Feed();

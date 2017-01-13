@@ -96,7 +96,8 @@
         data: {
           module: 'feed'
         }
-      }).state('farm.instance.feed.diff', {
+      })
+      .state('farm.instance.feed.diff', {
         url: '/diff/:feeds',
         templateUrl: 'app/feed/diff/diff.html',
         controller: 'DiffController',
@@ -106,7 +107,19 @@
         },data: {
           module: 'feed'
         }
-      }).state('farm.instance.feed.new', {
+      })
+      .state('farm.instance.feed.average', {
+        url: '/average/:feeds',
+        templateUrl: 'app/feed/average/average.html',
+        controller: 'AverageController',
+        controllerAs: 'average',
+        params: {
+          feeds: undefined
+        },data: {
+          module: 'feed'
+        }
+      })
+      .state('farm.instance.feed.new', {
         url: '/new',
         templateUrl: 'app/feed/feedEdit/feedEdit.html',
         controller: 'FeedEditController',

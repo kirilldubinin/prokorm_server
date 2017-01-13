@@ -40,8 +40,7 @@
                   opened: feedItem.opened,
                   selected: (feedItem === feed.selectedItem || feed.diffFeeds.indexOf(feedItem._id) > -1), 
                   inDiff: feed.inDiff(feedItem)
-                }" 
-            ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems">
+                }" ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems">
                 <div class="md-list-item-text">
                     <div layout="row">
                         <p class="title" flex="">
@@ -80,13 +79,63 @@
         </md-list>
     </md-card>
     <md-card class="dashboard" flex="80" md-theme="default" md-theme-watch="" ui-view="">
-        <md-content flex="" layout-padding="">
+        <md-content layout-padding="">
             <md-button class="md-primary" md-no-ink="">
                 Добавить корм
             </md-button>
             <md-button class="md-primary" md-no-ink="">
                 Сравнить корма
             </md-button>
+
+            <div layout="row">
+                <md-card layout-padding="16" class="dashboard-card dashboard-balance" flex="50">
+                    <h2>
+                        Доступные корма
+                    </h2>
+                    <ul class="balance-list" ng-repeat="balance in feed.dashboard.balance">
+                        <li>
+                            <div>
+                                <label>
+                                    {{balance.label}}
+                                </label>
+                                <label class="balance-percent">
+                                    ({{balance.balancePercent}} %)
+                                </label>
+                                <span class="weight-control" ng-class="{opened: balance.balance !== balance.total}">
+                                    <span class="balance">
+                                        {{balance.balance}}
+                                    </span>
+                                    <span class="total">
+                                        {{balance.total}}
+                                    </span>
+                                </span>
+                            </div>
+                            <ul class="composition">
+                                <li class="composition-item" ng-repeat="composition in balance.byComposition">
+                                    {{composition.label}}
+                                    <span class="weight-control" ng-class="{opened: composition.balance !== composition.total}">
+                                        <span class="balance">
+                                            {{composition.balance}}
+                                        </span>
+                                        <span class="total">
+                                            {{composition.total}}
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </md-card>
+                <md-card layout-padding="" class="dashboard-card dashboard-no-analysis" flex="50">
+                    <h2>
+                        Корма без анализов
+                    </h2>
+
+                    <a ng-repeat="noAnalysis in feed.dashboard.noAnalysis" ng-href="{{noAnalysis.url}}" >
+                        {{noAnalysis.label}}
+                    </a>
+                </md-card>
+            </div>
         </md-content>
     </md-card>
 </div>

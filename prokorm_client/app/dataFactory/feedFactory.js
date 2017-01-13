@@ -104,6 +104,9 @@ angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($h
     feedHttp.getFeeds = function() {
         return $http.get(urlBaseFeed);
     };
+    feedHttp.getFeedDashboard = function() {
+        return $http.get(urlBaseFeed + 'dashboard');
+    };
     feedHttp.saveFeed = function(feed) {
         var methode = feed._id ? 'put' : 'post';
         var url = feed._id ? (urlBaseFeed + feed._id) : urlBaseFeed

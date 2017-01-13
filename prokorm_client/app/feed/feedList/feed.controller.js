@@ -10,6 +10,10 @@
             vm.feedItems = feeds;
         });
 
+        feedHttp.getFeedDashboard().then(function(dashboard) {
+            vm.dashboard = dashboard;
+        });
+
         vm.inDiff = diff.inDiff;
 
         vm.openMenu = function($mdOpenMenu, ev) {
