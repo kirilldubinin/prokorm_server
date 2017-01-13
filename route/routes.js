@@ -152,7 +152,11 @@ module.exports = function(app) {
     // new feed
 
     app.get('/api/feeds/dashboard', isAuthenticated, function (req, res) {
-        Feed.find({'createdBy.tenantId': req.user.tenantId, 'general.done': false}).lean().exec(function(err, feeds) {
+
+        var currentYear = new Date().getFullYear();
+        var prevYear = currentYear - 1;
+
+        Feed.find({'createdBy.tenantId': req.user.tenantId, 'general.year': { $in: [prevYear, currentYear] }}).lean().exec(function(err, feeds) {
             if (err) {
                 return errorHandler(err, req, res);
             }
@@ -163,7 +167,7 @@ module.exports = function(app) {
             });
 
             res.status(200).json({
-                balance: balance(feeds),
+                balance: balance(feeds, [prevYear, currentYear]),
                 noAnalysis: _.map(_.filter(feeds, function (f) {
                     return !f.analysis.length;
                 }), function (f) {

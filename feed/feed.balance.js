@@ -3,7 +3,7 @@ var lang = require('./lang');
 var dimension = require('./dimension');
 var Feed = require('../models/feed');
 
-function convert(feeds, sessionData) {
+function convert(feeds) {
 
     var byFeedType = _.map(feeds, 'general');
     byFeedType = _.groupBy(byFeedType, 'feedType');
