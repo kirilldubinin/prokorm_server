@@ -46,7 +46,7 @@
                         <p class="title" flex="">
                             {{feedItem.name}}
                         </p>
-                        <span class="weight weight-control" ng-class="{opened: feedItem.opened}">
+                        <span class="weight weight-control" ng-class="{opened: feedItem.opened, done: feedItem.done}">
                             <span class="balance">
                                 {{feedItem.balanceWeight}}
                             </span>
@@ -94,7 +94,7 @@
             <div layout="row">
                 <md-card ng-if="feed.dashboard.balance.length" layout-padding="16" class="dashboard-card dashboard-balance" flex="50">
                     <h2>
-                        Доступные корма
+                        Доступные корма ({{feed.dashboard.years}})
                     </h2>
                     <ul class="balance-list" ng-repeat="balance in feed.dashboard.balance">
                         <li>

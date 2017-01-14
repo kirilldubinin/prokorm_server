@@ -13,6 +13,8 @@
     .feed-view .feed-title .actions {
       line-height: 58px;
       text-align: right; }
+    .feed-view .feed-title.done h2 {
+      color: #999; }
   .feed-view .feed-composition {
     padding-left: 2px;
     font-size: 20px; }

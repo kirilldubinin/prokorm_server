@@ -19,6 +19,12 @@
 			line-height: 58px;
     		text-align: right;
 		}
+
+		&.done {
+			h2 {
+				color: #999;
+			}
+		}
 	}
 
 	.feed-composition {

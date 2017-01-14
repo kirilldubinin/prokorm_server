@@ -167,6 +167,7 @@ module.exports = function(app) {
             });
 
             res.status(200).json({
+                years: [prevYear, currentYear].join('-'),
                 balance: balance(feeds, [prevYear, currentYear]),
                 noAnalysis: _.map(_.filter(feeds, function (f) {
                     return !f.analysis.length;
