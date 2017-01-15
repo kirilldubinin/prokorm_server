@@ -156,9 +156,15 @@
 		    h2 {
 		    	border-bottom: 3px solid #FF9800;
 			    padding-bottom: 4px;
-			    margin-bottom: 20px;
+			    margin-bottom: 10px;
 		    }
 
+		    md-radio-group {
+		    	margin-bottom: 10px;
+
+		    	.md-label {
+		    	}
+		    }
 		}
 
 		.dashboard-balance {

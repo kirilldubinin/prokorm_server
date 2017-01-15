@@ -99,11 +99,16 @@
             </md-button>
 
             <div layout="row">
-                <md-card ng-if="feed.dashboard.balance.length" layout-padding="16" class="dashboard-card dashboard-balance" flex="50">
+                <md-card ng-if="feed.dashboard.balance.byFeedType.length" layout-padding="16" class="dashboard-card dashboard-balance" flex="50">
                     <h2>
                         Доступные корма ({{feed.dashboard.years}})
                     </h2>
-                    <ul class="balance-list" ng-repeat="balance in feed.dashboard.balance">
+                    <md-radio-group class="md-primary" layout="row" ng-model="feed.dashboard.balance.current">
+                      <md-radio-button value="byFeedType" > По типу </md-radio-button>
+                      <md-radio-button value="byComposition">По составу</md-radio-button>
+                    </md-radio-group>
+
+                    <ul ng-show="feed.dashboard.balance.current === 'byFeedType'" class="balance-list" ng-repeat="balance in feed.dashboard.balance.byFeedType">
                         <li>
                             <div>
                                 <label>
@@ -123,6 +128,39 @@
                             </div>
                             <ul class="composition">
                                 <li class="composition-item" ng-repeat="composition in balance.byComposition">
+                                    {{composition.label}}
+                                    <span class="weight-control" ng-class="{opened: composition.balance !== composition.total}">
+                                        <span class="balance">
+                                            {{composition.balance}}
+                                        </span>
+                                        <span class="total">
+                                            {{composition.total}}
+                                        </span>
+                                    </span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <ul ng-show="feed.dashboard.balance.current === 'byComposition'" class="balance-list" ng-repeat="balance in feed.dashboard.balance.byComposition">
+                        <li>
+                            <div>
+                                <label>
+                                    {{balance.label}}
+                                </label>
+                                <label class="balance-percent">
+                                    ({{balance.balancePercent}} %)
+                                </label>
+                                <span class="weight-control" ng-class="{opened: balance.balance !== balance.total}">
+                                    <span class="balance">
+                                        {{balance.balance}}
+                                    </span>
+                                    <span class="total">
+                                        {{balance.total}}
+                                    </span>
+                                </span>
+                            </div>
+                            <ul class="composition">
+                                <li class="composition-item" ng-repeat="composition in balance.byFeedType">
                                     {{composition.label}}
                                     <span class="weight-control" ng-class="{opened: composition.balance !== composition.total}">
                                         <span class="balance">

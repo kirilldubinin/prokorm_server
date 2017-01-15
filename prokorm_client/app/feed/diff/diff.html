@@ -1,5 +1,5 @@
 <div class="diff-card">
-  <div layout="row" class="diff-title">
+  <div ng-if="diff.diffRows.length" layout="row" class="diff-title">
     <h2 flex="25">Сравнение</h2>
     <div flex class="feed-header" ng-repeat="header in diff.headers">
       {{header.name}} <b>{{header.year}}</b>
@@ -9,10 +9,12 @@
     </div>
   </div>
   <div class="diff-dashboard" layout="row">
-    <ul flex class="property-list">
-
+    <h2 class="empty-select-message" ng-if="!diff.diffRows.length">
+      Выберите корма из списка для сравнения. 
+    </h2>
+    <ul ng-if="diff.diffRows.length" flex class="property-list">
       <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in diff.diffRows">
-
+        
         <h4 class="root-property">
           {{property.label}}
           <a href="#" ng-click="property.hidden = !property.hidden">

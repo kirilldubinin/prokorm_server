@@ -21,6 +21,8 @@
   .average-card .average-dashboard {
     height: calc(100% - 75px);
     overflow: auto; }
+    .average-card .average-dashboard .empty-select-message {
+      margin: auto; }
     .average-card .average-dashboard ul, .average-card .average-dashboard li {
       list-style-type: none;
       margin: 0;

@@ -28,6 +28,11 @@
     }
 
 	.average-dashboard {
+
+		.empty-select-message {
+			margin: auto;
+		}
+
 		height: calc(100% - 75px);
 		overflow: auto;
 		ul, li {

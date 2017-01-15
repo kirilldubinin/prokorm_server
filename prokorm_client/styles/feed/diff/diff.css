@@ -21,6 +21,8 @@
   .diff-card .diff-dashboard {
     height: calc(100% - 75px);
     overflow: auto; }
+    .diff-card .diff-dashboard .empty-select-message {
+      margin: auto; }
     .diff-card .diff-dashboard ul, .diff-card .diff-dashboard li {
       list-style-type: none;
       margin: 0;

@@ -98,7 +98,9 @@
     .feed .dashboard .dashboard-card h2 {
       border-bottom: 3px solid #FF9800;
       padding-bottom: 4px;
-      margin-bottom: 20px; }
+      margin-bottom: 10px; }
+    .feed .dashboard .dashboard-card md-radio-group {
+      margin-bottom: 10px; }
   .feed .dashboard .dashboard-balance .balance-list {
     padding-bottom: 4px;
     margin-bottom: 10px;
