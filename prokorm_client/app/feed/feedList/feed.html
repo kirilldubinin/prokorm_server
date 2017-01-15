@@ -31,6 +31,13 @@
                             Сравнить
                         </md-button>
                     </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="feed.goToAverage()">
+                            <ng-md-icon icon="view_array" style="fill: #888">
+                            </ng-md-icon>
+                            Средний
+                        </md-button>
+                    </md-menu-item>
                 </md-menu-content>
             </md-menu>
         </div>
@@ -38,7 +45,7 @@
             <md-list-item class="md-3-line feed-item" ng-class="{
                   done: feedItem.done,
                   opened: feedItem.opened,
-                  selected: (feedItem === feed.selectedItem || feed.diffFeeds.indexOf(feedItem._id) > -1), 
+                  selected: (feedItem === feed.selectedItem || feed.diffFeeds.indexOf(feedItem._id) > -1 || feed.averageFeeds.indexOf(feedItem._id) > -1), 
                   inDiff: feed.inDiff(feedItem)
                 }" ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems">
                 <div class="md-list-item-text">

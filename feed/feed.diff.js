@@ -8,8 +8,38 @@ var Feed = require('../models/feed');
 var lang = require('./lang');
 var dimension = require('./dimension');
 var _ = require('lodash');
-var propertyForRecalculate = ['milkAcid', 'aceticAcid', 'oilAcid', 'dve', 'oeb', 'vos', 'vcos', 'fos', 'nel', 'nelvc', 'exchangeEnergy', 'nxp', 'rnb', 'udp', 'crudeAsh', 'nh3', 'nitrates', 'crudeProtein', 'solubleCrudeProtein', 'crudeFat', 'sugar', 'starch', 'starchPasses', 'crudeFiber', 'ndf', 'adf', 'adl', 'calcium', 'phosphorus', 'carotene', ];
-
+var propertyForRecalculate = {
+    milkAcid: 'milkAcid',
+    aceticAcid: 'aceticAcid',
+    oilAcid: 'oilAcid',
+    dve: 'dve',
+    oeb: 'oeb',
+    vos: 'vos',
+    vcos: 'vcos',
+    fos: 'fos',
+    nel: 'nel',
+    nelvc: 'nelvc',
+    exchangeEnergy: 'exchangeEnergy',
+    nxp: 'nxp',
+    rnb: 'rnb',
+    udp: 'udp',
+    crudeAsh: 'crudeAsh',
+    nh3: 'nh3',
+    nitrates: 'nitrates',
+    crudeProtein: 'crudeProtein',
+    solubleCrudeProtein: 'solubleCrudeProtein',
+    crudeFat: 'crudeFat',
+    sugar: 'sugar',
+    starch: 'starch',
+    starchPasses: 'starchPasses',
+    crudeFiber: 'crudeFiber',
+    ndf: 'ndf',
+    adf: 'adf',
+    adl: 'adl',
+    calcium: 'calcium',
+    phosphorus: 'phosphorus',
+    carotene: 'carotene'
+};
 function convertValue(key, val) {
     if (key === 'feedType') {
         return lang(val);
@@ -102,9 +132,7 @@ function getDiff(feeds) {
                 // get property
                 if (lastProp) {
                     var dryWetValue = null;
-                    var canBerecalcalated = _.some(propertyForRecalculate, function(p) {
-                        return p === prop;
-                    });
+                    var canBerecalcalated = propertyForRecalculate[prop];
                     // get dry and wet value
                     if (canBerecalcalated) {
                         _.forEach(lastProp.analysis.dryMaterial.values[feedIndex], function(val, index1) {
@@ -113,10 +141,15 @@ function getDiff(feeds) {
                             var calcRaw = Math.round(lastValue[index1] * dryMaterial * 100) / 100;
                             var calcDry = Math.round((lastValue[index1] / dryMaterial * 100)) / 100;
                             !dryWetValue && (dryWetValue = []);
-                            dryWetValue.push({
-                                dryValue: isNaturalWet ? calcDry : lastValue[index1],
-                                rawValue: isNaturalWet ? lastValue[index1] : calcRaw
-                            });
+
+                            if (_.isNumber(calcDry) && _.isNumber(calcRaw) && _.isNumber(lastValue[index1])){
+                                dryWetValue.push({
+                                    dryValue: isNaturalWet ? calcDry : lastValue[index1],
+                                    rawValue: isNaturalWet ? lastValue[index1] : calcRaw
+                                });
+                            } else {
+                                dryWetValue.push(null);
+                            }
                         });
                     }
                     if (!lastProp[props[index - 1]][prop]) {

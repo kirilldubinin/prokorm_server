@@ -128,11 +128,11 @@ angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($h
         return $http.delete(urlBaseFeed + feedId);
     };
     feedHttp.diffFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'diff', {
-            feedIds: feedIds
-        });
+        return $http.post(urlBaseFeed + 'diff', {feedIds: feedIds});
     };
-
+    feedHttp.averageFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
+    };
     // catalog
     feedHttp.getCatalog = function () {
         return $http.get(urlBase + 'catalog');

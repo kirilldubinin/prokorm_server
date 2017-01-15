@@ -9,25 +9,25 @@
         vm._ = _;
 
         var feeds = $stateParams.feeds;
-    	function updateDiffRows(feedsForDiff) {
+    	function updateAverageRows(feedsForAverage) {
 
-    		if (!feedsForDiff.length) {
-    			vm.diffRows = [];
+    		if (!feedsForAverage.length) {
+    			vm.averageRows = [];
                 vm.headers = [];
     			return;
     		}
 
-    		feedHttp.diffFeeds(feedsForDiff).then(function (result) {
-
+    		feedHttp.averageFeeds(feedsForAverage).then(function (result) {
                 vm.dryRawValues = result.dryRawValues;
                 vm.headers = result.headers;
-                vm.diffRows = result.diffs;
+                vm.analysisRows = result.analysis;
+                vm.averageRows = result.average;
     		});
     	}	
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             if (newState.name === 'farm.instance.feed.average') {
-                updateDiffRows(params.feeds.split(':'));
+                updateAverageRows(params.feeds.split(':'));
             }
         });
     }

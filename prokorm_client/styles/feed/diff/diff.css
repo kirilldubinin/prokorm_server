@@ -3,7 +3,9 @@
   height: 100%;
   overflow: hidden; }
   .diff-card .feed-header {
-    padding-top: 12px; }
+    padding-top: 12px;
+    text-align: right;
+    padding-right: 30px; }
     .diff-card .feed-header .feed-composition {
       font-size: 12px; }
     .diff-card .feed-header .feed-storage {

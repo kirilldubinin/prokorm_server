@@ -36,14 +36,14 @@
             diff.clear();
             $state.go('farm.instance.feed.diff');
         };
-        vm.goTAverage = function() {
+        vm.goToAverage = function() {
             vm.selectedItem = null;
             diff.clear();
             $state.go('farm.instance.feed.average');
         };
 
         vm.onFeedClick = function(feedItem) {
-            if (vm.isDiffMode) {
+            if (vm.isDiffMode || vm.isAverageMode) {
 
                 var currentFeeds = _.filter($state.params.feeds.split(':'), function (o) { return o; });
                 var ind = currentFeeds.indexOf(feedItem._id);
@@ -54,7 +54,7 @@
                     currentFeeds.push(feedItem._id);
                 }
 
-                $state.go('farm.instance.feed.diff', {
+                $state.go('farm.instance.feed.' + (vm.isDiffMode ? 'diff' : 'average'), {
                   'feeds': currentFeeds.join(':')
                 });
                 //diff.toggleFeed(feedItem);
@@ -70,12 +70,17 @@
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             vm.isDiffMode = newState.name === 'farm.instance.feed.diff';
-            
+            vm.isAverageMode = newState.name === 'farm.instance.feed.average';
+            vm.diffFeeds = null;
+            vm.averageFeeds = null;
             // update list after switch to diff mode
             if (vm.isDiffMode) {
                 vm.selectedItem = null;
                 vm.diffFeeds = params.feeds.split(':');
-            } 
+            } else if (vm.isAverageMode) {
+                vm.selectedItem = null;
+                vm.averageFeeds = params.feeds.split(':');
+            }
             else if (newState.name === 'farm.instance.feed') {
                 feedHttp.getFeedDashboard().then(function(dashboard) {
                     vm.dashboard = dashboard;
@@ -85,7 +90,6 @@
             else if (newState.name === 'farm.instance.feed' || oldState.name === 'farm.instance.feed.edit' || 
                         (oldState.name === 'farm.instance.feed.new' && 
                         newState.name === 'farm.instance.feed.instance')) {
-                vm.diffFeeds = null;
                 feedHttp.getFeeds().then(function(feeds) {
                     vm.feedItems = feeds;
                 });

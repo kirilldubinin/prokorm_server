@@ -8,6 +8,7 @@ var User = require('../models/user');
 var Catalog = require('../models/catalog');
 // helpers =====================================================================
 var diff = require('../feed/feed.diff');
+var average = require('../feed/feed.average');
 var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
@@ -336,11 +337,28 @@ module.exports = function(app) {
                 return checkUserRightForFeed(f, req);
             });
 
-            res.json(diff(feeds));
+            res.status(200).json(diff(feeds));
         }, function(err) {
             res.send(err);
         });
     });
+
+    // get feeds average
+    app.post('/api/feeds/average', isAuthenticated, function(req, res) {
+        var feedIds = req.body.feedIds;
+        var promises = _.map(feedIds, function(feedId) {
+            return Feed.findById(feedId);
+        });
+        Q.all(promises).then(function(feeds) {
+            feeds = _.filter(feeds, function(f) {
+                return checkUserRightForFeed(f, req);
+            });
+            
+            res.status(200).json(average(feeds));
+        }, function(err) {
+            res.send(err);
+        });
+    });    
 
     // catalog =====================================================
     app.get('/api/catalog', isAuthenticated, function (req, res) {

@@ -1,7 +1,7 @@
 <div class="average-card">
   <div layout="row" class="average-title">
-    <h2 flex="25">Среднее</h2>
-    <div flex class="feed-header" ng-repeat="header in diff.headers">
+    <h2 flex="25"></h2>
+    <div flex class="feed-header" ng-repeat="header in average.headers">
       {{header.name}} <b>{{header.year}}</b>
       <br/>
       <span class="feed-composition">{{header.composition}},</span>
@@ -10,42 +10,35 @@
   </div>
   <div class="average-dashboard" layout="row">
     <ul flex class="property-list">
-      <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in diff.diffRows">
+      <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in average.analysisRows">
         <h4 class="root-property">
           {{property.label}}
-          <a href="#" ng-click="property.hidden = !property.hidden">
-            {{ property.hidden ? 'показать' : 'скрыть' }}
-          </a>
         </h4>
-
         <ul ng-if="property.children && !property.hidden">
-
           <li class="property-values" ng-repeat="child in property.children" ng-switch="child.key" layout="row">
-            
             <span flex="25" class="property-label">{{child.label}} {{child.dimension}}</span>  
 
-            <span ng-class-odd="'odd'" ng-class-even="'even'" flex class="property-value" ng-repeat="value in child.values" layout="row" ng-init="valueIdx = $index">
+            <span flex class="property-value" ng-repeat="value in child.values" layout="row" ng-init="valueIdx = $index">
+              
               <!-- DRY Control -->
-              <span flex ng-if="child.key === 'isNaturalWet'" ng-repeat="v in diff.dryRawValues[valueIdx] track by $index">
-                <md-checkbox class="md-primary dry-switch" ng-model="diff.dryRawValues[valueIdx][$index]">
-                  ({{ diff.dryRawValues[valueIdx][$index] ? 'Да' : 'Нет' }})
+              <span flex ng-if="child.key === 'isNaturalWet'" ng-repeat="v in average.dryRawValues[valueIdx] track by $index">
+                <md-checkbox class="md-primary dry-switch" ng-model="average.dryRawValues[valueIdx][$index]">
+                  ({{ average.dryRawValues[valueIdx][$index] ? 'Да' : 'Нет' }})
                 </md-checkbox>
               </span> 
-
-              <span flex ng-if="child.key !== 'isNaturalWet'" 
-              ng-class="{max: child.maxDryValue === v.dryValue || child.maxDryValue === v }" ng-repeat="v in value track by $index">
+              <span ng-class="{'is-number': average._.isNumber(v) || average._.isNumber(v.dryValue) || average._.isNumber(v.rawValue)}" flex ng-if="child.key !== 'isNaturalWet'"  ng-repeat="v in value track by $index">
                 {{
-                  (diff._.isNumber(v.dryValue) || diff._.isNumber(v.rawValue)) ? 
-                  (diff.dryRawValues[valueIdx][$index] ? v.rawValue : v.dryValue) :
-                  (diff._.isObject(v) ? '' : v)
+                  (average._.isNumber(v.dryValue) || average._.isNumber(v.rawValue)) ? 
+                  (average.dryRawValues[valueIdx][$index] ? v.rawValue : v.dryValue) :
+                  (average._.isObject(v) ? '' : v)
                 }}
               </span>
-            </span>  
+            </span> 
           </li>
         </ul>
       </li>
 
-      <li class="property-row" ng-if="property.key !== 'analysis'" ng-repeat="property in diff.diffRows">
+      <li class="property-row" ng-if="property.key !== 'analysis'" ng-repeat="property in average.analysisRows">
         <h4 class="root-property">
           {{property.label}}
           <a href="#" ng-click="property.hidden = !property.hidden">

@@ -1,10 +1,12 @@
-.diff-card {
+.average-card {
 	padding: 0 20px;
     height: 100%;
     overflow: hidden;
 
     .feed-header {
     	padding-top: 12px;
+	    text-align: right;
+	    padding-right: 30px;
     	.feed-composition {
     		font-size: 12px;
     	}
@@ -13,7 +15,7 @@
     	}
     }
     
-    .diff-title {
+    .average-title {
     	color: #3F51B5;
 	    font-size: 20px;
 	    padding-bottom: 12px;
@@ -25,7 +27,7 @@
 	    }
     }
 
-	.diff-dashboard {
+	.average-dashboard {
 		height: calc(100% - 75px);
 		overflow: auto;
 		ul, li {
@@ -71,11 +73,6 @@
 				.property-label {
 					border-bottom: 1px solid #FF9800;
 				}
-
-				.max {
-			    	font-weight: bold;
-			    	color: #FF9800;
-			    }
 			}
 			.property-value {
 				color: #333;
@@ -92,6 +89,12 @@
 			    .dry-switch {
 			    	padding: 0;
 			    	margin: 0;
+			    }
+
+			    &:last-child {
+			    	.is-number {
+			    		font-weight: 600;
+			    	}
 			    }
 			}
 		}
