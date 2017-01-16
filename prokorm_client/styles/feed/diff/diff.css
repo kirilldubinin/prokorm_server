@@ -19,7 +19,7 @@
       margin-top: 12px;
       font-size: 18px; }
   .diff-card .diff-dashboard {
-    height: calc(100% - 75px);
+    /*height: calc(100% - 75px);*/
     overflow: auto; }
     .diff-card .diff-dashboard .empty-select-message {
       margin: auto; }

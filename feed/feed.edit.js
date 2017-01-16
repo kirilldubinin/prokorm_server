@@ -1,22 +1,8 @@
 var _ = require('lodash');
 var lang = require('./lang');
+var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
 var Feed = require('../models/feed');
-var disabledFields = {
-    'analysis.number': 'disabled'
-};
-
-var enumFields = {
-    'general.feedType': 'enum'
-};
-
-var dateFields = {
-    'analysis.date': 'date',
-    'harvest.start': 'date',
-    'harvest.end': 'date',
-    'feeding.start': 'date',
-    'feeding.end': 'date'
-};
 
 function convertToControl(item, parentKey) {
 
@@ -25,11 +11,11 @@ function convertToControl(item, parentKey) {
         if (item.hasOwnProperty(key)) {
             editObj[key] = {
 
-                isEnum: enumFields[parentKey + '.' + key],
+                isEnum: feedUtils.enumFields[parentKey + '.' + key],
                 isNumber: _.isNumber(value),
                 isBoolean: value === true || value === false,
-                isDisabled: disabledFields[parentKey + '.' + key],
-                isDate: dateFields[parentKey + '.' + key],
+                isDisabled: feedUtils.disabledFields[parentKey + '.' + key],
+                isDate: feedUtils.dateFields[parentKey + '.' + key],
 
                 label: lang(key),
                 dimension: dimension(key),

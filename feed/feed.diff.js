@@ -6,40 +6,9 @@
  */
 var Feed = require('../models/feed');
 var lang = require('./lang');
+var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
 var _ = require('lodash');
-var propertyForRecalculate = {
-    milkAcid: 'milkAcid',
-    aceticAcid: 'aceticAcid',
-    oilAcid: 'oilAcid',
-    dve: 'dve',
-    oeb: 'oeb',
-    vos: 'vos',
-    vcos: 'vcos',
-    fos: 'fos',
-    nel: 'nel',
-    nelvc: 'nelvc',
-    exchangeEnergy: 'exchangeEnergy',
-    nxp: 'nxp',
-    rnb: 'rnb',
-    udp: 'udp',
-    crudeAsh: 'crudeAsh',
-    nh3: 'nh3',
-    nitrates: 'nitrates',
-    crudeProtein: 'crudeProtein',
-    solubleCrudeProtein: 'solubleCrudeProtein',
-    crudeFat: 'crudeFat',
-    sugar: 'sugar',
-    starch: 'starch',
-    starchPasses: 'starchPasses',
-    crudeFiber: 'crudeFiber',
-    ndf: 'ndf',
-    adf: 'adf',
-    adl: 'adl',
-    calcium: 'calcium',
-    phosphorus: 'phosphorus',
-    carotene: 'carotene'
-};
 function convertValue(key, val) {
     if (key === 'feedType') {
         return lang(val);
@@ -80,7 +49,7 @@ function convertToControl(item, code) {
                         }
                     });
                 } else {
-                    return !_.isNull(value);
+                    return !_.isNull(values);
                 }
                 
             });
@@ -132,7 +101,7 @@ function getDiff(feeds) {
                 // get property
                 if (lastProp) {
                     var dryWetValue = null;
-                    var canBerecalcalated = propertyForRecalculate[prop];
+                    var canBerecalcalated = feedUtils.propertyForRecalculate[prop];
                     // get dry and wet value
                     if (canBerecalcalated) {
                         _.forEach(lastProp.analysis.dryMaterial.values[feedIndex], function(val, index1) {
@@ -171,8 +140,6 @@ function getDiff(feeds) {
         });
     });
 
-    console.log(result.diff['analysis']);
-    
     var diffs = [{
         label: lang('general'),
         key: 'general',
@@ -188,7 +155,7 @@ function getDiff(feeds) {
     }, {
         label: lang('feeding'),
         key: 'feeding',
-        children: convertToControl(result.diff['feeding'])
+        children: convertToControl(result.diff['feeding'], 'feeding')
     }];
     return {
         dryRawValues: result.dryRawValues,

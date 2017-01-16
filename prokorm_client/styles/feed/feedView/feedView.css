@@ -24,12 +24,11 @@
     border-bottom: 3px solid #FF9800;
     padding-bottom: 8px;
     text-transform: uppercase;
-    /* font-weight: bold; */
     color: #212121;
     text-align: center;
     margin-bottom: 6px; }
   .feed-view .feed-view-content {
-    height: calc(100% - 126px);
+    /*height: calc(100% - 126px);*/
     overflow: auto; }
   .feed-view .feed-properties {
     width: 100%;

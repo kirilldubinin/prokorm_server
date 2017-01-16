@@ -12,6 +12,7 @@ var average = require('../feed/feed.average');
 var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
+//var perDay = require('../feed/feed.perDay');
 var registration = require('../authentication/registration');
 var CustomStrategy = require('../authentication/local');
 var winston = require('winston');
@@ -170,6 +171,7 @@ module.exports = function(app) {
             res.status(200).json({
                 years: [prevYear, currentYear].join('-'),
                 balance: balance(feeds, [prevYear, currentYear]),
+                //perDay: perDay(feeds),
                 noAnalysis: _.map(_.filter(feeds, function (f) {
                     return !f.analysis.length;
                 }), function (f) {
@@ -353,7 +355,7 @@ module.exports = function(app) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-            
+
             res.status(200).json(average(feeds));
         }, function(err) {
             res.send(err);

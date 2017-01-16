@@ -38,9 +38,8 @@
 		}
 
 		&.done{
-			border: none;
-			color: #999;
-			padding-top: 4px;
+		    color: #999;
+		    border-color: #999;
 			.left {
 				display: none;
 			}
@@ -48,9 +47,9 @@
 				display: none;
 			}
 			.total {
-				color: #999;
-				background-color: transparent;
-				padding: 0;
+				color: #f0f0f0;
+			    background-color: #999;
+			    padding: 1px 10px;
 			}
 		}
 	}

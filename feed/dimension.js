@@ -1,5 +1,8 @@
 function dimension(key) {
 	var dimensionObj = {
+
+        price: 'руб/кг',
+
         dryMaterial: '%',
 
         // general

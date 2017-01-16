@@ -1,14 +1,8 @@
 var _ = require('lodash');
 var lang = require('./lang');
+var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
 var Feed = require('../models/feed');
-var dateFields = {
-    'analysis.date': 'date',
-    'harvest.start': 'date',
-    'harvest.end': 'date',
-    'feeding.start': 'date',
-    'feeding.end': 'date'
-};
 
 function convertValue(key, val) {
     if (key === 'feedType') {
@@ -38,38 +32,6 @@ function convertToControl(item) {
     });
     return viewObj;
 };
-var propertyForRecalculate = {
-    milkAcid: 'milkAcid',
-    aceticAcid: 'aceticAcid',
-    oilAcid: 'oilAcid',
-    dve: 'dve',
-    oeb: 'oeb',
-    vos: 'vos',
-    vcos: 'vcos',
-    fos: 'fos',
-    nel: 'nel',
-    nelvc: 'nelvc',
-    exchangeEnergy: 'exchangeEnergy',
-    nxp: 'nxp',
-    rnb: 'rnb',
-    udp: 'udp',
-    crudeAsh: 'crudeAsh',
-    nh3: 'nh3',
-    nitrates: 'nitrates',
-    crudeProtein: 'crudeProtein',
-    solubleCrudeProtein: 'solubleCrudeProtein',
-    crudeFat: 'crudeFat',
-    sugar: 'sugar',
-    starch: 'starch',
-    starchPasses: 'starchPasses',
-    crudeFiber: 'crudeFiber',
-    ndf: 'ndf',
-    adf: 'adf',
-    adl: 'adl',
-    calcium: 'calcium',
-    phosphorus: 'phosphorus',
-    carotene: 'carotene'
-};
 var propertyWithHelp = {
     milkAcid: 'milkAcid'
 };
@@ -81,7 +43,7 @@ function convert(feed, sessionData) {
         _.each(firstAnalys, function(value, key) {
             // check if value not empty
             if (key !== '_id') {
-                var canBerecalcalated = propertyForRecalculate[key];
+                var canBerecalcalated = feedUtils.propertyForRecalculate[key];
                 var values = _.map(feed.analysis, function(a) {
                     var initialValue = a[key];
                     if (canBerecalcalated) {

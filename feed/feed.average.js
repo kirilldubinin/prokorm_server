@@ -6,75 +6,9 @@
  */
 var Feed = require('../models/feed');
 var lang = require('./lang');
+var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
 var _ = require('lodash');
-var propertyForRecalculate = {
-    milkAcid: 'milkAcid',
-    aceticAcid: 'aceticAcid',
-    oilAcid: 'oilAcid',
-    dve: 'dve',
-    oeb: 'oeb',
-    vos: 'vos',
-    vcos: 'vcos',
-    fos: 'fos',
-    nel: 'nel',
-    nelvc: 'nelvc',
-    exchangeEnergy: 'exchangeEnergy',
-    nxp: 'nxp',
-    rnb: 'rnb',
-    udp: 'udp',
-    crudeAsh: 'crudeAsh',
-    nh3: 'nh3',
-    nitrates: 'nitrates',
-    crudeProtein: 'crudeProtein',
-    solubleCrudeProtein: 'solubleCrudeProtein',
-    crudeFat: 'crudeFat',
-    sugar: 'sugar',
-    starch: 'starch',
-    starchPasses: 'starchPasses',
-    crudeFiber: 'crudeFiber',
-    ndf: 'ndf',
-    adf: 'adf',
-    adl: 'adl',
-    calcium: 'calcium',
-    phosphorus: 'phosphorus',
-    carotene: 'carotene'
-};
-
-var propertyForAverage = {
-    dryMaterial: 'milkAcid',
-    ph: 'milkAcid',
-    milkAcid: 'milkAcid',
-    aceticAcid: 'aceticAcid',
-    oilAcid: 'oilAcid',
-    dve: 'dve',
-    oeb: 'oeb',
-    vos: 'vos',
-    vcos: 'vcos',
-    fos: 'fos',
-    nel: 'nel',
-    nelvc: 'nelvc',
-    exchangeEnergy: 'exchangeEnergy',
-    nxp: 'nxp',
-    rnb: 'rnb',
-    udp: 'udp',
-    crudeAsh: 'crudeAsh',
-    nh3: 'nh3',
-    nitrates: 'nitrates',
-    crudeProtein: 'crudeProtein',
-    solubleCrudeProtein: 'solubleCrudeProtein',
-    crudeFat: 'crudeFat',
-    sugar: 'sugar',
-    starch: 'starch',
-    starchPasses: 'starchPasses',
-    crudeFiber: 'crudeFiber',
-    ndf: 'ndf',
-    adf: 'adf',
-    adl: 'adl',
-    calcium: 'calcium',
-    phosphorus: 'phosphorus',
-    carotene: 'carotene'
-}
 
 function convertValue(key, val) {
     if (key === 'feedType') {
@@ -93,18 +27,21 @@ function convertToControl(item, code) {
         if (item.hasOwnProperty(key)) {
             // check if some values exist
             var some = _.some(value.values, function(values) {
+
                 if (_.isArray(values)) {
                     return _.some(values, function(value) {
                         if (_.isObject(value)) {
+
                             return _.isNumber(value.dryValue) && _.isNumber(value.rawValue);
                         } else {
                             return value || _.isBoolean(value) || _.isNumber(value);
                         }
                     });
                 } else {
-                    return !_.isNull(value);
+                    return !_.isNull(values);
                 }
             });
+
             if (some) {
                 result.push({
                     label: lang(key),
@@ -119,10 +56,6 @@ function convertToControl(item, code) {
 };
 
 function getAverage(feeds) {
-
-    console.log(feeds[0].general.name);
-    console.log(feeds[0].general.balanceWeight);
-    console.log(_(feeds).map('general').sumBy('balanceWeight'));
 
     var rows = [];
     var allProps = Feed.getSkeleton();
@@ -154,7 +87,7 @@ function getAverage(feeds) {
                 // get property
                 if (lastProp) {
                     var dryWetValue = null;
-                    var canBerecalcalated = propertyForRecalculate[prop];
+                    var canBerecalcalated = feedUtils.propertyForRecalculate[prop];
                     // get dry and wet value
                     if (canBerecalcalated) {
                         _.forEach(lastProp.analysis.dryMaterial.values[feedIndex], function(val, index1) {
@@ -195,12 +128,12 @@ function getAverage(feeds) {
     // add average
     _.forEach(result.average['analysis'], function(value, key) {
         // get avergae value
-        if (propertyForAverage[key]) {
+        if (feedUtils.propertyForAverage[key]) {
             var sum = null;
             var length = 0;
             _.forEach(value.values, function(values) {
                 _.forEach(values, function(value) {
-                    
+
                     if (_.isObject(value) && 
                         _.isNumber(value.dryValue) && 
                         _.isNumber(value.rawValue) && 
@@ -224,14 +157,11 @@ function getAverage(feeds) {
                     }
                 });
             });
-            if (!sum) {
-                sum = 1;
-            } 
             
             if (_.isObject(sum)) {
                 sum.dryValue = Math.round(sum.dryValue / length * 100) / 100,
                 sum.rawValue = Math.round(sum.rawValue / length * 100) / 100
-            } else {
+            } else if (_.isNumber(sum)) {
                 sum = Math.round(sum / length * 100) / 100;
             }
             value.values.push([sum]);
@@ -246,11 +176,7 @@ function getAverage(feeds) {
         children: convertToControl(result.average['analysis'], 'analysis')
     }];
 
-    result.dryRawValues.push([true])
-
-    console.log(feeds[0].general.name);
-    console.log(feeds[0].general.balanceWeight);
-
+    result.dryRawValues.push([true]);
     return {
         dryRawValues: result.dryRawValues,
         balance: _.sumBy(feeds, function(f) {

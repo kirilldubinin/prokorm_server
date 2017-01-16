@@ -12,6 +12,7 @@ function lang(key) {
         composition: 'Состав',
         year: 'Год',
         opened: 'Открыт',
+        price: 'Себестоимость',
         storage: 'Хранение',
         field: 'Поле',
         done: 'Закончено',
