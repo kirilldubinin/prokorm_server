@@ -1,5 +1,19 @@
 .catalog {
-	.catalog-list {
-		
+	height: 100%;
+	overflow: hidden;
+
+	.navigator {
+		height: calc(100% - 14px);
+    	margin-right: 0;
+    	
+    	.catalog-list {
+    		height: calc(100% - 60px);
+		    overflow: auto;
+		    padding-top: 0;
+    	}
+	}
+
+	.dashboard {
+		height: calc(100% - 14px);
 	}
 }

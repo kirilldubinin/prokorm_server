@@ -1,8 +1,13 @@
-<div class="catalog-view">
+<div class="catalog-view" layout="column">
     <div class="catalog-title" layout="row">
-        <h2 class="feed-name">
+        <h2 flex class="feed-name">
             {{catalogContent.catalogItem.short}}
         </h2>
+        <md-button class="md-raised" ng-click="catalogContent.edit()">
+	        Редактировать
+      	</md-button>
     </div>
-    <p class="catalog-content">{{catalogContent.catalogItem.content}}</p>
+    <div class="catalog-content">
+    	<pre flex class="catalog-content">{{catalogContent.catalogItem.content}}</pre>
+    </div>
 </div>

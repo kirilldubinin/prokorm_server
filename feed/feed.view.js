@@ -32,9 +32,6 @@ function convertToControl(item) {
     });
     return viewObj;
 };
-var propertyWithHelp = {
-    milkAcid: 'milkAcid'
-};
 
 function convert(feed, sessionData) {
     var analysisView = {};
@@ -73,7 +70,7 @@ function convert(feed, sessionData) {
                         values: values,
                         label: lang(key),
                         dimension: dimension(key),
-                        catalogLink: propertyWithHelp[key] ? ('/#/farm/' + sessionData.tenantName + '/catalog/' + propertyWithHelp[key]) : undefined
+                        catalogLink: feedUtils.propertyWithHelp[key] ? ('/#/farm/' + sessionData.tenantName + '/catalog/' + feedUtils.propertyWithHelp[key]) : undefined
                     }
                 }
             }
@@ -84,55 +81,59 @@ function convert(feed, sessionData) {
     var feedingView = convertToControl(feed.feeding);
     // sort field
     var goldFeed = Feed.getEmptyFeed();
-    var analysisSortView = Feed.sort(analysisView, 'analysis');
-    var generalSortView = Feed.sort(generalView, 'general');
-    var harvestSortView = Feed.sort(harvestView, 'harvest');
-    var feedingSortView = Feed.sort(feedingView, 'feeding');
-    
-    if (!feed.analysis.length) {
-        return {
-            general: feed.general,
-            feedItemSections: [{
-                width: 40,
-                label: lang('general'),
-                key: 'general',
-                controls: generalSortView
-            }, {
-                width: 30,
-                label: lang('harvest'),
-                key: 'harvest',
-                controls: harvestSortView
-            }, {
-                width: 30,
-                label: lang('feeding'),
-                key: 'feeding',
-                controls: feedingSortView
-            }]
-        };
-    }
-    return {
+    var analysisSortView = _.isEmpty(analysisView) ? null : Feed.sort(analysisView, 'analysis');
+    var generalSortView = _.isEmpty(generalView) ? null : Feed.sort(generalView, 'general');
+    var harvestSortView = _.isEmpty(harvestView) ? null : Feed.sort(harvestView, 'harvest');
+    var feedingSortView = _.isEmpty(feedingView) ? null : Feed.sort(feedingView, 'feeding');
+
+    var allViews = [analysisView, generalView, harvestView, feedingView];
+    allViews = _.filter(allViews, function(v) { return !_.isEmpty(v); });
+
+    var result = {
         general: feed.general,
-        feedItemSections: [{
+        feedItemSections: []
+    };
+    
+    // analysis
+    if (analysisSortView) {
+        result.feedItemSections.push({
             width: 40,
             label: lang('analysis'),
             key: 'analysis',
             controls: analysisSortView
-        }, {
-            width: 20,
+        });
+    }
+
+    // general, must have
+    if (generalSortView) {
+        result.feedItemSections.push({
+            width: Math.round(analysisSortView ? (100 - 40)/(allViews.length -1) : 100/allViews.length),
             label: lang('general'),
             key: 'general',
             controls: generalSortView
-        }, {
-            width: 20,
+        });
+    }
+
+    // harvest
+    if (harvestSortView) {
+        result.feedItemSections.push({
+            width: Math.round(analysisSortView ? (100 - 40)/(allViews.length-1) : 100/allViews.length),
             label: lang('harvest'),
             key: 'harvest',
             controls: harvestSortView
-        }, {
-            width: 20,
+        });
+    } 
+
+    // feeding
+    if (feedingSortView) {
+        result.feedItemSections.push({
+            width: Math.round(analysisSortView ? (100 - 40)/(allViews.length-1) : 100/allViews.length),
             label: lang('feeding'),
             key: 'feeding',
             controls: feedingSortView
-        }]
-    };
+        });
+    } 
+
+    return result;
 }
 module.exports = convert;

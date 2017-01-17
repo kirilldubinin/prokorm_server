@@ -13,7 +13,6 @@ var propertyForRecalculate = {
     rnb: 'rnb',
     udp: 'udp',
     crudeAsh: 'crudeAsh',
-    nh3: 'nh3',
     nitrates: 'nitrates',
     crudeProtein: 'crudeProtein',
     crudeFat: 'crudeFat',
@@ -82,10 +81,21 @@ var enumFields = {
     'general.feedType': 'enum'
 };
 
+var propertyWithHelp = {
+    milkAcid: 'milkAcid',
+    aceticAcid: 'aceticAcid',
+    oilAcid: 'oilAcid',
+    vos: 'vos',
+    vcos: 'vcos',
+    fos: 'fos',
+    sw: 'sw'
+};
+
 module.exports = {
     propertyForRecalculate: propertyForRecalculate,
     propertyForAverage: propertyForAverage,
     dateFields: dateFields,
     disabledFields: disabledFields,
-    enumFields: enumFields
+    enumFields: enumFields,
+    propertyWithHelp: propertyWithHelp
 };

@@ -15,7 +15,7 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    //addField_price_for_FEED_GENERAL();
+    addField_SW_for_FEED_ANALYSIS();
 });
 
 function addField_price_for_FEED_GENERAL () {
@@ -35,6 +35,31 @@ function addField_price_for_FEED_GENERAL () {
         });
     });
 }
+
+function addField_SW_for_FEED_ANALYSIS () {
+
+    winston.info('addField_CODE_for_FEED_ANALYSIS');
+
+    Feed.find().then(function(feeds) {
+        feeds.forEach(function (feed){
+
+            feed.analysis.forEach(function (analys) {
+                if (analys.sw === undefined) {
+                    winston.info('update feed with name: ' + feed.general.name);
+                    analys.sw = null;
+                }
+            });
+
+            feed.save(function(err, _feed) {
+                if (err) {
+                    winston.error(err);
+                } else {
+               }
+            });  
+        });
+    });
+} 
+
 
 function addField_starchPassesPercent_for_FEED_ANALYSIS () {
 

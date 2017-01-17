@@ -7,3 +7,16 @@
     font-size: 20px !important;
     border-bottom: 3px solid #FF9800;
     padding: 20px 0 12px 0; }
+    .catalog-view .catalog-title .md-raised {
+      margin: 0; }
+  .catalog-view .catalog-content pre {
+    line-height: 1.6em;
+    white-space: pre-wrap;
+    /* Since CSS 2.1 */
+    white-space: -moz-pre-wrap;
+    /* Mozilla, since 1999 */
+    white-space: -pre-wrap;
+    /* Opera 4-6 */
+    white-space: -o-pre-wrap;
+    /* Opera 7 */
+    word-wrap: break-word; }

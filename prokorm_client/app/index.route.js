@@ -75,6 +75,18 @@
           module: 'catalog'
         }
       })
+      .state('farm.instance.catalog.edit', {
+        url: '/:terms/edit',
+        templateUrl: 'app/catalog/catalogContentEdit.html',
+        controller: 'CatalogContentEditController',
+        controllerAs: 'catalogContentEdit',
+        params: {
+          terms: undefined
+        },
+        data: {
+          module: 'catalog'
+        }
+      })
       .state('farm.instance.catalog.instance', {
         url: '/:terms',
         templateUrl: 'app/catalog/catalogContent.html',

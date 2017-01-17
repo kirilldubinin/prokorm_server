@@ -127,7 +127,12 @@
 
 				.weight {
 					&.weight-control {
-						padding-top: 2px;
+						border: 2px solid #999;
+						.total {
+							padding: 1px 10px;
+							background-color: #999;
+							color: #f0f0f0;
+						}
 					}
 				}
 			}

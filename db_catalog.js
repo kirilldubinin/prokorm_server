@@ -18,12 +18,19 @@ db.once('open', function callback() {
 });
 
 function add() {
-    var catalog_milkAcid = new Catalog();
-    catalog_milkAcid.key = 'milkAcid';
-    catalog_milkAcid.ru_short = 'Молочная кислота';
-    catalog_milkAcid.ru_content = 'Молочная кислота, г (Одна из кислот, которая образуется в процессе консервации грубых кормов. Молочная кислота обладает хорошими вкусовыми качествами, и правильный процесс консервации грубых кормов дает результат в относительно высоком содержании молочной кислоты. На содержание молочной кислоты можно повлиять укосом трав с высоким содержанием сахара в них, и подвяливанием трав до уровня содержания сухого вещества  между 35 и 45 %. После процесса консервации, в идеальной ситуации, в сенажах злаковых трав содержание молочной кислоты около 5 %. Оптимально: 30-70 г/кг СВ)';
-    catalog_milkAcid.save(function(err, updated) {
-        if (err) console.log(err);
-        console.log(updated);
+
+    var keys = ['dryMaterial','ph','milkAcid','aceticAcid','oilAcid','vos','vcos','fos','sw','nel','nelvc', 'exchangeEnergy','dve','oeb', 'nxp','rnb','udp','solubleCrudeProtein','nh3','crudeProtein',
+    'crudeAsh','crudeFat','sugar','starch','starchPasses','starchPassesPercent','crudeFiber','ndf','ndfDigested',
+    'adf','adl','calcium','phosphorus','carotene','nitrates']
+
+    _.forEach(keys, function (key) {
+        var catalog = new Catalog();
+        catalog.key = key;
+        catalog.ru_short = key;
+        catalog.ru_content = key;
+        catalog.save(function(err, updated) {
+            if (err) console.log(err);
+            console.log(updated);
+        });
     });
 }

@@ -137,10 +137,12 @@ angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($h
     feedHttp.getCatalog = function () {
         return $http.get(urlBase + 'catalog');
     };
-
     feedHttp.getCatalogContentByKey = function (key) {
         return $http.get(urlBase + 'catalog/' + key);
-    };    
+    };  
+    feedHttp.saveCatalogContentByKey = function (catalog) {
+        return $http.put(urlBase + 'catalog/' + catalog.key, catalog);
+    };
 
     return feedHttp;
 }]);

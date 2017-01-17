@@ -1,0 +1,12 @@
+.catalog {
+  height: 100%;
+  overflow: hidden; }
+  .catalog .navigator {
+    height: calc(100% - 14px);
+    margin-right: 0; }
+    .catalog .navigator .catalog-list {
+      height: calc(100% - 60px);
+      overflow: auto;
+      padding-top: 0; }
+  .catalog .dashboard {
+    height: calc(100% - 14px); }

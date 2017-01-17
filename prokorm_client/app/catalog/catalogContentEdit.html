@@ -1,0 +1,26 @@
+<div class="catalog-edit" layout="column">
+    <div class="catalog-title" layout="row">
+        <h2 flex class="feed-name">
+            {{catalogContentEdit.catalogItem.short}}
+        </h2>
+         <md-button class="md-raised" ng-click="catalogContentEdit.save()">
+	        Сохранить
+      	</md-button>
+    </div>
+    <form flex layout="column">
+		<md-input-container >
+            <label>
+                Краткое наименование
+            </label>
+            <input ng-model="catalogContentEdit.catalogItem.short"/>
+        </md-input-container>
+
+		<md-input-container flex>
+            <label>
+                Описание
+            </label>
+            <textarea ng-model="catalogContentEdit.catalogItem.content">
+            </textarea>
+        </md-input-container>        
+    </form>
+</div>

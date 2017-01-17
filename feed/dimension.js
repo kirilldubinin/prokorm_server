@@ -18,6 +18,7 @@ function dimension(key) {
         vos: 'г',
         vcos: '%',
         fos: 'г',
+        sw: 'ед',
         nel: 'МДж',
         nelvc: 'МДж',
         exchangeEnergy: 'МДж',

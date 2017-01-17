@@ -393,6 +393,26 @@ module.exports = function(app) {
         });
     });    
 
+    app.put('/api/catalog/:key', isAuthenticated, function (req, res) {
+        Catalog.findOne({key: req.params.key}, function(err, item) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+            
+            item.ru_short = req.body.short;
+            item.ru_content = req.body.content;
+            // save the bear
+            item.save(function(err, updatedItem) {
+                if (err) res.send(err);
+                res.json({
+                    message: 'OK',
+                    id: updatedItem.key
+                });
+            });
+        });
+    });
+
+
     // application =================================================
     app.get('*', function(req, res) {
         res.sendFile(__dirname + './../prokorm_client/index.html'); // load the single view file (angular will handle the page changes on the front-end)
