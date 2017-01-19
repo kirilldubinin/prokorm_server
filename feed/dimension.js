@@ -4,6 +4,7 @@ function dimension(key) {
         price: 'руб/кг',
 
         dryMaterial: '%',
+        dryWeight: 'тонн',
 
         // general
         totalWeight: 'тонн',

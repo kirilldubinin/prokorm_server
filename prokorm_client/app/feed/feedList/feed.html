@@ -7,35 +7,35 @@
                     ({{feed.feedItems.length}})
                 </span>
             </div>
-            <md-button class="md-fab md-mini md-primary" ng-click="feed.goToHome()" ng-if="feed.isDiffMode">
+            <md-button class="md-fab md-mini md-primary" ng-click="feed.goToAdd()">
+                <ng-md-icon class="add-icon" icon="plus_one" size="24">
+                </ng-md-icon>
+            </md-button>
+            <md-button class="md-fab md-mini md-primary" ng-click="feed.goToHome()" 
+                ng-if="feed.isDiffMode || feed.isAverageMode || feed.isSumMode">
                 <ng-md-icon class="back-icon" icon="arrow_back" size="24">
                 </ng-md-icon>
             </md-button>
-            <md-menu ng-if="!feed.isDiffMode">
+            <md-menu ng-if="!feed.isDiffMode && !feed.isAverageMode && !feed.isSumMode">
                 <md-button aria-label="Menu" class="md-fab md-mini md-primary" ng-click="feed.openMenu($mdOpenMenu, $event)">
                     <ng-md-icon icon="menu">
                     </ng-md-icon>
                 </md-button>
                 <md-menu-content width="3">
-                    <md-menu-item>
-                        <md-button ng-click="feed.goToAdd()">
-                            <ng-md-icon icon="plus_one" style="fill: #888">
-                            </ng-md-icon>
-                            Добавить
-                        </md-button>
-                    </md-menu-item>
+                    
                     <md-menu-item>
                         <md-button ng-click="feed.goToDiff()">
-                            <ng-md-icon icon="view_column" style="fill: #888">
-                            </ng-md-icon>
                             Сравнить
                         </md-button>
                     </md-menu-item>
                     <md-menu-item>
                         <md-button ng-click="feed.goToAverage()">
-                            <ng-md-icon icon="view_array" style="fill: #888">
-                            </ng-md-icon>
                             Средний
+                        </md-button>
+                    </md-menu-item>
+                    <md-menu-item>
+                        <md-button ng-click="feed.goToSum()">
+                            Сумма
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -45,7 +45,7 @@
             <md-list-item class="md-3-line feed-item" ng-class="{
                   done: feedItem.done,
                   opened: feedItem.opened,
-                  selected: (feedItem === feed.selectedItem || feed.diffFeeds.indexOf(feedItem._id) > -1 || feed.averageFeeds.indexOf(feedItem._id) > -1), 
+                  selected: (feedItem === feed.selectedItem || feed.diffFeeds.indexOf(feedItem._id) > -1 || feed.averageFeeds.indexOf(feedItem._id) > -1 || feed.sumFeeds.indexOf(feedItem._id) > -1), 
                   inDiff: feed.inDiff(feedItem)
                 }" ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems">
                 <div class="md-list-item-text">
@@ -96,6 +96,10 @@
 
             <md-button class="md-primary" ng-click="feed.goToAverage()" md-no-ink="">
                 Средний корм
+            </md-button>
+
+            <md-button class="md-primary" ng-click="feed.goToSum()" md-no-ink="">
+                Сумма кормов
             </md-button>
 
             <div layout="row">

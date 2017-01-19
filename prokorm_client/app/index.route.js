@@ -120,6 +120,17 @@
           module: 'feed'
         }
       })
+      .state('farm.instance.feed.sum', {
+        url: '/sum/:feeds',
+        templateUrl: 'app/feed/sum/sum.html',
+        controller: 'SumController',
+        controllerAs: 'sum',
+        params: {
+          feeds: undefined
+        },data: {
+          module: 'feed'
+        }
+      })
       .state('farm.instance.feed.average', {
         url: '/average/:feeds',
         templateUrl: 'app/feed/average/average.html',

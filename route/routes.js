@@ -8,6 +8,7 @@ var User = require('../models/user');
 var Catalog = require('../models/catalog');
 // helpers =====================================================================
 var diff = require('../feed/feed.diff');
+var sum = require('../feed/feed.sum');
 var average = require('../feed/feed.average');
 var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
@@ -344,6 +345,24 @@ module.exports = function(app) {
             res.send(err);
         });
     });
+
+    // get feeds sum
+    app.post('/api/feeds/sum', isAuthenticated, function(req, res) {
+        var feedIds = req.body.feedIds;
+        var promises = _.map(feedIds, function(feedId) {
+            return Feed.findById(feedId);
+        });
+        Q.all(promises).then(function(feeds) {
+
+            feeds = _.filter(feeds, function(f) {
+                return checkUserRightForFeed(f, req);
+            });
+
+            res.status(200).json(sum(feeds));
+        }, function(err) {
+            res.send(err);
+        });
+    });    
 
     // get feeds average
     app.post('/api/feeds/average', isAuthenticated, function(req, res) {

@@ -27,6 +27,22 @@ db.once('open', function callback() {
 	// listen (start app with node server.js) ======================================
 	app.listen(port);
 	console.log("App listening on port " + port);
+
+    var Feed = require('./models/feed');
+    var sum = require('./feed/feed.sum');
+    var Q = require('q');
+    var _ = require('lodash');
+
+    var promises = _.map(['5874df36beef28178710c156'], function(feedId) {
+        return Feed.findById(feedId);
+    });
+    Q.all(promises).then(function(feeds) {
+
+        console.log(sum(feeds));
+
+    }, function(err) {
+    });
+
 });
 
 app.use(express.static('./prokorm_client'));        // set the static files location /public/img will be /img for users
@@ -66,3 +82,4 @@ Feed.find().lean().exec(function(err, feeds) {
 require('./route/routes.js')(app);
 
 // tmp =========================================================================
+//5874df36beef28178710c156

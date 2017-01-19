@@ -41,9 +41,14 @@
             diff.clear();
             $state.go('farm.instance.feed.average');
         };
+        vm.goToSum = function() {
+            vm.selectedItem = null;
+            diff.clear();
+            $state.go('farm.instance.feed.sum');
+        };
 
         vm.onFeedClick = function(feedItem) {
-            if (vm.isDiffMode || vm.isAverageMode) {
+            if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode) {
 
                 var currentFeeds = _.filter($state.params.feeds.split(':'), function (o) { return o; });
                 var ind = currentFeeds.indexOf(feedItem._id);
@@ -54,7 +59,7 @@
                     currentFeeds.push(feedItem._id);
                 }
 
-                $state.go('farm.instance.feed.' + (vm.isDiffMode ? 'diff' : 'average'), {
+                $state.go(vm.lastState, {
                   'feeds': currentFeeds.join(':')
                 });
                 //diff.toggleFeed(feedItem);
@@ -69,8 +74,11 @@
         });
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
+            vm.lastState = newState.name;
             vm.isDiffMode = newState.name === 'farm.instance.feed.diff';
             vm.isAverageMode = newState.name === 'farm.instance.feed.average';
+            vm.isSumMode = newState.name === 'farm.instance.feed.sum';
+
             vm.diffFeeds = null;
             vm.averageFeeds = null;
             // update list after switch to diff mode
@@ -80,6 +88,9 @@
             } else if (vm.isAverageMode) {
                 vm.selectedItem = null;
                 vm.averageFeeds = params.feeds.split(':');
+            } else if (vm.isSumMode) {
+                vm.selectedItem = null;
+                vm.sumFeeds = params.feeds.split(':');
             }
             else if (newState.name === 'farm.instance.feed') {
                 feedHttp.getFeedDashboard().then(function(dashboard) {

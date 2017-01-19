@@ -85,7 +85,7 @@
                 // if no any analysis
                 if (vm.feedItem.analysis && vm.feedItem.analysis.length) {
                     var max = _.maxBy(vm.feedItem.analysis, 'number');
-                    newAnalysis.number = max.number + 1;
+                    newAnalysis.initialItem.number = max.number + 1;
                     vm.feedItem.analysis.push(newAnalysis);
                 }
 

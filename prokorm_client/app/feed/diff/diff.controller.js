@@ -5,7 +5,6 @@
     function DiffController($scope, feedHttp, $stateParams, diff, _) {
 
     	var vm = this;
-    	vm.propertiesForDiff = [];
         vm._ = _;
 
         var feeds = $stateParams.feeds;

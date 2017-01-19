@@ -130,6 +130,9 @@ angular.module('prokorm').factory('feedHttp', ['$http', '$location', function($h
     feedHttp.diffFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'diff', {feedIds: feedIds});
     };
+    feedHttp.sumFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
+    };
     feedHttp.averageFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
     };

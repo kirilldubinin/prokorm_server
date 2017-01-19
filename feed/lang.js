@@ -44,6 +44,7 @@ function lang(key) {
 
         // analysis
         dryMaterial: 'Сухое вещество',
+        dryWeight: 'Сухое вещество',
         isNaturalWet: 'Натуральная влажность',
         number: 'Номер исследования',
         code: 'Код исследования',
