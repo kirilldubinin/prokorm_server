@@ -4,8 +4,6 @@ var feedUtils = require('./feed.utils');
 var dimension = require('./dimension.sum');
 var math = require('mathjs');
 var _ = require('lodash');
-var numberFormatter = require('number-formatter');
-
 var props = ['dryWeight', 'nel', 'exchangeEnergy', 'crudeProtein', 'ndf', 'adf'];
 
 /*
@@ -37,7 +35,7 @@ function getSumsByProps(feeds) {
 
             return {
                 key: prop,
-                value: numberFormatter( "# ##0.##", total )
+                value: math.round(total, 2)
             }
         }
     });
