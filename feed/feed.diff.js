@@ -54,12 +54,26 @@ function convertToControl(item, code) {
                 
             });
             if (some) {
+
+                
                 result.push({
                     label: lang(key),
                     dimension: dimension(key),
                     key: key,
                     maxDryValue: allDryValues.length ? _.max(allDryValues) : undefined,
-                    values: value.values
+                    values: _.map(value.values, function (values) {
+                        // analysis
+                        if (_.isArray(value)) {
+                            return _.map(values, function (value) {
+                                return 
+                                    _.isObject(value) ? // fry/row
+                                        value :
+                                        convertValue(key, value);
+                            });
+                        } else {
+                            return convertValue(key, values);
+                        };
+                    }) 
                 });
             }
         }

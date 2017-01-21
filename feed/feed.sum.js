@@ -1,11 +1,12 @@
 var Feed = require('../models/feed');
 var lang = require('./lang');
 var feedUtils = require('./feed.utils');
-var dimension = require('./dimension');
+var dimension = require('./dimension.sum');
 var math = require('mathjs');
 var _ = require('lodash');
+var numberFormatter = require('number-formatter');
 
-var props = ['dryWeight', 'exchangeEnergy', 'crudeProtein', 'starch'];
+var props = ['dryWeight', 'nel', 'exchangeEnergy', 'crudeProtein', 'ndf', 'adf'];
 
 /*
  * Collect sum each properties for each feed from param
@@ -21,20 +22,22 @@ function getSumsByProps(feeds) {
         if (prop === 'dryWeight') {
             return {
                 key: 'dryWeight',
-                value: math.round(dryBalanceWeight, 2)
+                value: math.round(dryBalanceWeight*1000, 2)
             }
         } else {
             var total = _.sumBy(feeds, function(v) {
                 var dryMaterial = _.last(v.analysis).dryMaterial;
                 var lastAnalysis = _.last(v.analysis);
                 var isNaturalWet = lastAnalysis.isNaturalWet;
-                // dryBalanceWeight(tonns) & 1000(kg) & v(ed/kg)
-                return isNaturalWet ? dryBalanceWeight * (lastAnalysis[prop] * dryMaterial / 100) : dryBalanceWeight * (lastAnalysis[prop]);
+                
+                return isNaturalWet ? 
+                    dryBalanceWeight * (lastAnalysis[prop] / dryMaterial) : 
+                    dryBalanceWeight * (lastAnalysis[prop]);
             });
 
             return {
                 key: prop,
-                value: math.round(total, 2)
+                value: numberFormatter( "# ##0.##", total )
             }
         }
     });
