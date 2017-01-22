@@ -4,13 +4,12 @@ var feedUtils = require('./feed.utils');
 var dimension = require('./dimension.sum');
 var math = require('mathjs');
 var _ = require('lodash');
-var props = ['dryWeight', 'nel', 'exchangeEnergy', 'crudeProtein', 'ndf', 'adf'];
 
 /*
  * Collect sum each properties for each feed from param
  * @return [{key: "dryWeight", value: 456}, {key: "exchangeEnergy", value: 230}]
  */
-function getSumsByProps(feeds) {
+function getSumsByProps(props, feeds) {
     
     return _.map(props, function(prop) {
         var dryBalanceWeight = _.sumBy(feeds, function(v) {
@@ -42,6 +41,25 @@ function getSumsByProps(feeds) {
 }
 
 function getSum(feeds) {
+
+    console.log('getSum');
+    //filter feeds, feed shoul have analysis
+    feeds = _.filter(feeds, function (feed) {
+        return feed.analysis.length;
+    });
+
+    console.log(feeds.length);
+
+    // filter properties
+    // each feed from feeds should have properties from list
+    // in last analysis 
+    var allProps = ['dryWeight', 'nel', 'exchangeEnergy', 'crudeProtein', 'ndf', 'adf'];
+    var props = _.filter(allProps, function (prop) {
+        return prop === 'dryWeight' || !_.some(feeds, function (feed) {
+            return !_.isNumber(_.last(feed.analysis)[prop])
+        });
+    });
+
     var byFeedType = _.map(feeds, function(feed) {
         feed.feedType = feed.general.feedType;
         feed.composition = feed.general.composition;
@@ -53,11 +71,11 @@ function getSum(feeds) {
             return {
                 label: lang(key),
                 key: key,
-                sumsByProp: getSumsByProps(value)
+                sumsByProp: getSumsByProps(props, value)
             };
         });
 
-        var sumsByProp = getSumsByProps(value);
+        var sumsByProp = getSumsByProps(props, value);
 
         // add percent for byComposition
         // how many percent of each composition in feedType
