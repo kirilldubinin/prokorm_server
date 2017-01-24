@@ -2,10 +2,10 @@
     'use strict';
     angular.module('prokorm').controller('CatalogController', CatalogController);
 
-    function CatalogController($state, feedHttp) {
+    function CatalogController($state, catalogFactory) {
     	var vm = this;
 
-    	feedHttp.getCatalog().then(function (items) {
+    	catalogFactory.getCatalog().then(function (items) {
     		vm.catalogItems = items;
     	});
 

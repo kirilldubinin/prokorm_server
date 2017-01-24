@@ -2,17 +2,12 @@
     'use strict';
     angular.module('prokorm').controller('DiffController', DiffController);
 
-    function DiffController($scope, feedHttp, $stateParams, diff, _) {
+    function DiffController($scope, feedFactory, $stateParams, _) {
 
     	var vm = this;
         vm._ = _;
 
         var feeds = $stateParams.feeds;
-
-        // if diff.getFeeds is not empty
-        updateDiffRows(diff.getFeeds());
-
-    	diff.onChange(updateDiffRows);
     	function updateDiffRows(feedsForDiff) {
 
     		if (!feedsForDiff.length) {
@@ -21,7 +16,7 @@
     			return;
     		}
 
-    		feedHttp.diffFeeds(feedsForDiff).then(function (result) {
+    		feedFactory.diffFeeds(feedsForDiff).then(function (result) {
 
                 vm.dryRawValues = result.dryRawValues;
                 vm.headers = result.headers;

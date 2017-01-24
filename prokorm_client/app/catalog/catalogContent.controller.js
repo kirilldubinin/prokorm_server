@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('CatalogContentController', CatalogContentController);
 
-    function CatalogContentController($state, feedHttp) {
+    function CatalogContentController($state, catalogFactory) {
         var vm = this;
 
         vm.edit = function () {
@@ -11,7 +11,7 @@
         if (!$state.params.terms) {
             return;
         }
-        feedHttp.getCatalogContentByKey($state.params.terms).then(function(catalogItem) {
+        catalogFactory.getCatalogContentByKey($state.params.terms).then(function(catalogItem) {
             vm.catalogItem = catalogItem;
         });
     }

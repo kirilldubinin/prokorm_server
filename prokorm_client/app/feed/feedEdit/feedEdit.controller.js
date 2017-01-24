@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('FeedEditController', FeedEdiController);
     /** @ngInject */
-    function FeedEdiController($window, $stateParams, $state, $scope, feedHttp, _) {
+    function FeedEdiController($window, $stateParams, $state, $scope, feedFactory, _) {
         var vm = this;
 
         vm.feedItem = {
@@ -58,7 +58,7 @@
 
         vm.feedItemControls = [];
         var feedId = $stateParams.feedId;
-        var promise = feedId ? feedHttp.getFeedEdit(feedId) : feedHttp.getEmptyFeed();
+        var promise = feedId ? feedFactory.getFeedEdit(feedId) : feedFactory.getEmptyFeed();
         promise.then(function(feed) {
             vm.feedItemSections = feed;
             //set analysis list
@@ -81,7 +81,7 @@
 
         vm.onAnalysisAdd = function() {
 
-            feedHttp.getEmptyAnalysis().then(function (newAnalysis) {
+            feedFactory.getEmptyAnalysis().then(function (newAnalysis) {
                 // if no any analysis
                 if (vm.feedItem.analysis && vm.feedItem.analysis.length) {
                     var max = _.maxBy(vm.feedItem.analysis, 'number');
@@ -114,7 +114,7 @@
                 feed._id = feedId;
             }
 
-            feedHttp.saveFeed(feed).then(function(response) {
+            feedFactory.saveFeed(feed).then(function(response) {
                 if (response.message === 'OK') {
                     $state.go('farm.instance.feed.instance', {
                         'feedId': response.id

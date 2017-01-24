@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('LoginController', LoginController);
     /** @ngInject */
-    function LoginController($http, $state, sessionData, feedHttp) {
+    function LoginController($http, $state, sessionData, loginFactory) {
         var vm = this;
 
         vm.tenantName = $state.params.tenant;
@@ -12,7 +12,7 @@
             password: ''
         };
         vm.do = function () {
-            feedHttp.login(vm.user).then(
+            loginFactory.login(vm.user).then(
                 function(response) {
                     // set session user
                     sessionData.setSessionUser(response);

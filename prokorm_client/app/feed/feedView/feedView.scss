@@ -84,13 +84,15 @@
 
 				a {
 					color: rgba(0, 0, 0, 0.54);
+    				text-decoration: none;
 					&:hover {
-						color: #3F51B5;						
+						color: #3F51B5;		
+						text-decoration: underline;				
 					}
 				}
 			}
 			.value {
-			    margin-left: 10px;
+			    margin-left: 15px;
 			    font-weight: 500;
 			    color: #333;
 			    min-width: 60px;

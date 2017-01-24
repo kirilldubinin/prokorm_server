@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('RegistrationController', RegistrationController);
     /** @ngInject */
-    function RegistrationController($http, feedHttp) {
+    function RegistrationController($http, feedFactory) {
         var vm = this;
         vm.user = {
             loginname: '',
@@ -10,7 +10,7 @@
         };
         vm.do = function () {
             vm.error = '';
-            feedHttp.registration(vm.user).then(
+            feedFactory.registration(vm.user).then(
                 function(response) {
                     if (response && response.message) {
                         vm.successMessage = response.message;

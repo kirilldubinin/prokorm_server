@@ -43,6 +43,20 @@
           id: undefined
         }
       })
+      // settings =======================================================
+      .state('farm.instance.settings', {
+        url: '/settings',
+        templateUrl: 'app/settings/settings.html',
+        controller: 'SettingsController',
+        controllerAs: 'settings'
+      })
+      // profile =======================================================
+      .state('farm.instance.profile', {
+        url: '/profile',
+        templateUrl: 'app/profile/profile.html',
+        controller: 'ProfileController',
+        controllerAs: 'profile'
+      })
       // ration =======================================================
       .state('farm.instance.ration', {
         url: '/ration',

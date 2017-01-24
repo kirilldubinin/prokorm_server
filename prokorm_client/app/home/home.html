@@ -25,22 +25,26 @@
                     <md-button ng-click="home.logout()">
                         <ng-md-icon style="fill: #999" icon="logout">
                         </ng-md-icon>
-                        Logout
+                        Выйти
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="home.settings($event)">
                         <ng-md-icon style="fill: #999" icon="settings_applications">
                         </ng-md-icon>
-                        Settings
+                        Настройки
+                    </md-button>
+                </md-menu-item>
+                <md-menu-item>
+                    <md-button ng-click="home.settings($event)">
+                        <ng-md-icon style="fill: #999" icon="settings_applications">
+                        </ng-md-icon>
+                        Профиль
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
         </md-menu>
     </div>
-    <!--<md-button aria-label="Settings" class="md-icon-button md-primary">
-        <i class="material-icons orange600">face</i>
-    </md-button>-->
 </section>
 <section class="main-content" ui-view="">
 </section>

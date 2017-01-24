@@ -1,0 +1,43 @@
+<md-card class="profile" flex md-theme="default" md-theme-watch="" layout="column">
+	<h2 class="profile-title">Настройки</h2> 
+	<form name="settings" flex>
+		<div class="edit-block" layout-gt-sm="row">
+			<md-input-container class="md-block" flex-gt-sm>
+		        <label>Имя пользователя</label>
+		        <input ng-model="settinhs.oldPassword">
+		    </md-input-container>
+			<md-input-container class="md-block" flex-gt-sm>
+		        <label>Полное имя пользователя</label>
+		        <input ng-model="settinhs.oldPassword">
+		    </md-input-container>
+		    <md-input-container class="md-block" flex-gt-sm>
+		        <label>E-mail</label>
+		        <input ng-model="settinhs.oldPassword">
+		    </md-input-container>
+		</div>
+
+		<div class="edit-block" layout-gt-sm="row">
+			<md-input-container class="md-block" flex-gt-sm>
+		        <label>Новый пароль</label>
+		        <input ng-model="settinhs.oldPassword">
+		    </md-input-container>
+		    <md-input-container class="md-block" flex-gt-sm>
+		        <label>Новый пароль, еще раз</label>
+		        <input ng-model="settinhs.oldPassword">
+		    </md-input-container>	
+		    <md-input-container class="md-block" flex-gt-sm>
+		        <label>Старый пароль</label>
+		        <input ng-model="settinhs.oldPassword">
+		    </md-input-container>
+		</div>
+	</form>
+	<!-- ACTIONS -->
+    <div class="feed-edit-actions" layout="row" layout-align="center left" layout-sm="column" layout-wrap="">
+        <md-button class="md-raised" ng-click="feedEdit.cancel()">
+            Отмена
+        </md-button>
+        <md-button class="md-raised md-primary" ng-click="feedEdit.save()">
+            Сохранить
+        </md-button>
+    </div>
+</md-card>

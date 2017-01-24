@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('FeedViewController', FeedViewController);
 
-    function FeedViewController($mdDialog, $stateParams, $state, feedHttp, diff, _) {
+    function FeedViewController($mdDialog, $stateParams, $state, feedFactory, _) {
         
         var vm = this;
         vm._ = _;
@@ -15,7 +15,6 @@
             $state.go('farm.instance.feed.diff', {
               'feeds': [feedId].join(':')
             });
-            //diff.toggleFeed(vm.feed);
         }
         vm.edit = function() {
             $state.go('farm.instance.feed.edit', {
@@ -27,13 +26,13 @@
             .title('removeFeedConfirmDialogTitle').textContent('removeFeedConfirmDialogContent')
             .targetEvent(ev).ok('yes').cancel('no');
             $mdDialog.show(confirm).then(function() {
-                feedHttp.deleteFeed($stateParams.feedId).then(function(res) {
+                feedFactory.deleteFeed($stateParams.feedId).then(function(res) {
                   $state.go('farm.instance.feed');
                 });
             }, function() {});
         }; 
 
-        feedHttp.getFeedView(feedId).then(function(feedView) {
+        feedFactory.getFeedView(feedId).then(function(feedView) {
           vm.feed = feedView.general;
           vm.feedItemSections = feedView.feedItemSections;
         });

@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('AverageController', AverageController);
 
-    function AverageController($scope, feedHttp, $stateParams, _) {
+    function AverageController($scope, feedFactory, $stateParams, _) {
 
     	var vm = this;
     	vm.propertiesForDiff = [];
@@ -17,7 +17,7 @@
     			return;
     		}
 
-    		feedHttp.averageFeeds(feedsForAverage).then(function (result) {
+    		feedFactory.averageFeeds(feedsForAverage).then(function (result) {
                 vm.dryRawValues = result.dryRawValues;
                 vm.headers = result.headers;
                 vm.analysisRows = result.analysis;

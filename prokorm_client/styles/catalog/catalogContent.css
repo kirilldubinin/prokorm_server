@@ -10,6 +10,7 @@
     .catalog-view .catalog-title .md-raised {
       margin: 0; }
   .catalog-view .catalog-content pre {
+    font-family: Roboto, "Helvetica Neue", sans-serif;
     line-height: 1.6em;
     white-space: pre-wrap;
     /* Since CSS 2.1 */
