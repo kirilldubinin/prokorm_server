@@ -54,6 +54,12 @@
       min-height: 68px; }
     .feed .feed-list .feed-item .md-list-item-text {
       line-height: normal; }
+    .feed .feed-list .feed-item .analysis-length {
+      padding-top: 10px;
+      margin-right: 8px;
+      color: #999; }
+      .feed .feed-list .feed-item .analysis-length.no-analysis {
+        color: #EF5350; }
     .feed .feed-list .feed-item .year {
       color: #3F51B5;
       font-weight: bold;

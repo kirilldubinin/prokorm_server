@@ -246,6 +246,7 @@ module.exports = function(app) {
             var shortFeeds = _.map(sortedFeeds, function(feed) {
                 return _.merge({}, feed.general, {
                     _id: feed._id,
+                    analysis: feed.analysis.length,
                     feedType: (feed.general.feedType === 'none' ? 
                         '' : lang(feed.general.feedType)),
                     field: feed.general.field ? ('Поле: ' + feed.general.field) : undefined

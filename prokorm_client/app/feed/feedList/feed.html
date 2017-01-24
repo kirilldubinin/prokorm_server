@@ -52,6 +52,11 @@
                         <p class="title" flex="">
                             {{feedItem.name}}
                         </p>
+                        
+                        <span class="analysis-length" ng-class="{'no-analysis': !feedItem.analysis}">
+                            <i class="fa fa-flask" aria-hidden="true"></i>
+                            {{feedItem.analysis || ''}}    
+                        </span>
                         <span class="weight weight-control" ng-class="{opened: feedItem.opened, done: feedItem.done}">
                             <span class="balance">
                                 {{feedItem.balanceWeight}}

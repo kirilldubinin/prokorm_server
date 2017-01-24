@@ -87,6 +87,16 @@
 				line-height: normal;
 			}
 
+			.analysis-length {
+				padding-top: 10px;
+			    margin-right: 8px;
+			    color: #999;
+
+			    &.no-analysis {
+			    	color: #EF5350;
+			    }
+			}
+
 			.year {
 			    color: #3F51B5;
 			    font-weight: bold;
