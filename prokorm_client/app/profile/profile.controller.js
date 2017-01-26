@@ -7,7 +7,11 @@
         loginFactory.getProfileView().then(function(result) {
             vm.userInfo = result.controls;
             vm.companyUsers = result.companyUsers;
-        })
+        });
+
+        vm.edit = function () {
+            $state.go('farm.instance.profile.edit');
+        }
     }
     angular.module('prokorm').controller('ProfileEditController', ProfileEditController);
     /** @ngInject */
