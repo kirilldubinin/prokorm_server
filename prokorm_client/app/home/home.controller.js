@@ -2,11 +2,11 @@
     'use strict';
     angular.module('prokorm').controller('HomeController', HomeController);
     /** @ngInject */
-    function HomeController($scope, $state,  feedFactory, $mdDialog) {
+    function HomeController($scope, $state,  loginFactory, $mdDialog) {
         var originatorEv;
         var vm = this;
         vm.currentModule = '';
-        feedFactory.getSessionData().then(function(data) {
+        loginFactory.getSessionData().then(function(data) {
             vm.sessionData = data;
         });
         vm.openMenu = function($mdOpenMenu, ev) {
@@ -19,7 +19,7 @@
         }
 
         vm.logout = function () {
-            feedFactory.logout();
+            loginFactory.logout();
         }
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {

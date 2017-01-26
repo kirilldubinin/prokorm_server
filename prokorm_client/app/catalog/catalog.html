@@ -8,6 +8,7 @@
     <md-list class="catalog-list">
       
       <md-list-item 
+        ng-class="{selected: catalog.currentKey === catalogItem.key}"
         class="md-1-line catalog-item"
         ng-click="catalog.onItemClick(catalogItem)" 
         ng-repeat="catalogItem in catalog.catalogItems" >

@@ -5,4 +5,14 @@
   .profile .profile-title {
     color: #3F51B5;
     border-bottom: 3px solid #FF9800;
-    padding: 20px 0 12px 0; }
+    padding: 20px 0 12px 0;
+    margin-bottom: 20px; }
+  .profile .profile-view {
+    background-color: transparent; }
+    .profile .profile-view label {
+      display: inline-block;
+      text-align: right;
+      color: rgba(0, 0, 0, 0.54);
+      font-size: 14px; }
+    .profile .profile-view span {
+      margin-left: 10px; }

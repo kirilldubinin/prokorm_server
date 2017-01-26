@@ -2,12 +2,19 @@
     'use strict';
     angular.module('prokorm').controller('FeedController', FeedController);
 
-    function FeedController($scope, $window, feedFactory, $state, $mdDialog) {
+    function FeedController($scope, $window, $state, feedFactory, $mdDialog) {
         var vm = this;
         var originatorEv;
         
         feedFactory.getFeeds().then(function(feeds) {
             vm.feedItems = feeds;
+
+            var currentFeedId = $state.params.feedId;
+            if (currentFeedId) {
+                
+                console.log(_.result(_.find(feeds, {'_id': $state.params.feedId}), '_id'))
+                vm.selectedItemId = _.result(_.find(feeds, {'_id': $state.params.feedId}), '_id');
+            }
         });
 
         feedFactory.getFeedDashboard().then(function(dashboard) {
@@ -19,23 +26,23 @@
         };
 
         vm.goToAdd = function() {
-            vm.selectedItem = null;
+            vm.selectedItemId = null;
             $state.go('farm.instance.feed.new');
         };
         vm.goToHome = function() {
-            vm.selectedItem = null;
+            vm.selectedItemId = null;
             $state.go('farm.instance.feed');
         };
         vm.goToDiff = function() {
-            vm.selectedItem = null;
+            vm.selectedItemId = null;
             $state.go('farm.instance.feed.diff');
         };
         vm.goToAverage = function() {
-            vm.selectedItem = null;
+            vm.selectedItemId = null;
             $state.go('farm.instance.feed.average');
         };
         vm.goToSum = function() {
-            vm.selectedItem = null;
+            vm.selectedItemId = null;
             $state.go('farm.instance.feed.sum');
         };
 
@@ -55,7 +62,7 @@
                   'feeds': currentFeeds.join(':')
                 });
             } else {
-                vm.selectedItem = feedItem;
+                vm.selectedItemId = feedItem._id;
                 $state.go('farm.instance.feed.instance', { 'feedId': feedItem._id });
             }
         };
@@ -76,13 +83,13 @@
 
             // update list after switch to diff mode
             if (vm.isDiffMode) {
-                vm.selectedItem = null;
+                vm.selectedItemId = null;
                 vm.diffFeeds = params.feeds.split(':');
             } else if (vm.isAverageMode) {
-                vm.selectedItem = null;
+                vm.selectedItemId = null;
                 vm.averageFeeds = params.feeds.split(':');
             } else if (vm.isSumMode) {
-                vm.selectedItem = null;
+                vm.selectedItemId = null;
                 vm.sumFeeds = params.feeds.split(':');
             }
             else if (newState.name === 'farm.instance.feed') {

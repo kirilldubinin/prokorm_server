@@ -89,6 +89,8 @@
           padding: 1px 10px;
           background-color: #999;
           color: #f0f0f0; }
+      .feed .feed-list .feed-item.done .analysis-length.no-analysis {
+        color: #999; }
 
 .feed .navigator {
   height: calc(100% - 14px);

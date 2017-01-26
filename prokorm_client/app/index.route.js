@@ -53,8 +53,14 @@
       // profile =======================================================
       .state('farm.instance.profile', {
         url: '/profile',
-        templateUrl: 'app/profile/profile.html',
-        controller: 'ProfileController',
+        templateUrl: 'app/profile/profileView.html',
+        controller: 'ProfileViewController',
+        controllerAs: 'profile'
+      })
+      .state('farm.instance.profile.edit', {
+        url: '/edit',
+        templateUrl: 'app/profile/profileEdit.html',
+        controller: 'ProfileEditController',
         controllerAs: 'profile'
       })
       // ration =======================================================

@@ -1,0 +1,13 @@
+<md-card class="profile" flex md-theme="default" md-theme-watch="" layout="column">
+	<h2 class="profile-title">Профиль
+		<md-button class="md-raised" ng-click="catalogContent.edit()">
+	        Редактировать
+      	</md-button>
+	</h2> 
+	<md-content class="profile-view">
+		<p ng-repeat="userInfo in profile.userInfo" layout="row">
+			<label flex="30">{{userInfo.label}}:</label>
+			<span flex>{{userInfo.value}}</span>
+		</p>
+	</md-content>
+</md-card>

@@ -118,7 +118,6 @@ module.exports = function(app) {
                     tenantFullName: tenant.fullName || tenant.loginName,
                     modules: modules
                 };
-                console.log(sessionUser);
                 req.logIn(sessionUser, function(err) {
                     if (err) {
                         res.json(err);
@@ -151,6 +150,74 @@ module.exports = function(app) {
             user: sessionUser
         });
     });
+
+    // profile =====================================
+    app.get('/api/profile/view', isAuthenticated, function(req, res) {
+        var sessionUserId = req.user._id;
+        User.findOne({_id: sessionUserId}).then(function (user) {
+
+            res.json([{
+                label: lang('userName'),
+                value: user.name 
+            }, {
+                label: lang('fullUserName'),
+                value: user.fullName
+            }, {
+                label: lang('tenantName'),
+                value: req.user.tenantName
+            }, {
+                label: lang('tenantFullName'),
+                value: req.user.tenantFullName
+            }, {
+                label: lang('email'),
+                value: user.email
+            }, {
+                label: lang('permissions'),
+                value: user.permissions
+            }]);    
+        });
+    });
+
+    app.get('/api/profile/edit', isAuthenticated, function(req, res) {
+        var sessionUserId = req.user._id;
+        User.findOne({_id: sessionUserId}).then(function (user) {
+
+            var isAdmin = user.permissions.indexOf('admin') > -1;
+            res.json({
+                controls: [{
+                    label: lang('userName'),
+                    value: user.name,
+                    disabled: true
+                }, {
+                    label: lang('userFullName'),
+                    value: user.fullName
+                }, {
+                    label: lang('tenantName'),
+                    value: req.user.tenantName,
+                    disabled: true
+                }, {
+                    label: lang('tenantFullName'),
+                    value: req.user.tenantFullName,
+                    disabled: !isAdmin
+                }, {
+                    label: lang('email'),
+                    value: user.email
+                }, {
+                    label: lang('permissions'),
+                    value: user.permissions
+                }],
+                profile: {
+                    userName: user.name,
+                    userFullName: user.fullName,
+                    tenantName: req.user.tenantName,
+                    tenantFullName: req.user.tenantFullName,
+                    email: user.email,
+                    permissions: user.permissions
+                }
+            });    
+        });
+    });
+
     // feed =============================================
     // new feed
 

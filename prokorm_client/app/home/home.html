@@ -22,10 +22,10 @@
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item>
-                    <md-button ng-click="home.logout()">
-                        <ng-md-icon style="fill: #999" icon="logout">
+                    <md-button ng-click="home.settings($event)">
+                        <ng-md-icon style="fill: #999" icon="account_circle">
                         </ng-md-icon>
-                        Выйти
+                        Профиль
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
@@ -36,10 +36,10 @@
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
-                    <md-button ng-click="home.settings($event)">
-                        <ng-md-icon style="fill: #999" icon="settings_applications">
+                    <md-button ng-click="home.logout()">
+                        <ng-md-icon style="fill: #999" icon="logout">
                         </ng-md-icon>
-                        Профиль
+                        Выйти
                     </md-button>
                 </md-menu-item>
             </md-menu-content>

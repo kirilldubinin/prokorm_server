@@ -1,6 +1,13 @@
 var _ = require('lodash');
 function lang(key) {
 	var langObj = {
+
+        userName: 'Имя пользователя',
+        userFullName: 'Полное имя пользователя',
+        tenantName: 'Имя компании',
+        tenantFullName: 'Полное имя компании',
+        email: 'E-mail',
+        permissions: 'Права',
         
         removeFeedConfirmDialogTitle: 'Удалить этот корм ?',
         removeFeedConfirmDialogContent: 'Удаленный корм нельзя будет восстановить.',

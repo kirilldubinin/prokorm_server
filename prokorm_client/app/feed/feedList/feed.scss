@@ -145,6 +145,12 @@
 						}
 					}
 				}
+
+				.analysis-length {
+				    &.no-analysis {
+				    	color: #999;
+				    }
+				}
 			}
 		}
 	}	
