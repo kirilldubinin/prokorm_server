@@ -22,6 +22,10 @@
             loginFactory.logout();
         }
 
+        vm.profile = function () {
+            $state.go('farm.instance.profile.view');
+        }
+
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             vm.currentModule = newState.data && newState.data.module;
         });

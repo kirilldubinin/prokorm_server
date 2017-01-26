@@ -21,28 +21,26 @@ var lang = require('../feed/lang');
 var modules = require('../config/modules');
 // routes =====================================================================
 module.exports = function(app) {
-
     var authStrategy = new CustomStrategy(app);
 
     function checkUserRightForFeed(feed, req, res) {
         var check = feed.createdBy.tenantId.equals(req.user.tenantId);
         if (res && !check) {
-            res.status(403).send({message: 'You dont have permission for this object.'});
-            return false;   
+            res.status(403).send({
+                message: 'You dont have permission for this object.'
+            });
+            return false;
         }
-
         return check;
     }
 
     function errorHandler(err, req, res) {
-
         winston.error(err.name + ':', err.message);
         if (err.name === 'ValidationError') {
             return res.status(406).json({
                 message: err.message
-            });            
-        } 
-
+            });
+        }
         return res.status(400).json({
             message: err.message || err.message
         });
@@ -143,6 +141,30 @@ module.exports = function(app) {
             message: 'Authentication failed'
         });
     });
+
+    app.post('/api/users', isAuthenticated, function(req, res) {
+        
+        var user = new User();
+        user.tenantId = req.user.tenantId;
+        user.createdAt = new Date();
+        user.name = req.body.name;
+        user.fullName = req.body.fullName;
+        user.email = req.body.email;
+        user.password = req.body.password;
+        user.permissions = req.body.permissions;
+
+        user.save(function(err, newUser) {
+            if (err) {
+                return errorHandler(err, req, res);
+            } else {
+                res.json({
+                    message: 'OK',
+                    id: newUser._id
+                });
+            }
+        });
+    });
+
     // session data =====================================
     app.get('/api/sessionData', isAuthenticated, function(req, res) {
         var sessionUser = req.user;
@@ -150,17 +172,18 @@ module.exports = function(app) {
             user: sessionUser
         });
     });
-
     // profile =====================================
     app.get('/api/profile/view', isAuthenticated, function(req, res) {
         var sessionUserId = req.user._id;
-        User.findOne({_id: sessionUserId}).then(function (user) {
-
-            res.json([{
+        User.findOne({
+            _id: sessionUserId
+        }).then(function(user) {
+            var isAdmin = user.permissions.indexOf('admin') > -1;
+            var userInfo = [{
                 label: lang('userName'),
-                value: user.name 
+                value: user.name
             }, {
-                label: lang('fullUserName'),
+                label: lang('userFullName'),
                 value: user.fullName
             }, {
                 label: lang('tenantName'),
@@ -174,14 +197,33 @@ module.exports = function(app) {
             }, {
                 label: lang('permissions'),
                 value: user.permissions
-            }]);    
+            }];
+            if (isAdmin) {
+                User.find({
+                    tenantId: req.user.tenantId
+                }).then(function(users) {
+                    return res.json({
+                        controls: userInfo,
+                        companyUsers: _.map(users, function (u) {
+                            return {
+                                _id: u._id,
+                                userName: u.name
+                            };
+                        })
+                    });
+                });
+            } else {
+                return res.json({
+                    controls: userInfo
+                });
+            }
         });
     });
-
     app.get('/api/profile/edit', isAuthenticated, function(req, res) {
         var sessionUserId = req.user._id;
-        User.findOne({_id: sessionUserId}).then(function (user) {
-
+        User.findOne({
+            _id: sessionUserId
+        }).then(function(user) {
             var isAdmin = user.permissions.indexOf('admin') > -1;
             res.json({
                 controls: [{
@@ -208,41 +250,60 @@ module.exports = function(app) {
                 }],
                 profile: {
                     userName: user.name,
-                    userFullName: user.fullName,
+                    userFullName: user.fullName || '',
                     tenantName: req.user.tenantName,
-                    tenantFullName: req.user.tenantFullName,
+                    tenantFullName: req.user.tenantFullName || '',
                     email: user.email,
                     permissions: user.permissions
                 }
-            });    
+            });
+        });
+    });
+    app.put('/api/profile', isAuthenticated, function(req, res) {
+        User.findById(req.user._id, function(err, user) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+            
+            //user.name = req.body.userName;
+            user.fullName = req.body.userFullName;
+            user.email = req.body.email;
+
+            user.save(function (err, updatedUser) {
+                if (err) res.send(err);
+                res.json({
+                    message: 'OK',
+                    id: updatedUser._id
+                });
+            });
         });
     });
 
     // feed =============================================
     // new feed
-
-    app.get('/api/feeds/dashboard', isAuthenticated, function (req, res) {
-
+    app.get('/api/feeds/dashboard', isAuthenticated, function(req, res) {
         var currentYear = new Date().getFullYear();
         var prevYear = currentYear - 1;
-
-        Feed.find({'createdBy.tenantId': req.user.tenantId, 'general.year': { $in: [prevYear, currentYear] }}).lean().exec(function(err, feeds) {
+        Feed.find({
+            'createdBy.tenantId': req.user.tenantId,
+            'general.year': {
+                $in: [prevYear, currentYear]
+            }
+        }).lean().exec(function(err, feeds) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-
             // double check
-            feeds = _.filter(feeds, function (f) {
+            feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-
             res.status(200).json({
                 years: [prevYear, currentYear].join('-'),
                 balance: balance(feeds, [prevYear, currentYear]),
                 //perDay: perDay(feeds),
-                noAnalysis: _.map(_.filter(feeds, function (f) {
+                noAnalysis: _.map(_.filter(feeds, function(f) {
                     return !f.analysis.length;
-                }), function (f) {
+                }), function(f) {
                     return {
                         _id: f._id,
                         label: f.general.name + ' ' + f.general.year,
@@ -253,25 +314,20 @@ module.exports = function(app) {
         });
     });
     app.post('/api/feeds', isAuthenticated, function(req, res) {
-
         var feed = new Feed();
-
         feed.createdAt = new Date();
         feed.createdBy = {
             userId: req.user._id,
             tenantId: req.user.tenantId
         }
-
         feed.general = req.body.general;
         feed.analysis = req.body.analysis;
         feed.harvest = req.body.harvest;
         feed.feeding = req.body.feeding;
         feed.save(function(err, newFeed) {
-
             if (err) {
                 return errorHandler(err, req, res);
-            }
-            else {
+            } else {
                 res.json({
                     message: 'OK',
                     id: newFeed._id
@@ -281,41 +337,35 @@ module.exports = function(app) {
     });
     // get feeds for feed list
     app.get('/api/feeds', isAuthenticated, function(req, res) {
-        Feed.find({'createdBy.tenantId': req.user.tenantId}).lean().exec(function(err, feeds) {
+        Feed.find({
+            'createdBy.tenantId': req.user.tenantId
+        }).lean().exec(function(err, feeds) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-
             // double check
-            feeds = _.filter(feeds, function (f) {
+            feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-
             //sort
             // all opened: true
             // all closed: true
             // all done: true
-
-            var opened = _.filter(feeds, function (f) {
+            var opened = _.filter(feeds, function(f) {
                 return f.general.opened && !f.general.done;
             });
-
-            var closed = _.filter(feeds, function (f) {
+            var closed = _.filter(feeds, function(f) {
                 return !f.general.opened && !f.general.done;
             });
-
-            var done = _.filter(feeds, function (f) {
+            var done = _.filter(feeds, function(f) {
                 return f.general.done;
-            });            
-
+            });
             var sortedFeeds = _.concat(opened, closed, done);
-
             var shortFeeds = _.map(sortedFeeds, function(feed) {
                 return _.merge({}, feed.general, {
                     _id: feed._id,
                     analysis: feed.analysis.length,
-                    feedType: (feed.general.feedType === 'none' ? 
-                        '' : lang(feed.general.feedType)),
+                    feedType: (feed.general.feedType === 'none' ? '' : lang(feed.general.feedType)),
                     field: feed.general.field ? ('Поле: ' + feed.general.field) : undefined
                 });
             });
@@ -329,7 +379,7 @@ module.exports = function(app) {
                 return errorHandler(err, req, res);
             }
             if (checkUserRightForFeed(feed, req, res)) {
-                res.json(view(feed, req.user));    
+                res.json(view(feed, req.user));
             }
         });
     });
@@ -340,7 +390,7 @@ module.exports = function(app) {
                 return errorHandler(err, req, res);
             }
             if (checkUserRightForFeed(feed, req, res)) {
-                res.json(edit(feed));    
+                res.json(edit(feed));
             }
         });
     });
@@ -363,7 +413,7 @@ module.exports = function(app) {
                         message: 'OK',
                         id: updatedFeed._id
                     });
-                });        
+                });
             }
         });
     });
@@ -375,7 +425,6 @@ module.exports = function(app) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-
             res.json({
                 message: 'OK',
                 id: req.params.feed_id
@@ -386,16 +435,13 @@ module.exports = function(app) {
     app.post('/api/feeds/new', isAuthenticated, function(req, res) {
         res.json(edit());
     });
-
     // get analysis skeleton
     app.post('/api/feeds/newAnalysis', isAuthenticated, function(req, res) {
-        
         var emptyFeed = Feed.getEmptyFeed();
         var editEmptyFeed = edit(emptyFeed);
         var analysisSubSection = editEmptyFeed[0].subSections[0];
         res.status(200).json(analysisSubSection);
     });
-
     // get feeds diff
     app.post('/api/feeds/diff', isAuthenticated, function(req, res) {
         var feedIds = req.body.feedIds;
@@ -403,17 +449,14 @@ module.exports = function(app) {
             return Feed.findById(feedId);
         });
         Q.all(promises).then(function(feeds) {
-
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-
             res.status(200).json(diff(feeds));
         }, function(err) {
             res.send(err);
         });
     });
-
     // get feeds sum
     app.post('/api/feeds/sum', isAuthenticated, function(req, res) {
         var feedIds = req.body.feedIds;
@@ -421,17 +464,14 @@ module.exports = function(app) {
             return Feed.findById(feedId);
         });
         Q.all(promises).then(function(feeds) {
-
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-
             res.status(200).json(sum(feeds));
         }, function(err) {
             res.send(err);
         });
-    });    
-
+    });
     // get feeds average
     app.post('/api/feeds/average', isAuthenticated, function(req, res) {
         var feedIds = req.body.feedIds;
@@ -442,21 +482,18 @@ module.exports = function(app) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-
             res.status(200).json(average(feeds));
         }, function(err) {
             res.send(err);
         });
-    });    
-
+    });
     // catalog =====================================================
-    app.get('/api/catalog', isAuthenticated, function (req, res) {
+    app.get('/api/catalog', isAuthenticated, function(req, res) {
         Catalog.find().lean().exec(function(err, items) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-
-            var shortItems = _.map(items, function (item) {
+            var shortItems = _.map(items, function(item) {
                 return {
                     key: item.key,
                     short: item.ru_short
@@ -465,9 +502,10 @@ module.exports = function(app) {
             res.status(200).json(shortItems);
         });
     });
-
-    app.get('/api/catalog/:key', isAuthenticated, function (req, res) {
-        Catalog.findOne({key: req.params.key}).lean().exec(function(err, item) {
+    app.get('/api/catalog/:key', isAuthenticated, function(req, res) {
+        Catalog.findOne({
+            key: req.params.key
+        }).lean().exec(function(err, item) {
             if (err) {
                 return errorHandler(err, req, res);
             }
@@ -478,14 +516,14 @@ module.exports = function(app) {
             }
             res.status(200).json(result);
         });
-    });    
-
-    app.put('/api/catalog/:key', isAuthenticated, function (req, res) {
-        Catalog.findOne({key: req.params.key}, function(err, item) {
+    });
+    app.put('/api/catalog/:key', isAuthenticated, function(req, res) {
+        Catalog.findOne({
+            key: req.params.key
+        }, function(err, item) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-            
             item.ru_short = req.body.short;
             item.ru_content = req.body.content;
             // save the bear
@@ -498,8 +536,6 @@ module.exports = function(app) {
             });
         });
     });
-
-
     // application =================================================
     app.get('*', function(req, res) {
         res.sendFile(__dirname + './../prokorm_client/index.html'); // load the single view file (angular will handle the page changes on the front-end)

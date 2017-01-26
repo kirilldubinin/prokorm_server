@@ -5,10 +5,6 @@ angular.module('prokorm').factory('feedFactory', ['$http', '$location', function
     var urlBaseFeed = urlBase + 'feeds/';
     var feedFactory = {};
 
-    // sessionData
-    feedFactory.getSessionData = function() {
-        return $http.get(urlBase + 'sessionData/')
-    };
     // feed
     feedFactory.getFeeds = function() {
         return $http.get(urlBaseFeed);

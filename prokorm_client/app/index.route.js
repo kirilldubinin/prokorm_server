@@ -53,15 +53,26 @@
       // profile =======================================================
       .state('farm.instance.profile', {
         url: '/profile',
+        templateUrl: 'app/profile/profile.html',
+        abstract: true
+      })
+      .state('farm.instance.profile.view', {
+        url: '/view',
         templateUrl: 'app/profile/profileView.html',
         controller: 'ProfileViewController',
-        controllerAs: 'profile'
+        controllerAs: 'profileView'
+      })
+      .state('farm.instance.profile.addUser', {
+        url: '/addUser',
+        templateUrl: 'app/profile/addUser.html',
+        controller: 'AddUserController',
+        controllerAs: 'addUser'
       })
       .state('farm.instance.profile.edit', {
         url: '/edit',
         templateUrl: 'app/profile/profileEdit.html',
         controller: 'ProfileEditController',
-        controllerAs: 'profile'
+        controllerAs: 'profileEdit'
       })
       // ration =======================================================
       .state('farm.instance.ration', {

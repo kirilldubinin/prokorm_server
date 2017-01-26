@@ -14,7 +14,7 @@
     <div class="user-name">
         <ng-md-icon icon="account_circle">
         </ng-md-icon>
-        {{home.sessionData.user.tenantFullName}}
+        {{home.sessionData.user.name}}
         <md-menu>
             <md-button aria-label="Menu" class="md-icon-button" ng-click="home.openMenu($mdOpenMenu, $event)">
                 <ng-md-icon icon="menu">
@@ -22,7 +22,7 @@
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item>
-                    <md-button ng-click="home.settings($event)">
+                    <md-button ng-click="home.profile()">
                         <ng-md-icon style="fill: #999" icon="account_circle">
                         </ng-md-icon>
                         Профиль

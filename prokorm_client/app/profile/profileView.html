@@ -1,13 +1,24 @@
-<md-card class="profile" flex md-theme="default" md-theme-watch="" layout="column">
-	<h2 class="profile-title">Профиль
-		<md-button class="md-raised" ng-click="catalogContent.edit()">
-	        Редактировать
-      	</md-button>
-	</h2> 
-	<md-content class="profile-view">
-		<p ng-repeat="userInfo in profile.userInfo" layout="row">
+<div class="profile-view" layout="row">
+	<div class="user-info" flex="50">
+		<h2>Текущий пользователь
+			<md-button class="md-raised" ng-click="profileView.edit()">
+		        Редактировать
+	      	</md-button>
+		</h2>
+		<p ng-repeat="userInfo in profileView.userInfo" layout="row">
 			<label flex="30">{{userInfo.label}}:</label>
 			<span flex>{{userInfo.value}}</span>
+		</p>	
+	</div>
+	<div ng-if="profileView.companyUsers !== undefined" flex="50" class="company-users">
+		<h2>Пользователи в компании
+			<md-button class="md-raised" ng-click="profileView.addUser()">
+		        Добавить
+	      	</md-button>
+		</h2>
+
+		<p ng-repeat="cmpUser in profileView.companyUsers">
+			<a href="#">{{cmpUser.userName}}</a>
 		</p>
-	</md-content>
-</md-card>
+	</div>
+</div>

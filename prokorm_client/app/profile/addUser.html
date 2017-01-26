@@ -1,0 +1,50 @@
+<div class="add-user" layout="column">
+	<h2>Добавление пользователя</h2>
+	<form name="add-user" flex>
+		<div class="edit-block">
+			<div layout="row">
+				<md-input-container flex="30">
+			        <label>Имя пользователя (только латинские буквы)</label>
+			        <input ng-model="addUser.user.name">
+			    </md-input-container>
+				<md-input-container flex="30">
+			        <label>Полное имя пользователя</label>
+			        <input ng-model="addUser.user.fullName">
+			    </md-input-container>
+			    <md-input-container flex="30">
+			        <label>E-mail</label>
+			        <input ng-model="addUser.user.email">
+			    </md-input-container>
+		    </div>
+		    <div layout="row">
+		    	<md-input-container flex="30">
+			        <label>Пароль</label>
+			        <input ng-model="addUser.user.password">
+			    </md-input-container>
+			    <md-input-container flex="30">
+			        <label>Пароль еще раз</label>
+			        <input ng-model="addUser.password_2">
+			    </md-input-container>
+			    <div flex="30"></div>
+		    </div>
+		    <p><label>Права пользователя</label></p>
+		    <md-checkbox ng-model="addUser.allowRead" aria-label="">
+	            Просмотр <label>(пользователь сможет открывать для просмотра любые объекты)</label>
+        	</md-checkbox>
+        	<md-checkbox ng-model="addUser.allowWrite" aria-label="">
+	            Редактирование <label>(пользователь сможет редактировать и удалять любые объекты)</label>
+        	</md-checkbox>
+
+		    
+		</div>
+	</form>
+	<!-- ACTIONS -->
+    <div class="edit-actions" layout="row" layout-align="center left" layout-sm="column" layout-wrap="">
+        <md-button class="md-raised" ng-click="addUser.cancel()">
+            Отмена
+        </md-button>
+        <md-button class="md-raised md-primary" ng-click="addUser.save2()">
+            Сохранить
+        </md-button>
+    </div>
+</md-card>

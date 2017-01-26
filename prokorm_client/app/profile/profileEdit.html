@@ -1,27 +1,27 @@
-<md-card class="profile" flex md-theme="default" md-theme-watch="" layout="column">
-	<h2 class="profile-title">Профиль</h2> 
+<div class="profile-edit">
+	<h2>Текущий пользователь</h2> 
 	<form name="settings" flex>
 		<div class="edit-block">
 			<md-input-container class="md-block">
 		        <label>Имя компании</label>
-		        <input disabled="disabled" ng-model="profile.userInfo.tenantName">
+		        <input disabled="disabled" ng-model="profileEdit.profile.tenantName">
 		    </md-input-container>
 		    <md-input-container class="md-block">
 		        <label>Полное имя компании</label>
-		        <input ng-model="profile.userInfo.tenantFullName">
+		        <input ng-model="profileEdit.profile.tenantFullName">
 		    </md-input-container>
 
 			<md-input-container class="md-block">
 		        <label>Имя пользователя</label>
-		        <input ng-model="profile.userInfo.name">
+		        <input ng-model="profileEdit.profile.userName">
 		    </md-input-container>
 			<md-input-container class="md-block">
 		        <label>Полное имя пользователя</label>
-		        <input ng-model="profile.userInfo.fullName">
+		        <input ng-model="profileEdit.profile.userFullName">
 		    </md-input-container>
 		    <md-input-container class="md-block">
 		        <label>E-mail</label>
-		        <input ng-model="profile.userInfo.email">
+		        <input ng-model="profileEdit.profile.email">
 		    </md-input-container>
 		</div>
 
@@ -45,7 +45,7 @@
         <md-button class="md-raised" ng-click="feedEdit.cancel()">
             Отмена
         </md-button>
-        <md-button class="md-raised md-primary" ng-click="feedEdit.save()">
+        <md-button class="md-raised md-primary" ng-click="profileEdit.save()">
             Сохранить
         </md-button>
     </div>
