@@ -12,6 +12,7 @@
   .catalog-view .catalog-content {
     overflow: auto; }
     .catalog-view .catalog-content pre {
+      font-size: 14px;
       font-family: Roboto, "Helvetica Neue", sans-serif;
       line-height: 1.6em;
       white-space: pre-wrap;

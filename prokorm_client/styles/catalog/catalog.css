@@ -8,7 +8,9 @@
       height: calc(100% - 60px);
       overflow: auto;
       padding-top: 0; }
-      .catalog .navigator .catalog-list .selected {
-        background-color: #BBDEFB; }
+      .catalog .navigator .catalog-list .catalog-item {
+        font-size: 14px; }
+        .catalog .navigator .catalog-list .catalog-item.selected {
+          background-color: #BBDEFB; }
   .catalog .dashboard {
     height: calc(100% - 14px); }
