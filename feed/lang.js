@@ -2,6 +2,10 @@ var _ = require('lodash');
 function lang(key) {
 	var langObj = {
 
+        admin: 'Администратор',
+        read: 'Чтение',
+        write: 'Редактирования',
+
         userName: 'Имя пользователя',
         userFullName: 'Полное имя пользователя',
         tenantName: 'Имя компании',

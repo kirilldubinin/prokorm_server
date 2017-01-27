@@ -5,6 +5,8 @@
   padding: 2px 0px 2px 8px;
   background-color: #3F51B5;
   color: #fff; }
+  .main-header .user-name {
+    padding-top: 6px; }
   .main-header .prokorm-title {
     line-height: 46px;
     font-size: 28px; }

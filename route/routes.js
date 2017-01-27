@@ -141,9 +141,7 @@ module.exports = function(app) {
             message: 'Authentication failed'
         });
     });
-
     app.post('/api/users', isAuthenticated, function(req, res) {
-        
         var user = new User();
         user.tenantId = req.user.tenantId;
         user.createdAt = new Date();
@@ -152,7 +150,6 @@ module.exports = function(app) {
         user.email = req.body.email;
         user.password = req.body.password;
         user.permissions = req.body.permissions;
-
         user.save(function(err, newUser) {
             if (err) {
                 return errorHandler(err, req, res);
@@ -164,7 +161,6 @@ module.exports = function(app) {
             }
         });
     });
-
     // session data =====================================
     app.get('/api/sessionData', isAuthenticated, function(req, res) {
         var sessionUser = req.user;
@@ -196,7 +192,9 @@ module.exports = function(app) {
                 value: user.email
             }, {
                 label: lang('permissions'),
-                value: user.permissions
+                value: _.map(user.permissions, function (p) {
+                    return lang(p);
+                }).join(',') 
             }];
             if (isAdmin) {
                 User.find({
@@ -204,7 +202,7 @@ module.exports = function(app) {
                 }).then(function(users) {
                     return res.json({
                         controls: userInfo,
-                        companyUsers: _.map(users, function (u) {
+                        companyUsers: _.map(users, function(u) {
                             return {
                                 _id: u._id,
                                 userName: u.name
@@ -264,21 +262,46 @@ module.exports = function(app) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-            
             //user.name = req.body.userName;
             user.fullName = req.body.userFullName;
             user.email = req.body.email;
-
-            user.save(function (err, updatedUser) {
-                if (err) res.send(err);
-                res.json({
-                    message: 'OK',
-                    id: updatedUser._id
+            // if admin, update tenant
+            var isAdmin = user.permissions.indexOf('admin') > -1;
+            if (isAdmin) {
+                Tenant.findById(user.tenantId, function(err, tenant) {
+                    if (err) {
+                        return errorHandler(err, req, res);
+                    }
+                    tenant.fullName = req.body.tenantFullName;
+                    req.user.tenantFullName = req.body.tenantFullName;
+                    tenant.save(function(err, updatedTenant) {
+                        if (err) {
+                            return errorHandler(err, req, res);
+                        }
+                        user.save(function(err, updatedUser) {
+                            if (err) {
+                                return errorHandler(err, req, res);
+                            }
+                            res.json({
+                                message: 'OK',
+                                id: updatedUser._id
+                            });
+                        });
+                    });
                 });
-            });
+            } else {
+                user.save(function(err, updatedUser) {
+                    if (err) {
+                        return errorHandler(err, req, res);
+                    }
+                    res.json({
+                        message: 'OK',
+                        id: updatedUser._id
+                    });
+                });
+            }
         });
     });
-
     // feed =============================================
     // new feed
     app.get('/api/feeds/dashboard', isAuthenticated, function(req, res) {

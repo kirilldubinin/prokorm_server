@@ -37,7 +37,8 @@
             name: '',
             fullName: '',
             email: '',
-            password: ''
+            password: '',
+            tenantFullName: ''
         };
         vm.cancel = function () {
         	$state.go('farm.instance.profile.view');
