@@ -17,7 +17,10 @@
       color: rgba(0, 0, 0, 0.54);
       font-size: 14px; }
     .profile .profile-view span {
-      margin-left: 10px; }
+      margin-left: 10px;
+      font-size: 14px; }
+    .profile .profile-view a {
+      font-size: 14px; }
   .profile .add-user {
     height: 100%; }
     .profile .add-user md-input-container {
@@ -28,3 +31,8 @@
     min-height: 60px;
     height: 60px;
     border-top: 3px solid #FF9800; }
+
+.change-passowrd {
+  min-width: 400px; }
+  .change-passowrd h2 {
+    color: #f0f0f0; }

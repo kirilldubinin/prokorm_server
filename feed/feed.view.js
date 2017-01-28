@@ -89,7 +89,22 @@ function convert(feed, sessionData) {
     var allViews = [analysisView, generalView, harvestView, feedingView];
     allViews = _.filter(allViews, function(v) { return !_.isEmpty(v); });
 
+    var actions = [];
+    if (sessionData.permissions.indexOf('admin') > -1 || 
+        sessionData.permissions.indexOf('write') > -1) {
+        actions.push('edit');
+        actions.push('delete');
+    }
+
     var result = {
+        actions: _.map(actions, function (action) {
+            return {
+                key: action,
+                label: lang(action),
+                buttonType: action === 'delete' ? 
+                    'warn' : 'raised'
+            };
+        }),
         general: feed.general,
         feedItemSections: []
     };

@@ -35,6 +35,7 @@
         feedFactory.getFeedView(feedId).then(function(feedView) {
           vm.feed = feedView.general;
           vm.feedItemSections = feedView.feedItemSections;
+          vm.actions = feedView.actions;
         });
     }
 })();

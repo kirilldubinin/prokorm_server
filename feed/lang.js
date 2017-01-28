@@ -6,6 +6,9 @@ function lang(key) {
         read: 'Чтение',
         write: 'Редактирования',
 
+        edit: 'редактировать',
+        delete: 'удалить',
+
         userName: 'Имя пользователя',
         userFullName: 'Полное имя пользователя',
         tenantName: 'Имя компании',

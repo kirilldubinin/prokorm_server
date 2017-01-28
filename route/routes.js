@@ -114,7 +114,8 @@ module.exports = function(app) {
                     tenantId: tenant._id,
                     tenantName: tenant.loginName,
                     tenantFullName: tenant.fullName || tenant.loginName,
-                    modules: modules
+                    modules: modules,
+                    permissions: user.permissions
                 };
                 req.logIn(sessionUser, function(err) {
                     if (err) {

@@ -125,7 +125,8 @@
                                 <label class="balance-percent">
                                     ({{balance.balancePercent}} %)
                                 </label>
-                                <span class="weight-control" ng-class="{opened: balance.balance !== balance.total}">
+                                <span class="weight-control" 
+                                    ng-class="{opened: balance.balance !== balance.total, done: balance === 0}">
                                     <span class="balance">
                                         {{balance.balance}}
                                     </span>
