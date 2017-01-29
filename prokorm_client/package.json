@@ -8,24 +8,30 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {
-
+  "devDependencies": {
     "gulp": "~3.9.0",
-    "gulp-sass": "~2.0.4",
+    "gulp-concat": "",
     "gulp-inject": "4.1.0",
-    "font-awesome": "4.7.0",
-    "moment": "2.17.1",
-
-    "lodash": "4.16.6",
-
+    "gulp-jshint": "^2.0.4",
+    "gulp-order": "",
+    "gulp-rename": "",
+    "gulp-sass": "~2.0.4",
+    "gulp-uglify": "",
+    "jshint": "^2.9.4",
+    "gulp-clean-css": "~2.3.2"
+  },
+  "dependencies": {
     "angular": "1.5.5",
-    "angular-resource": "1.6.1",
-    "angular-ui-router": "~0.2.15",
-    "angular-material": "1.1.1",
     "angular-animate": "1.5.5",
     "angular-aria": "1.5.5",
+    "angular-material": "1.1.1",
+    "angular-material-icons": "~0.7.1",
     "angular-messages": "1.5.5",
-    
-    "angular-material-icons": "~0.7.1"
+    "angular-resource": "1.6.1",
+    "angular-ui-router": "~0.2.15",
+    "font-awesome": "4.7.0",
+    "gulp-jshint-html-reporter": "^0.1.3",
+    "lodash": "4.16.6",
+    "moment": "2.17.1"
   }
 }

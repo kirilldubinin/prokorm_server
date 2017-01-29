@@ -38,8 +38,8 @@
                 if (result.message === 'OK') {
                     $state.go('farm.instance.profile.view');
                 }
-            })
-        }
+            });
+        };
     }
     angular.module('prokorm').controller('AddUserController', AddUserController);
     /** @ngInject */
@@ -54,12 +54,16 @@
         };
         vm.cancel = function() {
             $state.go('farm.instance.profile.view');
-        }
+        };
         vm.save2 = function() {
             if (vm.user.password === vm.password_2) {
                 var permissions = [];
-                vm.allowRead && permissions.push('read');
-                vm.allowWrite && permissions.push('write');
+                if (vm.allowRead){
+                    permissions.push('read');
+                }
+                if (vm.allowWrite){
+                    permissions.push('write');
+                }
                 var user = _.extend(vm.user, {
                     permissions: permissions
                 });
@@ -69,7 +73,7 @@
                     }
                 });
             }
-        }
+        };
     }
     angular.module('prokorm').controller('ChangePasswordController', ChangePasswordController);
     /** @ngInject */

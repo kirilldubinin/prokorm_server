@@ -1,7 +1,8 @@
 (function() {
     'use strict';
-    angular.module('prokorm').controller('FeedViewController', FeedViewController);
 
+    FeedViewController.$inject = ['$mdDialog', '$stateParams', '$state', 'feedFactory', '_']
+    angular.module('prokorm').controller('FeedViewController', FeedViewController);
     function FeedViewController($mdDialog, $stateParams, $state, feedFactory, _) {
         
         var vm = this;
@@ -15,7 +16,7 @@
             $state.go('farm.instance.feed.diff', {
               'feeds': [feedId].join(':')
             });
-        }
+        };
         vm.edit = function() {
             $state.go('farm.instance.feed.edit', {
                 'feedId': feedId

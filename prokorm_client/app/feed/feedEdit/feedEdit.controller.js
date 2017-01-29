@@ -2,7 +2,7 @@
     'use strict';
     angular.module('prokorm').controller('FeedEditController', FeedEdiController);
     /** @ngInject */
-    function FeedEdiController($window, $stateParams, $state, $scope, feedFactory, _) {
+    function FeedEdiController($window, $stateParams, $state, $scope, feedFactory) {
         var vm = this;
 
         vm.feedItem = {
@@ -77,7 +77,7 @@
             vm.feedItem.analysis = _.map(vm.feedItemSections[0].subSections, function(subSection) {
                 return subSection.initialItem;
             });
-        }
+        };
 
         vm.onAnalysisAdd = function() {
 

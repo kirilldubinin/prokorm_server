@@ -3,6 +3,8 @@
     // modules
     angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons']);
     
+    // constant
+    angular.module('prokorm').constant('_', window._);
     // config
     angular.module('prokorm').config(['$mdDateLocaleProvider', function($mdDateLocaleProvider) {
         $mdDateLocaleProvider.formatDate = function(date) {
@@ -20,10 +22,10 @@
         $httpProvider.defaults.headers.get['If-Modified-Since'] = 'Mon, 26 Jul 1997 05:00:00 GMT';
         // extra
         $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
-        $httpProvider.defaults.headers.get['Pragma'] = 'no-cache';
+        $httpProvider.defaults.headers.get.Pragma = 'no-cache';
 
         function isAPIrequest(url) {
-            return /^\/?api\//.test(url)
+            return /^\/?api\//.test(url);
         }
         $httpProvider.interceptors.push(function($q, $injector) {
             return {
@@ -55,7 +57,7 @@
                             alert(rejection.data.message);
                         }
 
-                        return $q.reject(rejection.data)
+                        return $q.reject(rejection.data);
                     }
                     return $q.reject(rejection);
                 }

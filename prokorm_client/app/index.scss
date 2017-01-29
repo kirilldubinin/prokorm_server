@@ -11,12 +11,49 @@
   font-family: 'Material Icons';
   font-style: normal;
   font-weight: 400;
-  src: url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.eot); /* For IE6-8 */
   src: local('Material Icons'),
-       local('MaterialIcons-Regular'),
-       url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.woff2) format('woff2'),
-       url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.woff) format('woff'),
-       url(../../bower_components/material-design-iconfont/iconfont/MaterialIcons-Regular.ttf) format('truetype');
+       local('MaterialIcons-Regular')
+}
+
+/* fallback */
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Material Icons'), local('MaterialIcons-Regular'), url(https://fonts.gstatic.com/s/materialicons/v20/2fcrYFNaTjcS6g4U3t-Y5ZjZjT5FdEJ140U2DJYC3mY.woff2) format('woff2');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+}
+
+/* latin-ext */
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Titillium Web'), local('TitilliumWeb-Regular'), url(https://fonts.gstatic.com/s/titilliumweb/v4/7XUFZ5tgS-tD6QamInJTcSo_WB_cotcEMUw1LsIE8mM.woff2) format('woff2');
+  unicode-range: U+0100-024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF;
+}
+/* latin */
+@font-face {
+  font-family: 'Titillium Web';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Titillium Web'), local('TitilliumWeb-Regular'), url(https://fonts.gstatic.com/s/titilliumweb/v4/7XUFZ5tgS-tD6QamInJTcZSnX671uNZIV63UdXh3Mg0.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215;
 }
 
 /**
@@ -43,453 +80,4 @@ h2 {
 
 .view {
   height: 100%;
-}
-
-a.link {
-  font-size: 14px;
-  color: rgb(63,81,181);
-  text-decoration: none;
-  &:hover {
-    text-decoration: underline;
-  }
-}
-
-md-toolbar.farm-toolbar {
-
-  .selectors {
-    text-align: right;
-
-    .module {
-      img {
-        opacity: 0.7;
-      }
-      &:hover {
-        img {
-          opacity: 1;
-        }
-      }
-    }
-  }
-}
-
-.card-payment {
-  
-  * {
-    outline: none;
-  }
-
-  .card-header {
-    border-bottom: 2px solid #FF9800;
-    padding-bottom: 0;
-  }
-  
-  .card-title {
-    margin: 0;
-    display: inline;
-    color: #4E342E;
-    vertical-align: bottom;
-    opacity: 0.9;
-  }
-
-  .header-summ {
-    margin: 0;
-    display: inline;
-    background-color: #FF9800;
-    padding: 2px 4px;
-    border-radius: 3px;
-    color: #eee;
-    font-weight: normal;
-    margin-left: 20px;
-  }
-
-  .card-content {
-
-    padding: 0px 10px;
-
-    .payment {
-      margin: 0;
-      min-height: 1px;
-      padding: 6px;
-      border-bottom: 1px solid #9E9E9E;
-      cursor: pointer;
-
-      .card-item-menu {
-        
-      }
-
-      &.not-paid {
-        .payment-value {
-          h3 {
-            text-decoration: line-through;
-            opacity: 0.4;
-          }
-        }
-      }
-
-      &.selected {
-        /*border: 2px solid #FF9800;
-        margin: 4px 0;
-        border-radius: 4px;*/
-      }
-
-      .card-payment-edit-form {
-        border: 2px solid #FF9800;
-        border-radius: 4px;
-        padding: 4px 10px;
-
-        h2.payment-title {
-          color: #5D4037;
-          opacity: 0.9;
-          margin-top: 6px;
-        }
-      }
-
-      .card-action {
-        margin-top: 20px;
-      }
-
-      md-list-item-text {
-        padding: 0;
-        margin: 0
-      }
-
-      .payment-date-time {
-        font-size: 11px;
-        color: #616161;
-      }
-
-      .payment-description {
-        font-size: 11px;
-        color: #616161;
-      }
-
-      .payment-target {
-
-        a {
-          color: #3F51B5;
-          font-size: 11px;
-        }
-      }
-    }  
-
-    md-input-container {
-      margin: 18px 0 0 0;
-    }
-
-    .edit-payment {
-      border: 2px solid #FF9800;
-      border-radius: 4px;
-      padding: 6px;
-      margin: 6px 0;
-
-      h3 {
-        color: #5D4037;
-        opacity: 0.9;
-        margin-top: 6px;
-      }
-    }
-  }
-}
-
-b.cows-count {
-  background-color: #transparent !important;
-  color: #333 !important;
-  padding: 2px 4px !important;
-  border-radius: 2px !important;
-  border: 1px solid;
-}
-
-.building {
-  margin: 10px 20px;
-  height: auto;
-  width: 220px;
-
-  .header {
-    height: 34px;
-    color: #555;
-    padding: 0 4px;
-    h3 {
-      display: inline;
-      font-size: 16px;
-    }
-
-    b {
-      float: right;
-      padding-top: 2px;
-    }
-  }
-
-  .groups {
-    height: 260px;
-  }
-
-  .group {
-    margin: 0 4px;
-    text-align: center;
-
-    .groups {
-      .group {
-        margin: 0;
-      }
-    }
-  }
-
-  .group-count {
-    height: auto !important;
-    border-radius: 2px !important;
-    padding: 4px 8px !important;
-    color: #333;
-    font-size: 11px;
-    border: 1px solid;
-  }
-
-  .group-header {
-    height: 26px;
-    padding: 4px;
-    text-align: center;
-    line-height: 26px;
-    cursor: pointer;
-    margin-bottom: 11px;
-    opacity: 0.8;
-    &:hover {
-      opacity: 1
-    }
-
-    .group-number {
-      font-weight: bold;
-      font-size: 16px;  
-      color: #f0f0f0;
-    }
-
-  }
-
-  .legend {
-
-    .legend-item  {
-      font-size: 11px;
-      padding: 0;
-      height: auto;
-      min-height: auto;
-      margin: 4px 0;
-    }
-    b {
-      color: #f0f0f0;
-      border-radius: 50%;
-      padding: 8px;
-      font-size: 11px;
-      margin-right: 8px;
-      opacity: 0.8;
-      &:hover {
-        opacity: 1;
-      }
-    }
-
-     .group-count {
-        position: absolute;
-        right: 0;
-        top: 4px;
-        opacity: 1;
-      }
-  }
-
-  .blue {
-    background-color: #B3E5FC;
-    .group-header {
-      background-color: #03A9F4;
-    }
-
-    &.legend-item {
-      background-color: transparent;
-      .group-number {
-        background-color: #03A9F4;
-      }
-
-
-    }
-  }
-
-  .md-fab {
-    &.blue {
-      background-color: #03A9F4;
-    }
-  }
-
-  .green {
-    background-color: #A5D6A7;
-  }
-
-  .red {
-    background-color: #FFCCBC;
-    .group-header {
-      background-color: #FF5722;
-    }
-
-    &.legend-item {
-      background-color: transparent;
-      .group-number {
-        background-color: #FF5722;
-      }
-    }
-  }
-
-  .yellow {
-    background-color: #FFE0B2;
-
-    .group-header {
-      background-color: #FF9800;
-    }
-
-    &.legend-item {
-      background-color: transparent;
-      .group-number {
-        background-color: #FF9800;
-      }
-    }
-  }
-}
-
-.mixer {
-  width: 300px;
-}
-
-.md-subheader.md-default-theme, .md-subheader {
-  border-bottom: 2px solid;
-  margin-bottom: 8px;
-
-  .md-subheader-inner {
-    padding: 6px 16px;
-
-    .md-subheader-content {
-      text-align: right;
-      padding-right: 22px;
-    }
-
-    * {
-      color: #222;
-    }
-    md-icon {
-      width: 20px;
-    }
-
-    b {
-      font-size: 28px;
-      display: inline-block;
-      height: 24px;
-      line-height: 24px;
-      position: absolute;
-      color: #222;
-      font-weight: normal;
-      top: 0px;
-    }
-  }
-}
-
-.ration {
-  
-  .mixer-count {
-    border: 1px;
-  }
-
-  md-list-item {
-    &.ration-item {
-      position: relative;
-      min-height: 30px;
-      height: auto;
-      padding: 6px 16px;
-
-      
-
-      p {
-        font-size: 10px;
-      }
-
-      b {
-        position: absolute;
-        right: 20px;
-        top: 8px;
-        color: #f0f0f0;
-        padding: 4px 6px;
-        border-radius: 3px;
-        font-size: 16px;
-        min-width: 30px;
-        text-align: right;
-      }
-
-      &.total {
-
-        border-top: 2px solid #666;
-        min-height: 1px;
-        height: 22px;
-        b {
-          color: #444;
-          font-size: 22px;
-          right: 10px;
-          top: 4px;
-        }
-      }
-
-      &.green {
-        b {
-          background-color: #009688;
-        }
-      }
-
-      &.yellow {
-        b {
-          background-color: #FFB74D;
-        }
-      }
-
-      &.blue {
-        b {
-          background-color: #0091EA;
-        }
-      }      
-    }
-  }
-}
-
-md-dialog {
-  opacity: 1;
-}
-.ration-dialog {
-  max-height: 100%;
-  background-color: #f0f0f0;
-
-  md-content {
-    background-color: #f0f0f0;    
-  }
-
-  md-toolbar {
-
-    .group-number {
-      font-size: 32px;
-      margin-right: 10px;
-    }
-
-    .cows-count {
-      margin-left: 10px;
-
-    }
-
-    &.yellow {
-      background-color: #FFB74D;
-      color: #fff;
-      border-bottom: 2px solid #FFB74D;
-
-      b {
-        background-color: #FFB74D;
-      }
-    }
-
-    &.blue {
-      background-color: #03A9F4;
-      color: #fff;
-      border-bottom: 2px solid #03A9F4;
-
-      b {
-        background-color: #03A9F4;
-      }
-    }
-  }
 }

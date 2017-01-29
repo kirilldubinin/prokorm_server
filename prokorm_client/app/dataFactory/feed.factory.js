@@ -14,7 +14,7 @@ angular.module('prokorm').factory('feedFactory', ['$http', '$location', function
     };
     feedFactory.saveFeed = function(feed) {
         var methode = feed._id ? 'put' : 'post';
-        var url = feed._id ? (urlBaseFeed + feed._id) : urlBaseFeed
+        var url = feed._id ? (urlBaseFeed + feed._id) : urlBaseFeed;
         return $http[methode](url, feed);
     };
     feedFactory.getFeedView = function(feedId) {

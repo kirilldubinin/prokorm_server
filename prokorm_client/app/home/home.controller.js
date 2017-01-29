@@ -16,15 +16,15 @@
         vm.goToModule = function(module) {
             $state.go('farm.instance.' + module);
             //$window.location.href = '#/farm/kamenskoe' + module.url;
-        }
+        };
 
         vm.logout = function () {
             loginFactory.logout();
-        }
+        };
 
         vm.profile = function () {
             $state.go('farm.instance.profile.view');
-        }
+        };
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             vm.currentModule = newState.data && newState.data.module;

@@ -20,10 +20,10 @@
                     vm.error = err.message;
                 }
             );
-        }
+        };
 
         vm.goToRegistration = function () {
             
-        }
+        };
     }
 })();

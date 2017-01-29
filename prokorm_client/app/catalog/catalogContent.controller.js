@@ -7,7 +7,7 @@
 
         vm.edit = function () {
             $state.go('farm.instance.catalog.edit', {'terms': $state.params.terms});
-        }
+        };
         if (!$state.params.terms) {
             return;
         }

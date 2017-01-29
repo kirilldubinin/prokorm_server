@@ -8,11 +8,8 @@
         
         feedFactory.getFeeds().then(function(feeds) {
             vm.feedItems = feeds;
-
             var currentFeedId = $state.params.feedId;
             if (currentFeedId) {
-                
-                console.log(_.result(_.find(feeds, {'_id': $state.params.feedId}), '_id'))
                 vm.selectedItemId = _.result(_.find(feeds, {'_id': $state.params.feedId}), '_id');
             }
         });

@@ -19,15 +19,15 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
 
     // sessionData
     loginFactory.getSessionData = function() {
-        return $http.get(urlBase + 'sessionData/')
+        return $http.get(urlBase + 'sessionData/');
     };
 
     // profile
     loginFactory.getProfileView = function() {
-        return $http.get(urlBase + 'profile/view')
+        return $http.get(urlBase + 'profile/view');
     };    
     loginFactory.getProfileEdit = function() {
-        return $http.get(urlBase + 'profile/edit')
+        return $http.get(urlBase + 'profile/edit');
     };
     loginFactory.updateProfile = function(profile) {
         return $http.put(urlBase + 'profile', profile);
@@ -37,7 +37,7 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
     };
     loginFactory.setPassword = function (pass) {
         return $http.post(urlBase + 'profile/password', pass);    
-    }
+    };
 
     return loginFactory;
 }]);

@@ -6,9 +6,9 @@
         var vm = this;
         vm.save = function () {
             catalogFactory.saveCatalogContentByKey(vm.catalogItem).then(function(catalogItem) {
-                $state.go('farm.instance.catalog.instance', {'terms': $state.params.terms})
+                $state.go('farm.instance.catalog.instance', {'terms': $state.params.terms});
             });
-        }
+        };
         if (!$state.params.terms) {
             return;
         }

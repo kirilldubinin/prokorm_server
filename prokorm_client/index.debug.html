@@ -1,0 +1,92 @@
+<!doctype html>
+<html ng-app="prokorm">
+  <head>
+    <meta charset="utf-8">
+    <title>ПРОКОРМ</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width">
+
+    <link rel="stylesheet" href="node_modules/angular-material/angular-material.css">
+    <link rel="stylesheet" href="node_modules/angular-material-icons/angular-material-icons.css">
+    <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
+
+    <!-- inject:css -->
+    <link rel="stylesheet" href="/styles/index.css">
+    <link rel="stylesheet" href="/styles/catalog/catalog.css">
+    <link rel="stylesheet" href="/styles/catalog/catalogContent.css">
+    <link rel="stylesheet" href="/styles/catalog/catalogContentEdit.css">
+    <link rel="stylesheet" href="/styles/diff/diff.css">
+    <link rel="stylesheet" href="/styles/feed/feed.css">
+    <link rel="stylesheet" href="/styles/feed/feedFilter.css">
+    <link rel="stylesheet" href="/styles/home/home.css">
+    <link rel="stylesheet" href="/styles/login/login.css">
+    <link rel="stylesheet" href="/styles/settings/settings.css">
+    <link rel="stylesheet" href="/styles/profile/profile.css">
+    <link rel="stylesheet" href="/styles/feed/average/average.css">
+    <link rel="stylesheet" href="/styles/feed/diff/diff.css">
+    <link rel="stylesheet" href="/styles/feed/feedEdit/feedEdit.css">
+    <link rel="stylesheet" href="/styles/feed/feedList/feed.css">
+    <link rel="stylesheet" href="/styles/feed/feedList/feedFilter.css">
+    <link rel="stylesheet" href="/styles/feed/feedView/feedView.css">
+    <link rel="stylesheet" href="/styles/feed/sum/sum.css">
+    <link rel="stylesheet" href="/styles/feed/controls/groupButtons/groupButtons.css">
+    <!-- endinject -->
+
+  </head>
+  <body>
+    <!--[if lt IE 10]>
+      <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+    <![endif]-->
+
+    <div class="view" ui-view></div>
+
+    <!-- Angular Material Dependencies -->
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="node_modules/angular-resource/angular-resource.min.js"></script>
+    <script src="node_modules/angular-animate/angular-animate.min.js"></script>
+    <script src="node_modules/angular-messages/angular-messages.min.js"></script>
+    <script src="node_modules/angular-aria/angular-aria.min.js"></script>
+    <script src="node_modules/angular-material/angular-material.min.js"></script>
+    <script src="node_modules/angular-material-icons/angular-material-icons.min.js"></script>
+
+    <!-- Angular UI router -->
+    <script src="node_modules/angular-ui-router/release/angular-ui-router.min.js"></script>
+
+    <!-- Lodash -->
+    <script src="node_modules/lodash/lodash.min.js"></script>
+
+    <!-- Moment -->
+    <script src="node_modules/moment/min/moment.min.js"></script>
+
+
+    <!-- inject:js -->
+    <script src="/app/index.config.js"></script>
+    <script src="/app/index.constants.js"></script>
+    <script src="/app/index.module.js"></script>
+    <script src="/app/index.route.js"></script>
+    <script src="/app/index.run.js"></script>
+    <script src="/app/catalog/catalog.controller.js"></script>
+    <script src="/app/catalog/catalogContent.controller.js"></script>
+    <script src="/app/catalog/catalogContentEdit.controller.js"></script>
+    <script src="/app/dataFactory/catalog.factory.js"></script>
+    <script src="/app/dataFactory/feed.factory.js"></script>
+    <script src="/app/dataFactory/login.factory.js"></script>
+    <script src="/app/home/home.controller.js"></script>
+    <script src="/app/login/login.controller.js"></script>
+    <script src="/app/login/registration.controller.js"></script>
+    <script src="/app/profile/profile.controller.js"></script>
+    <script src="/app/settings/settings.controller.js"></script>
+    <script src="/app/utils/lodashFactory.js"></script>
+    <script src="/app/utils/sessionDataFactory.js"></script>
+    <script src="/app/feed/average/average.controller.js"></script>
+    <script src="/app/feed/diff/diff.controller.js"></script>
+    <script src="/app/feed/feedEdit/feedEdit.controller.js"></script>
+    <script src="/app/feed/feedList/feed.controller.js"></script>
+    <script src="/app/feed/feedList/feedFilter.directive.js"></script>
+    <script src="/app/feed/feedView/feedView.controller.js"></script>
+    <script src="/app/feed/sum/sum.controller.js"></script>
+    <script src="/app/feed/controls/groupButtons/groupButtons.directive.js"></script>
+    <!-- endinject -->
+
+  </body>
+</html>
