@@ -95,8 +95,7 @@ gulp.task('release_clean', function() {
 });
 
 gulp.task('release', 
-	['clean', 
-	'build_libs_js', 
+	['build_libs_js', 
 	'build_app_js', 
 	'build_libs_css', 
 	'build_app_css'
