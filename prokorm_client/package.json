@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "rimraf": "",
     "gulp": "~3.9.0",
     "gulp-concat": "",
     "gulp-inject": "4.1.0",

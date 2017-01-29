@@ -89,8 +89,9 @@ gulp.task('build_app_css', function(){
     	.pipe(gulp.dest('./'));
 });
 
-gulp.task('clean', function() {
-
+gulp.task('release_clean', function() {
+	rimraf('/node_modules');
+	rimraf('/app');
 });
 
 gulp.task('release', 
