@@ -74,8 +74,24 @@
     angular.module('prokorm').controller('ChangePasswordController', ChangePasswordController);
     /** @ngInject */
     function ChangePasswordController($scope, $mdDialog, loginFactory) {
+        
+        $scope.currentPassword = '';
+        $scope.newPassword = '';
+        $scope.newPassword2 = '';
+
         $scope.cancel = function() {
             $mdDialog.cancel();
+        };
+        $scope.save = function () {
+            loginFactory.setPassword({
+                currentPassword: $scope.currentPassword,
+                newPassword: $scope.newPassword,
+                newPassword2: $scope.newPassword2
+            }).then(function (data) {
+                if (data.message === 'OK') {
+                    $state.go('farm.instance.profile.view');
+                }
+            });
         };
     }
 })();

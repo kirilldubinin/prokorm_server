@@ -50,6 +50,11 @@
                         $injector.get('$state').transitionTo('farm.login');
                     }
                     if (isAPIrequest(rejection.config.url)) {
+                            
+                        if (rejection.status !== 401 && rejection.data.message) {
+                            alert(rejection.data.message);
+                        }
+
                         return $q.reject(rejection.data)
                     }
                     return $q.reject(rejection);

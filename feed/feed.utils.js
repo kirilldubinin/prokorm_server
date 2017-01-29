@@ -82,13 +82,41 @@ var enumFields = {
 };
 
 var propertyWithHelp = {
+    dryMaterial: 'dryMaterial',
+    ph: 'ph',
     milkAcid: 'milkAcid',
     aceticAcid: 'aceticAcid',
     oilAcid: 'oilAcid',
     vos: 'vos',
     vcos: 'vcos',
     fos: 'fos',
-    sw: 'sw'
+    sw: 'sw',
+    nel: 'nel',
+    nelvc: 'nelvc',
+    exchangeEnergy: 'exchangeEnergy',
+    dve: 'dve',
+    oeb: 'oeb',
+    nxp: 'nxp',
+    rnb: 'rnb',
+    udp: 'udp',
+    solubleCrudeProtein: 'solubleCrudeProtein',
+    nh3: 'nh3',
+    crudeProtein: 'crudeProtein',
+    crudeAsh: 'crudeAsh',
+    crudeFat: 'crudeFat',
+    sugar: 'sugar',
+    starch: 'starch',
+    starchPasses: 'starchPasses',
+    starchPassesPercent: 'starchPassesPercent',
+    crudeFiber: 'crudeFiber',
+    ndf: 'ndf',
+    ndfDigested: 'ndfDigested',
+    adf: 'adf',
+    adl: 'adl',
+    calcium: 'calcium',
+    phosphorus: 'phosphorus',
+    carotene: 'carotene',
+    nitrates: 'nitrates'
 };
 
 module.exports = {

@@ -126,7 +126,7 @@
                                     ({{balance.balancePercent}} %)
                                 </label>
                                 <span class="weight-control" 
-                                    ng-class="{opened: balance.balance !== balance.total, done: balance === 0}">
+                                    ng-class="{opened: balance.balance !== balance.total, done: !balance.balance}">
                                     <span class="balance">
                                         {{balance.balance}}
                                     </span>
@@ -138,7 +138,7 @@
                             <ul class="composition">
                                 <li class="composition-item" ng-repeat="composition in balance.byComposition">
                                     {{composition.label}}
-                                    <span class="weight-control" ng-class="{opened: composition.balance !== composition.total}">
+                                    <span class="weight-control" ng-class="{opened: composition.balance !== composition.total, done: !composition.balance}">
                                         <span class="balance">
                                             {{composition.balance}}
                                         </span>
@@ -159,7 +159,7 @@
                                 <label class="balance-percent">
                                     ({{balance.balancePercent}} %)
                                 </label>
-                                <span class="weight-control" ng-class="{opened: balance.balance !== balance.total}">
+                                <span class="weight-control" ng-class="{opened: balance.balance !== balance.total, done: !balance.balance}">
                                     <span class="balance">
                                         {{balance.balance}}
                                     </span>
@@ -171,7 +171,7 @@
                             <ul class="composition">
                                 <li class="composition-item" ng-repeat="composition in balance.byFeedType">
                                     {{composition.label}}
-                                    <span class="weight-control" ng-class="{opened: composition.balance !== composition.total}">
+                                    <span class="weight-control" ng-class="{opened: composition.balance !== composition.total, done: !composition.balance}">
                                         <span class="balance">
                                             {{composition.balance}}
                                         </span>

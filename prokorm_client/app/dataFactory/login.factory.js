@@ -35,6 +35,9 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
     loginFactory.addUser = function(user) {
         return $http.post(urlBase + 'users', user);
     };
+    loginFactory.setPassword = function (pass) {
+        return $http.post(urlBase + 'profile/password', pass);    
+    }
 
     return loginFactory;
 }]);
