@@ -97,7 +97,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-            //user.name = req.body.userName;
+            user.name = req.body.userName;
             user.fullName = req.body.userFullName;
             user.email = req.body.email;
             // if admin, update tenant
