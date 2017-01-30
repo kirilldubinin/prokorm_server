@@ -74,7 +74,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 });
             } else {
                 return res.status(401).send({
-                    message: 'Invalid email or password.'
+                    message: 'Вы указали неверные данные для входа.'
                 });
             }
         });

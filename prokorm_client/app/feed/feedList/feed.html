@@ -7,7 +7,7 @@
                     ({{feed.feedItems.length}})
                 </span>
             </div>
-            <md-button class="md-fab md-mini md-primary" ng-click="feed.goToAdd()">
+            <md-button ng-if="_.some(feed.dashboard.actions, {key: 'addFeed'})" class="md-fab md-mini md-primary" ng-click="feed.addFeed()">
                 <ng-md-icon class="add-icon" icon="plus_one" size="24">
                 </ng-md-icon>
             </md-button>
@@ -22,20 +22,9 @@
                     </ng-md-icon>
                 </md-button>
                 <md-menu-content width="3">
-                    
-                    <md-menu-item>
-                        <md-button ng-click="feed.goToDiff()">
-                            Сравнить
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="feed.goToAverage()">
-                            Средний
-                        </md-button>
-                    </md-menu-item>
-                    <md-menu-item>
-                        <md-button ng-click="feed.goToSum()">
-                            Сумма
+                    <md-menu-item ng-if="action.key !== 'addFeed'" ng-repeat="action in feed.dashboard.actions">
+                        <md-button ng-click="feed[action.key]()">
+                            {{action.label}}
                         </md-button>
                     </md-menu-item>
                 </md-menu-content>
@@ -95,21 +84,9 @@
     </md-card>
     <md-card class="dashboard" flex="80" md-theme="default" md-theme-watch="" ui-view="">
         <md-content layout-padding="">
-            <md-button class="md-primary" ng-click="feed.goToAdd()" md-no-ink="">
-                Добавить корм
+            <md-button ng-repeat="action in feed.dashboard.actions" class="md-primary" ng-click="feed[action.key]()" md-no-ink="">
+                {{action.label}}
             </md-button>
-            <md-button class="md-primary" ng-click="feed.goToDiff()" md-no-ink="">
-                Сравнить корма
-            </md-button>
-
-            <md-button class="md-primary" ng-click="feed.goToAverage()" md-no-ink="">
-                Средний корм
-            </md-button>
-
-            <md-button class="md-primary" ng-click="feed.goToSum()" md-no-ink="">
-                Сумма кормов
-            </md-button>
-
             <div layout="row">
                 <md-card ng-if="feed.dashboard.balance.byFeedType.length" layout-padding="16" class="dashboard-card dashboard-balance" flex="50">
                     <h2>

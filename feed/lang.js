@@ -9,6 +9,11 @@ function lang(key) {
         edit: 'редактировать',
         delete: 'удалить',
 
+        addFeed: 'Добавить корм',
+        diffFeed: 'Сравнить корма', 
+        averageFeed: 'Средний корм', 
+        sumFeed: 'Сумма кормов',
+
         userName: 'Имя пользователя',
         userFullName: 'Полное имя пользователя',
         tenantName: 'Имя компании',

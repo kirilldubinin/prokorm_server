@@ -23,24 +23,25 @@
             originatorEv = ev;
             $mdOpenMenu(ev);
         };
-
-        vm.goToAdd = function() {
-            vm.selectedItemId = null;
-            $state.go('farm.instance.feed.new');
-        };
         vm.goToHome = function() {
             vm.selectedItemId = null;
             $state.go('farm.instance.feed');
         };
-        vm.goToDiff = function() {
+
+        // actions
+        vm.addFeed = function() {
+            vm.selectedItemId = null;
+            $state.go('farm.instance.feed.new');
+        };
+        vm.diffFeed = function() {
             vm.selectedItemId = null;
             $state.go('farm.instance.feed.diff');
         };
-        vm.goToAverage = function() {
+        vm.averageFeed = function() {
             vm.selectedItemId = null;
             $state.go('farm.instance.feed.average');
         };
-        vm.goToSum = function() {
+        vm.sumFeed = function() {
             vm.selectedItemId = null;
             $state.go('farm.instance.feed.sum');
         };

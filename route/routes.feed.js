@@ -43,7 +43,24 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
+
+            // set user actions for Feed module
+            var actions = ['diffFeed', 'averageFeed', 'sumFeed'];
+            var canAdd = 
+                (req.user.permissions.indexOf('admin') > -1 ||
+                req.user.permissions.indexOf('write') > -1);
+
+            if (canAdd) {
+                actions.unshift('addFeed');    
+            }
+            
             res.status(200).json({
+                actions: _.map(actions, function (f) {
+                    return {
+                        key: f,
+                        label: lang(f)
+                    };
+                }),
                 years: [prevYear, currentYear].join('-'),
                 balance: balance(feeds, [prevYear, currentYear]),
                 //perDay: perDay(feeds),
@@ -60,6 +77,17 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         });
     });
     app.post('/api/feeds', isAuthenticated, function(req, res) {
+        
+        var canEdit = 
+            req.user.permissions.indexOf('admin') > -1 ||
+            req.user.permissions.indexOf('write') > -1;
+
+        if (!canEdit) {
+            return res.status(406).json({
+                message: 'Недостаточно прав'
+            });
+        }
+
         var feed = new Feed();
         feed.createdAt = new Date();
         feed.createdBy = {
@@ -142,6 +170,17 @@ module.exports = function(app, isAuthenticated, errorHandler) {
     });
     // update feed by id
     app.put('/api/feeds/:feed_id', isAuthenticated, function(req, res) {
+        
+        var canEdit = 
+            req.user.permissions.indexOf('admin') > -1 ||
+            req.user.permissions.indexOf('write') > -1;
+
+        if (!canEdit) {
+            return res.status(406).json({
+                message: 'Недостаточно прав'
+            });
+        }
+
         Feed.findById(req.params.feed_id, function(err, feed) {
             if (err) {
                 return errorHandler(err, req, res);
@@ -165,6 +204,17 @@ module.exports = function(app, isAuthenticated, errorHandler) {
     });
     // delete feed by id
     app.delete('/api/feeds/:feed_id', isAuthenticated, function(req, res) {
+        
+        var canEdit = 
+            req.user.permissions.indexOf('admin') > -1 ||
+            req.user.permissions.indexOf('write') > -1;
+
+        if (!canEdit) {
+            return res.status(406).json({
+                message: 'Недостаточно прав'
+            });
+        }
+
         Feed.remove({
             _id: req.params.feed_id
         }, function(err, bear) {
