@@ -108,7 +108,7 @@ gulp.task('styles', function () {
 });
 
 gulp.task('index', function () {
-  var target = gulp.src('./index.html');
+  var target = gulp.src('./index.debug.html');
   // It's not necessary to read the files (will speed up things), we're only after their paths: 
   var sources = gulp.src(['./app/**/*.js', './styles/**/*.css'], {read: false});
  

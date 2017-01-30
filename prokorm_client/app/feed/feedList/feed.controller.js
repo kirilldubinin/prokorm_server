@@ -8,7 +8,9 @@
         
         feedFactory.getFeeds().then(function(feeds) {
             vm.feedItems = feeds;
-            var currentFeedId = $state.params.feedId;
+            vm.selectedItemId = $state.params.feedId;
+            console.log(vm.selectedItemId);
+            return;
             if (currentFeedId) {
                 vm.selectedItemId = _.result(_.find(feeds, {'_id': $state.params.feedId}), '_id');
             }
@@ -42,6 +44,18 @@
             vm.selectedItemId = null;
             $state.go('farm.instance.feed.sum');
         };
+
+        vm.isVisible = function (feedItem) {
+            if (!vm.isDiffMode && !vm.isAverageMode && !vm.isSumMode) {
+                return true;
+            } else if (vm.isDiffMode) {
+                return feedItem.analysis;
+            } else if (vm.isAverageMode) {
+                return feedItem.analysis;
+            } else if (vm.isSumMode) {
+                return feedItem.analysis && feedItem.balanceWeight;
+            }
+        }
 
         vm.onFeedClick = function(feedItem) {
             if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode) {
@@ -90,12 +104,19 @@
                 vm.sumFeeds = params.feeds.split(':');
             }
             else if (newState.name === 'farm.instance.feed') {
+                vm.selectedItemId = null;
                 feedFactory.getFeedDashboard().then(function(dashboard) {
                     vm.dashboard = dashboard;
                 });
+            } else if (newState.name === 'farm.instance.feed.instance') {
+                vm.selectedItemId = params.feedId;
+                console.log(params);
+                console.log(params.feedId);
+
             }
+            
             // update list after delete or add new feed
-            else if (newState.name === 'farm.instance.feed' || oldState.name === 'farm.instance.feed.edit' || 
+            if (newState.name === 'farm.instance.feed' || oldState.name === 'farm.instance.feed.edit' || 
                         (oldState.name === 'farm.instance.feed.new' && 
                         newState.name === 'farm.instance.feed.instance')) {
                 feedFactory.getFeeds().then(function(feeds) {

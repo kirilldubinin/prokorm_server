@@ -67,11 +67,11 @@
 			}
 
 			&.selected {
-				background-color: #BBDEFB;
+				background-color: #BBDEFB !important;
 			}
 
 			&.inDiff {
-				background-color: #BBDEFB;	
+				background-color: #BBDEFB  !important;	
 			}
 
 			cursor: pointer;

@@ -42,11 +42,15 @@
             </md-menu>
         </div>
         <md-list class="feed-list">
-            <md-list-item class="md-3-line feed-item" ng-class="{
-                  done: feedItem.done,
-                  opened: feedItem.opened,
-                  selected: (feedItem._id === feed.selectedItemId || feed.diffFeeds.indexOf(feedItem._id) > -1 || feed.averageFeeds.indexOf(feedItem._id) > -1 || feed.sumFeeds.indexOf(feedItem._id) > -1)
-                }" ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems">
+            <md-list-item class="md-3-line feed-item" 
+                ng-class="{
+                    done: feedItem.done,
+                    opened: feedItem.opened,
+                    selected: (feedItem._id === feed.selectedItemId || feed.diffFeeds.indexOf(feedItem._id) > -1 || feed.averageFeeds.indexOf(feedItem._id) > -1 || feed.sumFeeds.indexOf(feedItem._id) > -1)
+                }" 
+                ng-click="feed.onFeedClick(feedItem)" 
+                ng-repeat="feedItem in feed.feedItems"
+                ng-show="feed.isVisible(feedItem)">
                 <div class="md-list-item-text">
                     <div layout="row">
                         <p class="title" flex="">

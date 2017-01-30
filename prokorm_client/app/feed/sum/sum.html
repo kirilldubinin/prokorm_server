@@ -1,5 +1,5 @@
 <div class="sum-card" layout="column">
-  <div layout="row" class="sum-title">
+  <div ng-if="sum.sumsRows.length" layout="row" class="sum-title">
     <h2 flex="25">Сумма</h2>
     <div flex class="sum-header" ng-repeat="prop in sum.properties">
       {{prop.label}}, {{prop.dimension}}

@@ -4,6 +4,15 @@ var feedUtils = require('./feed.utils');
 var dimension = require('./dimension.sum');
 var math = require('mathjs');
 var _ = require('lodash');
+//var numberFormat = require('number-formatter');
+
+function format(value) {
+    return value;
+    console.log('=============================')
+    console.log(value);
+    console.log(numberFormat("# ##0.####", value));
+    return numberFormat("# ##0.####", value);   
+}
 
 /*
  * Collect sum each properties for each feed from param
@@ -19,7 +28,7 @@ function getSumsByProps(props, feeds) {
         if (prop === 'dryWeight') {
             return {
                 key: 'dryWeight',
-                value: math.round(dryBalanceWeight*1000, 2)
+                value: format(math.round(dryBalanceWeight*1000, 2))
             }
         } else {
             var total = _.sumBy(feeds, function(v) {
@@ -27,9 +36,11 @@ function getSumsByProps(props, feeds) {
                 var lastAnalysis = _.last(v.analysis);
                 var isNaturalWet = lastAnalysis.isNaturalWet;
                 
+
+
                 return isNaturalWet ? 
-                    dryBalanceWeight * (lastAnalysis[prop] / dryMaterial) : 
-                    dryBalanceWeight * (lastAnalysis[prop]);
+                    format(dryBalanceWeight * 1000 * (lastAnalysis[prop] / dryMaterial)) : 
+                    format(dryBalanceWeight * 1000 * (lastAnalysis[prop]));
             });
 
             return {
@@ -42,13 +53,10 @@ function getSumsByProps(props, feeds) {
 
 function getSum(feeds) {
 
-    console.log('getSum');
     //filter feeds, feed shoul have analysis
     feeds = _.filter(feeds, function (feed) {
         return feed.analysis.length;
     });
-
-    console.log(feeds.length);
 
     // filter properties
     // each feed from feeds should have properties from list
