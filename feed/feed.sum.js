@@ -28,7 +28,7 @@ function getSumsByProps(props, feeds) {
         if (prop === 'dryWeight') {
             return {
                 key: 'dryWeight',
-                value: format(math.round(dryBalanceWeight*1000, 2))
+                value: format(math.round(dryBalanceWeight*1000, 0))
             }
         } else {
             var total = _.sumBy(feeds, function(v) {
@@ -39,8 +39,8 @@ function getSumsByProps(props, feeds) {
 
 
                 return isNaturalWet ? 
-                    format(dryBalanceWeight * 1000 * (lastAnalysis[prop] / dryMaterial)) : 
-                    format(dryBalanceWeight * 1000 * (lastAnalysis[prop]));
+                    format(math.round(dryBalanceWeight * 1000 * (lastAnalysis[prop] / dryMaterial), 0)) : 
+                    format(math.round(dryBalanceWeight * 1000 * (lastAnalysis[prop]), 0));
             });
 
             return {

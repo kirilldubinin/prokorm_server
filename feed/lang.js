@@ -62,6 +62,7 @@ function lang(key) {
         isNaturalWet: 'Натуральная влажность',
         number: 'Номер исследования',
         code: 'Код исследования',
+        ph: 'pH',
         milkAcid: 'Молочная кислота',
         aceticAcid: 'Уксусная кислота',
         oilAcid: 'Масляная кислота',
