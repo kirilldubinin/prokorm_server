@@ -19,10 +19,14 @@
                 targetEvent: ev,
                 clickOutsideToClose: false
             }).then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
+                $state.go('farm.instance.profile.view');
             }, function() {
-                $scope.status = 'You cancelled the dialog.';
+                $state.go('farm.instance.profile.view');
             });
+        };
+
+        vm.addUser = function () {
+            $state.go('farm.instance.profile.addUser');        
         };
     }
     angular.module('prokorm').controller('ProfileEditController', ProfileEditController);
@@ -40,6 +44,9 @@
                 }
             });
         };
+        vm.cancel = function () {
+            $state.go('farm.instance.profile.view');
+        }
     }
     angular.module('prokorm').controller('AddUserController', AddUserController);
     /** @ngInject */

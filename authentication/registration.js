@@ -18,7 +18,7 @@ function createTenant(data, callback) {
             newUser.tenantId = _tenant._id;
             newUser.name = _tenant.loginName;
             newUser.email = _tenant.email;
-            newUser.permissions = ['Admin'];
+            newUser.permissions = ['admin'];
             newUser.password = passGenerator.generate({
                 length: 6,
                 numbers: true

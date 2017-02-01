@@ -24,25 +24,10 @@
 		        <input ng-model="profileEdit.profile.email">
 		    </md-input-container>
 		</div>
-
-		<!--<div class="edit-block" layout-gt-sm="row">
-			<md-input-container class="md-block" flex-gt-sm>
-		        <label>Новый пароль</label>
-		        <input ng-model="settinhs.oldPassword">
-		    </md-input-container>
-		    <md-input-container class="md-block" flex-gt-sm>
-		        <label>Новый пароль, еще раз</label>
-		        <input ng-model="settinhs.oldPassword">
-		    </md-input-container>	
-		    <md-input-container class="md-block" flex-gt-sm>
-		        <label>Старый пароль</label>
-		        <input ng-model="settinhs.oldPassword">
-		    </md-input-container>
-		</div>-->
 	</form>
 	<!-- ACTIONS -->
     <div class="feed-edit-actions" layout="row" layout-align="center left" layout-sm="column" layout-wrap="">
-        <md-button class="md-raised" ng-click="feedEdit.cancel()">
+        <md-button class="md-raised" ng-click="profileEdit.cancel()">
             Отмена
         </md-button>
         <md-button class="md-raised md-primary" ng-click="profileEdit.save()">

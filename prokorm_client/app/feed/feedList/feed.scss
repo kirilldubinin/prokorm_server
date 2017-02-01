@@ -105,7 +105,7 @@
 			}
 
 			.title {
-				color: #333;
+				color: #555;
 			    font-size: 18px;
 			}
 
@@ -161,72 +161,74 @@
 	}
 	.dashboard { 
 		height: calc(100% - 14px);
+		md-content {
+			height: 100%;
+			ul, li {
+				list-style-type: none;
+				padding: 0;
+				margin: 0;
+			}
 
-		ul, li {
-			list-style-type: none;
-			padding: 0;
-			margin: 0;
-		}
-
-		.dashboard-card {
-			padding: 16px;
-		    border-bottom: 1px solid rgba(0, 0, 0, 0.30);
-		    margin-bottom: 10px;
-
-		    h2 {
-		    	border-bottom: 3px solid #FF9800;
-			    padding-bottom: 4px;
-			    margin-bottom: 10px;
-		    }
-
-		    md-radio-group {
-		    	margin-bottom: 10px;
-
-		    	.md-label {
-		    	}
-		    }
-		}
-
-		.dashboard-balance {
-		    .balance-list {
-
-		    	padding-bottom: 4px;
-			    margin-bottom: 10px;
+			.dashboard-card {
+				padding: 16px;
 			    border-bottom: 1px solid rgba(0, 0, 0, 0.30);
+			    margin-bottom: 10px;
 
-		    	.balance-percent {
-					color: rgba(0,0,0,0.54);
-					font-size: 14px;
-				}
+			    h2 {
+			    	border-bottom: 3px solid #FF9800;
+				    padding-bottom: 4px;
+				    margin-bottom: 10px;
+			    }
 
-				.weight-control {
-				    height: 22px;
-				    font-size: 12px;
-				    vertical-align: middle;
-				    float: right;
-				}
+			    md-radio-group {
+			    	margin-bottom: 10px;
 
-				li {
-					h2 {
-						font-size: 20px;
+			    	.md-label {
+			    	}
+			    }
+			}
+
+			.dashboard-balance {
+			    .balance-list {
+
+			    	padding-bottom: 4px;
+				    margin-bottom: 10px;
+				    border-bottom: 1px solid rgba(0, 0, 0, 0.30);
+
+			    	.balance-percent {
+						color: rgba(0,0,0,0.54);
+						font-size: 14px;
 					}
 
-					.composition {
-						
-						padding-left: 20px;
-    					padding-top: 16px;
-
-						.composition-item {
-							font-size: 12px;
-						    color: rgba(0, 0, 0, 0.54);
-						    height: 28px;
-						}	
+					.weight-control {
+					    height: 22px;
+					    font-size: 12px;
+					    vertical-align: middle;
+					    float: right;
 					}
-				}
-		    }
-		}
 
-		.dashboard-no-analysis {
+					li {
+						h2 {
+							font-size: 20px;
+						}
+
+						.composition {
+							
+							padding-left: 20px;
+	    					padding-top: 16px;
+
+							.composition-item {
+								font-size: 12px;
+							    color: rgba(0, 0, 0, 0.54);
+							    height: 28px;
+							}	
+						}
+					}
+			    }
+			}
+
+			.dashboard-no-analysis {
+			}
 		}
 	}
 }

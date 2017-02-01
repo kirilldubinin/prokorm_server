@@ -17,20 +17,20 @@
     .profile-view {
     	background-color: transparent;
 
-    	label {
-		    display: inline-block;
-		    text-align: right;
-		    color: rgba(0, 0, 0, 0.54);
-		    font-size: 14px;
-    	}
-
-    	span {
-    		margin-left: 10px;
-            font-size: 14px;
-    	}
-
-        a {
-            font-size: 14px;    
+        p {
+            label {
+                display: inline-block;
+                text-align: right;
+                color: rgba(0, 0, 0, 0.54);
+                font-size: 14px;
+            }
+            span {
+                margin-left: 10px;
+                font-size: 14px;
+            }
+            a {
+                font-size: 14px;    
+            }
         }
     }
 
