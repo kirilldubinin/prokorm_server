@@ -314,7 +314,10 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                     x: a.date,
                     y: a.crudeAsh
                 };
-            }), function (data) { return data.y !== null; });
+            }), function (data) { return data.y !== null; })
+            .sort(function(a,b) { 
+                return a.x.getTime() - b.x.getTime() 
+            });
             res.json(crudeAsh);
         });
     });
