@@ -47,7 +47,8 @@ module.exports = function(app) {
 
     // web application =================================================
     app.get('*', function(req, res) {
-        //console.log('./../prokorm_client/index.debug.html');
-        res.sendFile(__dirname + './../prokorm_client/index.html');
+        console.log('./../prokorm_client/index.debug.html');
+        console.log(__dirname);
+        res.sendFile(__dirname + './../prokorm_client/index.debug.html');
     });
 }

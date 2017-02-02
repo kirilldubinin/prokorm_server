@@ -2,21 +2,24 @@
 
 	<div class="group-buttons-items">
 		<md-button ng-repeat="item in groupButtons.items track by $index" ng-class="{'md-primary': groupButtons.selected === item}" class="md-raised" ng-click="groupButtons.onClick(item)">
-	        {{item.number || item}}
+	        <md-tooltip md-direction="bottom">
+              Анализ # {{item.number || item}}
+            </md-tooltip>
+            {{item.number || item}}
 	    </md-button>
     </div>
 
     <div flex class="group-buttons-actions">
 		<md-button aria-label="" class="md-fab md-mini md-primary" ng-click="groupButtons.onAdd()">
 			<md-tooltip md-direction="bottom">
-	          Добавить
+	          Добавить анализ
 	        </md-tooltip>
             <ng-md-icon icon="note_add">
             </ng-md-icon>
         </md-button>
         <md-button aria-label="" class="md-fab md-mini md-warn" ng-click="groupButtons.onDelete()">
             <md-tooltip md-direction="bottom">
-	          Удалить
+	          Удалить анализ
 	        </md-tooltip>
             <ng-md-icon icon="delete_forever">
             </ng-md-icon>

@@ -117,7 +117,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-            // double check
+            // double check checkUserRightForFeed
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
@@ -143,7 +143,18 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                     field: feed.general.field ? ('Поле: ' + feed.general.field) : undefined
                 });
             });
-            res.json(shortFeeds);
+
+            var filterValues = {
+                years: _.filter(_.uniq(_.map(shortFeeds, 'year')), null) ,
+                feedTypes: _.filter(_.uniq(_.map(shortFeeds, 'feedType')), null),
+                compositions: _.filter(_.uniq(_.map(shortFeeds, 'composition')), null),
+                storages: _.filter(_.uniq(_.map(shortFeeds, 'storage')), null)
+            };
+
+            res.json({
+                feeds: shortFeeds,
+                filterValues: filterValues
+            });
         });
     });
     // get feed by id for view mode
@@ -281,6 +292,30 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             res.status(200).json(average(feeds));
         }, function(err) {
             res.send(err);
+        });
+    });
+
+    // charts
+    app.get('/api/feeds/charts', isAuthenticated, function(req, res) {
+        Feed.find({
+            'createdBy.tenantId': req.user.tenantId
+        }).lean().exec(function(err, feeds) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+            // double check checkUserRightForFeed and feed has analysis
+            feeds = _.filter(feeds, function(f) {
+                return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
+            });
+
+            var crudeAsh = _.filter(_.map(feeds, function (feed) {
+                var a = _.last(feed.analysis);
+                return {
+                    x: a.date,
+                    y: a.crudeAsh
+                };
+            }), function (data) { return data.y !== null; });
+            res.json(crudeAsh);
         });
     });
 }

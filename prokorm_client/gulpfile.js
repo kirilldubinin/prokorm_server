@@ -43,7 +43,10 @@ gulp.task('build_libs_js', function(){
 				'node_modules/angular-material-icons/angular-material-icons.min.js',
 				'node_modules/angular-ui-router/release/angular-ui-router.min.js',
 				'node_modules/lodash/lodash.min.js',
-				'node_modules/moment/min/moment.min.js'];
+				'node_modules/moment/min/moment.min.js',
+				'node_modules/d3/d3.js',
+				'node_modules/nvd3/build/nv.d3.js',
+				'node_modules/angular-nvd3/dist/angular-nvd3.js'];
 
     return gulp.src(libsJS)
         .pipe(concat('libs.js'))
@@ -71,7 +74,8 @@ gulp.task('build_libs_css', function(){
 
 	var libsCSS = ['node_modules/angular-material/angular-material.css',
 				'node_modules/angular-material-icons/angular-material-icons.css',
-				'node_modules/font-awesome/css/font-awesome.min.css'];
+				'node_modules/font-awesome/css/font-awesome.min.css',
+				'node_modules/nvd3/build/nv.d3.css'];
 
     return gulp.src(libsCSS)
         .pipe(concat('libs.css'))
@@ -108,7 +112,7 @@ gulp.task('styles', function () {
 });
 
 gulp.task('index', function () {
-  var target = gulp.src('./index.debug.html');
+  var target = gulp.src('./index.html');
   // It's not necessary to read the files (will speed up things), we're only after their paths: 
   var sources = gulp.src(['./app/**/*.js', './styles/**/*.css'], {read: false});
  

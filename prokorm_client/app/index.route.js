@@ -141,6 +141,17 @@
           module: 'feed'
         }
       })
+      .state('farm.instance.feed.charts', {
+        url: '/charts',
+        templateUrl: 'app/feed/charts/charts.html',
+        controller: 'ChartsController',
+        controllerAs: 'charts',
+        params: {
+          params: undefined
+        },data: {
+          module: 'feed'
+        }
+      })
       .state('farm.instance.feed.diff', {
         url: '/diff/:feeds',
         templateUrl: 'app/feed/diff/diff.html',

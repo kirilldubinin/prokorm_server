@@ -33,6 +33,7 @@
     "font-awesome": "4.7.0",
     "gulp-jshint-html-reporter": "^0.1.3",
     "lodash": "4.16.6",
-    "moment": "2.17.1"
+    "moment": "2.17.1",
+    "angular-nvd3": ""
   }
 }

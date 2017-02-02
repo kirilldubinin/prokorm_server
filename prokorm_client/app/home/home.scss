@@ -31,6 +31,8 @@
 .list-header {
 	border-bottom: 1px solid #ddd;
     padding: 10px 0;
+    height: 90px;
+    min-height: 90;
 	.module-name {
 		font-size: 24px;
 	    color: rgb(63,81,181);
@@ -57,5 +59,37 @@
 
 			font-size: 32px;
 		}		
+	}
+
+	.filter-button {
+		font-size: 14px;
+	    text-transform: none;
+	    color: #3F51B5;
+	    margin-left: 12px;
+	}
+	.hide-items-length {
+		font-size: 12px;
+	    text-transform: none;
+	    color: #999;
+	    margin-left: 12px;
+	    padding-top: 2px;
+	}
+}
+
+.list-filter {
+	padding: 12px;
+    border-bottom: 1px solid #ddd;
+
+	md-checkbox {
+		span {
+			font-size: 12px;
+		}
+	}
+
+	md-input-container {
+		margin-bottom: 0;
+		span {
+			font-size: 12px;
+		}
 	}
 }
