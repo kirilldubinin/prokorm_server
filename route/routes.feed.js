@@ -19,7 +19,7 @@ var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
 
     function sortFeeds (a,b) {
-        if (a.harvest.end && a.harvest.end.getTime && b.harvest && b.harvest.end.getTime) {
+        if (a.harvest.end && a.harvest.end.getTime && b.harvest.end && b.harvest.end.getTime) {
             return a.harvest.end.getTime() - b.harvest.end.getTime();    
         } else {
             return a.general.year - b.general.year;
