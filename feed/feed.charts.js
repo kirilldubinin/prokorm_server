@@ -5,6 +5,14 @@ var dimension = require('./dimension');
 var math = require('mathjs');
 var _ = require('lodash');
 
+function sortFeeds (a,b) {
+    if (a.harvest.end && b.harvest) {
+        return a.harvest.end.getTime() - b.harvest.end.getTime();    
+    } else {
+        return a.general.year - b.general.year;
+    }
+}
+
 function charts(feeds) {
     
     var series = ['dryMaterial', 'ph', 'oilAcid', 'exchangeEnergy', 'crudeAsh']
@@ -44,7 +52,10 @@ function charts(feeds) {
             data: seriaDates
         }
     });
-    allYears = _.uniq(allYears);
+    allYears = _.uniq(allYears).sort(function (a,b) {return a - b;});
+    chartSeries.sort(function (a,b) {
+    	return a.year - b.year;
+    }); 
     chartSeries = _.map(chartSeries, function(chartSeria) {
         var groupByYear = _.groupBy(chartSeria.data, 'year');
         return {

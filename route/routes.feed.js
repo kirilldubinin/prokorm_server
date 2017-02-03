@@ -317,7 +317,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             // sort by harvest.end
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
-            }).sort(sortFeeds);
+            });
 
             return res.json(charts(feeds));
         });
