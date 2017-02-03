@@ -16,7 +16,16 @@ var balance = require('../feed/feed.balance');
 //var perDay = require('../feed/feed.perDay');
 var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
-    function checkUserRightForFeed(feed, req, res) {
+
+    function sortFeeds (a,b) {
+        if (a.harvest.end && b.harvest) {
+            return a.harvest.end.getTime() - b.harvest.end.getTime();    
+        } else {
+            return a.general.year - b.general.year;
+        }
+    }
+
+    function checkUserRightForFeed (feed, req, res) {
         var check = feed.createdBy.tenantId.equals(req.user.tenantId);
         if (res && !check) {
             res.status(403).send({
@@ -127,13 +136,13 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             // all done: true
             var opened = _.filter(feeds, function(f) {
                 return f.general.opened && !f.general.done;
-            });
+            }).sort(sortFeeds);
             var closed = _.filter(feeds, function(f) {
                 return !f.general.opened && !f.general.done;
-            });
+            }).sort(sortFeeds);
             var done = _.filter(feeds, function(f) {
                 return f.general.done;
-            });
+            }).sort(sortFeeds);
             var sortedFeeds = _.concat(opened, closed, done);
             var shortFeeds = _.map(sortedFeeds, function(feed) {
                 return _.merge({}, feed.general, {
@@ -304,20 +313,30 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 return errorHandler(err, req, res);
             }
             // double check checkUserRightForFeed and feed has analysis
+            // sort by harvest.end
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
-            });
+            }).sort(sortFeeds);
 
             var crudeAsh = _.filter(_.map(feeds, function (feed) {
                 var a = _.last(feed.analysis);
                 return {
-                    x: a.date,
+                    x: a.date.getFullYear(),
                     y: a.crudeAsh
                 };
-            }), function (data) { return data.y !== null; })
-            .sort(function(a,b) { 
-                return a.x.getTime() - b.x.getTime() 
+            }), function (data) { return data.y !== null; });
+
+            crudeAsh = _.groupBy(crudeAsh, 'x');
+            console.log(crudeAsh);
+            crudeAsh = _.map(crudeAsh, function (data, key) {
+                console.log(key);
+                console.log(data);
+                return {
+                    x: parseInt(key),
+                    y: _.sumBy(data, 'y')/data.length    
+                }
             });
+
             res.json(crudeAsh);
         });
     });

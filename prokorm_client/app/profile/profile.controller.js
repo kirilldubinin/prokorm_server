@@ -46,7 +46,7 @@
         };
         vm.cancel = function () {
             $state.go('farm.instance.profile.view');
-        }
+        };
     }
     angular.module('prokorm').controller('AddUserController', AddUserController);
     /** @ngInject */

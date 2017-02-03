@@ -42,10 +42,10 @@
                         }
                     },
                     xAxis: {
-                        axisLabel: 'Год',
-                        tickFormat: function(d){
-                            return new Date(d).getFullYear();
-                        }
+                        axisLabel: 'Год'
+                        /*tickFormat: function(d){
+                            return d;
+                        }*/
                     },
 
                     yAxis: {
