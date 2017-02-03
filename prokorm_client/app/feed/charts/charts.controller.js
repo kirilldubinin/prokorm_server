@@ -24,12 +24,10 @@
                     }
                 },
                 xAxis: {
-                    categories: _.map(data, 'x')
+                    categories: data.categories
                 },
 
-                series: [{
-                    data: _.map(data, 'y')
-                }]
+                series: data.chartSeries
             });
             return;
 
