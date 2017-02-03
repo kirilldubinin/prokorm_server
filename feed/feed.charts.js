@@ -5,36 +5,38 @@ var dimension = require('./dimension');
 var math = require('mathjs');
 var _ = require('lodash');
 
-function sortFeeds (a,b) {
+function sortFeeds(a, b) {
     if (a.harvest.end && b.harvest) {
-        return a.harvest.end.getTime() - b.harvest.end.getTime();    
+        return a.harvest.end.getTime() - b.harvest.end.getTime();
     } else {
         return a.general.year - b.general.year;
     }
 }
 
 function charts(feeds) {
-    
     var series = ['dryMaterial', 'ph', 'oilAcid', 'exchangeEnergy', 'crudeAsh']
     var allYears = [];
     var chartSeries = _.map(series, function(seria) {
+
+    	var length = 0;
         var seriaDates = _.map(feeds, function(feed) {
             var lastAnalys = _.last(feed.analysis);
             allYears.push(lastAnalys.date.getFullYear());
             var canBerecalcalated = feedUtils.propertyForRecalculate[seria];
-            var value;
-            if (canBerecalcalated) {
-            	var isNaturalWet = lastAnalys.isNaturalWet;
-                var dryMaterial = lastAnalys.dryMaterial / 100;
-                
-            	value = isNaturalWet ? 
-                    math.round(lastAnalys[seria] / dryMaterial, 2) : 
-                    math.round(lastAnalys[seria], 2);
+            var value = null;
+            if (_.isNumber(lastAnalys[seria])) {
+                length++;
+                if (canBerecalcalated) {
+                    var isNaturalWet = lastAnalys.isNaturalWet;
+                    var dryMaterial = lastAnalys.dryMaterial / 100;
+                    value = isNaturalWet ? 
+                    	(lastAnalys[seria] / dryMaterial) : 
+                    	lastAnalys[seria];
 
-            } else {
-                value = lastAnalys[seria];
+                } else {
+                    value = lastAnalys[seria];
+                }
             }
-
             return {
                 year: lastAnalys.date.getFullYear(),
                 data: value
@@ -44,7 +46,7 @@ function charts(feeds) {
         seriaDates = _.map(seriaDates, function(data, key) {
             return {
                 year: key,
-                data: _.sumBy(data, 'data')
+                data: math.round(_.sumBy(data, 'data')/length)
             };
         });
         return {
@@ -52,10 +54,12 @@ function charts(feeds) {
             data: seriaDates
         }
     });
-    allYears = _.uniq(allYears).sort(function (a,b) {return a - b;});
-    chartSeries.sort(function (a,b) {
-    	return a.year - b.year;
-    }); 
+    allYears = _.uniq(allYears).sort(function(a, b) {
+        return a - b;
+    });
+    chartSeries.sort(function(a, b) {
+        return a.year - b.year;
+    });
     chartSeries = _.map(chartSeries, function(chartSeria) {
         var groupByYear = _.groupBy(chartSeria.data, 'year');
         return {
@@ -69,9 +73,8 @@ function charts(feeds) {
             })
         }
     });
-
     return {
-    	categories: allYears,
+        categories: allYears,
         chartSeries: chartSeries
     }
 }
