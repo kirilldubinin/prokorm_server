@@ -18,14 +18,12 @@ function charts(feeds) {
     var allYears = [];
     var chartSeries = _.map(series, function(seria) {
 
-    	var length = 0;
         var seriaDates = _.map(feeds, function(feed) {
             var lastAnalys = _.last(feed.analysis);
+            var value = null;
             allYears.push(lastAnalys.date.getFullYear());
             var canBerecalcalated = feedUtils.propertyForRecalculate[seria];
-            var value = null;
             if (_.isNumber(lastAnalys[seria])) {
-                length++;
                 if (canBerecalcalated) {
                     var isNaturalWet = lastAnalys.isNaturalWet;
                     var dryMaterial = lastAnalys.dryMaterial / 100;
@@ -41,14 +39,30 @@ function charts(feeds) {
                 year: lastAnalys.date.getFullYear(),
                 data: value
             };
-        });
+        });     
         seriaDates = _.groupBy(seriaDates, 'year');
         seriaDates = _.map(seriaDates, function(data, key) {
-            return {
-                year: key,
-                data: math.round(_.sumBy(data, 'data')/length)
-            };
+
+        	if (seria === 'ph') {
+	        	console.log('seriaDates============================')
+	        	console.log(key)
+	        	console.log(data)
+	        }
+
+	        data = _.filter(data, function (d) { return _.isNumber(d.data); });
+	        if (data.length) {
+	        	return {
+	        		year: key,
+                	data: math.round(_.sumBy(data, 'data')/data.length, 2)
+	        	}
+	        } else {
+	        	return {
+	        		year: key,
+	        		data: null
+	        	}
+	        }
         });
+
         return {
             name: lang(seria),
             data: seriaDates
