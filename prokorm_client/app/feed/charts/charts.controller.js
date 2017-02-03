@@ -5,6 +5,34 @@
     function ChartsController($scope, feedFactory, $stateParams, _) {
         var vm = this;
         feedFactory.getCharts().then(function(data) {
+            
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'spline'
+                },
+                plotOptions: {
+                    spline: {
+                        lineWidth: 4,
+                        states: {
+                            hover: {
+                                lineWidth: 5
+                            }
+                        },
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
+                xAxis: {
+                    categories: _.map(data, 'x')
+                },
+
+                series: [{
+                    data: _.map(data, 'y')
+                }]
+            });
+            return;
+
             vm.data = [{
                 values: data,      //values - represents the array of {x,y} data points
                 key: 'Сырая зола', //key  - the name of the series.
