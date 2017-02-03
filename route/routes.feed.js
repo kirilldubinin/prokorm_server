@@ -13,6 +13,7 @@ var average = require('../feed/feed.average');
 var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
+var charts = require('../feed/feed.charts');
 //var perDay = require('../feed/feed.perDay');
 var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
@@ -318,88 +319,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
             }).sort(sortFeeds);
 
-            var series = ['dryMaterial', 'ph', 'oilAcid', 'exchangeEnergy', 'crudeAsh']
-            var allYears = [];
-            var chartSeries = _.map(series, function (seria) {
-               
-                var seriaDates = _.map(feeds, function (feed) {
-                    var lastAnalys = _.last(feed.analysis);
-                    allYears.push(lastAnalys.date.getFullYear())
-                    return {
-                        year: lastAnalys.date.getFullYear(),
-                        data: lastAnalys[seria]
-                    };
-                });
-
-                seriaDates = _.groupBy(seriaDates, 'year');
-                seriaDates = _.map(seriaDates, function (data, key){
-                    return {
-                        year: key,
-                        data: _.sumBy(data, 'data')
-                    };
-                });
-
-                return {
-                    name: lang(seria),
-                    data: seriaDates
-                }
-            });
-
-            allYears = _.uniq(allYears);
-            chartSeries = _.map(chartSeries, function(chartSeria){
-                
-                var groupByYear = _.groupBy(chartSeria.data, 'year');
-                console.log(groupByYear);
-                return {
-                    name: chartSeria.name,
-                    data: _.map(allYears, function (year) {
-                        console.log('================');
-                        console.log(groupByYear[year]);
-                        if (!groupByYear[year]) {
-                            return null;
-                        } else {
-                            return _.first(_.map(groupByYear[year], 'data'));
-                        }
-                    })
-                }
-            })
-
-            return res.json({
-                categories: allYears,
-                chartSeries: chartSeries
-            });
-
-            console.log('====================');
-            console.log(chartSeries);
-             _.filter(_.map(feeds, function (feed) {
-                var a = _.last(feed.analysis);
-                return {
-                    x: a.date.getFullYear(),
-                    y: a.crudeAsh
-                };
-            }), function (data) { return data.y !== null; });
-
-            
-            var crudeAsh = _.filter(_.map(feeds, function (feed) {
-                var a = _.last(feed.analysis);
-                return {
-                    x: a.date.getFullYear(),
-                    y: a.crudeAsh
-                };
-            }), function (data) { return data.y !== null; });
-
-            crudeAsh = _.groupBy(crudeAsh, 'x');
-            console.log(crudeAsh);
-            crudeAsh = _.map(crudeAsh, function (data, key) {
-                console.log(key);
-                console.log(data);
-                return {
-                    x: parseInt(key),
-                    y: _.sumBy(data, 'y')/data.length    
-                }
-            });
-
-            res.json(crudeAsh);
+            return res.json(charts(feeds));
         });
     });
 }
