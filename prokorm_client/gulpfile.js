@@ -43,10 +43,7 @@ gulp.task('build_libs_js', function(){
 				'node_modules/angular-material-icons/angular-material-icons.min.js',
 				'node_modules/angular-ui-router/release/angular-ui-router.min.js',
 				'node_modules/lodash/lodash.min.js',
-				'node_modules/moment/min/moment.min.js',
-				'node_modules/d3/d3.js',
-				'node_modules/nvd3/build/nv.d3.js',
-				'node_modules/angular-nvd3/dist/angular-nvd3.js'];
+				'node_modules/moment/min/moment.min.js'];
 
     return gulp.src(libsJS)
         .pipe(concat('libs.js'))

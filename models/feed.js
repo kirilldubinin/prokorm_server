@@ -60,10 +60,16 @@ var FeedSchema = new Schema({
         nitrates: Number
     }],
     general: {
-        name: String,
+        name: {
+            type: String,
+            required: true
+        },
         feedType: String,
         composition: String,
-        year: Number,
+        year: {
+            type: Number,
+            required: true
+        },
         field: String,
         totalWeight: Number,
         balanceWeight: Number,
@@ -78,7 +84,7 @@ var FeedSchema = new Schema({
         dosage: String,
         film: String,
         start: Date,
-        end: Date,
+        end: Date
     },
     feeding: {
         start: Date,

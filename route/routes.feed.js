@@ -14,18 +14,11 @@ var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
 var charts = require('../feed/feed.charts');
+var list = require('../feed/feed.list');
 //var perDay = require('../feed/feed.perDay');
 var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
-
-    function sortFeeds (a,b) {
-        if (a.harvest.end && a.harvest.end.getTime && b.harvest.end && b.harvest.end.getTime) {
-            return a.harvest.end.getTime() - b.harvest.end.getTime();    
-        } else {
-            return a.general.year - b.general.year;
-        }
-    }
-
+    
     function checkUserRightForFeed (feed, req, res) {
         var check = feed.createdBy.tenantId.equals(req.user.tenantId);
         if (res && !check) {
@@ -131,40 +124,8 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-            //sort
-            // all opened: true
-            // all closed: true
-            // all done: true
-            var opened = _.filter(feeds, function(f) {
-                return f.general.opened && !f.general.done;
-            }).sort(sortFeeds);
-            var closed = _.filter(feeds, function(f) {
-                return !f.general.opened && !f.general.done;
-            }).sort(sortFeeds);
-            var done = _.filter(feeds, function(f) {
-                return f.general.done;
-            }).sort(sortFeeds);
-            var sortedFeeds = _.concat(opened, closed, done);
-            var shortFeeds = _.map(sortedFeeds, function(feed) {
-                return _.merge({}, feed.general, {
-                    _id: feed._id,
-                    analysis: feed.analysis.length,
-                    feedType: (feed.general.feedType === 'none' ? '' : lang(feed.general.feedType)),
-                    field: feed.general.field ? ('Поле: ' + feed.general.field) : undefined
-                });
-            });
 
-            var filterValues = {
-                years: _.filter(_.uniq(_.map(shortFeeds, 'year')), null) ,
-                feedTypes: _.filter(_.uniq(_.map(shortFeeds, 'feedType')), null),
-                compositions: _.filter(_.uniq(_.map(shortFeeds, 'composition')), null),
-                storages: _.filter(_.uniq(_.map(shortFeeds, 'storage')), null)
-            };
-
-            res.json({
-                feeds: shortFeeds,
-                filterValues: filterValues
-            });
+            res.json(list(feeds));
         });
     });
     // get feed by id for view mode
