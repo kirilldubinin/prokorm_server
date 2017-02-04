@@ -34,7 +34,7 @@ function lang(key) {
         price: 'Себестоимость',
         storage: 'Хранение',
         field: 'Поле',
-        done: 'Закончено',
+        done: 'Завершён',
         name: 'Имя',
         date: 'Дата',
         feedType: 'Тип',

@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     // modules
-    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons', 'nvd3']);
+    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons']);
     
     // constant
     angular.module('prokorm').constant('_', window._);
