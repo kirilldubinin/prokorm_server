@@ -159,14 +159,12 @@
                 });
             } else if (newState.name === 'farm.instance.feed.instance') {
                 vm.selectedItemId = params.feedId;
-                console.log(params);
-                console.log(params.feedId);
-
             }
             
             // update list after delete or add new feed
             if (oldState.name === 'farm.instance.feed.edit' || 
-                oldState.name === 'farm.instance.feed.new') {
+                oldState.name === 'farm.instance.feed.new' ||
+                newState.name === 'farm.instance.feed') {
                 feedFactory.getFeeds().then(function(result) {
                     vm.feedItems = result.feeds;
                     vm.filterValues = result.filterValues;

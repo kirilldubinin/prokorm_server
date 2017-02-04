@@ -3,6 +3,7 @@ var lang = require('./lang');
 var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
 var Feed = require('../models/feed');
+var math = require('mathjs');
 
 function convertValue(key, val) {
     if (key === 'feedType') {
@@ -34,8 +35,21 @@ function convertToControl(item) {
 };
 
 function convert(feed, sessionData) {
+    
+    // set harvestDays if harvest.start and harvest.end is exist
+    if (feed.harvest && feed.harvest.start && feed.harvest.end) {
+        feed.harvest.harvestDays = 
+        Math.round((feed.harvest.end.getTime() - feed.harvest.start.getTime()) / (1000*60*60*24))
+    }
+
+    // set feedingDays if feeding.start and feeding.end is exist
+    if (feed.feeding && feed.feeding.start && feed.feeding.end) {
+        feed.feeding.feedingDays = 
+        Math.round((feed.feeding.end.getTime() - feed.feeding.start.getTime()) / (1000*60*60*24))
+    }
+
     var analysisView = {};
-    if (feed.analysis.length) {
+    if (feed.analysis && feed.analysis.length) {
         var firstAnalys = feed.analysis[0];
         _.each(firstAnalys, function(value, key) {
             // check if value not empty
@@ -46,8 +60,8 @@ function convert(feed, sessionData) {
                     if (canBerecalcalated) {
                         var isNaturalWet = a.isNaturalWet;
                         var dryMaterial = a.dryMaterial / 100;
-                        var calcRaw = Math.round(initialValue * dryMaterial * 100) / 100;
-                        var calcDry = Math.round((initialValue / dryMaterial * 100)) / 100;
+                        var calcRaw = math.round((initialValue * dryMaterial), 2);
+                        var calcDry = math.round((initialValue / dryMaterial), 2);
                         return {
                             dryValue: isNaturalWet ? calcDry : initialValue,
                             rawValue: isNaturalWet ? initialValue : calcRaw
@@ -76,9 +90,12 @@ function convert(feed, sessionData) {
             }
         });
     }
+
+
     var generalView = convertToControl(feed.general);
     var harvestView = convertToControl(feed.harvest);
     var feedingView = convertToControl(feed.feeding);
+
     // sort field
     var goldFeed = Feed.getEmptyFeed();
     var analysisSortView = _.isEmpty(analysisView) ? null : Feed.sort(analysisView, 'analysis');
@@ -90,10 +107,12 @@ function convert(feed, sessionData) {
     allViews = _.filter(allViews, function(v) { return !_.isEmpty(v); });
 
     var actions = [];
-    if (sessionData.permissions.indexOf('admin') > -1 || 
-        sessionData.permissions.indexOf('write') > -1) {
-        actions.push('edit');
-        actions.push('delete');
+    if (sessionData) {
+        var perms = sessionData.permissions;
+        if (_.indexOf(perms, 'admin') !== -1 || _.indexOf(perms, 'write') !== -1) {
+            actions.push('edit');
+            actions.push('delete');    
+        }
     }
 
     var result = {

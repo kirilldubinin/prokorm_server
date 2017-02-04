@@ -60,6 +60,7 @@ function lang(key) {
         preservative: 'Консервант',
         dosage: 'Дозировка',
         film: 'Пленка',
+        harvestDays: 'Дни заготовки',
 
         // analysis
         dryMaterial: 'Сухое вещество',
@@ -106,7 +107,8 @@ function lang(key) {
         feeding: 'Кормление',
         start: 'Начало',
         end: 'Конец',
-        tonnPerDay: 'Тонн в день'
+        tonnPerDay: 'Тонн в день',
+        feedingDays: 'Дней кормления'
     };
 
     if (_.isBoolean(key)) {

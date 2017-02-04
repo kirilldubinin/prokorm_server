@@ -43,12 +43,6 @@ function charts(feeds) {
         seriaDates = _.groupBy(seriaDates, 'year');
         seriaDates = _.map(seriaDates, function(data, key) {
 
-        	if (seria === 'ph') {
-	        	console.log('seriaDates============================')
-	        	console.log(key)
-	        	console.log(data)
-	        }
-
 	        data = _.filter(data, function (d) { return _.isNumber(d.data); });
 	        if (data.length) {
 	        	return {

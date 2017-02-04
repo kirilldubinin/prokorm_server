@@ -61,8 +61,8 @@ var FeedSchema = new Schema({
     }],
     general: {
         name: {
-            type: String,
-            required: true
+            type: String
+            //required: true
         },
         feedType: String,
         composition: String,
@@ -186,11 +186,31 @@ FeedSchema.statics.sort = function(object, rootProperty) {
 
     _.forEach(_.isArray(goldObject[rootProperty]) ? goldObject[rootProperty][0] : goldObject[rootProperty], 
         function (value, key) {
-            result[key] = object[key];
+            if ((_.isBoolean(object[key]) || _.isNumber(object[key]) || object[key])) {
+                result[key] = object[key];    
+            }
         });
+
+    // add calculate property harvestDays
+    if (object.harvestDays) {
+        result.harvestDays = object.harvestDays;
+    }
+
+    // add calculate property feedingDays
+    if (object.feedingDays) {
+        result.feedingDays = object.feedingDays
+    }
 
     return result;
 };
+
+FeedSchema.pre('validate', function(next) {
+    if (!this.general.year || (!this.general.name && this.general.feedType === 'none')) {
+        next(Error('Год, имя или тип корма обязательны для сохранения.'));
+    } else {
+        next();
+    }
+});
 
     /*FeedSchema.path("general.name").validate(function (v) {
         return v.length;

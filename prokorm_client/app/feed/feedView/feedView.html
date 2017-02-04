@@ -6,7 +6,7 @@
     </h2>
     <h2><b>{{feedView.feed.year}}</b></h2>
     <!--<div class="weight-wrapper" ng-class="{opened: feedView.feed.general.opened.value}"> -->
-      <span class="weight-control" ng-class="{opened: feedView.feed.opened, done: feedView.feed.done }">
+      <span ng-if="feedView.feed.totalWeight" class="weight-control" ng-class="{opened: feedView.feed.opened, done: feedView.feed.done }">
         <span class="balance">{{feedView.feed.balanceWeight}}</span>
         <span class="total">{{feedView.feed.totalWeight}}</span>
       </span>

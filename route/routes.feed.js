@@ -15,11 +15,12 @@ var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
 var charts = require('../feed/feed.charts');
 var list = require('../feed/feed.list');
-//var perDay = require('../feed/feed.perDay');
+var config = require('config');
 var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
     
     function checkUserRightForFeed (feed, req, res) {
+
         var check = feed.createdBy.tenantId.equals(req.user.tenantId);
         if (res && !check) {
             res.status(403).send({
@@ -93,10 +94,13 @@ module.exports = function(app, isAuthenticated, errorHandler) {
 
         var feed = new Feed();
         feed.createdAt = new Date();
+
+        // set userId and tenantId
         feed.createdBy = {
             userId: req.user._id,
             tenantId: req.user.tenantId
         }
+
         feed.general = req.body.general;
         feed.analysis = req.body.analysis;
         feed.harvest = req.body.harvest;
@@ -134,8 +138,15 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             if (err) {
                 return errorHandler(err, req, res);
             }
+
+            if (feed === null) {
+                return res.status(406).json({message: 'Нет корма с таким идентификатором.'});
+            }
+
             if (checkUserRightForFeed(feed, req, res)) {
-                res.json(view(feed, req.user));
+                return res.json(view(feed, req.user));
+            } else {
+                return res.status(406).json({message: 'Недостаточно прав.'})
             }
         });
     });

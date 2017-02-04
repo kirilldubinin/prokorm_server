@@ -13,9 +13,16 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var log = require('./libs/log');
 var winston = require('winston');
+var config = require('config');
+var helmet = require('helmet')
 
 // configuration ===============================================================
-mongoose.connect(database.localUrl);    // Connect to local MongoDB instance. A remoteUrl is also available (modulus.io)
+if(config.util.getEnv('NODE_ENV') !== 'test') {
+	mongoose.connect(database.testUrl);    
+} else {
+	mongoose.connect(database.localUrl);	
+}
+
 var db = mongoose.connection;
 db.on('error', function(err) {
     winston.error('connection error:', err.message);
@@ -39,6 +46,7 @@ app.use(session({ secret: 'prokorm_kirill' })); // session secret
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
+app.use(helmet());
 
 // tmp ========================================================================
 
@@ -52,3 +60,5 @@ var j = schedule.scheduleJob(rule, function(){
 });
 // routes ======================================================================
 require('./route/routes.js')(app);
+
+module.exports = app; // for testing

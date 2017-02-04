@@ -110,8 +110,8 @@
                             </i>
                             {{feedItem.analysis || ''}}
                         </span>
-                        <span class="weight weight-control" ng-class="{opened: feedItem.opened, done: feedItem.done}">
-                            <span class="balance">
+                        <span ng-if="feedItem.totalWeight" class="weight weight-control" ng-class="{opened: feedItem.opened, done: feedItem.done}">
+                            <span ng-if="_.isNumber(feedItem.balanceWeight)" class="balance">
                                 {{feedItem.balanceWeight}}
                             </span>
                             <span class="total">
