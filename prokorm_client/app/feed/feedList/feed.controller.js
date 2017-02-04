@@ -53,13 +53,13 @@
             if (vm.filter) {
 
                 // done
-                if (!vm.filter.showEmpty) {
-                    return !feedItem.done;
+                if (!vm.filter.showEmpty && feedItem.done) {
+                    return false;
                 }
 
                 // noAnalysis
-                if (!vm.filter.noAnalysis) {
-                    return feedItem.analysis;
+                if (!vm.filter.noAnalysis && !feedItem.analysis) {
+                    return false;
                 }                
 
                 // year            
