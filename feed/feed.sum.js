@@ -34,12 +34,14 @@ function getSumsByProps(props, feeds) {
                 //console.log((1000 * (lastAnalysis[prop] / dryMaterial)))
 
                 if (prop === 'crudeProtein') {
-                    console.log((1000 * (lastAnalysis[prop] / dryMaterial)) * dryBalanceWeight);
+                    return isNaturalWet ? 
+                        lastAnalysis[prop] / dryMaterial * dryBalanceWeight : 
+                        lastAnalysis[prop] * dryBalanceWeight;
+                } else {
+                    return isNaturalWet ? 
+                        1000 * (lastAnalysis[prop] / dryMaterial) * dryBalanceWeight : 
+                        1000 * lastAnalysis[prop] * dryBalanceWeight;    
                 }
-
-                return isNaturalWet ? 
-                    (1000 * (lastAnalysis[prop] / dryMaterial)) * dryBalanceWeight : 
-                    (1000 * (lastAnalysis[prop])) * dryBalanceWeight;
             });
 
             
