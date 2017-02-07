@@ -17,52 +17,136 @@ function convertValue(key, val) {
         return lang(val);
     } else if (_.isDate(val)) {
         return ('0' + val.getDate()).slice(-2) + '/' + ('0' + (val.getMonth() + 1)).slice(-2) + '/' + val.getFullYear();
-    }
+    } 
     return val;
 }
 
 function convertToControl(item, code) {
-    var result = [];
-    _.forEach(item, function(value, key) {
-        if (item.hasOwnProperty(key)) {
-            // check if some values exist
-            var some = _.some(value.values, function(values) {
-
-                if (_.isArray(values)) {
-                    return _.some(values, function(value) {
-                        if (_.isObject(value)) {
-
-                            return _.isNumber(value.dryValue) && _.isNumber(value.rawValue);
-                        } else {
-                            return value || _.isBoolean(value) || _.isNumber(value);
-                        }
-                    });
-                } else {
-                    return !_.isNull(values);
-                }
-            });
-
-            if (some) {
-                result.push({
-                    label: lang(key),
-                    dimension: dimension(key),
-                    key: key,
-                    values: value.values
+    return {
+        label: lang(item.key),
+        dimension: dimension(item.key),
+        key: item.key,
+        values: _.map(item.values, function(values) {
+            // analysis
+            if (_.isArray(values)) {
+                return _.map(values, function(value) {
+                    if (value && _.isNumber(value.dryValue) && _.isNumber(value.rawValue)) {
+                        return value;
+                    } else return convertValue(item.key, value);
                 });
-            }
-        }
-    });
-    return result;
+            } else {
+                return convertValue(item.key, values);
+            };
+        })
+    };
 };
+
+function filterValueExist(v) {
+    if (_.isArray(v)) {
+        return _.some(v, function(_v) {
+            return filterValueExist(_v);
+        });
+    } else if (_.isDate(v)) {
+        return true;
+    } else if (_.isObject(v)) {
+        return _.isNumber(v.dryValue) && _.isNumber(v.rawValue);
+    } 
+    return v;
+}
 
 function getAverage(feeds) {
 
     var rows = [];
     var allProps = Feed.getSkeleton();
     var result = {
-        average: {},
-        dryRawValues: []
+        dryRawValues: _.map(feeds, 'analysis').map(function(analys) {
+            return _.map(analys, 'isNaturalWet');
+        })
     };
+
+    // average isNaturalWet value
+    result.dryRawValues.push([false]);
+
+    var goldFeed = Feed.getEmptyFeed();
+    var rootProps = ['analysis'];
+    result.average = _.map(rootProps, function(rootProp) {
+        return {
+            label: lang(rootProp),
+            key: rootProp,
+            children: _.map(_.first(goldFeed['analysis']), function(value, key) {
+                var analysisFeeds = _.map(feeds, 'analysis');
+                return {
+                    key: key,
+                    values: _.map(analysisFeeds, function(analys) {
+                        return _.map(analys, function(a) {
+                            if (feedUtils.propertyForRecalculate[key]) {
+                                return feedUtils.calcDryRaw(a.isNaturalWet, a.dryMaterial, a[key])
+                            } else {
+                                return a[key];
+                            }
+                        });
+                    })
+                }
+            }).filter(function(averageFeed) {
+                return _.some(averageFeed.values, filterValueExist)
+            })
+            // add average
+            .map(function (averageFeed) {
+                if (feedUtils.propertyForAverage[averageFeed.key]) {
+
+                    //if (feedUtils.propertyForRecalculate[averageFeed.key]) {
+                        var sumByDry = 0;
+                        var sumByRaw = 0;
+                        var sum = 0;
+                        var length = 0;
+                        _.forEach(averageFeed.values, function (values) {
+                            _.forEach(values, function (value) {
+                                //{dryValue: '', rawVakue: ''}
+                                if (value !== null) {
+                                
+                                    if (feedUtils.propertyForRecalculate[averageFeed.key]) {
+                                        sumByDry += value.dryValue;
+                                        sumByRaw += value.rawValue;
+                                    } else sum += value;
+                                    length++;
+                                }
+                            }) 
+                        });
+
+                        if (feedUtils.propertyForRecalculate[averageFeed.key]) {
+                            averageFeed.values.push([{
+                                dryValue: Math.round((sumByDry/length)*100)/100,
+                                rawValue: Math.round((sumByRaw/length)*100)/100
+                            }]);
+                        } else averageFeed.values.push([Math.round((sum/length)*100)/100]);
+                    
+                } else {
+                    averageFeed.values.push(null);
+                }
+
+                return averageFeed;
+            })
+            .map(convertToControl)
+        }
+    });
+
+    return {
+        dryRawValues: result.dryRawValues,
+        balance: _.sumBy(feeds, function(f) {
+            return f.general.balanceWeight;
+        }),
+        total: _.sumBy(feeds, function(f) {
+            return f.general.totalWeight;
+        }),
+        headers: _.map(feeds, 'general').concat({
+            name: 'Среднее',
+            key: 'average'
+        }),
+        analysis: result.average
+    }
+
+    return;
+
     // got for analisys only
     allProps = _.filter(allProps, function(props) {
         return props[0] === 'analysis';
@@ -92,16 +176,12 @@ function getAverage(feeds) {
                     if (canBerecalcalated) {
                         _.forEach(lastProp.analysis.dryMaterial.values[feedIndex], function(val, index1) {
                             var isNaturalWet = result.dryRawValues[feedIndex][index1];
-                            var dryMaterial = val / 100;
-                            var calcRaw = Math.round(lastValue[index1] * dryMaterial * 100) / 100;
-                            var calcDry = Math.round((lastValue[index1] / dryMaterial * 100)) / 100;
-                            !dryWetValue && (dryWetValue = []);
                             
-                            if (_.isNumber(calcDry) && _.isNumber(calcRaw) && _.isNumber(lastValue[index1])){
-                                dryWetValue.push({
-                                    dryValue: isNaturalWet ? calcDry : lastValue[index1],
-                                    rawValue: isNaturalWet ? lastValue[index1] : calcRaw
-                                });
+                            var dryRaw = feedUtils.calclDryRaw(isNaturalWet, dryMaterial, lastValue[index1]);
+
+                            !dryWetValue && (dryWetValue = []);
+                            if (_.isNumber(dryRaw.calcDry) && _.isNumber(dryRaw.calcRaw) && _.isNumber(lastValue[index1])){
+                                dryWetValue.push(dryRaw);
                             } else {
                                 dryWetValue.push(null);
                             }

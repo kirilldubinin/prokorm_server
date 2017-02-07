@@ -9,6 +9,7 @@ var lang = require('./lang');
 var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
 var _ = require('lodash');
+
 function convertValue(key, val) {
     if (key === 'feedType') {
         return lang(val);
@@ -16,165 +17,100 @@ function convertValue(key, val) {
         return lang(val);
     } else if (_.isDate(val)) {
         return ('0' + val.getDate()).slice(-2) + '/' + ('0' + (val.getMonth() + 1)).slice(-2) + '/' + val.getFullYear();
-    }
+    } 
     return val;
 }
 
 function convertToControl(item, code) {
-    var result = [];
-    _.forEach(item, function(value, key) {
-
-        if (item.hasOwnProperty(key)) {
-            var allDryValues = [];
-            if (code === 'analysis') {
-                _.forEach(value.values, function(values) {
-                    _.forEach(values, function(value) {
-                        if (!_.isNull(value) && _.isNumber(value.dryValue || value)) {
-                            allDryValues.push(value.dryValue || value)
-                        }
-                    });
+    return {
+        label: lang(item.key),
+        dimension: dimension(item.key),
+        key: item.key,
+        values: _.map(item.values, function(values) {
+            // analysis
+            if (_.isArray(values)) {
+                return _.map(values, function(value) {
+                    if (value && _.isNumber(value.dryValue) && _.isNumber(value.rawValue)) {
+                        return value;
+                    } else return convertValue(item.key, value);
                 });
-            }
-
-            // check if some values exist
-            var some = _.some(value.values, function(values) {
-
-                if (_.isArray(values)) {
-                    return _.some(values, function(value) {
-                        if (_.isObject(value)) {
-
-                            return _.isNumber(value.dryValue) && _.isNumber(value.rawValue);
-                        } else {
-                            return value || _.isBoolean(value) || _.isNumber(value);
-                        }
-                    });
-                } else {
-                    return !_.isNull(values);
-                }
-                
-            });
-            if (some) {
-
-                
-                result.push({
-                    label: lang(key),
-                    dimension: dimension(key),
-                    key: key,
-                    maxDryValue: allDryValues.length ? _.max(allDryValues) : undefined,
-                    values: _.map(value.values, function (values) {
-                        // analysis
-                        if (_.isArray(value)) {
-                            return _.map(values, function (value) {
-                                return 
-                                    _.isObject(value) ? // fry/row
-                                        value :
-                                        convertValue(key, value);
-                            });
-                        } else {
-                            return convertValue(key, values);
-                        };
-                    }) 
-                });
-            }
-        }
-    });
-
-    return result;
+            } else {
+                return convertValue(item.key, values);
+            };
+        })
+    };
 };
+
+function filterValueExist(v) {
+    if (_.isArray(v)) {
+        return _.some(v, function(_v) {
+            return filterValueExist(_v);
+        });
+    } else if (_.isDate(v)) {
+        return true;
+    } else if (_.isObject(v)) {
+        return _.isNumber(v.dryValue) && _.isNumber(v.rawValue);
+    } 
+    return v;
+}
 
 function getDiff(feeds) {
     var rows = [];
     var allProps = Feed.getSkeleton();
     var result = {
         diff: {},
-        dryRawValues: []
+        dryRawValues: _.map(feeds, 'analysis').map(function(analys) {
+            return _.map(analys, 'isNaturalWet');
+        })
     };
-    _.each(allProps, function(props) {
-        _.each(feeds, function(feed, feedIndex) {
-            var lastProp = null;
-            var lastValue = null;
-            _.each(props, function(prop, index) {
-                // set dryRawValues
-                if (prop === 'isNaturalWet') {
-                    result.dryRawValues.push(_.map(lastValue, 'isNaturalWet'));
-                }
-                // get value
-                if (lastValue && _.isArray(lastValue)) {
-                    lastValue = _.map(lastValue, prop).filter(function(o) {
-                        return !_.isNull(o)
-                    });
-                } else {
-                    lastValue = lastValue ? lastValue[prop] : feed[prop];
-                }
-
-                // return for empty lastValue
-                //if (_.isArray(lastValue) && _.size(lastValue) === 0) {
-                    //return;
-                //}
-
-                // get property
-                if (lastProp) {
-                    var dryWetValue = null;
-                    var canBerecalcalated = feedUtils.propertyForRecalculate[prop];
-                    // get dry and wet value
-                    if (canBerecalcalated) {
-                        _.forEach(lastProp.analysis.dryMaterial.values[feedIndex], function(val, index1) {
-                            var isNaturalWet = result.dryRawValues[feedIndex][index1];
-                            var dryMaterial = val / 100;
-                            var calcRaw = Math.round(lastValue[index1] * dryMaterial * 100) / 100;
-                            var calcDry = Math.round((lastValue[index1] / dryMaterial * 100)) / 100;
-                            !dryWetValue && (dryWetValue = []);
-
-                            if (_.isNumber(calcDry) && _.isNumber(calcRaw) && _.isNumber(lastValue[index1])){
-                                dryWetValue.push({
-                                    dryValue: isNaturalWet ? calcDry : lastValue[index1],
-                                    rawValue: isNaturalWet ? lastValue[index1] : calcRaw
-                                });
-                            } else {
-                                dryWetValue.push(null);
-                            }
-                        });
+    var goldFeed = Feed.getEmptyFeed();
+    var rootProps = ['analysis', 'general', 'harvest', 'feeding'];
+    
+    var diffs = _.map(rootProps, function(rootProp) {
+        if (rootProp === 'analysis') {
+            return {
+                label: lang(rootProp),
+                key: rootProp,
+                children: _.map(_.first(goldFeed['analysis']), function(value, key) {
+                    var analysisFeeds = _.map(feeds, 'analysis');
+                    return {
+                        key: key,
+                        values: _.map(analysisFeeds, function(analys) {
+                            return _.map(analys, function(a) {
+                                if (feedUtils.propertyForRecalculate[key]) {
+                                    return feedUtils.calcDryRaw(a.isNaturalWet, a.dryMaterial, a[key])
+                                } else {
+                                    return a[key];
+                                }
+                            });
+                        })
                     }
-                    if (!lastProp[props[index - 1]][prop]) {
-                        lastProp[props[index - 1]][prop] = {
-                            values: [dryWetValue || lastValue]
-                        };
-                    } else {
-                        lastProp[props[index - 1]][prop].values.push(dryWetValue || lastValue);
+                }).filter(function(analysisFeed) {
+                    return _.some(analysisFeed.values, filterValueExist)
+                }).map(convertToControl)
+            }
+        } else {
+            return {
+                label: lang(rootProp),
+                key: rootProp,
+                children: _.map(goldFeed[rootProp], function(value, key) {
+                    var propFeeds = _.map(feeds, rootProp);
+                    return {
+                        key: key,
+                        values: _.map(propFeeds, key)
                     }
-                    lastProp = lastProp[props[index - 1]];
-                    dryWetValue = null;
-                } else {
-                    if (!result.diff[prop]) {
-                        result.diff[prop] = {};
-                    }
-                    lastProp = result.diff;
-                }
-            });
-        });
+                }).filter(function(propFeeds) {
+                    return _.some(propFeeds.values, filterValueExist)
+                }).map(convertToControl)
+            }
+        }
     });
-
-    var diffs = [{
-        label: lang('general'),
-        key: 'general',
-        children: convertToControl(result.diff['general'])
-    }, {
-        label: lang('analysis'),
-        key: 'analysis',
-        children: convertToControl(result.diff['analysis'], 'analysis')
-    }, {
-        label: lang('harvest'),
-        key: 'harvest',
-        children: convertToControl(result.diff['harvest'])
-    }, {
-        label: lang('feeding'),
-        key: 'feeding',
-        children: convertToControl(result.diff['feeding'], 'feeding')
-    }];
     return {
         dryRawValues: result.dryRawValues,
         headers: _.map(feeds, 'general'),
-        diffs: diffs
+        diffs: _.filter(diffs, function(diff) {
+            return diff.children.length;
+        })
     }
 }
 module.exports = getDiff;

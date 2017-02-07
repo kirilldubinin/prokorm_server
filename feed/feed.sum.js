@@ -2,53 +2,51 @@ var Feed = require('../models/feed');
 var lang = require('./lang');
 var feedUtils = require('./feed.utils');
 var dimension = require('./dimension.sum');
-var math = require('mathjs');
 var _ = require('lodash');
-//var numberFormat = require('number-formatter');
-function format(value) {
-    return value;
-    console.log('=============================')
-    console.log(value);
-    console.log(numberFormat("# ##0.####", value));
-    return numberFormat("# ##0.####", value);
-}
+
 /*
  * Collect sum each properties for each feed from param
  * @return [{key: "dryWeight", value: 456}, {key: "exchangeEnergy", value: 230}]
  */
 function getSumsByProps(props, feeds) {
+
+    /*var dryBalanceWeight = _.sumBy(feeds, function(v) {
+        var dryMaterial = _.last(v.analysis).dryMaterial;
+        return dryMaterial / 100 * v.general.balanceWeight;
+    });*/
     return _.map(props, function(prop) {
-        var dryBalanceWeight = _.sumBy(feeds, function(v) {
-            var dryMaterial = _.last(v.analysis).dryMaterial;
-            return dryMaterial / 100 * v.general.balanceWeight;
-        });
         if (prop === 'dryWeight') {
             return {
                 key: 'dryWeight',
-                value: format(math.round(dryBalanceWeight * 1000, 0))
+                value: _.sumBy(feeds, function(v) {
+                    var dryMaterial = _.last(v.analysis).dryMaterial;
+                    return dryMaterial / 100 * v.general.balanceWeight;
+                }) * 1000
             }
         } else {
+            console.log('=============================');
             var total = _.sumBy(feeds, function(v) {
-                var dryMaterial = _.last(v.analysis).dryMaterial / 100;
-                var lastAnalysis = _.last(v.analysis);
-                var isNaturalWet = lastAnalysis.isNaturalWet;
-                if (prop === 'crudeProtein') {
 
-                    // no need 1000, because we need format г in кг
-                    return isNaturalWet ? 
-                        format(math.round(dryBalanceWeight * (lastAnalysis[prop] / dryMaterial), 0)) : 
-                        format(math.round(dryBalanceWeight * (lastAnalysis[prop]), 0));
-                } 
-                // 'nel', 'exchangeEnergy'
-                else {
-                    return isNaturalWet ? 
-                        format(math.round(dryBalanceWeight * 1000 * (lastAnalysis[prop] / dryMaterial), 0)) : 
-                        format(math.round(dryBalanceWeight * 1000 * (lastAnalysis[prop]), 0));
+                var lastAnalysis = _.last(v.analysis);
+                var dryMaterial = lastAnalysis.dryMaterial / 100;
+                var isNaturalWet = lastAnalysis.isNaturalWet;
+                var dryBalanceWeight = dryMaterial * v.general.balanceWeight
+                //console.log((1000 * (lastAnalysis[prop] / dryMaterial)))
+
+                if (prop === 'crudeProtein') {
+                    console.log((1000 * (lastAnalysis[prop] / dryMaterial)) * dryBalanceWeight);
                 }
+
+                return isNaturalWet ? 
+                    (1000 * (lastAnalysis[prop] / dryMaterial)) * dryBalanceWeight : 
+                    (1000 * (lastAnalysis[prop])) * dryBalanceWeight;
             });
+
+            
+
             return {
                 key: prop,
-                value: math.round(total, 2)
+                value: total
             }
         }
     });
@@ -75,11 +73,11 @@ function getSum(feeds) {
     });
     byFeedType = _.groupBy(byFeedType, 'feedType');
     var sums = _.map(byFeedType, function(value, key) {
-        var byComposition = _.map(_.groupBy(value, 'composition'), function(value, key) {
+        var byComposition = _.map(_.groupBy(value, 'composition'), function(_value, key) {
             return {
                 label: lang(key),
                 key: key,
-                sumsByProp: getSumsByProps(props, value)
+                sumsByProp: getSumsByProps(props, _value)
             };
         });
         var sumsByProp = getSumsByProps(props, value);
@@ -87,11 +85,8 @@ function getSum(feeds) {
         // how many percent of each composition in feedType
         _.forEach(byComposition, function(byCompos) {
             _.forEach(byCompos.sumsByProp, function(compositionSumByProp) {
-                var totalSum = _.find(sumsByProp, function(sumByProp) {
-                    return sumByProp.key === compositionSumByProp.key;
-                });
-                var percentOfTotal = compositionSumByProp.value / totalSum.value * 100;
-                compositionSumByProp.percentOfTotal = math.round(percentOfTotal, 2);
+                var totalSum = _.find(sumsByProp, {key: compositionSumByProp.key});
+                compositionSumByProp.percentOfTotal = Math.round(compositionSumByProp.value / totalSum.value * 100);
             });
         });
         return {

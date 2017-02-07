@@ -17,12 +17,7 @@ var config = require('config');
 var helmet = require('helmet')
 
 // configuration ===============================================================
-if(config.util.getEnv('NODE_ENV') !== 'test') {
-	mongoose.connect(database.testUrl);    
-} else {
-	mongoose.connect(database.localUrl);	
-}
-
+mongoose.connect(database.localUrl);
 var db = mongoose.connection;
 db.on('error', function(err) {
     winston.error('connection error:', err.message);

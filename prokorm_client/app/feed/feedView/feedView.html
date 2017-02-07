@@ -52,7 +52,7 @@
 
             <div class="value" ng-if="key !== 'isNaturalWet'" ng-repeat="v in data.values track by $index">
             {{ 
-                (feedView._.isNumber(v.rawValue) || feedView._.isNumber(v.dryValue)) ?
+                _.isObject(v) ?
                 (block.controls.isNaturalWet.values[$index] ? v.rawValue : v.dryValue) :
                 v 
             }}

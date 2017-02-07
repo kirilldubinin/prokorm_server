@@ -30,7 +30,6 @@ describe('feed.view', function() {
             expect(feedView.feedItemSections.length).to.equal(2);
 
             var viewSection = feedView.feedItemSections[0];
-
             expect(viewSection.controls.isNaturalWet.values.length).to.equal(1);
             expect(viewSection.controls.number.values.length).to.equal(1);
             expect(viewSection.controls.code.values.length).to.equal(1);
@@ -41,7 +40,7 @@ describe('feed.view', function() {
             done();
         });
 
-        it('view should have dry and raw values for recalculate property', function(done) {
+        it('view with single analys should have dry and raw values for recalculate property', function(done) {
             var feed = {
                 _id: '1',
                 general: {
@@ -51,7 +50,7 @@ describe('feed.view', function() {
                 analysis: [{
                     isNaturalWet: false,
                     number: 1,
-                    dryMaterial: 23,
+                    dryMaterial: 10,
                     nel: 10
                 }]
             };
@@ -61,7 +60,7 @@ describe('feed.view', function() {
 
             var nel = viewSection.controls.nel.values[0];
             expect(nel.dryValue).to.equal(10);
-            expect(nel.rawValue).to.equal(math.round(10*(23/100), 2));
+            expect(nel.rawValue).to.equal(1);
 
             feed = {
                 _id: '1',
@@ -72,7 +71,7 @@ describe('feed.view', function() {
                 analysis: [{
                     isNaturalWet: true,
                     number: 1,
-                    dryMaterial: 23,
+                    dryMaterial: 10,
                     nel: 10
                 }]
             };
@@ -81,9 +80,60 @@ describe('feed.view', function() {
             viewSection = feedView.feedItemSections[0];
 
             nel = viewSection.controls.nel.values[0];
-            console.log(nel)
-            expect(nel.dryValue).to.equal(math.round((10*100/23), 2));
+            expect(nel.dryValue).to.equal(100);
             expect(nel.rawValue).to.equal(10);
+
+            done();
+        });
+
+        it('view with multiple analys should have dry and raw values for recalculate property', function(done) {
+            var feed = {
+                _id: '1',
+                general: {
+                    name: '1',
+                    year: 2015
+                },
+                analysis: [{
+                    isNaturalWet: false,
+                    number: 1,
+                    dryMaterial: 10,
+                    fos: 10,
+                    nel: 10,
+                    vos: null,
+                    exchangeEnergy: null
+                }, {
+                    isNaturalWet: true,
+                    number: 2,
+                    dryMaterial: 10,
+                    fos: null,
+                    nel: 10,
+                    vos: 10,
+                    exchangeEnergy: null
+                }]
+            };
+
+            var feedView = view(feed, {tenantName: 'foo'});
+            var viewSection = feedView.feedItemSections[0];
+
+            expect(viewSection.controls.exchangeEnergy).to.equal(undefined);
+
+            var nel1 = viewSection.controls.nel.values[0];
+            var nel2 = viewSection.controls.nel.values[1];
+            
+            var fos1 = viewSection.controls.fos.values[0];
+            var fos2 = viewSection.controls.fos.values[1];
+
+            var vos1 = viewSection.controls.vos.values[0];
+            var vos2 = viewSection.controls.vos.values[1];
+            
+            expect(nel1).to.deep.equal({dryValue: 10, rawValue: 1});
+            expect(nel2).to.deep.equal({dryValue: 100, rawValue: 10});
+
+            expect(fos1).to.deep.equal({dryValue: 10, rawValue: 1});
+            expect(fos2).to.deep.equal(null);
+
+            expect(vos1).to.deep.equal(null);
+            expect(vos2).to.deep.equal({dryValue: 100, rawValue: 10});
 
             done();
         });

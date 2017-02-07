@@ -14,6 +14,8 @@ function convertValue(key, val) {
         return lang(val);
     } else if (_.isDate(val)) {
         return ('0' + val.getDate()).slice(-2) + '/' + ('0' + (val.getMonth() + 1)).slice(-2) + '/' + val.getFullYear();
+    } else if(_.isNumber(val) && feedUtils.propertyForRecalculate[key]) {
+        return val.toFixed(1);
     }
     return val;
 }
@@ -39,65 +41,68 @@ function convert(feed, sessionData) {
     // set harvestDays if harvest.start and harvest.end is exist
     if (feed.harvest && feed.harvest.start && feed.harvest.end) {
         feed.harvest.harvestDays = 
-        Math.round((feed.harvest.end.getTime() - feed.harvest.start.getTime()) / (1000*60*60*24))
+        math.round((feed.harvest.end.getTime() - feed.harvest.start.getTime()) / (1000*60*60*24), 2)
     }
 
     // set feedingDays if feeding.start and feeding.end is exist
     if (feed.feeding && feed.feeding.start && feed.feeding.end) {
         feed.feeding.feedingDays = 
-        Math.round((feed.feeding.end.getTime() - feed.feeding.start.getTime()) / (1000*60*60*24))
+        math.round((feed.feeding.end.getTime() - feed.feeding.start.getTime()) / (1000*60*60*24), 2)
     }
 
     var analysisView = {};
     if (feed.analysis && feed.analysis.length) {
         var firstAnalys = feed.analysis[0];
         _.each(firstAnalys, function(value, key) {
-            // check if value not empty
-            if (key !== '_id') {
-                var canBerecalcalated = feedUtils.propertyForRecalculate[key];
-                var values = _.map(feed.analysis, function(a) {
-                    var initialValue = a[key];
-                    if (canBerecalcalated) {
-                        var isNaturalWet = a.isNaturalWet;
-                        var dryMaterial = a.dryMaterial / 100;
-                        var calcRaw = math.round((initialValue * dryMaterial), 2);
-                        var calcDry = math.round((initialValue / dryMaterial), 2);
-                        return {
-                            dryValue: isNaturalWet ? calcDry : initialValue,
-                            rawValue: isNaturalWet ? initialValue : calcRaw
-                        };
-                    } else {
-                        return convertValue(key, initialValue);
-                    }
-                });
-                // check if some values exist
-                var some = _.some(values, function(value) {
-                    if (_.isObject(value)) {
-                        return _.isNumber(value.dryValue) && _.isNumber(value.rawValue);
-                    } else {
-                        return value || _.isBoolean(value) || _.isNumber(value);
-                    }
-                });
-                if (some) {
-                    analysisView[key] = {
-                        key: key,
-                        values: values,
-                        label: lang(key),
-                        dimension: dimension(key),
-                        catalogLink: feedUtils.propertyWithHelp[key] ? ('/#/farm/' + sessionData.tenantName + '/catalog/' + feedUtils.propertyWithHelp[key]) : undefined
-                    }
-                }
+            
+            var some = _.some(feed.analysis, function (analys) {
+                return _.isBoolean(analys[key]) || _.isNumber(analys[key]) || analys[key];
+            });
+
+            if (key === 'id' || !some) {
+                return;
             }
+
+            var canBerecalcalated = feedUtils.propertyForRecalculate[key];
+            var values = _.map(feed.analysis, function(a) {
+                var initialValue = a[key];
+                
+                if (initialValue === null) {
+                    return null;
+                }
+
+                if (canBerecalcalated) {
+                    return feedUtils.calcDryRaw(a.isNaturalWet, a.dryMaterial, initialValue, key);
+                } else {
+                    return convertValue(key, initialValue);
+                }
+            });
+            // check if some values exist
+            /*var some = _.some(values, function(value) {
+                if (_.isObject(value)) {
+                    return _.isNumber(value.dryValue) && _.isNumber(value.rawValue);
+                } else {
+                    return value || _.isBoolean(value) || _.isNumber(value);
+                }
+            });*/
+            //if (some) {
+            analysisView[key] = {
+                key: key,
+                values: values,
+                label: lang(key),
+                dimension: dimension(key),
+                catalogLink: feedUtils.propertyWithHelp[key] ? 
+                    ('/#/farm/' + sessionData.tenantName + '/catalog/' + feedUtils.propertyWithHelp[key]) : 
+                    undefined
+            }
+            //}
         });
     }
-
-
     var generalView = convertToControl(feed.general);
     var harvestView = convertToControl(feed.harvest);
     var feedingView = convertToControl(feed.feeding);
 
     // sort field
-    var goldFeed = Feed.getEmptyFeed();
     var analysisSortView = _.isEmpty(analysisView) ? null : Feed.sort(analysisView, 'analysis');
     var generalSortView = _.isEmpty(generalView) ? null : Feed.sort(generalView, 'general');
     var harvestSortView = _.isEmpty(harvestView) ? null : Feed.sort(harvestView, 'harvest');

@@ -1,3 +1,5 @@
+var math = require('mathjs');
+
 var propertyForRecalculate = {
     milkAcid: 'milkAcid',
     aceticAcid: 'aceticAcid',
@@ -39,6 +41,7 @@ var propertyForAverage = {
     vos: 'vos',
     vcos: 'vcos',
     fos: 'fos',
+    sw: 'sw',
     nel: 'nel',
     nelvc: 'nelvc',
     exchangeEnergy: 'exchangeEnergy',
@@ -119,7 +122,21 @@ var propertyWithHelp = {
     nitrates: 'nitrates'
 };
 
+function calcDryRaw (isNaturalWet, dryMaterial, value) {
+
+    if (value === null || value === undefined) {
+        return null;
+    }
+
+    dryMaterial = dryMaterial / 100;
+    return {
+        dryValue: Math.round((isNaturalWet ? (value / dryMaterial) : value)*100)/100,
+        rawValue: Math.round((isNaturalWet ? value : (value * dryMaterial))*100)/100
+    };
+}
+
 module.exports = {
+    calcDryRaw: calcDryRaw,
     propertyForRecalculate: propertyForRecalculate,
     propertyForAverage: propertyForAverage,
     dateFields: dateFields,
