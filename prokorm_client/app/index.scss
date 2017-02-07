@@ -81,3 +81,12 @@ h2 {
 .view {
   height: 100%;
 }
+
+.md-select-menu-container {
+  md-option {
+    height: 28px;
+    .md-text {
+      font-size: 12px;
+    }
+  } 
+}
