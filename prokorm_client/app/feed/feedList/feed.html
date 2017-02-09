@@ -56,6 +56,11 @@
         </div>
         <div ng-if="!feed.filter.visible && feed.hiddenItemsLength" class="hide-items-length">
             {{feed.hiddenItemsLength}} скрыто
+            <i class="fa fa-times" aria-hidden="true">
+                <md-tooltip md-direction="bottom">
+                    Сбросить фильтр
+                </md-tooltip>
+            </i>
         </div>
         <div class="list-filter" ng-if="feed.filter.visible">
             <md-checkbox class="md-primary" aria-label="" ng-model="feed.filter.showEmpty">
