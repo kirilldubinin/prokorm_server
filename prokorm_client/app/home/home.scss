@@ -31,7 +31,7 @@
 .list-header {
 	border-bottom: 1px solid #ddd;
     padding: 10px 0;
-    height: 90px;
+    height: 110px;
     min-height: 90;
 	.module-name {
 		font-size: 22px;
@@ -41,23 +41,9 @@
 	}
 
 	.md-fab {
-		&.add-feed-btn {
-
-			.add-icon {
-				margin-bottom: 5px;
-			}
-
-			/*.diff-icon {
-				margin-bottom: 12px;
-    			margin-left: -6px;	
-			}
-
-			.back-icon {
-				margin-bottom: 12px;
-    			margin-left: -6px;
-			}*/
-
-			font-size: 32px;
+		&.add-feed-button {
+			margin-left: 0;
+			margin-right: 0;
 		}		
 	}
 

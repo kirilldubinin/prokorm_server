@@ -49,7 +49,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             });
 
             // set user actions for Feed module
-            var actions = ['diffFeed', 'averageFeed', 'sumFeed'];
+            var actions = ['diffFeed', 'averageFeed', 'sumFeed', 'chartsFeed'];
             var canAdd = 
                 (req.user.permissions.indexOf('admin') > -1 ||
                 req.user.permissions.indexOf('write') > -1);
@@ -278,13 +278,12 @@ module.exports = function(app, isAuthenticated, errorHandler) {
     });
 
     // charts
-    app.get('/api/feeds/charts', isAuthenticated, function(req, res) {
-        Feed.find({
-            'createdBy.tenantId': req.user.tenantId
-        }).lean().exec(function(err, feeds) {
-            if (err) {
-                return errorHandler(err, req, res);
-            }
+    app.post('/api/feeds/charts', isAuthenticated, function(req, res) {
+        var feedIds = req.body.feedIds;
+        var promises = _.map(feedIds, function(feedId) {
+            return Feed.findById(feedId);
+        });
+        Q.all(promises).then(function(feeds) {
             // double check checkUserRightForFeed and feed has analysis
             // sort by harvest.end
             feeds = _.filter(feeds, function(f) {
@@ -292,6 +291,8 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             });
 
             return res.json(charts(feeds));
+        }, function(err) {
+            res.send(err);
         });
     });
 }

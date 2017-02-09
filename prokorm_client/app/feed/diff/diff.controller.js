@@ -26,7 +26,7 @@
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             if (newState.name === 'farm.instance.feed.diff') {
-                updateDiffRows(params.feeds.split(':'));
+                updateDiffRows(_.filter(params.feeds.split(':'), Boolean));
             }
         });
     }

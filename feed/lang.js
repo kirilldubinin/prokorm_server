@@ -13,6 +13,7 @@ function lang(key) {
         diffFeed: 'Сравнить корма', 
         averageFeed: 'Средний корм', 
         sumFeed: 'Сумма кормов',
+        chartsFeed: 'Аналитика',
 
         userName: 'Имя пользователя',
         userFullName: 'Полное имя пользователя',

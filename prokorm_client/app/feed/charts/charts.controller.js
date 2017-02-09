@@ -4,84 +4,53 @@
 
     function ChartsController($scope, feedFactory, $stateParams, _) {
         var vm = this;
-        feedFactory.getCharts().then(function(data) {
-            
-            Highcharts.chart('container', {
-                chart: {
-                    type: 'spline'
-                },
-                plotOptions: {
-                    spline: {
-                        lineWidth: 4,
-                        states: {
-                            hover: {
-                                lineWidth: 5
+        function updateCharts() {
+
+            if (!vm.feeds || !vm.feeds.length) {
+                return;
+            }
+
+            feedFactory.chartsFeeds(vm.feeds).then(function(data) {
+                Highcharts.chart('container', {
+                    legend: {
+                        itemStyle: {
+                            fontWeight: '500'
+                        },
+                        itemDistance: 40,
+                        itemMarginBottom: 10,
+                    },
+                    chart: {
+                        type: 'spline'
+                    },
+                    title: false,
+                    plotOptions: {
+                        spline: {
+                            lineWidth: 4,
+                            states: {
+                                hover: {
+                                    lineWidth: 5
+                                }
+                            },
+                            marker: {
+                                enabled: false
                             }
-                        },
-                        marker: {
-                            enabled: false
-                        }
-                    }
-                },
-                xAxis: {
-                    categories: data.categories
-                },
-
-                series: data.chartSeries
-            });
-            return;
-
-            vm.data = [{
-                values: data,      //values - represents the array of {x,y} data points
-                key: 'Сырая зола', //key  - the name of the series.
-                color: '#ff7f0e'
-            }];
-            vm.options = {
-                chart: {
-                    type: 'lineChart',
-                    height: 450,
-                    margin: {
-                        top: 20,
-                        right: 20,
-                        bottom: 40,
-                        left: 55
-                    },
-                    x: function(d) {
-                        return d.x;
-                    },
-                    y: function(d) {
-                        return d.y;
-                    },
-                    useInteractiveGuideline: true,
-                    dispatch: {
-                        stateChange: function(e) {
-                            console.log("stateChange");
-                        },
-                        changeState: function(e) {
-                            console.log("changeState");
-                        },
-                        tooltipShow: function(e) {
-                            console.log("tooltipShow");
-                        },
-                        tooltipHide: function(e) {
-                            console.log("tooltipHide");
                         }
                     },
                     xAxis: {
-                        axisLabel: 'Год'
-                        /*tickFormat: function(d){
-                            return d;
-                        }*/
+                        categories: data.categories
                     },
-
                     yAxis: {
-                        
-                    }
-                },
-                title: {
-                    enable: false,
-                    text: 'График'
-                }
+                        title: false
+                    },
+                    series: data.chartSeries
+                });
+            });
+        }   
+
+        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
+            if (newState.name === 'farm.instance.feed.charts') {
+                vm.feeds = _.filter(params.feeds.split(':'), Boolean);
+                updateCharts();
             }
         });
     }

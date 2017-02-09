@@ -24,7 +24,6 @@ function getSumsByProps(props, feeds) {
                 }) * 1000
             }
         } else {
-            console.log('=============================');
             var total = _.sumBy(feeds, function(v) {
 
                 var lastAnalysis = _.last(v.analysis);

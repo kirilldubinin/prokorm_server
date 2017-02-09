@@ -142,12 +142,12 @@
         }
       })
       .state('farm.instance.feed.charts', {
-        url: '/charts',
+        url: '/charts/:feeds',
         templateUrl: 'app/feed/charts/charts.html',
         controller: 'ChartsController',
         controllerAs: 'charts',
         params: {
-          params: undefined
+          feeds: undefined
         },data: {
           module: 'feed'
         }

@@ -61,7 +61,6 @@ describe('feed.average', function() {
         }];
 
         var feedAverage = average(feeds);
-        console.log(feedAverage.dryRawValues)
         expect(feedAverage.dryRawValues).to.deep.equal([ [ false, true ], [ false, true ], [false] ]);
 
         var fosAverage = _.find(feedAverage.analysis[0].children, {key: 'fos'});

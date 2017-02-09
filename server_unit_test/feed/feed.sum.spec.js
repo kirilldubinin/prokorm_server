@@ -5,7 +5,7 @@ var lang = require('../../feed/lang');
 var _ = require('lodash');
 describe('feed.sum', function() {
     
-    it.only('sum', function(done) {
+    it('sum', function(done) {
         var feeds = [{
             _id: '1',
             general: {
@@ -38,12 +38,6 @@ describe('feed.sum', function() {
         }];
 
         var feedAverage = sum(feeds);
-        console.log(feedAverage.sumsRows[0].sumsByProp); 
-        console.log('=================')
-        console.log(feedAverage.sumsRows[0].byComposition[0].sumsByProp); 
-        console.log(feedAverage.sumsRows[0].byComposition[1].sumsByProp); 
-
-
         done();
     });
 });

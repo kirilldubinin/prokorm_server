@@ -24,7 +24,7 @@
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             if (newState.name === 'farm.instance.feed.sum') {
-                updateSum(params.feeds.split(':'));
+                updateSum(_.filter(params.feeds.split(':'), Boolean));
             }
         });
     }

@@ -41,8 +41,8 @@ angular.module('prokorm').factory('feedFactory', ['$http', '$location', function
     feedFactory.averageFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
     };
-    feedFactory.getCharts = function() {
-        return $http.get(urlBaseFeed + 'charts');
+    feedFactory.chartsFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
     };
     return feedFactory;
 }]);

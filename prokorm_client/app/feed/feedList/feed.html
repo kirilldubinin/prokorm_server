@@ -9,18 +9,21 @@
                         ({{feed.feedItems.length}})
                     </span>
                 </div>
-                <md-button class="md-fab md-mini md-primary" ng-click="feed.addFeed()" ng-if="_.some(feed.dashboard.actions, {key: 'addFeed'})">
+                <md-button class="md-fab md-mini md-primary add-feed-button" ng-click="feed.addFeed()" ng-if="_.some(feed.dashboard.actions, {key: 'addFeed'})">
                     <md-tooltip md-direction="bottom">
                         Добавить новый корм
                     </md-tooltip>
                     <ng-md-icon class="add-icon" icon="plus_one" size="24">
                     </ng-md-icon>
                 </md-button>
-                <md-button class="md-fab md-mini md-primary" ng-click="feed.goToHome()" ng-if="feed.isDiffMode || feed.isAverageMode || feed.isSumMode">
+                <md-button class="md-fab md-mini md-primary" ng-click="feed.goToHome()" ng-if="feed.isDiffMode || feed.isAverageMode || feed.isSumMode || feed.isChartMode">
+                    <md-tooltip md-direction="bottom">
+                        Назад
+                    </md-tooltip>
                     <ng-md-icon class="back-icon" icon="arrow_back" size="24">
                     </ng-md-icon>
                 </md-button>
-                <md-menu ng-if="!feed.isDiffMode && !feed.isAverageMode && !feed.isSumMode">
+                <md-menu ng-if="!feed.isDiffMode && !feed.isAverageMode && !feed.isSumMode && !feed.isChartMode">
                     <md-button aria-label="Menu" class="md-fab md-mini md-primary" ng-click="feed.openMenu($mdOpenMenu, $event)">
                         <ng-md-icon icon="menu">
                         </ng-md-icon>
@@ -37,11 +40,22 @@
             </div>
             <!-- FILTER TOGGLE-->
             <div layout="row">
-                <a class="filter-button" href="" ng-click="feed.toggleFilter()">
+                <md-button class="md-primary" md-no-ink="" ng-click="feed.toggleFilter()">
+                    {{feed.filter.visible ? 'применить' : 'фильтр'}}
+                </md-button>
+                <md-button 
+                    ng-if="!feed.filter.visible && (feed.isDiffMode || feed.isAverageMode || feed.isSumMode || feed.isChartMode)" 
+                    class="md-primary" md-no-ink="" ng-click="feed.selectAll()">
+                    Выделеить все
+                </md-button>
+                <!--<a class="filter-button" href="" ng-click="feed.toggleFilter()">
                     {{feed.filter.visible ? 'скрыть' : 'фильтр'}}
                 </a>
-                <span ng-if="!feed.filter.visible && feed.hiddenItemsLength" class="hide-items-length">(скрыто: {{feed.hiddenItemsLength}})</span>
+                <span ng-if="!feed.filter.visible && feed.hiddenItemsLength" class="hide-items-length">(скрыто: {{feed.hiddenItemsLength}})</span>-->
             </div>
+        </div>
+        <div ng-if="!feed.filter.visible && feed.hiddenItemsLength" class="hide-items-length">
+            {{feed.hiddenItemsLength}} скрыто
         </div>
         <div class="list-filter" ng-if="feed.filter.visible">
             <md-checkbox class="md-primary" aria-label="" ng-model="feed.filter.showEmpty">
@@ -95,11 +109,16 @@
             </md-input-container>
         </div>
         <md-list flex class="feed-list">
-            <md-list-item class="md-3-line feed-item" ng-class="{
+            <md-list-item class="md-3-line feed-item" 
+                ng-class="{
                     done: feedItem.done,
                     opened: feedItem.opened,
-                    selected: (feedItem._id === feed.selectedItemId || feed.diffFeeds.indexOf(feedItem._id) > -1 || feed.averageFeeds.indexOf(feedItem._id) > -1 || feed.sumFeeds.indexOf(feedItem._id) > -1)
-                }" ng-click="feed.onFeedClick(feedItem)" ng-repeat="feedItem in feed.feedItems" ng-show="feed.isVisible(feedItem)">
+                    selected: (feedItem._id === feed.selectedItemId || feed.diffFeeds.indexOf(feedItem._id) > -1 || feed.averageFeeds.indexOf(feedItem._id) > -1 || feed.sumFeeds.indexOf(feedItem._id) > -1 
+                    || feed.chartFeeds.indexOf(feedItem._id) > -1)
+                }" 
+                ng-show="feedItem.isVisible"
+                ng-click="feed.onFeedClick(feedItem)" 
+                ng-repeat="feedItem in feed.feedItems">
                 <div class="md-list-item-text">
                     <div layout="row">
                         <p class="title" flex="">

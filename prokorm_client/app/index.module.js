@@ -24,6 +24,7 @@
         $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
         $httpProvider.defaults.headers.get.Pragma = 'no-cache';
 
+        var lastTenantName;
         function isAPIrequest(url) {
             return /^\/?api\//.test(url);
         }

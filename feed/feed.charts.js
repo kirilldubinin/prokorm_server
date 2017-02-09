@@ -58,6 +58,7 @@ function charts(feeds) {
         });
 
         return {
+            dimension: dimension(seria),
             name: lang(seria),
             data: seriaDates
         }
@@ -71,7 +72,7 @@ function charts(feeds) {
     chartSeries = _.map(chartSeries, function(chartSeria) {
         var groupByYear = _.groupBy(chartSeria.data, 'year');
         return {
-            name: chartSeria.name,
+            name: chartSeria.name + ', ' + chartSeria.dimension,
             data: _.map(allYears, function(year) {
                 if (!groupByYear[year]) {
                     return null;

@@ -14,6 +14,7 @@
             vm.filterValues = result.filterValues;
             vm.feedItems = result.feeds;
             vm.selectedItemId = $state.params.feedId;
+            vm.updateVisible();
         });
 
         feedFactory.getFeedDashboard().then(function(dashboard) {
@@ -30,23 +31,25 @@
 
         // actions
         vm.addFeed = function() {
-            vm.selectedItemId = null;
             $state.go('farm.instance.feed.new');
         };
         vm.diffFeed = function() {
-            vm.selectedItemId = null;
             $state.go('farm.instance.feed.diff');
         };
         vm.averageFeed = function() {
-            vm.selectedItemId = null;
             $state.go('farm.instance.feed.average');
         };
         vm.sumFeed = function() {
-            vm.selectedItemId = null;
             $state.go('farm.instance.feed.sum');
         };
 
+        vm.chartsFeed = function() {
+            $state.go('farm.instance.feed.charts');
+        }
+
         vm.isVisible = function (feedItem) {
+
+            //console.log(feedItem._id);
 
             feedItem.isVisible = false;
             // by filter
@@ -96,18 +99,39 @@
                 return false;
             } else if (vm.isSumMode && (!feedItem.analysis || !feedItem.balanceWeight)) {
                 return false;
+            } else if (vm.isChartMode && !feedItem.analysis) {
+                return false;
             }
 
             return feedItem.isVisible = true;
         };
 
         vm.toggleFilter = function () {
+            if (vm.filter.visible) {
+                $state.go(vm.lastState, {
+                  'feeds': []
+                });
+                vm.updateVisible();
+            }
             vm.filter.visible = !vm.filter.visible;
-            vm.hiddenItemsLength = _.size(_.filter(vm.feedItems, {'isVisible': false}));
         };
 
+        vm.updateVisible = function () {
+            _.forEach(vm.feedItems, function (feed) {
+                feed.isVisible = vm.isVisible(feed);
+            });
+            vm.hiddenItemsLength = _.size(_.filter(vm.feedItems, {'isVisible': false}));
+        }
+
+        vm.selectAll = function () {
+            var ids = _.map(_.filter(vm.feedItems, {'isVisible': true}), '_id');
+            $state.go(vm.lastState, {
+                'feeds': ids.join(':')
+            });
+        }
+
         vm.onFeedClick = function(feedItem) {
-            if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode) {
+            if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode || vm.isChartMode) {
 
                 var currentFeeds = _.filter($state.params.feeds.split(':'), function (o) { return o; });
                 var ind = currentFeeds.indexOf(feedItem._id);
@@ -136,10 +160,13 @@
             vm.isDiffMode = newState.name === 'farm.instance.feed.diff';
             vm.isAverageMode = newState.name === 'farm.instance.feed.average';
             vm.isSumMode = newState.name === 'farm.instance.feed.sum';
+            vm.isChartMode = newState.name === 'farm.instance.feed.charts';
 
+            vm.selectedItemId = null;
             vm.diffFeeds = null;
             vm.averageFeeds = null;
             vm.sumFeeds = null;
+            vm.chartFeeds = null;
 
             // update list after switch to diff mode
             if (vm.isDiffMode) {
@@ -151,6 +178,9 @@
             } else if (vm.isSumMode) {
                 vm.selectedItemId = null;
                 vm.sumFeeds = params.feeds.split(':');
+            } else if (vm.isChartMode) {
+                vm.selectedItemId = null;
+                vm.chartFeeds = params.feeds.split(':');
             }
             else if (newState.name === 'farm.instance.feed') {
                 vm.selectedItemId = null;
@@ -168,7 +198,10 @@
                 feedFactory.getFeeds().then(function(result) {
                     vm.feedItems = result.feeds;
                     vm.filterValues = result.filterValues;
+                    vm.updateVisible();
                 });
+            } else {
+                vm.updateVisible();
             }
         });
     }

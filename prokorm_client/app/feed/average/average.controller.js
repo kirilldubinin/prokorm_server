@@ -27,7 +27,7 @@
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             if (newState.name === 'farm.instance.feed.average') {
-                updateAverageRows(params.feeds.split(':'));
+                updateAverageRows(_.filter(params.feeds.split(':'), Boolean));
             }
         });
     }
