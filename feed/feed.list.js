@@ -11,7 +11,7 @@ function sortFeeds (a,b) {
     if (a.harvest && b.harvest &&
     	a.harvest.end && a.harvest.end.getTime && 
     	b.harvest.end && b.harvest.end.getTime) {
-        return a.harvest.end.getTime() - b.harvest.end.getTime();    
+        return b.harvest.end.getTime() - a.harvest.end.getTime();    
     } 
     // else sort by generak.year
     else {
@@ -51,7 +51,7 @@ function list(feeds) {
     });
 
     var filterValues = {
-        years: _.filter(_.uniq(_.map(shortFeeds, 'year')), null) ,
+        years: _.filter(_.uniq(_.map(shortFeeds, 'year')), null).sort(function (a,b) { return b - a; }),
         feedTypes: _.filter(_.uniq(_.map(shortFeeds, 'feedType')), null),
         compositions: _.filter(_.uniq(_.map(shortFeeds, 'composition')), null),
         storages: _.filter(_.uniq(_.map(shortFeeds, 'storage')), null)

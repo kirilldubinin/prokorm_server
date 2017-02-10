@@ -14,7 +14,12 @@ function sortFeeds(a, b) {
 }
 
 function charts(feeds) {
-    var series = ['dryMaterial', 'ph', 'oilAcid', 'exchangeEnergy', 'crudeAsh']
+    var series = ['dryMaterial', 'ph', 'milkAcid', 'aceticAcid', 'oilAcid', 
+                'exchangeEnergy', 'nel', 'crudeAsh', 'crudeProtein', 'crudeFat',
+                'sugar', 'starch', 'crudeFiber', 'ndf', 'adf', 'adl'];
+
+    var byDefault = ['dryMaterial', 'ph', 'exchangeEnergy', 'crudeAsh', 'crudeProtein', 'crudeFiber'];
+                
     var allYears = [];
     var chartSeries = _.map(series, function(seria) {
 
@@ -60,15 +65,18 @@ function charts(feeds) {
         return {
             dimension: dimension(seria),
             name: lang(seria),
-            data: seriaDates
+            visible: _.some(byDefault, function (d) { return d === seria; }),
+            data: seriaDates.sort(function(a, b) {
+                return a.year - b.year;
+            })
         }
     });
+
+
     allYears = _.uniq(allYears).sort(function(a, b) {
         return a - b;
     });
-    chartSeries.sort(function(a, b) {
-        return a.year - b.year;
-    });
+    
     chartSeries = _.map(chartSeries, function(chartSeria) {
         var groupByYear = _.groupBy(chartSeria.data, 'year');
         return {
@@ -79,7 +87,8 @@ function charts(feeds) {
                 } else {
                     return _.first(_.map(groupByYear[year], 'data'));
                 }
-            })
+            }),
+            visible: chartSeria.visible
         }
     });
     return {

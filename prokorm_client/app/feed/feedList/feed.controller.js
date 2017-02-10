@@ -106,6 +106,14 @@
             return feedItem.isVisible = true;
         };
 
+        vm.clearFilter = function () {
+            vm.filter = {
+                noAnalysis: true,
+                showEmpty: true
+            };
+            vm.updateVisible();
+        };
+
         vm.toggleFilter = function () {
             if (vm.filter.visible) {
                 $state.go(vm.lastState, {
