@@ -43,17 +43,19 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(helmet());
 
+// routes ======================================================================
+require('./route/routes.js')(app);
+
+
 // tmp ========================================================================
 
-var schedule = require('node-schedule');
+/*var schedule = require('node-schedule');
  
 var rule = new schedule.RecurrenceRule();
 rule.minute = 1;
  
 var j = schedule.scheduleJob(rule, function(){
   console.log('The answer to life, the universe, and everything!');
-});
-// routes ======================================================================
-require('./route/routes.js')(app);
+});*/
 
-module.exports = app; // for testing
+

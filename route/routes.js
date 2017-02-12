@@ -44,11 +44,4 @@ module.exports = function(app) {
     _.forEach(routes, function (route) {
         require('./routes.' + route)(app, isAuthenticated, errorHandler); 
     });
-
-    // web application =================================================
-    app.get('*', function(req, res) {
-        console.log('./../prokorm_client/index.debug.html');
-        console.log(__dirname);
-        res.sendFile(__dirname + './../prokorm_client/index.debug.html');
-    });
 }
