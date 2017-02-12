@@ -9,7 +9,7 @@
                         ({{feed.feedItems.length}})
                     </span>
                 </div>
-                <md-button class="md-fab md-mini md-primary add-feed-button" ng-click="feed.addFeed()" ng-if="_.some(feed.dashboard.actions, {key: 'addFeed'})">
+                <md-button class="md-fab md-mini md-primary add-feed-button" ng-click="feed.addFeed()" ng-if="_.some(feed.dashboard.actions, {key: 'addFeed'}) && !(feed.isDiffMode || feed.isAverageMode || feed.isSumMode || feed.isChartMode)">
                     <md-tooltip md-direction="bottom">
                         Добавить новый корм
                     </md-tooltip>
@@ -46,7 +46,7 @@
                 <md-button 
                     ng-if="!feed.filter.visible && (feed.isDiffMode || feed.isAverageMode || feed.isSumMode || feed.isChartMode)" 
                     class="md-primary" md-no-ink="" ng-click="feed.selectAll()">
-                    Выделеить все
+                    Выбрать все
                 </md-button>
                 <!--<a class="filter-button" href="" ng-click="feed.toggleFilter()">
                     {{feed.filter.visible ? 'скрыть' : 'фильтр'}}
@@ -115,6 +115,7 @@
         </div>
         <md-list flex class="feed-list">
             <md-list-item class="md-3-line feed-item" 
+                ng-disabled="feed.isDisabled(feedItem)"
                 ng-class="{
                     done: feedItem.done,
                     opened: feedItem.opened,
@@ -132,7 +133,7 @@
                         <span class="analysis-length" ng-class="{'no-analysis': !feedItem.analysis}">
                             <i aria-hidden="true" class="fa fa-flask">
                             </i>
-                            {{feedItem.analysis || ''}}
+                            {{feedItem.analysis}}
                         </span>
                         <span ng-if="feedItem.totalWeight" class="weight weight-control" ng-class="{opened: feedItem.opened, done: feedItem.done}">
                             <span ng-if="_.isNumber(feedItem.balanceWeight)" class="balance">
@@ -166,7 +167,7 @@
             </md-divider>
         </md-list>
     </md-card>
-    <md-card class="dashboard" flex="80" md-theme="default" md-theme-watch="" ui-view="">
+    <md-card id="dashboard" class="dashboard" flex="80" md-theme="default" md-theme-watch="" ui-view="">
         <md-content layout-padding="">
             <md-button class="md-primary" md-no-ink="" ng-click="feed[action.key]()" ng-repeat="action in feed.dashboard.actions">
                 {{action.label}}

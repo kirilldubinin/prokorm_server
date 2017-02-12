@@ -1,5 +1,5 @@
 <div class="sum-card" layout="column">
-  <div ng-if="sum.sumsRows.length" layout="row" class="sum-title">
+  <div layout="row" class="sum-title">
     <h2 flex="25">Сумма</h2>
     <div flex class="sum-header" ng-repeat="prop in sum.properties">
       {{prop.label}}, {{prop.dimension}}
@@ -7,7 +7,7 @@
   </div>
   <div flex class="sum-dashboard" layout="row">
     <h2 class="empty-select-message" ng-if="!sum.sumsRows.length">
-      Выберите корма из списка для суммирования показателей. 
+      Выберите незавершенные корма с анализами из списка
     </h2>
     <ul ng-if="sum.sumsRows.length" flex class="property-list">
       <li class="property-row" ng-repeat="row in sum.sumsRows">

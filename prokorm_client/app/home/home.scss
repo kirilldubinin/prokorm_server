@@ -2,19 +2,25 @@
 	font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #6a6c6f;
     font-size: 22px;
-    padding: 2px 0px 2px 8px;
+    padding: 2px 20px 2px 20px;
     background-color: #3F51B5;
     color: #fff;
 	.user-company {
 		
 	}
 	.user-name {
-		padding-top: 6px;
+		
 	}
 
 	.prokorm-title {
 		line-height: 46px;
     	font-size: 28px;
+	}
+
+	.md-button {
+		&.md-raised {
+			color: #3F51B5;
+		}
 	}
 }
 

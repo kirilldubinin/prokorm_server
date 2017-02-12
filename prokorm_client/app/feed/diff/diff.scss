@@ -30,7 +30,10 @@
 	.diff-dashboard {
 
 		.empty-select-message {
-			margin: auto;
+			margin: 100px auto;
+			i {
+				font-size: 22px;
+			}
 		}
 
 		/*height: calc(100% - 75px);*/

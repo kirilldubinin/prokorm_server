@@ -111,7 +111,7 @@ function convert(feed, sessionData) {
     var allViews = [analysisView, generalView, harvestView, feedingView];
     allViews = _.filter(allViews, function(v) { return !_.isEmpty(v); });
 
-    var actions = [];
+    var actions = ['print'];
     if (sessionData) {
         var perms = sessionData.permissions;
         if (_.indexOf(perms, 'admin') !== -1 || _.indexOf(perms, 'write') !== -1) {

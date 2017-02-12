@@ -1,6 +1,8 @@
 <div class="average-card" layout="column">
-  <div ng-if="average.analysisRows.length" layout="row" class="average-title">
-    <h2 flex="25"></h2>
+  <div layout="row" class="average-title">
+    <h2 ng-if="!average.analysisRows.length" flex="25">
+      Среднее
+    </h2>
     <div flex class="feed-header" ng-repeat="header in average.headers">
       {{header.name}} <b>{{header.year}}</b>
       <br/>
@@ -10,7 +12,7 @@
   </div>
   <div flex class="average-dashboard" layout="row">
     <h2 ng-if="!average.analysisRows.length" class="empty-select-message" ng-if="!diff.diffRows.length">
-      Выберите корма из списка для расчета средних показателей. 
+      Выберите корма с анализами из списка
     </h2>
     <ul ng-if="average.analysisRows.length" flex class="property-list">
       <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in average.analysisRows">

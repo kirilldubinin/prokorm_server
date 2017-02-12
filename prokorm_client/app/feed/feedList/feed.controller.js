@@ -45,7 +45,16 @@
 
         vm.chartsFeed = function() {
             $state.go('farm.instance.feed.charts');
-        }
+        };
+
+        vm.isDisabled = function (feedItem) {
+            if (vm.isDiffMode || vm.isAverageMode || vm.isChartMode) {
+                return !Boolean(feedItem.analysis);
+            } else if (vm.isSumMode) {
+                return (!Boolean(feedItem.analysis) || !Boolean(feedItem.balanceWeight));
+            }
+            return false;
+        };
 
         vm.isVisible = function (feedItem) {
 
@@ -93,7 +102,7 @@
             }
 
             //  by mode
-            if (vm.isDiffMode && !feedItem.analysis) {
+            /*if (vm.isDiffMode && !feedItem.analysis) {
                 return false;
             } else if (vm.isAverageMode && !feedItem.analysis) {
                 return false;
@@ -101,7 +110,7 @@
                 return false;
             } else if (vm.isChartMode && !feedItem.analysis) {
                 return false;
-            }
+            }*/
 
             return feedItem.isVisible = true;
         };
@@ -132,7 +141,9 @@
         }
 
         vm.selectAll = function () {
-            var ids = _.map(_.filter(vm.feedItems, {'isVisible': true}), '_id');
+            var ids = _.map(_.filter(vm.feedItems, function (feed) {
+                return feed.isVisible && !vm.isDisabled(feed);
+            }), '_id');
             $state.go(vm.lastState, {
                 'feeds': ids.join(':')
             });

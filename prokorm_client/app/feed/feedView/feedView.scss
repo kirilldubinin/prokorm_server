@@ -142,3 +142,58 @@
 		}
 	}
 }
+
+.print {
+	background-color: #fff; 
+	.feed-view {
+	    margin: 0;
+	    padding: 0;
+	    overflow: auto;
+	    color: #000000 !important;
+		.feed-title {
+			margin: 0; 
+			font-size: 16px;
+
+			h2 {
+				color: #000000 !important;
+			}
+
+			.weight-control {
+				display: none;
+			}
+			.actions {
+				button {
+					display: none;
+				}
+			}
+		}
+
+		.feed-view-header {
+			
+		}
+
+		.dry-switch	{
+			.md-container {
+				display: none;
+			}
+			.md-label {
+				margin-left: 4px !important;
+			}
+		}
+
+		.feed-view-content {
+			overflow: initial;
+			.property {
+				font-size: 12px;
+				padding: 4px 0;
+
+				label {
+					color: #000000;
+					a {
+						color: #000000;
+					}
+				}
+			}
+		}
+	}
+}

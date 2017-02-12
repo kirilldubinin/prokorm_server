@@ -26,6 +26,14 @@
             $state.go('farm.instance.profile.view');
         };
 
+        vm.help = function () {
+            $state.go('farm.instance.help');
+        }; 
+
+        vm.info = function () {
+            $state.go('farm.instance.info');
+        };        
+
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             vm.currentModule = newState.data && newState.data.module;
         });

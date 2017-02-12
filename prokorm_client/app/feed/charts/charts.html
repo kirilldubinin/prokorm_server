@@ -1,12 +1,12 @@
 <div class="charts" layout="column">
-    <div class="charts-title" ng-if="charts.feeds && charts.feeds.length">
+    <div class="charts-title">
         <h2 flex="25">
             Аналитика
         </h2>
     </div>
     <div class="charts-dashboard" flex layout="column">
     	<h2 class="empty-select-message" ng-if="!charts.feeds || !charts.feeds.length">
-	    	Выберите корма из списка для аналитики.
+	    	Выберите корма с анализами из списка
 	    </h2>
 	    <div id="container" flex layout="row" ng-if="charts.feeds && charts.feeds.length"></div>
     </div>

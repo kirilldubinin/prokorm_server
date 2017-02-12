@@ -2,41 +2,73 @@
     <div class="prokorm-title" flex="20">
         ПРОКОРМ
     </div>
-
-    <div flex class="modules">
-        <md-button ng-class="{ 'md-raised': module.key === home.currentModule }" ng-repeat="module in home.sessionData.user.modules" ng-click="home.goToModule(module.key)">
-          {{module.name}}
-        </md-button>    
+    <div class="modules" flex="">
+        <md-button ng-class="{ 'md-raised': module.key === home.currentModule }" ng-click="home.goToModule(module.key)" ng-repeat="module in home.sessionData.user.modules">
+            {{module.name}}
+        </md-button>
     </div>
     <!--<div flex="80" class="user-company">
         {{home.sessionData.user.name}}
     </div>-->
     <div class="user-name">
-        <ng-md-icon icon="account_circle">
+        <md-button ng-class="{ 'md-raised': 'profile' === home.currentModule }"  ng-click="home.profile($event)">
+            <md-tooltip md-direction="bottom">
+                Перейти к настройкам профиля
+            </md-tooltip>
+            <ng-md-icon icon="account_circle">
+            </ng-md-icon>
+            {{home.sessionData.user.name}}
+        </md-button>
+
+        <md-button ng-class="{ 'md-raised': 'help' === home.currentModule }" class="md-icon-button">
+        	<ng-md-icon class="help-btn" icon="help_outline" ng-click="home.help()">
+        		<md-tooltip md-direction="bottom">
+	                Помощь
+	            </md-tooltip>
+        	</ng-md-icon>
+        </md-button>
+
+        <md-button ng-class="{ 'md-raised': 'info' === home.currentModule }" class="md-icon-button">
+            <ng-md-icon class="help-btn" icon="info_outline" ng-click="home.info()">
+                <md-tooltip md-direction="bottom">
+                    О программе
+                </md-tooltip>
+            </ng-md-icon>
+        </md-button>        
+
+        <md-button class="md-icon-button" ng-click="home.logout()">
+	        <ng-md-icon class="exit-btn" icon="exit_to_app">
+	        	<md-tooltip md-direction="bottom">
+	                Выйти
+	            </md-tooltip>
+	        </ng-md-icon>
+        </md-button>
+        
+        <!--<ng-md-icon icon="account_circle">
         </ng-md-icon>
         {{home.sessionData.user.name}}
         <md-menu>
             <md-button aria-label="Menu" class="md-icon-button" ng-click="home.openMenu($mdOpenMenu, $event)">
                 <ng-md-icon icon="menu">
-        		</ng-md-icon>
+                </ng-md-icon>
             </md-button>
             <md-menu-content width="4">
                 <md-menu-item>
                     <md-button ng-click="home.profile($event)">
-                        <ng-md-icon style="fill: #999" icon="account_circle">
+                        <ng-md-icon icon="account_circle" style="fill: #999">
                         </ng-md-icon>
                         Профиль
                     </md-button>
                 </md-menu-item>
                 <md-menu-item>
                     <md-button ng-click="home.logout()">
-                        <ng-md-icon style="fill: #999" icon="logout">
+                        <ng-md-icon icon="logout" style="fill: #999">
                         </ng-md-icon>
                         Выйти
                     </md-button>
                 </md-menu-item>
             </md-menu-content>
-        </md-menu>
+        </md-menu>-->
     </div>
 </section>
 <section class="main-content" ui-view="">

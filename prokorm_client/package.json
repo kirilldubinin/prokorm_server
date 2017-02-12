@@ -20,7 +20,9 @@
     "gulp-uglify": "",
     "jshint": "^2.9.4",
     "gulp-clean-css": "~2.3.2",
-    "gulp-jshint-html-reporter": "^0.1.3"
+    "gulp-jshint-html-reporter": "^0.1.3",
+    "gulp-bump": "",
+    "gulp-ng-config": ""
   },
   "dependencies": {
     "angular": "1.5.5",

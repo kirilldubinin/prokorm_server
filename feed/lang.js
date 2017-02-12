@@ -8,6 +8,7 @@ function lang(key) {
 
         edit: 'редактировать',
         delete: 'удалить',
+        print: 'печать',
 
         addFeed: 'Добавить корм',
         diffFeed: 'Сравнить корма', 

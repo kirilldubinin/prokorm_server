@@ -10,6 +10,8 @@ var uglify = require('gulp-uglify');
 var order = require("gulp-order");
 var jshint = require('gulp-jshint');
 var cleanCSS = require('gulp-clean-css');
+var bump = require('gulp-bump');
+var gulpNgConfig = require('gulp-ng-config');
 
 
 // release structure
@@ -57,7 +59,7 @@ gulp.task('build_app_js', function(){
     return gulp.src(appJS)
     	.pipe(order([
 		    'index.module.js',
-		    'index.config.js',
+		    'config.js',
 		    'index.constants.js',
 		    'index.run.js',
 		    'index.route.js'
@@ -95,8 +97,26 @@ gulp.task('release_clean', function() {
 	rimraf('/app');
 });
 
+gulp.task('bump', function() {
+     return gulp
+          .src('./config.json')
+          .pipe(bump())
+          .pipe(gulp.dest('./'));
+});
+
+gulp.task('config', ['bump'], function() {
+
+	return gulp.src('config.json')
+	.pipe(gulpNgConfig('prokorm', {
+	  createModule: false,
+	  wrap: true
+	}))
+	.pipe(gulp.dest('./app/'));
+});
+
 gulp.task('release', 
-	['build_libs_js', 
+	['config',
+	'build_libs_js', 
 	'build_app_js', 
 	'build_libs_css', 
 	'build_app_css'
