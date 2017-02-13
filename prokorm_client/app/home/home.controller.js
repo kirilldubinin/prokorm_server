@@ -14,7 +14,7 @@
             $mdOpenMenu(ev);
         };
         vm.goToModule = function(module) {
-            $state.go('farm.instance.' + module);
+            $state.go('tenant.' + module);
             //$window.location.href = '#/farm/kamenskoe' + module.url;
         };
 
@@ -23,15 +23,15 @@
         };
 
         vm.profile = function () {
-            $state.go('farm.instance.profile.view');
+            $state.go('tenant.profile.view');
         };
 
         vm.help = function () {
-            $state.go('farm.instance.help');
+            $state.go('tenant.help');
         }; 
 
         vm.info = function () {
-            $state.go('farm.instance.info');
+            $state.go('tenant.info');
         };        
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {

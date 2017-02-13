@@ -1,0 +1,37 @@
+<div class="profile-edit">
+	<h2>Текущий пользователь</h2> 
+	<form name="settings" flex>
+		<div class="edit-block">
+			<md-input-container class="md-block">
+		        <label>Имя компании</label>
+		        <input disabled="disabled" ng-model="profileEdit.profile.tenantName">
+		    </md-input-container>
+		    <md-input-container class="md-block">
+		        <label>Полное имя компании</label>
+		        <input ng-model="profileEdit.profile.tenantFullName">
+		    </md-input-container>
+
+			<md-input-container class="md-block">
+		        <label>Имя пользователя</label>
+		        <input ng-model="profileEdit.profile.userName">
+		    </md-input-container>
+			<md-input-container class="md-block">
+		        <label>Полное имя пользователя</label>
+		        <input ng-model="profileEdit.profile.userFullName">
+		    </md-input-container>
+		    <md-input-container class="md-block">
+		        <label>E-mail</label>
+		        <input ng-model="profileEdit.profile.email">
+		    </md-input-container>
+		</div>
+	</form>
+	<!-- ACTIONS -->
+    <div class="feed-edit-actions" layout="row" layout-align="center left" layout-sm="column" layout-wrap="">
+        <md-button class="md-raised" ng-click="profileEdit.cancel()">
+            Отмена
+        </md-button>
+        <md-button class="md-raised md-primary" ng-click="profileEdit.save()">
+            Сохранить
+        </md-button>
+    </div>
+</md-card>

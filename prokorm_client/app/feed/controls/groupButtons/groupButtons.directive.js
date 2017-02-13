@@ -1,5 +1,5 @@
 (function() {
-  angular.module('prokorm').directive('groupButtons', groupButtons);
+  angular.module('feed').directive('groupButtons', groupButtons);
   function groupButtons() {
       var directive = {
           restrict: 'E',

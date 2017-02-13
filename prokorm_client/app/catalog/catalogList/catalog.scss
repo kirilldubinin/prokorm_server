@@ -1,0 +1,26 @@
+.catalog {
+	height: 100%;
+	overflow: hidden;
+
+	.navigator {
+		height: calc(100% - 14px);
+    	margin-right: 0;
+    	
+    	.catalog-list {
+    		height: calc(100% - 60px);
+		    overflow: auto;
+		    padding-top: 0;
+
+		    .catalog-item {
+		    	font-size: 14px;
+		    	&.selected {
+			    	background-color: #BBDEFB;
+			    }	
+		    }
+    	}
+	}
+
+	.dashboard {
+		height: calc(100% - 14px);
+	}
+}

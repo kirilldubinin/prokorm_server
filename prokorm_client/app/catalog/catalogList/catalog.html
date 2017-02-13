@@ -1,0 +1,25 @@
+<div layout="row" class="catalog">
+  <md-card class="navigator" md-theme="default" md-theme-watch flex="20">
+    <div class="list-header" layout="row">
+      <div flex class="module-name">
+        Справочник
+      </div>
+    </div>
+    <md-list class="catalog-list">
+      
+      <md-list-item 
+        ng-class="{selected: catalog.currentKey === catalogItem.key}"
+        class="md-1-line catalog-item"
+        ng-click="catalog.onItemClick(catalogItem)" 
+        ng-repeat="catalogItem in catalog.catalogItems" >
+        <div class="md-list-item-text">
+          {{catalogItem.short}}
+        </div>
+      </md-list-item> 
+      <md-divider ></md-divider>
+    </md-list>
+  </md-card>
+  <md-card class="dashboard" md-theme="default" md-theme-watch flex="80" ui-view>
+    
+  </md-card>
+</div>

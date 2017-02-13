@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('prokorm').controller('ChartsController', ChartsController);
+    angular.module('feed').controller('ChartsController', ChartsController);
 
     function ChartsController($scope, feedFactory, $stateParams, _) {
         var vm = this;
@@ -48,7 +48,7 @@
         }   
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'farm.instance.feed.charts') {
+            if (newState.name === 'tenant.feed.charts') {
                 vm.feeds = _.filter(params.feeds.split(':'), Boolean);
                 updateCharts();
             }

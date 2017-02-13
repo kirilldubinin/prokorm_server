@@ -1,7 +1,17 @@
 (function() {
     'use strict';
     // modules
-    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons']);
+    
+    angular.module('auth', []);
+    angular.module('feed', []);
+    angular.module('profile', []);
+    angular.module('catalog', []);
+    angular.module('info', []);
+    angular.module('help', []);
+    angular.module('prokorm', 
+        ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons',
+        'catalog', 'profile', 'feed', 'auth', 'help', 'info'
+        ]);
     
     // constant
     angular.module('prokorm').constant('_', window._);
@@ -50,7 +60,7 @@
                 'responseError': function(rejection) {
                     console.log(rejection.data.message || rejection.data.name);
                     if (rejection.status === 401) {
-                        $injector.get('$state').transitionTo('farm.login');
+                        $injector.get('$state').transitionTo('login');
                     }
                     if (isAPIrequest(rejection.config.url)) {
                             

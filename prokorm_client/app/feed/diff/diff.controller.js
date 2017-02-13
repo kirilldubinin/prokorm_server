@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('prokorm').controller('DiffController', DiffController);
+    angular.module('feed').controller('DiffController', DiffController);
 
     function DiffController($scope, feedFactory, $stateParams, _) {
 
@@ -25,7 +25,7 @@
     	}	
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'farm.instance.feed.diff') {
+            if (newState.name === 'tenant.feed.diff') {
                 updateDiffRows(_.filter(params.feeds.split(':'), Boolean));
             }
         });

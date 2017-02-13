@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('prokorm').controller('FeedController', FeedController);
+    angular.module('feed').controller('FeedController', FeedController);
 
     function FeedController($scope, $window, $state, feedFactory, $mdDialog) {
         var vm = this;
@@ -26,25 +26,25 @@
         };
         vm.goToHome = function() {
             vm.selectedItemId = null;
-            $state.go('farm.instance.feed');
+            $state.go('tenant.feed');
         };
 
         // actions
         vm.addFeed = function() {
-            $state.go('farm.instance.feed.new');
+            $state.go('tenant.feed.new');
         };
         vm.diffFeed = function() {
-            $state.go('farm.instance.feed.diff');
+            $state.go('tenant.feed.diff');
         };
         vm.averageFeed = function() {
-            $state.go('farm.instance.feed.average');
+            $state.go('tenant.feed.average');
         };
         vm.sumFeed = function() {
-            $state.go('farm.instance.feed.sum');
+            $state.go('tenant.feed.sum');
         };
 
         vm.chartsFeed = function() {
-            $state.go('farm.instance.feed.charts');
+            $state.go('tenant.feed.charts');
         };
 
         vm.isDisabled = function (feedItem) {
@@ -166,7 +166,7 @@
                 });
             } else {
                 vm.selectedItemId = feedItem._id;
-                $state.go('farm.instance.feed.instance', { 'feedId': feedItem._id });
+                $state.go('tenant.feed.instance', { 'feedId': feedItem._id });
             }
         };
 
@@ -176,10 +176,10 @@
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
             vm.lastState = newState.name;
-            vm.isDiffMode = newState.name === 'farm.instance.feed.diff';
-            vm.isAverageMode = newState.name === 'farm.instance.feed.average';
-            vm.isSumMode = newState.name === 'farm.instance.feed.sum';
-            vm.isChartMode = newState.name === 'farm.instance.feed.charts';
+            vm.isDiffMode = newState.name === 'tenant.feed.diff';
+            vm.isAverageMode = newState.name === 'tenant.feed.average';
+            vm.isSumMode = newState.name === 'tenant.feed.sum';
+            vm.isChartMode = newState.name === 'tenant.feed.charts';
 
             vm.selectedItemId = null;
             vm.diffFeeds = null;
@@ -201,19 +201,19 @@
                 vm.selectedItemId = null;
                 vm.chartFeeds = params.feeds.split(':');
             }
-            else if (newState.name === 'farm.instance.feed') {
+            else if (newState.name === 'tenant.feed') {
                 vm.selectedItemId = null;
                 feedFactory.getFeedDashboard().then(function(dashboard) {
                     vm.dashboard = dashboard;
                 });
-            } else if (newState.name === 'farm.instance.feed.instance') {
+            } else if (newState.name === 'tenant.feed.instance') {
                 vm.selectedItemId = params.feedId;
             }
             
             // update list after delete or add new feed
-            if (oldState.name === 'farm.instance.feed.edit' || 
-                oldState.name === 'farm.instance.feed.new' ||
-                newState.name === 'farm.instance.feed') {
+            if (oldState.name === 'tenant.feed.edit' || 
+                oldState.name === 'tenant.feed.new' ||
+                newState.name === 'tenant.feed') {
                 feedFactory.getFeeds().then(function(result) {
                     vm.feedItems = result.feeds;
                     vm.filterValues = result.filterValues;

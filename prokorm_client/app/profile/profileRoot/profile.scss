@@ -1,0 +1,60 @@
+.profile {
+	height: calc(100% - 14px);
+    padding: 0 20px;
+    overflow: hidden;
+
+    md-content {
+    	background-color: transparent;
+    }
+
+    .profile-title {
+    	color: #3F51B5;
+	    border-bottom: 3px solid #FF9800;
+	    padding: 20px 0 12px 0;
+	    margin-bottom: 20px;
+    }
+
+    .profile-view {
+    	background-color: transparent;
+
+        p {
+            label {
+                display: inline-block;
+                text-align: right;
+                color: rgba(0, 0, 0, 0.54);
+                font-size: 14px;
+            }
+            span {
+                margin-left: 10px;
+                font-size: 14px;
+            }
+            a {
+                font-size: 14px;    
+            }
+        }
+    }
+
+    .add-user {
+    	height: 100%;
+    	md-input-container {
+    		margin-right: 40px;	
+    	}
+
+    	label {
+    		color: rgba(0, 0, 0, 0.54);
+    	}
+    }
+
+    .edit-actions {
+    	min-height: 60px;
+		height: 60px;
+		border-top: 3px solid #FF9800;
+    }
+}
+
+.change-passowrd {
+    min-width: 400px;
+    h2 {
+        color: #f0f0f0;
+    }
+}

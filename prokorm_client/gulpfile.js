@@ -39,7 +39,7 @@ gulp.task('build_libs_js', function(){
 	var libsJS = ['node_modules/angular/angular.min.js',
 				'node_modules/angular-resource/angular-resource.min.js',
 				'node_modules/angular-animate/angular-animate.min.js',
-				'node_modules/angular-messages/angular-messages.min.js',
+				//'node_modules/angular-messages/angular-messages.min.js',
 				'node_modules/angular-aria/angular-aria.min.js',
 				'node_modules/angular-material/angular-material.min.js',
 				'node_modules/angular-material-icons/angular-material-icons.min.js',
@@ -59,13 +59,13 @@ gulp.task('build_app_js', function(){
     return gulp.src(appJS)
     	.pipe(order([
 		    'index.module.js',
+		    'index.route.js',
 		    'config.js',
 		    'index.constants.js',
-		    'index.run.js',
-		    'index.route.js'
+		    'index.run.js'
 	  	]))
         .pipe(concat('app.js'))
-        .pipe(uglify({mangle: false}))
+        //.pipe(uglify({mangle: false}))
         .pipe(gulp.dest('./'));
 });
 

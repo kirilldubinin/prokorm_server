@@ -1,7 +1,7 @@
 (function() {
     'use strict';
     FeedViewController.$inject = ['$mdDialog', '$stateParams', '$state', 'feedFactory', '_']
-    angular.module('prokorm').controller('FeedViewController', FeedViewController);
+    angular.module('feed').controller('FeedViewController', FeedViewController);
 
     function FeedViewController($mdDialog, $stateParams, $state, feedFactory, _) {
         var vm = this;
@@ -28,7 +28,7 @@
             popupWin.document.close();
         };
         vm.edit = function() {
-            $state.go('farm.instance.feed.edit', {
+            $state.go('tenant.feed.edit', {
                 'feedId': feedId
             });
         };
@@ -36,7 +36,7 @@
             var confirm = $mdDialog.confirm().title('removeFeedConfirmDialogTitle').textContent('removeFeedConfirmDialogContent').targetEvent(ev).ok('yes').cancel('no');
             $mdDialog.show(confirm).then(function() {
                 feedFactory.deleteFeed($stateParams.feedId).then(function(res) {
-                    $state.go('farm.instance.feed');
+                    $state.go('tenant.feed');
                 });
             }, function() {});
         };

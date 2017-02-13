@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('prokorm').controller('AverageController', AverageController);
+    angular.module('feed').controller('AverageController', AverageController);
 
     function AverageController($scope, feedFactory, $stateParams, _) {
 
@@ -26,7 +26,7 @@
     	}	
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'farm.instance.feed.average') {
+            if (newState.name === 'tenant.feed.average') {
                 updateAverageRows(_.filter(params.feeds.split(':'), Boolean));
             }
         });

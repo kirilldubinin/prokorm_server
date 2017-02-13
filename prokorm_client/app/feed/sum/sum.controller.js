@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('prokorm').controller('SumController', SumController);
+    angular.module('feed').controller('SumController', SumController);
 
     function SumController($scope, feedFactory, $stateParams, _) {
 
@@ -23,7 +23,7 @@
     	}	
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'farm.instance.feed.sum') {
+            if (newState.name === 'tenant.feed.sum') {
                 updateSum(_.filter(params.feeds.split(':'), Boolean));
             }
         });

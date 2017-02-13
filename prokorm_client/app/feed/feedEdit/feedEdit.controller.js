@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('prokorm').controller('FeedEditController', FeedEdiController);
+    angular.module('feed').controller('FeedEditController', FeedEdiController);
     /** @ngInject */
     function FeedEdiController($window, $stateParams, $state, $scope, feedFactory) {
         var vm = this;
@@ -116,7 +116,7 @@
 
             feedFactory.saveFeed(feed).then(function(response) {
                 if (response.message === 'OK') {
-                    $state.go('farm.instance.feed.instance', {
+                    $state.go('tenant.feed.instance', {
                         'feedId': response.id
                     });
                 }
@@ -124,11 +124,11 @@
         };
         vm.cancel = function() {
             if (feedId) {
-                $state.go('farm.instance.feed.instance', {
+                $state.go('tenant.feed.instance', {
                     'feedId': feedId
                 });    
             } else {
-                $state.go('farm.instance.feed'); 
+                $state.go('tenant.feed'); 
             }
         };
         vm.onSelfExplanationLinkClick = function(key) {

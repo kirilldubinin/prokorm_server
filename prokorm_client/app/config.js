@@ -1,5 +1,5 @@
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.19");
+.constant("version", "0.0.35");
 
 })();

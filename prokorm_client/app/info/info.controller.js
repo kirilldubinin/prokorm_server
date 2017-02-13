@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    angular.module('prokorm').controller('InfoController', InfoController);
+    angular.module('info').controller('InfoController', InfoController);
     /** @ngInject */
     function InfoController($scope, $state, version) {
     	var vm = this;
