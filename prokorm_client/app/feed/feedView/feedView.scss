@@ -145,6 +145,55 @@
 
 .print {
 	background-color: #fff; 
+	ul, li {
+		padding: 0;
+		margin: 0;
+		color: #000;
+		
+		.property {
+			margin: 4px 0;
+		    border-bottom: 1px solid #ddd;
+		    padding: 2px 0;
+		    font-size: 12px;
+			a {
+				text-decoration: none;
+				color: #000;
+			}
+
+			md-checkbox {
+				min-width: 100px;
+			    margin-left: 15px;
+			    margin-right: 0;
+
+				.md-container {
+					display: none;
+				}
+
+				.md-label {
+					margin: 0;
+				}
+			}
+
+			.value {
+				margin-left: 15px;
+			    font-weight: 500;
+			    min-width: 100px;
+			}
+		}
+	}
+
+	.print-title {
+		font-weight: bold;
+
+		.key {
+			text-transform: uppercase;
+		}
+	}
+
+	.break {
+		page-break-after: always;
+	}
+
 	.feed-view {
 	    margin: 0;
 	    padding: 0;
@@ -196,4 +245,8 @@
 			}
 		}
 	}
+}
+
+@media print {
+    background-color: Red;
 }

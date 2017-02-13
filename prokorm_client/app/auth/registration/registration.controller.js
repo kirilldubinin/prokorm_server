@@ -2,7 +2,7 @@
     'use strict';
     angular.module('auth').controller('RegistrationController', RegistrationController);
     /** @ngInject */
-    function RegistrationController($http, loginFactory) {
+    function RegistrationController($http, authFactory) {
         var vm = this;
         vm.user = {
             loginname: '',
@@ -10,7 +10,7 @@
         };
         vm.do = function () {
             vm.error = '';
-            loginFactory.registration(vm.user).then(
+            authFactory.registration(vm.user).then(
                 function(response) {
                     if (response && response.message) {
                         vm.successMessage = response.message;

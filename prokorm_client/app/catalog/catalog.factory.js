@@ -1,4 +1,4 @@
-angular.module('prokorm').factory('catalogFactory', ['$http', '$location', function($http, $location) {
+angular.module('catalog').factory('catalogFactory', ['$http', '$location', function($http, $location) {
 
 	var host = '';
     var urlBase = host + '/api/';

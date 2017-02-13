@@ -1,43 +1,43 @@
-angular.module('prokorm').factory('loginFactory', ['$http', '$location', function($http, $location) {
+angular.module('auth').factory('authFactory', ['$http', '$location', function($http, $location) {
 
 	var host = '';
     var urlBase = host + '/api/';
     var urlBaseFeed = urlBase + 'feeds/';
-    var loginFactory = {};
+    var authFactory = {};
 
-    loginFactory.logout = function() {
+    authFactory.logout = function() {
         return $http.post(urlBase + 'logout/');
     };
 
-    loginFactory.login = function(user) {
+    authFactory.login = function(user) {
         return $http.post(urlBase + 'signin/', user);
     };
 
-    loginFactory.registration = function(user) {
+    authFactory.registration = function(user) {
         return $http.post(urlBase + 'registration/', user);
     };
 
     // sessionData
-    loginFactory.getSessionData = function() {
+    authFactory.getSessionData = function() {
         return $http.get(urlBase + 'sessionData/');
     };
 
     // profile
-    loginFactory.getProfileView = function() {
+    authFactory.getProfileView = function() {
         return $http.get(urlBase + 'profile/view');
     };    
-    loginFactory.getProfileEdit = function() {
+    authFactory.getProfileEdit = function() {
         return $http.get(urlBase + 'profile/edit');
     };
-    loginFactory.updateProfile = function(profile) {
+    authFactory.updateProfile = function(profile) {
         return $http.put(urlBase + 'profile', profile);
     };
-    loginFactory.addUser = function(user) {
+    authFactory.addUser = function(user) {
         return $http.post(urlBase + 'users', user);
     };
-    loginFactory.setPassword = function (pass) {
+    authFactory.setPassword = function (pass) {
         return $http.post(urlBase + 'profile/password', pass);    
     };
 
-    return loginFactory;
+    return authFactory;
 }]);

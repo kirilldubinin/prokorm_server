@@ -165,6 +165,49 @@
 
 })();
 
+angular.module('auth').factory('authFactory', ['$http', '$location', function($http, $location) {
+
+	var host = '';
+    var urlBase = host + '/api/';
+    var urlBaseFeed = urlBase + 'feeds/';
+    var authFactory = {};
+
+    authFactory.logout = function() {
+        return $http.post(urlBase + 'logout/');
+    };
+
+    authFactory.login = function(user) {
+        return $http.post(urlBase + 'signin/', user);
+    };
+
+    authFactory.registration = function(user) {
+        return $http.post(urlBase + 'registration/', user);
+    };
+
+    // sessionData
+    authFactory.getSessionData = function() {
+        return $http.get(urlBase + 'sessionData/');
+    };
+
+    // profile
+    authFactory.getProfileView = function() {
+        return $http.get(urlBase + 'profile/view');
+    };    
+    authFactory.getProfileEdit = function() {
+        return $http.get(urlBase + 'profile/edit');
+    };
+    authFactory.updateProfile = function(profile) {
+        return $http.put(urlBase + 'profile', profile);
+    };
+    authFactory.addUser = function(user) {
+        return $http.post(urlBase + 'users', user);
+    };
+    authFactory.setPassword = function (pass) {
+        return $http.post(urlBase + 'profile/password', pass);    
+    };
+
+    return authFactory;
+}]);
 (function() {
     'use strict';
     angular.module('auth').config(routerConfig);
@@ -196,7 +239,7 @@
     'use strict';
     angular.module('auth').controller('LoginController', LoginController);
     /** @ngInject */
-    function LoginController($http, $state, loginFactory) {
+    function LoginController($http, $state, authFactory) {
         var vm = this;
 
         vm.tenantName = $state.params.tenant;
@@ -206,7 +249,7 @@
             password: ''
         };
         vm.do = function () {
-            loginFactory.login(vm.user).then(
+            authFactory.login(vm.user).then(
                 function(response) {
                     $state.go('tenant.feed', { 'id': response.tenantName });
                 }, function (err) {
@@ -224,7 +267,7 @@
     'use strict';
     angular.module('auth').controller('RegistrationController', RegistrationController);
     /** @ngInject */
-    function RegistrationController($http, loginFactory) {
+    function RegistrationController($http, authFactory) {
         var vm = this;
         vm.user = {
             loginname: '',
@@ -232,7 +275,7 @@
         };
         vm.do = function () {
             vm.error = '';
-            loginFactory.registration(vm.user).then(
+            authFactory.registration(vm.user).then(
                 function(response) {
                     if (response && response.message) {
                         vm.successMessage = response.message;
@@ -249,6 +292,23 @@
         };
     }
 })();
+angular.module('catalog').factory('catalogFactory', ['$http', '$location', function($http, $location) {
+
+	var host = '';
+    var urlBase = host + '/api/';
+    var catalogFactory = {};
+    catalogFactory.getCatalog = function () {
+        return $http.get(urlBase + 'catalog');
+    };
+    catalogFactory.getCatalogContentByKey = function (key) {
+        return $http.get(urlBase + 'catalog/' + key);
+    };  
+    catalogFactory.saveCatalogContentByKey = function (catalog) {
+        return $http.put(urlBase + 'catalog/' + catalog.key, catalog);
+    };
+
+    return catalogFactory;
+}]);
 (function() {
     'use strict';
     angular.module('catalog').config(routerConfig);
@@ -343,114 +403,6 @@
     	};
     }
 })();
-angular.module('prokorm').factory('catalogFactory', ['$http', '$location', function($http, $location) {
-
-	var host = '';
-    var urlBase = host + '/api/';
-    var catalogFactory = {};
-    catalogFactory.getCatalog = function () {
-        return $http.get(urlBase + 'catalog');
-    };
-    catalogFactory.getCatalogContentByKey = function (key) {
-        return $http.get(urlBase + 'catalog/' + key);
-    };  
-    catalogFactory.saveCatalogContentByKey = function (catalog) {
-        return $http.put(urlBase + 'catalog/' + catalog.key, catalog);
-    };
-
-    return catalogFactory;
-}]);
-angular.module('prokorm').factory('feedFactory', ['$http', '$location', function($http, $location) {
-
-    var host = '';
-    var urlBase = host + '/api/';
-    var urlBaseFeed = urlBase + 'feeds/';
-    var feedFactory = {};
-
-    // feed
-    feedFactory.getFeeds = function() {
-        return $http.get(urlBaseFeed);
-    };
-    feedFactory.getFeedDashboard = function() {
-        return $http.get(urlBaseFeed + 'dashboard');
-    };
-    feedFactory.saveFeed = function(feed) {
-        var methode = feed._id ? 'put' : 'post';
-        var url = feed._id ? (urlBaseFeed + feed._id) : urlBaseFeed;
-        return $http[methode](url, feed);
-    };
-    feedFactory.getFeedView = function(feedId) {
-        return $http.get(urlBaseFeed + feedId + '/view');
-    };
-    feedFactory.getFeedEdit = function(feedId) {
-        return $http.get(urlBaseFeed + feedId + '/edit');
-    };
-    feedFactory.getEmptyFeed = function() {
-        return $http.post(urlBaseFeed + 'new');
-    };
-    feedFactory.getEmptyAnalysis = function() {
-        return $http.post(urlBaseFeed + 'newAnalysis');
-    };
-    feedFactory.deleteFeed = function(feedId) {
-        return $http.delete(urlBaseFeed + feedId);
-    };
-    feedFactory.diffFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'diff', {feedIds: feedIds});
-    };
-    feedFactory.sumFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
-    };
-    feedFactory.averageFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
-    };
-    feedFactory.chartsFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
-    };
-    return feedFactory;
-}]);
-angular.module('prokorm').factory('loginFactory', ['$http', '$location', function($http, $location) {
-
-	var host = '';
-    var urlBase = host + '/api/';
-    var urlBaseFeed = urlBase + 'feeds/';
-    var loginFactory = {};
-
-    loginFactory.logout = function() {
-        return $http.post(urlBase + 'logout/');
-    };
-
-    loginFactory.login = function(user) {
-        return $http.post(urlBase + 'signin/', user);
-    };
-
-    loginFactory.registration = function(user) {
-        return $http.post(urlBase + 'registration/', user);
-    };
-
-    // sessionData
-    loginFactory.getSessionData = function() {
-        return $http.get(urlBase + 'sessionData/');
-    };
-
-    // profile
-    loginFactory.getProfileView = function() {
-        return $http.get(urlBase + 'profile/view');
-    };    
-    loginFactory.getProfileEdit = function() {
-        return $http.get(urlBase + 'profile/edit');
-    };
-    loginFactory.updateProfile = function(profile) {
-        return $http.put(urlBase + 'profile', profile);
-    };
-    loginFactory.addUser = function(user) {
-        return $http.post(urlBase + 'users', user);
-    };
-    loginFactory.setPassword = function (pass) {
-        return $http.post(urlBase + 'profile/password', pass);    
-    };
-
-    return loginFactory;
-}]);
 (function() {
     'use strict';
     angular.module('feed').controller('AverageController', AverageController);
@@ -615,6 +567,54 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
         });
     }
 })();
+angular.module('feed').factory('feedFactory', ['$http', '$location', function($http, $location) {
+
+    var host = '';
+    var urlBase = host + '/api/';
+    var urlBaseFeed = urlBase + 'feeds/';
+    var feedFactory = {};
+
+    // feed
+    feedFactory.getFeeds = function() {
+        return $http.get(urlBaseFeed);
+    };
+    feedFactory.getFeedDashboard = function() {
+        return $http.get(urlBaseFeed + 'dashboard');
+    };
+    feedFactory.saveFeed = function(feed) {
+        var methode = feed._id ? 'put' : 'post';
+        var url = feed._id ? (urlBaseFeed + feed._id) : urlBaseFeed;
+        return $http[methode](url, feed);
+    };
+    feedFactory.getFeedView = function(feedId) {
+        return $http.get(urlBaseFeed + feedId + '/view');
+    };
+    feedFactory.getFeedEdit = function(feedId) {
+        return $http.get(urlBaseFeed + feedId + '/edit');
+    };
+    feedFactory.getEmptyFeed = function() {
+        return $http.post(urlBaseFeed + 'new');
+    };
+    feedFactory.getEmptyAnalysis = function() {
+        return $http.post(urlBaseFeed + 'newAnalysis');
+    };
+    feedFactory.deleteFeed = function(feedId) {
+        return $http.delete(urlBaseFeed + feedId);
+    };
+    feedFactory.diffFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'diff', {feedIds: feedIds});
+    };
+    feedFactory.sumFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
+    };
+    feedFactory.averageFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
+    };
+    feedFactory.chartsFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
+    };
+    return feedFactory;
+}]);
 (function() {
     'use strict';
     // modules
@@ -1080,10 +1080,32 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
 })();
 (function() {
     'use strict';
-    FeedViewController.$inject = ['$mdDialog', '$stateParams', '$state', 'feedFactory', '_']
+    angular.module('prokorm').directive('feedFilter', feedFilter);
+    /** @ngInject */
+    function feedFilter() {
+        var directive = {
+            restrict: 'E',
+            templateUrl: 'app/feed/feedFilter.html',
+            scope: {
+                card: '='
+            },
+            controller: FeedFilterController,
+            controllerAs: 'feedFilter',
+            bindToController: true
+        };
+        return directive;
+    }
+    /** @ngInject */
+    function FeedFilterController() {
+      
+    }
+})();
+(function() {
+    'use strict';
+    FeedViewController.$inject = ['$mdDialog', '$stateParams', '$state', 'authFactory', 'feedFactory', '_']
     angular.module('feed').controller('FeedViewController', FeedViewController);
 
-    function FeedViewController($mdDialog, $stateParams, $state, feedFactory, _) {
+    function FeedViewController($mdDialog, $stateParams, $state, authFactory, feedFactory, _) {
         var vm = this;
         vm._ = _;
         var feedId = $stateParams.feedId;
@@ -1092,20 +1114,54 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
         }
         vm.isDrySwitch = true;
         vm.print = function() {
-            //onload="window.print()"
-            var printContents = 
-                document.getElementById('dashboard').innerHTML;
-            var popupWin = window.open('', '_blank');
-            popupWin.document.open();
-            popupWin.document.write(
-                '<html>'+
-                    '<head>'+
-                        '<link rel="stylesheet" type="text/css" href="app.css"/>'+
-                        '<link rel="stylesheet" type="text/css" href="libs.css"/>'+
-                    '</head>'+
-                    '<body onload="window.print()" class="feed print">' + printContents + '</body>'+
-                '</html>');
-            popupWin.document.close();
+            
+            authFactory.getSessionData().then(function(data) {
+
+                var analysisPrint = document.getElementById('analysis');
+                var generalPrint = document.getElementById('general');
+                var harvestPrint = document.getElementById('harvest');
+                var feedingPrint = document.getElementById('feeding');
+
+                var popupWin = window.open('', '_blank');
+                popupWin.document.open();
+                popupWin.document.write(
+                    '<html>'+
+                        '<title>ПРОКОРМ:печать</title>'+
+                        '<head>'+
+                            '<link rel="stylesheet" type="text/css" href="app.css"/>'+
+                            '<link rel="stylesheet" type="text/css" href="libs.css"/>'+
+                        '</head>'+
+                        '<body onload="setTimeout(function() {window.print(); window.close();}, 500)" class="feed print">' + 
+                            (analysisPrint ? 
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">анализы:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                '<br/>' +
+                                analysisPrint.innerHTML + 
+                                '<div class="break"></div>') : ''
+                            ) +
+                            (generalPrint ? 
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">основные:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                '<br/>' +
+                                generalPrint.innerHTML + 
+                                '<br/>') : ''
+                            ) +
+                            (harvestPrint ? 
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">заготовка:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                '<br/>' +
+                                harvestPrint.innerHTML + 
+                                '<br/>') : '' 
+                            ) +
+                            (feedingPrint ? 
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">кормление:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                '<br/>' +
+                                feedingPrint.innerHTML) : ''
+                            ) + 
+                        '</body>'+
+                        '<footer>prokorm.com</footer>' +
+                    '</html>');
+                popupWin.document.close();
+                //popupWin.onfocus=function(){ popupWin.close();}
+
+            });
         };
         vm.edit = function() {
             $state.go('tenant.feed.edit', {
@@ -1187,11 +1243,11 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
     'use strict';
     angular.module('prokorm').controller('HomeController', HomeController);
     /** @ngInject */
-    function HomeController($scope, $state,  loginFactory, $mdDialog) {
+    function HomeController($scope, $state, authFactory, $mdDialog) {
         var originatorEv;
         var vm = this;
         vm.currentModule = '';
-        loginFactory.getSessionData().then(function(data) {
+        authFactory.getSessionData().then(function(data) {
             vm.sessionData = data;
         });
         vm.openMenu = function($mdOpenMenu, ev) {
@@ -1204,7 +1260,7 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
         };
 
         vm.logout = function () {
-            loginFactory.logout();
+            authFactory.logout();
         };
 
         vm.profile = function () {
@@ -1252,6 +1308,171 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
 })();
 (function() {
     'use strict';
+    angular.module('prokorm').controller('LoginController', LoginController);
+    /** @ngInject */
+    function LoginController($http, $state, authFactory) {
+        var vm = this;
+
+        vm.tenantName = $state.params.tenant;
+        vm.user = {
+            tenantname: vm.tenantName || '',
+            username: '',
+            password: ''
+        };
+        vm.do = function () {
+            authFactory.login(vm.user).then(
+                function(response) {
+                    $state.go('tenant.feed', { 'id': response.tenantName });
+                }, function (err) {
+                    vm.info = err.message;
+                }
+            );
+        };
+
+        vm.goToRegistration = function () {
+            
+        };
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('prokorm').controller('RegistrationController', RegistrationController);
+    /** @ngInject */
+    function RegistrationController($http, authFactory) {
+        var vm = this;
+        vm.user = {
+            loginname: '',
+            email: ''
+        };
+        vm.do = function () {
+            vm.error = '';
+            authFactory.registration(vm.user).then(
+                function(response) {
+                    if (response && response.message) {
+                        vm.successMessage = response.message;
+                    }
+                }, 
+                function(err) {
+                    vm.error = err.message;
+                }
+            );
+        };
+
+        vm.goToRegistration = function () {
+            
+        };
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('prokorm').controller('ProfileViewController', ProfileViewController);
+    /** @ngInject */
+    function ProfileViewController($scope, $state, $mdDialog, authFactory) {
+        var vm = this;
+        authFactory.getProfileView().then(function(result) {
+            vm.userInfo = result.controls;
+            vm.companyUsers = result.companyUsers;
+        });
+        vm.edit = function() {
+            $state.go('tenant.profile.edit');
+        };
+        vm.changePassword = function(ev) {
+            $mdDialog.show({
+                controller: ChangePasswordController,
+                templateUrl: './app/profile/changePassword.html',
+                parent: angular.element(document.body),
+                targetEvent: ev,
+                clickOutsideToClose: false
+            }).then(function(answer) {
+                $state.go('tenant.profile.view');
+            }, function() {
+                $state.go('tenant.profile.view');
+            });
+        };
+
+        vm.addUser = function () {
+            $state.go('tenant.profile.addUser');        
+        };
+    }
+    angular.module('prokorm').controller('ProfileEditController', ProfileEditController);
+    /** @ngInject */
+    function ProfileEditController($scope, $state, authFactory) {
+        var vm = this;
+        authFactory.getProfileEdit().then(function(result) {
+            vm.userInfo = result.controls;
+            vm.profile = result.profile;
+        });
+        vm.save = function() {
+            authFactory.updateProfile(vm.profile).then(function(result) {
+                if (result.message === 'OK') {
+                    $state.go('tenant.profile.view');
+                }
+            });
+        };
+        vm.cancel = function () {
+            $state.go('tenant.profile.view');
+        };
+    }
+    angular.module('prokorm').controller('AddUserController', AddUserController);
+    /** @ngInject */
+    function AddUserController($scope, $state, authFactory) {
+        var vm = this;
+        vm.user = {
+            name: '',
+            fullName: '',
+            email: '',
+            password: '',
+            tenantFullName: ''
+        };
+        vm.cancel = function() {
+            $state.go('tenant.profile.view');
+        };
+        vm.save2 = function() {
+            if (vm.user.password === vm.password_2) {
+                var permissions = [];
+                if (vm.allowRead){
+                    permissions.push('read');
+                }
+                if (vm.allowWrite){
+                    permissions.push('write');
+                }
+                var user = _.extend(vm.user, {
+                    permissions: permissions
+                });
+                authFactory.addUser(user).then(function(result) {
+                    if (result.message === 'OK') {
+                        $state.go('tenant.profile.view');
+                    }
+                });
+            }
+        };
+    }
+    angular.module('prokorm').controller('ChangePasswordController', ChangePasswordController);
+    /** @ngInject */
+    function ChangePasswordController($scope, $mdDialog, authFactory) {
+        
+        $scope.currentPassword = '';
+        $scope.newPassword = '';
+        $scope.newPassword2 = '';
+
+        $scope.cancel = function() {
+            $mdDialog.cancel();
+        };
+        $scope.save = function () {
+            authFactory.setPassword({
+                currentPassword: $scope.currentPassword,
+                newPassword: $scope.newPassword,
+                newPassword2: $scope.newPassword2
+            }).then(function (data) {
+                if (data.message === 'OK') {
+                    $state.go('tenant.profile.view');
+                }
+            });
+        };
+    }
+})();
+(function() {
+    'use strict';
     angular.module('profile').config(routerConfig);
     /** @ngInject */
     function routerConfig($stateProvider, $urlRouterProvider) {
@@ -1291,9 +1512,9 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
     'use strict';
     angular.module('profile').controller('ProfileViewController', ProfileViewController);
     /** @ngInject */
-    function ProfileViewController($scope, $state, $mdDialog, loginFactory) {
+    function ProfileViewController($scope, $state, $mdDialog, authFactory) {
         var vm = this;
-        loginFactory.getProfileView().then(function(result) {
+        authFactory.getProfileView().then(function(result) {
             vm.userInfo = result.controls;
             vm.companyUsers = result.companyUsers;
         });
@@ -1320,14 +1541,14 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
     }
     angular.module('profile').controller('ProfileEditController', ProfileEditController);
     /** @ngInject */
-    function ProfileEditController($scope, $state, loginFactory) {
+    function ProfileEditController($scope, $state, authFactory) {
         var vm = this;
-        loginFactory.getProfileEdit().then(function(result) {
+        authFactory.getProfileEdit().then(function(result) {
             vm.userInfo = result.controls;
             vm.profile = result.profile;
         });
         vm.save = function() {
-            loginFactory.updateProfile(vm.profile).then(function(result) {
+            authFactory.updateProfile(vm.profile).then(function(result) {
                 if (result.message === 'OK') {
                     $state.go('tenant.profile.view');
                 }
@@ -1339,7 +1560,7 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
     }
     angular.module('profile').controller('AddUserController', AddUserController);
     /** @ngInject */
-    function AddUserController($scope, $state, loginFactory) {
+    function AddUserController($scope, $state, authFactory) {
         var vm = this;
         vm.user = {
             name: '',
@@ -1363,7 +1584,7 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
                 var user = _.extend(vm.user, {
                     permissions: permissions
                 });
-                loginFactory.addUser(user).then(function(result) {
+                authFactory.addUser(user).then(function(result) {
                     if (result.message === 'OK') {
                         $state.go('tenant.profile.view');
                     }
@@ -1373,7 +1594,7 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
     }
     angular.module('profile').controller('ChangePasswordController', ChangePasswordController);
     /** @ngInject */
-    function ChangePasswordController($scope, $mdDialog, loginFactory) {
+    function ChangePasswordController($scope, $mdDialog, authFactory) {
         
         $scope.currentPassword = '';
         $scope.newPassword = '';
@@ -1383,7 +1604,7 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
             $mdDialog.cancel();
         };
         $scope.save = function () {
-            loginFactory.setPassword({
+            authFactory.setPassword({
                 currentPassword: $scope.currentPassword,
                 newPassword: $scope.newPassword,
                 newPassword2: $scope.newPassword2
@@ -1393,5 +1614,13 @@ angular.module('prokorm').factory('loginFactory', ['$http', '$location', functio
                 }
             });
         };
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('prokorm').controller('SettingsController', SettingsController);
+    /** @ngInject */
+    function SettingsController($scope, $state) {
+        
     }
 })();

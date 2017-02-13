@@ -2,14 +2,14 @@
     'use strict';
     angular.module('prokorm').controller('ProfileViewController', ProfileViewController);
     /** @ngInject */
-    function ProfileViewController($scope, $state, $mdDialog, loginFactory) {
+    function ProfileViewController($scope, $state, $mdDialog, authFactory) {
         var vm = this;
-        loginFactory.getProfileView().then(function(result) {
+        authFactory.getProfileView().then(function(result) {
             vm.userInfo = result.controls;
             vm.companyUsers = result.companyUsers;
         });
         vm.edit = function() {
-            $state.go('farm.instance.profile.edit');
+            $state.go('tenant.profile.edit');
         };
         vm.changePassword = function(ev) {
             $mdDialog.show({
@@ -19,38 +19,38 @@
                 targetEvent: ev,
                 clickOutsideToClose: false
             }).then(function(answer) {
-                $state.go('farm.instance.profile.view');
+                $state.go('tenant.profile.view');
             }, function() {
-                $state.go('farm.instance.profile.view');
+                $state.go('tenant.profile.view');
             });
         };
 
         vm.addUser = function () {
-            $state.go('farm.instance.profile.addUser');        
+            $state.go('tenant.profile.addUser');        
         };
     }
     angular.module('prokorm').controller('ProfileEditController', ProfileEditController);
     /** @ngInject */
-    function ProfileEditController($scope, $state, loginFactory) {
+    function ProfileEditController($scope, $state, authFactory) {
         var vm = this;
-        loginFactory.getProfileEdit().then(function(result) {
+        authFactory.getProfileEdit().then(function(result) {
             vm.userInfo = result.controls;
             vm.profile = result.profile;
         });
         vm.save = function() {
-            loginFactory.updateProfile(vm.profile).then(function(result) {
+            authFactory.updateProfile(vm.profile).then(function(result) {
                 if (result.message === 'OK') {
-                    $state.go('farm.instance.profile.view');
+                    $state.go('tenant.profile.view');
                 }
             });
         };
         vm.cancel = function () {
-            $state.go('farm.instance.profile.view');
+            $state.go('tenant.profile.view');
         };
     }
     angular.module('prokorm').controller('AddUserController', AddUserController);
     /** @ngInject */
-    function AddUserController($scope, $state, loginFactory) {
+    function AddUserController($scope, $state, authFactory) {
         var vm = this;
         vm.user = {
             name: '',
@@ -60,7 +60,7 @@
             tenantFullName: ''
         };
         vm.cancel = function() {
-            $state.go('farm.instance.profile.view');
+            $state.go('tenant.profile.view');
         };
         vm.save2 = function() {
             if (vm.user.password === vm.password_2) {
@@ -74,9 +74,9 @@
                 var user = _.extend(vm.user, {
                     permissions: permissions
                 });
-                loginFactory.addUser(user).then(function(result) {
+                authFactory.addUser(user).then(function(result) {
                     if (result.message === 'OK') {
-                        $state.go('farm.instance.profile.view');
+                        $state.go('tenant.profile.view');
                     }
                 });
             }
@@ -84,7 +84,7 @@
     }
     angular.module('prokorm').controller('ChangePasswordController', ChangePasswordController);
     /** @ngInject */
-    function ChangePasswordController($scope, $mdDialog, loginFactory) {
+    function ChangePasswordController($scope, $mdDialog, authFactory) {
         
         $scope.currentPassword = '';
         $scope.newPassword = '';
@@ -94,13 +94,13 @@
             $mdDialog.cancel();
         };
         $scope.save = function () {
-            loginFactory.setPassword({
+            authFactory.setPassword({
                 currentPassword: $scope.currentPassword,
                 newPassword: $scope.newPassword,
                 newPassword2: $scope.newPassword2
             }).then(function (data) {
                 if (data.message === 'OK') {
-                    $state.go('farm.instance.profile.view');
+                    $state.go('tenant.profile.view');
                 }
             });
         };

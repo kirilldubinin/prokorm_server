@@ -1,4 +1,4 @@
-angular.module('prokorm').factory('feedFactory', ['$http', '$location', function($http, $location) {
+angular.module('feed').factory('feedFactory', ['$http', '$location', function($http, $location) {
 
     var host = '';
     var urlBase = host + '/api/';
