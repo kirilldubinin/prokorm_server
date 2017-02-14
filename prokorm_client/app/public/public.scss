@@ -7,5 +7,9 @@
     color: #fff;
     button {
         color: #fff;
+
+        &.registration {
+            text-decoration: none;
+        }
     }
 }

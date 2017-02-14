@@ -1,15 +1,16 @@
-<div class="login-screen" layout="row">
+<div class="registration-screen" layout="row">
   <div flex="30"></div>
-  <div class="farm-login" flex>
-    <div class="main-login-header main-header">ПРОКОРМ</div>
+  <div class="farm-registration" flex>
+    <div class="main-registration-header main-header">ПРОКОРМ</div>
     <md-card md-theme="default" md-theme-watch>
       <md-card-title>
         <md-card-title-text>
-          <div  class="login-input">
-            <p>Имя организации кратко (только латинские буквы)</p>
+          <div  class="registration-input">
+            <p>Имя организации</p>
             <input type="text" name="tenantname" ng-model="registration.user.loginname"></input>
+            <p class="info">только латинские буквы, пробелы и спец символы запрещены</p>
           </div>
-          <div class="login-input">
+          <div class="registration-input">
             <p>E-Mail</p>
             <input type="text" name="email" ng-model="registration.user.email"></input>
           </div>
@@ -17,12 +18,16 @@
           <p ng-class="{error: registration.error}" class="message">
             {{registration.error || registration.successMessage}}
           </p>
+
+          <p class="terms">
+            Регистрируясь вы принимаете 
+            <a class="terms-button" href="#">пользовательское соглашение</a>
+          </p>
+          <!--<md-button class="md-raised register-button" ng-click="login.goToRegistration()">Зарегестрироваться</md-button>-->
         </md-card-title-text>
       </md-card-title>
-      <md-card-actions ng-if="!registration.successMessage" layout="row" layout-align="">
-        <div flex>
-          <!--<md-button class="md-raised register-button" ng-click="login.goToRegistration()">Зарегестрироваться</md-button>-->
-        </div>
+      <md-card-actions layout="row" ng-if="!registration.successMessage" layout-align="">
+        <div flex></div>
         <div>
           <md-button class="md-raised md-primary" ng-click="registration.do()">Регистрация</md-button>
         </div>

@@ -1,21 +1,20 @@
-.login-screen {
+.registration-screen {
     
     background-image: url(../../img/background.jpg);
     height: 100%;
     background-size: 100% 100%;
     background-repeat: no-repeat;
 
-    .main-login-header {
+    .main-registration-header {
         font-size: 24px;
         margin-top: 20px;
         color: #f0f0f0;
         background-color: transparent;
     }
-    .farm-login {
+    .farm-registration {
         opacity: 0.9;
-        max-width: 400px !important;
         margin: 0 auto;
-        .login-input {
+        .registration-input {
 
         	input {
         		padding: 10px 4px;
@@ -24,6 +23,12 @@
                 width: 100%;
                 color: #333;
         	}
+
+            .info {
+                color: #dd2c00;
+                margin: 4px 0 0 0;
+                font-size: 12px;
+            }
         }
 
         p {
@@ -31,6 +36,17 @@
             margin-bottom: 6px;
             padding: 0;
             color: #3f51b5;
+            margin-top: 30px;
+
+            &.terms {
+                margin: 0;
+                .terms-button {
+                    font-size: 14px;
+                    color: #3f51b5;
+                    margin-top: 12px;
+                    display: inline-block;
+                }
+            }
         }
 
         .md-button {
@@ -45,4 +61,6 @@
             margin-right: 16px;
         }
     }
+
+    
 }
