@@ -12,9 +12,10 @@
         background-color: transparent;
     }
     .farm-registration {
-        opacity: 0.9;
+        opacity: .9;
         margin: 0 auto;
-        .registration-input {
+        max-width: 450px;
+            .registration-input {
 
         	input {
         		padding: 10px 4px;

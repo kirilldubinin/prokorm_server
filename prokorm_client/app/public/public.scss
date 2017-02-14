@@ -5,11 +5,28 @@
     background-size: 100% 100%;
     background-repeat: no-repeat;
     color: #fff;
-    button {
-        color: #fff;
 
-        &.registration {
-            text-decoration: none;
+    .header {
+        padding: 6px 20px; 
+        button {
+            color: #fff;
+
+            &.registration {
+                text-decoration: none;
+            }
+        }   
+
+        .prokorm {
+            font-size: 28px;
+            margin: auto;
+        } 
+    }
+
+    .public-section {
+        .section-content {
+            width: 100%;
+            height: 800px;
+            background-image: url(../img/screen.png);
         }
     }
 }
