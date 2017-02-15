@@ -36,6 +36,7 @@ function lang(key) {
         price: 'Себестоимость',
         storage: 'Хранение',
         field: 'Поле',
+        branch: 'Отделение',
         done: 'Завершён',
         name: 'Имя',
         date: 'Дата',

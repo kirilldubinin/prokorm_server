@@ -88,7 +88,6 @@
 
 			.analysis-length {
 				padding-top: 10px;
-			    margin-right: 8px;
 			    color: #999;
 
 			    &.no-analysis {
@@ -120,11 +119,11 @@
 
 			.weight {
 				&.weight-control {
-
 					margin-top: 5px;
 				    height: 22px;
 				    float: right;
 				    font-size: 12px;
+				    margin-left: 5px;
 				}
 			}
 

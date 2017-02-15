@@ -20,10 +20,19 @@ var FeedSchema = new Schema({
     },
     analysis: [{
         isNaturalWet: Boolean,
-        number: Number,
+        number: {
+            type: Number,
+            required: true
+        },
         code: String,
-        date: Date,
-        dryMaterial: Number,
+        date: {
+            type: Date,
+            required: true
+        },
+        dryMaterial: {
+            type: Number,
+            required: true
+        },
         ph: Number,
         milkAcid: Number,
         aceticAcid: Number,
@@ -64,12 +73,19 @@ var FeedSchema = new Schema({
             type: String
             //required: true
         },
-        feedType: String,
-        composition: String,
+        feedType: {
+            type: String,
+            required: true
+        },
+        composition: {
+            type: String,
+            required: true
+        },
         year: {
             type: Number,
             required: true
         },
+        branch: String,
         field: String,
         totalWeight: Number,
         balanceWeight: Number,
@@ -139,6 +155,7 @@ var goldObject = {
         feedType: 'none',
         composition: '',
         year: null,
+        branch: '',
         field: '',
         totalWeight: null,
         balanceWeight: null,
@@ -161,7 +178,6 @@ var goldObject = {
         tonnPerDay: null
     }
 };
-
 FeedSchema.statics.getSkeleton = function() {
     var data = [];
     // analysis property
@@ -183,40 +199,56 @@ FeedSchema.statics.getEmptyFeed = function() {
 };
 FeedSchema.statics.sort = function(object, rootProperty) {
     var result = {};
-
-    _.forEach(_.isArray(goldObject[rootProperty]) ? goldObject[rootProperty][0] : goldObject[rootProperty], 
-        function (value, key) {
-            if ((_.isBoolean(object[key]) || _.isNumber(object[key]) || object[key])) {
-                result[key] = object[key];    
-            }
-        });
-
+    _.forEach(_.isArray(goldObject[rootProperty]) ? goldObject[rootProperty][0] : goldObject[rootProperty], function(value, key) {
+        if ((_.isBoolean(object[key]) || _.isNumber(object[key]) || object[key])) {
+            result[key] = object[key];
+        }
+    });
     // add calculate property harvestDays
     if (object.harvestDays) {
         result.harvestDays = object.harvestDays;
     }
-
     // add calculate property feedingDays
     if (object.feedingDays) {
         result.feedingDays = object.feedingDays
     }
-
     return result;
 };
-
 FeedSchema.pre('validate', function(next) {
-    if (!this.general.year || (!this.general.name && this.general.feedType === 'none')) {
-        next(Error('Год, имя или тип корма обязательны для сохранения.'));
+    if (!this.general.year || 
+        this.general.feedType === 'none' || 
+        !this.general.feedType ||
+        !this.general.composition) {
+        return next(Error('"Год", "тип" и "состав" корма обязательны для заполнения.'));
+    } else if (this.analysis.length) {
+
+        if (_.some(this.analysis, function (a) {
+            return !a.number;
+        })) {
+            return next(Error('"Номер" анализа обязателен для заполнения'));
+        }
+
+        if (_.some(this.analysis, function (a) {
+            return !a.date;
+        })) {
+            return next(Error('"Дата" анализа обязательна для заполнения'));
+        }
+
+        if (_.some(this.analysis, function (a) {
+            return !a.dryMaterial;
+        })) {
+            return next(Error('"Сухое вещество" анализа обязательно для заполнения'));
+        }
+
+        return next();
     } else {
-        next();
+        return next();
     }
 });
-
-    /*FeedSchema.path("general.name").validate(function (v) {
-        return v.length;
-    });
-    FeedSchema.path('general.year').validate(function (v) {
-        return v.length;
-    });*/
+/*FeedSchema.path("general.name").validate(function (v) {
+    return v.length;
+});
+FeedSchema.path('general.year').validate(function (v) {
+    return v.length;
+});*/
 module.exports = mongoose.model('Feed', FeedSchema);
-// Feed END

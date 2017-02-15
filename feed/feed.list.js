@@ -38,12 +38,15 @@ function list(feeds) {
     }).sort(sortFeeds);
     var sortedFeeds = _.concat(opened, closed, done);
     var shortFeeds = _.map(sortedFeeds, function(feed) {
+        
+        if (!feed.general.name) {
+            feed.general.name = lang(feed.general.feedType) + ':' + feed.general.composition;
+        }
+
         return _.merge({}, feed.general, {
             _id: feed._id,
             analysis: feed.analysis ? feed.analysis.length : 0,
-            feedType: feed.general.feedType ?
-            	(feed.general.feedType === 'none' ? '' : lang(feed.general.feedType)) :
-            	undefined,
+            feedType: lang(feed.general.feedType),
             field: feed.general.field ? 
             	('Поле: ' + feed.general.field) : 
             	undefined

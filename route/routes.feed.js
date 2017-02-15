@@ -18,9 +18,7 @@ var list = require('../feed/feed.list');
 var config = require('config');
 var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
-    
-    function checkUserRightForFeed (feed, req, res) {
-
+    function checkUserRightForFeed(feed, req, res) {
         var check = feed.createdBy.tenantId.equals(req.user.tenantId);
         if (res && !check) {
             res.status(403).send({
@@ -30,8 +28,8 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         }
         return check;
     }
-    // new feed
     app.get('/api/feeds/dashboard', isAuthenticated, function(req, res) {
+        
         var currentYear = new Date().getFullYear();
         var prevYear = currentYear - 1;
         Feed.find({
@@ -47,19 +45,14 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-
             // set user actions for Feed module
             var actions = ['diffFeed', 'averageFeed', 'sumFeed', 'chartsFeed'];
-            var canAdd = 
-                (req.user.permissions.indexOf('admin') > -1 ||
-                req.user.permissions.indexOf('write') > -1);
-
+            var canAdd = (req.user.permissions.indexOf('admin') > -1 || req.user.permissions.indexOf('write') > -1);
             if (canAdd) {
-                actions.unshift('addFeed');    
+                actions.unshift('addFeed');
             }
-            
             res.status(200).json({
-                actions: _.map(actions, function (f) {
+                actions: _.map(actions, function(f) {
                     return {
                         key: f,
                         label: lang(f)
@@ -80,12 +73,14 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             });
         });
     });
+    // new feed
     app.post('/api/feeds', isAuthenticated, function(req, res) {
-        
-        var canEdit = 
-            req.user.permissions.indexOf('admin') > -1 ||
-            req.user.permissions.indexOf('write') > -1;
-
+        if (!req.user._id || !req.user.tenantId || !req.user.permissions) {
+            return res.status(406).json({
+                message: 'Недостаточно прав'
+            });
+        }
+        var canEdit = req.user.permissions.indexOf('admin') > -1 || req.user.permissions.indexOf('write') > -1;
         if (!canEdit) {
             return res.status(406).json({
                 message: 'Недостаточно прав'
@@ -94,13 +89,11 @@ module.exports = function(app, isAuthenticated, errorHandler) {
 
         var feed = new Feed();
         feed.createdAt = new Date();
-
         // set userId and tenantId
         feed.createdBy = {
             userId: req.user._id,
             tenantId: req.user.tenantId
         }
-
         feed.general = req.body.general;
         feed.analysis = req.body.analysis;
         feed.harvest = req.body.harvest;
@@ -109,6 +102,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             if (err) {
                 return errorHandler(err, req, res);
             } else {
+                console.log(newFeed._id);
                 res.json({
                     message: 'OK',
                     id: newFeed._id
@@ -128,7 +122,6 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req);
             });
-
             res.json(list(feeds));
         });
     });
@@ -138,15 +131,17 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-
             if (feed === null) {
-                return res.status(406).json({message: 'Нет корма с таким идентификатором.'});
+                return res.status(406).json({
+                    message: 'Нет корма с таким идентификатором.'
+                });
             }
-
             if (checkUserRightForFeed(feed, req, res)) {
                 return res.json(view(feed, req.user));
             } else {
-                return res.status(406).json({message: 'Недостаточно прав.'})
+                return res.status(406).json({
+                    message: 'Недостаточно прав.'
+                })
             }
         });
     });
@@ -163,17 +158,12 @@ module.exports = function(app, isAuthenticated, errorHandler) {
     });
     // update feed by id
     app.put('/api/feeds/:feed_id', isAuthenticated, function(req, res) {
-        
-        var canEdit = 
-            req.user.permissions.indexOf('admin') > -1 ||
-            req.user.permissions.indexOf('write') > -1;
-
+        var canEdit = req.user.permissions.indexOf('admin') > -1 || req.user.permissions.indexOf('write') > -1;
         if (!canEdit) {
             return res.status(406).json({
                 message: 'Недостаточно прав'
             });
         }
-
         Feed.findById(req.params.feed_id, function(err, feed) {
             if (err) {
                 return errorHandler(err, req, res);
@@ -184,30 +174,27 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 feed.analysis = req.body.analysis;
                 feed.harvest = req.body.harvest;
                 feed.feeding = req.body.feeding;
-                // save the bear
                 feed.save(function(err, updatedFeed) {
-                    if (err) res.send(err);
-                    res.json({
-                        message: 'OK',
-                        id: updatedFeed._id
-                    });
+                    if (err) {
+                        return errorHandler(err, req, res);
+                    } else {
+                        res.json({
+                            message: 'OK',
+                            id: updatedFeed._id
+                        });
+                    }
                 });
             }
         });
     });
     // delete feed by id
     app.delete('/api/feeds/:feed_id', isAuthenticated, function(req, res) {
-        
-        var canEdit = 
-            req.user.permissions.indexOf('admin') > -1 ||
-            req.user.permissions.indexOf('write') > -1;
-
+        var canEdit = req.user.permissions.indexOf('admin') > -1 || req.user.permissions.indexOf('write') > -1;
         if (!canEdit) {
             return res.status(406).json({
                 message: 'Недостаточно прав'
             });
         }
-
         Feed.remove({
             _id: req.params.feed_id
         }, function(err, bear) {
@@ -276,7 +263,6 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             res.send(err);
         });
     });
-
     // charts
     app.post('/api/feeds/charts', isAuthenticated, function(req, res) {
         var feedIds = req.body.feedIds;
@@ -289,7 +275,6 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
             });
-
             return res.json(charts(feeds));
         }, function(err) {
             res.send(err);

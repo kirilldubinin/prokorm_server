@@ -15,7 +15,7 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    addField_SW_for_FEED_ANALYSIS();
+    addField_branch_for_FEED_GENERAL();
 });
 
 function addField_price_for_FEED_GENERAL () {
@@ -25,6 +25,24 @@ function addField_price_for_FEED_GENERAL () {
             if (feed.general.price === undefined) {
                 winston.info('update feed with name: ' + feed.general.name);
                 feed.general.price = null;
+            }
+
+            feed.save(function(err, _feed) {
+                if (err) {
+                    winston.error(err);
+                }
+            });  
+        });
+    });
+}
+
+function addField_branch_for_FEED_GENERAL () {
+    Feed.find().then(function(feeds) {
+        feeds.forEach(function (feed){
+            
+            if (feed.general.branch === undefined) {
+                winston.info('update feed with name: ' + feed.general.name);
+                feed.general.branch = null;
             }
 
             feed.save(function(err, _feed) {
