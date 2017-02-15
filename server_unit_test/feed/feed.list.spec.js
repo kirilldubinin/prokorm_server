@@ -158,9 +158,9 @@ describe('feed.list', function() {
                 }
             }];
             var feedList = list(feeds);
-            expect(feedList.feeds[0].name).to.equal('3');
+            expect(feedList.feeds[0].name).to.equal('2');
             expect(feedList.feeds[1].name).to.equal('1');
-            expect(feedList.feeds[2].name).to.equal('2');
+            expect(feedList.feeds[2].name).to.equal('3');
             done();
         });
         it('feeds without harvest dates should sorting by general.year', function(done) {
@@ -194,10 +194,10 @@ describe('feed.list', function() {
                 _id: '1',
                 general: {
                     name: '1',
-                    year: 2015
+                    year: 2016
                 },
                 harvest: {
-                    end: new Date('10-10-2015')
+                    end: new Date('10-10-2016')
                 }
             }, {
                 _id: '2',

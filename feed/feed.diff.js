@@ -46,7 +46,7 @@ function filterValueExist(v) {
         return _.some(v, function(_v) {
             return filterValueExist(_v);
         });
-    } else if (_.isDate(v)) {
+    } else if (_.isDate(v) || _.isBoolean(v)) {
         return true;
     } else if (_.isObject(v)) {
         return _.isNumber(v.dryValue) && _.isNumber(v.rawValue);

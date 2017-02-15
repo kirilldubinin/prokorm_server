@@ -46,7 +46,7 @@
       <li class="property-row" ng-if="property.key !== 'analysis'" ng-repeat="property in average.analysisRows">
         <h4 class="root-property">
           {{property.label}}
-          <a href="#" ng-click="property.hidden = !property.hidden">
+          <a href ng-click="property.hidden = !property.hidden">
             {{ property.hidden ? 'показать' : 'скрыть' }}
           </a>
         </h4>

@@ -25,7 +25,7 @@ describe('feed.view', function() {
             };
 
             var feedView = view(feed, {tenantName: 'foo'});
-            expect(feedView.actions.length).to.equal(0);
+            expect(feedView.actions.length).to.equal(1);
             expect(feedView.general).to.equal(feed.general);
             expect(feedView.feedItemSections.length).to.equal(2);
 
@@ -151,7 +151,7 @@ describe('feed.view', function() {
             };
 
             var feedView = view(feed);
-            expect(feedView.actions.length).to.equal(0);
+            expect(feedView.actions.length).to.equal(1);
             expect(feedView.general).to.equal(feed.general);
             expect(feedView.feedItemSections.length).to.equal(1);
 
@@ -183,7 +183,7 @@ describe('feed.view', function() {
             };
 
             var feedView = view(feed);
-            expect(feedView.actions.length).to.equal(0);
+            expect(feedView.actions.length).to.equal(1);
             expect(feedView.general).to.equal(feed.general);
             expect(feedView.feedItemSections.length).to.equal(1);
 
@@ -220,7 +220,7 @@ describe('feed.view', function() {
             };
 
             var feedView = view(feed);
-            expect(feedView.actions.length).to.equal(0);
+            expect(feedView.actions.length).to.equal(1);
             expect(feedView.general).to.equal(feed.general);
             expect(feedView.feedItemSections.length).to.equal(2);
 

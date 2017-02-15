@@ -13,6 +13,12 @@
 	    	b{
 	    		margin: 0 20px;
 	    	}
+
+	    	.feed-storage {
+	    		font-size: 14px;
+			    position: absolute;
+			    padding-left: 4px;
+	    	}
 	    }
 
 		.actions {
@@ -149,7 +155,7 @@
 		padding: 0;
 		margin: 0;
 		color: #000;
-		
+		background-color: #fff;
 		.property {
 			margin: 4px 0;
 		    border-bottom: 1px solid #ddd;
@@ -183,70 +189,28 @@
 	}
 
 	.print-title {
-		font-weight: bold;
+		background-color: #fff;
+		font-weight: 700;
+	    border-bottom: 3px solid #FF9800;
+	    padding-bottom: 6px;
 
+		h2 {
+			margin: auto;
+    		position: relative;
+		}
 		.key {
 			text-transform: uppercase;
+		}
+
+		.storage {
+			font-size: 14px;
+		    position: absolute;
+		    padding-left: 4px;
+		    padding-top: 4px;
 		}
 	}
 
 	.break {
 		page-break-after: always;
 	}
-
-	.feed-view {
-	    margin: 0;
-	    padding: 0;
-	    overflow: auto;
-	    color: #000000 !important;
-		.feed-title {
-			margin: 0; 
-			font-size: 16px;
-
-			h2 {
-				color: #000000 !important;
-			}
-
-			.weight-control {
-				display: none;
-			}
-			.actions {
-				button {
-					display: none;
-				}
-			}
-		}
-
-		.feed-view-header {
-			
-		}
-
-		.dry-switch	{
-			.md-container {
-				display: none;
-			}
-			.md-label {
-				margin-left: 4px !important;
-			}
-		}
-
-		.feed-view-content {
-			overflow: initial;
-			.property {
-				font-size: 12px;
-				padding: 4px 0;
-
-				label {
-					color: #000000;
-					a {
-						color: #000000;
-					}
-				}
-			}
-		}
-	}
-}
-
-@media print {
-    background-color: Red;
 }

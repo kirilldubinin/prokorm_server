@@ -1,9 +1,10 @@
 <div class="feed-view" layout="column">
   <div layout="row" class="feed-title" ng-class="{done: feedView.feed.done}">
-    <h2 class="feed-name">{{feedView.feed.name}}</h2> 
-      
-      <!--<div class="feed-composition">{{feedView.feed.composition}}</div>-->
-    </h2>
+    <h2 class="feed-name">
+      {{feedView.feed.name}}
+      <br/>
+      <div class="feed-storage">{{feedView.feed.storage}}</div>
+    </h2> 
     <h2><b>{{feedView.feed.year}}</b></h2>
     <!--<div class="weight-wrapper" ng-class="{opened: feedView.feed.general.opened.value}"> -->
       <span ng-if="feedView.feed.totalWeight" class="weight-control" ng-class="{opened: feedView.feed.opened, done: feedView.feed.done }">
@@ -20,6 +21,7 @@
       </md-button>
     </div>
   </div>
+
 
   <!-- HEADER -->
   <div id="feedViewHeader" class="feed-view-header" layout="row">

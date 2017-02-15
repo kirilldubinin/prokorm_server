@@ -23,7 +23,7 @@
                 var popupWin = window.open('', '_blank');
                 popupWin.document.open();
                 popupWin.document.write(
-                    '<html>'+
+                    '<html style="background-color: #fff;">'+
                         '<title>ПРОКОРМ:печать</title>'+
                         '<head>'+
                             '<link rel="stylesheet" type="text/css" href="app.css"/>'+
@@ -31,7 +31,8 @@
                         '</head>'+
                         '<body onload="setTimeout(function() {window.print(); window.close();}, 500)" class="feed print">' + 
                             (analysisPrint ? 
-                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">анализы:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + 
+                                '</h2><label class="key">анализы:  </label>' + vm.feed.name + '&nbsp;&nbsp;&nbsp;' + vm.feed.year + '&nbsp;&nbsp;&nbsp;' +  vm.feed.storage + '</div>' +
                                 '<br/>' +
                                 analysisPrint.innerHTML + 
                                 '<div class="break"></div>') : ''

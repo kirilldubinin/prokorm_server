@@ -1075,28 +1075,6 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
 })();
 (function() {
     'use strict';
-    angular.module('prokorm').directive('feedFilter', feedFilter);
-    /** @ngInject */
-    function feedFilter() {
-        var directive = {
-            restrict: 'E',
-            templateUrl: 'app/feed/feedFilter.html',
-            scope: {
-                card: '='
-            },
-            controller: FeedFilterController,
-            controllerAs: 'feedFilter',
-            bindToController: true
-        };
-        return directive;
-    }
-    /** @ngInject */
-    function FeedFilterController() {
-      
-    }
-})();
-(function() {
-    'use strict';
     FeedViewController.$inject = ['$mdDialog', '$stateParams', '$state', 'authFactory', 'feedFactory', '_']
     angular.module('feed').controller('FeedViewController', FeedViewController);
 
@@ -1120,7 +1098,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                 var popupWin = window.open('', '_blank');
                 popupWin.document.open();
                 popupWin.document.write(
-                    '<html>'+
+                    '<html style="background-color: #fff;">'+
                         '<title>ПРОКОРМ:печать</title>'+
                         '<head>'+
                             '<link rel="stylesheet" type="text/css" href="app.css"/>'+
@@ -1128,7 +1106,8 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                         '</head>'+
                         '<body onload="setTimeout(function() {window.print(); window.close();}, 500)" class="feed print">' + 
                             (analysisPrint ? 
-                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">анализы:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + 
+                                '</h2><label class="key">анализы:  </label>' + vm.feed.name + '&nbsp;&nbsp;&nbsp;' + vm.feed.year + '&nbsp;&nbsp;&nbsp;' +  vm.feed.storage + '</div>' +
                                 '<br/>' +
                                 analysisPrint.innerHTML + 
                                 '<div class="break"></div>') : ''

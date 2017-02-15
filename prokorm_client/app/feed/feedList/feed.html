@@ -43,6 +43,9 @@
                 <md-button class="md-primary" md-no-ink="" ng-click="feed.toggleFilter()">
                     {{feed.filter.visible ? 'применить' : 'фильтр'}}
                 </md-button>
+                <md-button ng-if="feed.filter.visible" md-no-ink="" ng-click="feed.clearFilter()">
+                    отменить
+                </md-button>
                 <md-button 
                     ng-if="!feed.filter.visible && (feed.isDiffMode || feed.isAverageMode || feed.isSumMode || feed.isChartMode)" 
                     class="md-primary" md-no-ink="" ng-click="feed.selectAll()">
