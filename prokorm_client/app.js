@@ -1,18 +1,13 @@
 (function() {
     'use strict';
     // modules
-    
     angular.module('auth', []);
     angular.module('feed', []);
     angular.module('profile', []);
     angular.module('catalog', []);
     angular.module('info', []);
     angular.module('help', []);
-    angular.module('prokorm', 
-        ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons',
-        'catalog', 'profile', 'feed', 'auth', 'help', 'info'
-        ]);
-    
+    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons', 'catalog', 'profile', 'feed', 'auth', 'help', 'info']);
     // constant
     angular.module('prokorm').constant('_', window._);
     // config
@@ -22,6 +17,8 @@
         };
     }]);
     angular.module('prokorm').config(['$httpProvider', function($httpProvider) {
+
+        var dialog;
         //initialize get if not there
         if (!$httpProvider.defaults.headers.get) {
             $httpProvider.defaults.headers.get = {};
@@ -33,8 +30,8 @@
         // extra
         $httpProvider.defaults.headers.get['Cache-Control'] = 'no-cache';
         $httpProvider.defaults.headers.get.Pragma = 'no-cache';
-
         var lastTenantName;
+
         function isAPIrequest(url) {
             return /^\/?api\//.test(url);
         }
@@ -58,16 +55,23 @@
                 },
                 // optional method
                 'responseError': function(rejection) {
-                    console.log(rejection.data.message || rejection.data.name);
                     if (rejection.status === 401) {
                         $injector.get('$state').transitionTo('login');
                     }
                     if (isAPIrequest(rejection.config.url)) {
-                            
-                        if (rejection.status !== 401 && rejection.data.message) {
-                            alert(rejection.data.message);
-                        }
 
+                        dialog = dialog || $injector.get('$mdDialog');
+                        if (rejection.status !== 401 && rejection.data.message) {
+                            dialog.show(
+                                dialog
+                                .alert()
+                                .clickOutsideToClose(false)
+                                .title('Ошибка')
+                                .textContent(rejection.data.message)
+                                .ok('Закрыть')
+                            );
+                            //alert(rejection.data.message);
+                        }
                         return $q.reject(rejection.data);
                     }
                     return $q.reject(rejection);
@@ -130,7 +134,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.37");
+.constant("version", "0.0.38");
 
 })();
 
@@ -275,9 +279,6 @@ angular.module('auth').factory('authFactory', ['$http', '$location', function($h
                     if (response && response.message) {
                         vm.successMessage = response.message;
                     }
-                }, 
-                function(err) {
-                    vm.error = err.message;
                 }
             );
         };

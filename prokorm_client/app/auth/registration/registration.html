@@ -1,5 +1,5 @@
 <div class="registration-screen" layout="row">
-  <div flex="30"></div>
+  <div flex="25"></div>
   <div class="farm-registration" flex>
     <div class="main-registration-header main-header">ПРОКОРМ</div>
     <md-card md-theme="default" md-theme-watch>
@@ -14,10 +14,6 @@
             <p>E-Mail</p>
             <input type="text" name="email" ng-model="registration.user.email"></input>
           </div>
-
-          <p ng-class="{error: registration.error}" class="message">
-            {{registration.error || registration.successMessage}}
-          </p>
 
           <p class="terms">
             Регистрируясь вы принимаете 
@@ -35,5 +31,5 @@
     </md-card>  
   </div>
 
-  <div flex="30"></div>
+  <div flex="25"></div>
 </div>

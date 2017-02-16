@@ -219,7 +219,7 @@ FeedSchema.pre('validate', function(next) {
         this.general.feedType === 'none' || 
         !this.general.feedType ||
         !this.general.composition) {
-        return next(Error('"Год", "тип" и "состав" корма обязательны для заполнения.'));
+        return next(Error('"Год", "Тип" и "Состав" корма обязательны для заполнения.'));
     } else if (this.analysis.length) {
 
         if (_.some(this.analysis, function (a) {

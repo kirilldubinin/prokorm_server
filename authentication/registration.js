@@ -58,7 +58,7 @@ function sendNewTenantEmail(emailData, callback) {
                 '<div>Имя пользователя: "' + emailData.tenant + '"</div>' +
                 '<div>Пароль: "' + emailData.password + '"</div>' +
                 '<br/>' +
-                '<div>Для входа в систему перейдите по ссылке <a href="http://ec2-54-186-205-111.us-west-2.compute.amazonaws.com/#/farm/login" target="blank">ПРОКОРМ</a></div>', // plaintext body 
+                '<div>Для входа в систему перейдите по ссылке <a href="http://prokorm.com/#/login/' + emailData.tenant +'" target="blank">ПРОКОРМ</a></div>', 
 	};
 	 
 	// send mail with defined transport object 

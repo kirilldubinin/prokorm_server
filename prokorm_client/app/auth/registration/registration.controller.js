@@ -15,9 +15,6 @@
                     if (response && response.message) {
                         vm.successMessage = response.message;
                     }
-                }, 
-                function(err) {
-                    vm.error = err.message;
                 }
             );
         };

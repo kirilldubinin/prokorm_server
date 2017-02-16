@@ -11,30 +11,46 @@ module.exports = function(app, isAuthenticated, errorHandler) {
 
 	var authStrategy = new CustomStrategy(app);
     app.post('/api/registration', function(req, res) {
+
+        // validate email
+        var emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if (!emailRegexp.test(req.body.email)) {
+            return res.status(406).send({
+                message: 'Вы ввели невалидный E-Mail.'
+            });
+        }
+
+        var loginnameRegexp = /^[A-Za-z][A-Za-z0-9]*$/;
+        if (!loginnameRegexp.test(req.body.loginname)) {
+            return res.status(406).send({
+                message: 'Вы ввели невалидное имя компании.'
+            });
+        }
+
         // check if tenant name is exist
         Tenant.findOne({
             loginName: req.body.loginname
         }).lean().exec(function(err, exist) {
-            console.log(exist);
             if (exist) {
-                res.status(406).send({
+                return res.status(406).send({
                     message: 'Компания c именем "' + req.body.loginname + '"" уже существует. Пожалуйста, укажите другое имя.'
                 });
             } else {
-                User.findOne({
+                Tenant.findOne({
                     email: req.body.email
                 }).lean().exec(function(err, exist) {
-                    console.log(exist);
                     if (exist) {
-                        res.status(406).send({
+                        return res.status(406).send({
                             message: 'Компания c E-Mail "' + req.body.email + '"" уже существует. Пожалуйста, укажите другой E-Mail.'
                         });
                     } else {
                         registration.createTenant(req.body, function(err, user) {
                             if (err) {
-                                console.log(err);
+                                return res.status(406).send({
+                                    message: err.message || 'Ошибка регистрации'
+                                });
                             } else {
-                                res.json({
+                                return res.json({
                                     message: 'На электронный адрес ' + req.body.email + ' отправлено письмо с дальнейшими инструкциями.'
                                 });
                             }

@@ -12,9 +12,9 @@
         background-color: transparent;
     }
     .farm-registration {
-        opacity: .9;
-        margin: 0 auto;
-        max-width: 450px;
+            opacity: .9;
+            margin: 0 auto;
+            max-width: 460px;
             .registration-input {
 
         	input {
@@ -37,10 +37,9 @@
             margin-bottom: 6px;
             padding: 0;
             color: #3f51b5;
-            margin-top: 30px;
 
             &.terms {
-                margin: 0;
+                margin: 20px 0 0 0;
                 .terms-button {
                     font-size: 14px;
                     color: #3f51b5;
