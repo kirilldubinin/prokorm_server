@@ -192,10 +192,12 @@
 			    	border-bottom: 3px solid #FF9800;
 				    padding-bottom: 4px;
 				    margin-bottom: 10px;
+				    font-size: 20px;
 			    }
 
 			    md-radio-group {
 			    	margin-bottom: 10px;
+				    font-size: 14px;
 
 			    	.md-label {
 			    	}
@@ -207,7 +209,9 @@
 
 			    	padding-bottom: 4px;
 				    margin-bottom: 10px;
-				    border-bottom: 1px solid rgba(0, 0, 0, 0.30);
+				    border-bottom: 1px solid rgba(0,0,0,.3);
+				    font-size: 14px;
+				    padding-left: 8px;
 
 			    	.balance-percent {
 						color: rgba(0,0,0,0.54);

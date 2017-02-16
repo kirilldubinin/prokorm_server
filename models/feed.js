@@ -156,10 +156,10 @@ var goldObject = {
         composition: '',
         year: null,
         branch: '',
+        storage: '',
         field: '',
         totalWeight: null,
         balanceWeight: null,
-        storage: '',
         price: null,
         opened: false,
         done: false

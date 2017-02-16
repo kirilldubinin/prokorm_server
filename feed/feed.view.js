@@ -3,7 +3,6 @@ var lang = require('./lang');
 var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
 var Feed = require('../models/feed');
-var math = require('mathjs');
 
 function convertValue(key, val) {
     if (key === 'feedType') {
@@ -41,13 +40,13 @@ function convert(feed, sessionData) {
     // set harvestDays if harvest.start and harvest.end is exist
     if (feed.harvest && feed.harvest.start && feed.harvest.end) {
         feed.harvest.harvestDays = 
-        math.round((feed.harvest.end.getTime() - feed.harvest.start.getTime()) / (1000*60*60*24), 2)
+        Math.round((feed.harvest.end.getTime() - feed.harvest.start.getTime()) / (1000*60*60*24))
     }
 
     // set feedingDays if feeding.start and feeding.end is exist
     if (feed.feeding && feed.feeding.start && feed.feeding.end) {
         feed.feeding.feedingDays = 
-        math.round((feed.feeding.end.getTime() - feed.feeding.start.getTime()) / (1000*60*60*24), 2)
+        Math.round((feed.feeding.end.getTime() - feed.feeding.start.getTime()) / (1000*60*60*24))
     }
 
     var analysisView = {};

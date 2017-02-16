@@ -169,7 +169,7 @@
                     </div>
                     <div layout="row">
                         <p class="source" flex="">
-                            {{feedItem.field}}
+                            {{feedItem.branch}}
                         </p>
                         <p class="source">
                             {{feedItem.storage}}
@@ -268,7 +268,7 @@
                 </md-card>
                 <md-card class="dashboard-card dashboard-no-analysis" flex="50" layout-padding="" ng-if="feed.dashboard.noAnalysis.length">
                     <h2>
-                        Корма без анализов
+                        Корма без анализов ({{feed.dashboard.years}})
                     </h2>
                     <a ng-href="{{noAnalysis.url}}" ng-repeat="noAnalysis in feed.dashboard.noAnalysis">
                         {{noAnalysis.label}}
