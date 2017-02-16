@@ -120,11 +120,17 @@ function convert(feed, sessionData) {
         }
     }
 
+    // add name if name is empty
+    if (!feed.general.name) {
+        feed.general.name = lang(feed.general.feedType) + ': ' + feed.general.composition;
+    }
+
     var result = {
         actions: _.map(actions, function (action) {
             return {
                 key: action,
                 label: lang(action),
+                icon: action === 'print' ? 'local_print_shop' : '',
                 buttonType: action === 'delete' ? 
                     'warn' : 'raised'
             };

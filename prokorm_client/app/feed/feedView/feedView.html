@@ -1,79 +1,90 @@
 <div class="feed-view" layout="column">
-  <div layout="row" class="feed-title" ng-class="{done: feedView.feed.done}">
-    <h2 class="feed-name">
-      {{feedView.feed.name}}
-      <br/>
-      <div class="feed-storage">{{feedView.feed.storage}}</div>
-    </h2> 
-    <h2><b>{{feedView.feed.year}}</b></h2>
-    <!--<div class="weight-wrapper" ng-class="{opened: feedView.feed.general.opened.value}"> -->
-      <span ng-if="feedView.feed.totalWeight" class="weight-control" ng-class="{opened: feedView.feed.opened, done: feedView.feed.done }">
-        <span class="balance">{{feedView.feed.balanceWeight}}</span>
-        <span class="total">{{feedView.feed.totalWeight}}</span>
-      </span>
-    <!--</div>-->
-    <div class="actions" flex>
-      <!--<md-button class="md-raised" ng-click="feedView.copy()">
+    <div class="feed-title" layout="row" ng-class="{done: feedView.feed.done}">
+        <h2 class="feed-name">
+            {{feedView.feed.name}}
+            <br/>
+            <div class="feed-storage">
+                {{feedView.feed.storage}}
+            </div>
+        </h2>
+        <h2>
+            <b>
+                {{feedView.feed.year}}
+            </b>
+        </h2>
+        <!--<div class="weight-wrapper" ng-class="{opened: feedView.feed.general.opened.value}"> -->
+        <span class="weight-control" ng-class="{opened: feedView.feed.opened, done: feedView.feed.done }" ng-if="feedView.feed.totalWeight">
+            <span class="balance">
+                {{feedView.feed.balanceWeight}}
+            </span>
+            <span class="total">
+                {{feedView.feed.totalWeight}}
+            </span>
+        </span>
+        <!--</div>-->
+        <div class="actions" flex="">
+            <!--<md-button class="md-raised" ng-click="feedView.copy()">
         Copy
       </md-button>-->
-      <md-button class="md-{{action.buttonType}}" ng-repeat="action in feedView.actions" ng-click="feedView[action.key]()">
-        {{action.label}}
-      </md-button>
+            <md-button class="md-{{action.buttonType}} {{action.key}}-btn" ng-click="feedView[action.key]()" ng-repeat="action in feedView.actions">
+                <ng-md-icon ng-if="action.icon" class="print-icon" icon="{{action.icon}}" size="24">
+                </ng-md-icon>
+                {{action.key === 'print' ? '' : action.label}}
+            </md-button>
+        </div>
     </div>
-  </div>
-
-
-  <!-- HEADER -->
-  <div id="feedViewHeader" class="feed-view-header" layout="row">
-    <div flex="{{block.width}}" ng-repeat="block in feedView.feedItemSections">
-        <label class="title">
-            {{block.label}}
-        </label>
-    </div>
-  </div>  
-
-  <!-- CONTENT -->
-  <div flex id="feedViewContent" class="feed-view-content" layout="row">
-      <diV ng-switch="block.key" flex="{{block.width}}" id="{{block.key}}" ng-repeat="block in feedView.feedItemSections">
-
-        <!-- ANALYSIS -->
-        <ul ng-switch-when="analysis" class="feed-properties" ng-class="block.key">
-          <li ng-switch="key" class="property" ng-repeat="(key, data) in block.controls" layout="row">
-            <!-- LABEL -->
-            <label flex="60" ng-class="{catalogLink: data.catalogLink}" ng-href="data.catalogLink">
-                <a ng-if="data.catalogLink" ng-href="{{data.catalogLink}}">{{data.label}}</a>
-                <lable ng-if="!data.catalogLink">{{data.label}}</lable>
-                <lable ng-if="data.dimension">, {{data.dimension}}</lable> 
+    <!-- HEADER -->
+    <div class="feed-view-header" id="feedViewHeader" layout="row">
+        <div flex="{{block.width}}" ng-repeat="block in feedView.feedItemSections">
+            <label class="title">
+                {{block.label}}
             </label>
-
-            
-            <!-- DRY Control -->
-            <md-checkbox ng-if="key === 'isNaturalWet'" ng-repeat="v in data.values track by $index" class="md-primary dry-switch" ng-model="block.controls.isNaturalWet.values[$index]">
-                ({{ block.controls.isNaturalWet.values[$index] ? 'Да' : 'Нет' }})
-            </md-checkbox> 
-
-            <div class="value" ng-if="key !== 'isNaturalWet'" ng-repeat="v in data.values track by $index">
-            {{ 
+        </div>
+    </div>
+    <!-- CONTENT -->
+    <div class="feed-view-content" flex="" id="feedViewContent" layout="row">
+        <div flex="{{block.width}}" id="{{block.key}}" ng-repeat="block in feedView.feedItemSections" ng-switch="block.key">
+            <!-- ANALYSIS -->
+            <ul class="feed-properties" ng-class="block.key" ng-switch-when="analysis">
+                <li class="property" layout="row" ng-repeat="(key, data) in block.controls" ng-switch="key">
+                    <!-- LABEL -->
+                    <label flex="60" ng-class="{catalogLink: data.catalogLink}" ng-href="data.catalogLink">
+                        <a ng-href="{{data.catalogLink}}" ng-if="data.catalogLink">
+                            {{data.label}}
+                        </a>
+                        <lable ng-if="!data.catalogLink">
+                            {{data.label}}
+                        </lable>
+                        <lable ng-if="data.dimension">
+                            , {{data.dimension}}
+                        </lable>
+                    </label>
+                    <!-- DRY Control -->
+                    <md-checkbox class="md-primary dry-switch" ng-if="key === 'isNaturalWet'" ng-model="block.controls.isNaturalWet.values[$index]" ng-repeat="v in data.values track by $index">
+                        ({{ block.controls.isNaturalWet.values[$index] ? 'Да' : 'Нет' }})
+                    </md-checkbox>
+                    <div class="value" ng-if="key !== 'isNaturalWet'" ng-repeat="v in data.values track by $index">
+                        {{ 
                 _.isObject(v) ?
                 (block.controls.isNaturalWet.values[$index] ? v.rawValue : v.dryValue) :
                 v 
             }}
-            </div>
-                           
-          </li>
-        </ul>  
-
-        <!-- OTHER -->
-        <ul ng-switch-default class="feed-properties" ng-class="block.key" >
-          <li class="property" ng-repeat="(key, data) in block.controls" layout="row">
-            <!-- LABEL -->
-            <label flex>
-                {{data.label}}  {{data.dimension}}
-            </label>
-            <!-- SINGLE VALUE -->
-            <div flex class="value" ng-if="!data.values">{{data.value}}</div>
-          </li>   
-        </ul>
-      </diV>
-  </div> 
+                    </div>
+                </li>
+            </ul>
+            <!-- OTHER -->
+            <ul class="feed-properties" ng-class="block.key" ng-switch-default="">
+                <li class="property" layout="row" ng-repeat="(key, data) in block.controls">
+                    <!-- LABEL -->
+                    <label flex="">
+                        {{data.label}}  {{data.dimension}}
+                    </label>
+                    <!-- SINGLE VALUE -->
+                    <div class="value" flex="" ng-if="!data.values">
+                        {{data.value}}
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>

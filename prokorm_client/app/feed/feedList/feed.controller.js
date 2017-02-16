@@ -93,6 +93,13 @@
                     }
                 }
 
+                // branch
+                if (vm.filter.branches && vm.filter.branches.length) {
+                    if (!_.includes(vm.filter.branches, feedItem.branch)) {
+                        return false
+                    }
+                }
+
                 // storage
                 if (vm.filter.storages && vm.filter.storages.length) {
                     if (!_.includes(vm.filter.storages, feedItem.storage)) {

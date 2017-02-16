@@ -52,6 +52,12 @@
 				margin: 0;
 			}
 
+			&.required {
+				label {
+					color: rgb(255,87,34);
+				}
+			}
+
 			width: 90%;
 			.md-errors-spacer {
 				display: none;

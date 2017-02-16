@@ -76,6 +76,17 @@ var dateFields = {
     'feeding.end': 'date'
 };
 
+var requiredFields = {
+    'general.feedType': 'required',
+    'general.composition': 'required',
+    'general.year': 'required',
+
+    'analysis.number': 'required',
+    'analysis.dryMaterial': 'required',
+    'analysis.date': 'required',
+
+};
+
 var disabledFields = {
     'analysis.number': 'disabled'
 };
@@ -142,5 +153,6 @@ module.exports = {
     dateFields: dateFields,
     disabledFields: disabledFields,
     enumFields: enumFields,
-    propertyWithHelp: propertyWithHelp
+    propertyWithHelp: propertyWithHelp,
+    requiredFields: requiredFields
 };

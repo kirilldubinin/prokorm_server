@@ -106,6 +106,17 @@
             </md-input-container>
 
             <md-input-container class="md-block">
+                <label>Отделение</label>
+                <md-select data-md-container-class="" md-on-close="" multiple="" ng-model="feed.filter.branches">
+                    <md-optgroup label="Отделение">
+                        <md-option ng-repeat="branch in feed.filterValues.branches" ng-value="branch">
+                            {{branch}}
+                        </md-option>
+                    </md-optgroup>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block">
                 <label>Хранение</label>
                 <md-select data-md-container-class="" md-on-close="" multiple="" ng-model="feed.filter.storages">
                     <md-optgroup label="Хранение">

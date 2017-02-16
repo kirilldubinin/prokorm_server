@@ -57,6 +57,7 @@ function list(feeds) {
         years: _.filter(_.uniq(_.map(shortFeeds, 'year')), null).sort(function (a,b) { return b - a; }),
         feedTypes: _.filter(_.uniq(_.map(shortFeeds, 'feedType')), null),
         compositions: _.filter(_.uniq(_.map(shortFeeds, 'composition')), null),
+        branches: _.filter(_.uniq(_.map(shortFeeds, 'branche')), null),
         storages: _.filter(_.uniq(_.map(shortFeeds, 'storage')), null)
     };
 

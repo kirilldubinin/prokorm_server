@@ -18,7 +18,7 @@
     <div class="feed-edit-content" flex="" layout="row">
         <div flex="{{block.width}}" layout="row" ng-repeat="block in feedEdit.feedItemSections">
             <div class="edit-block-sub-section" flex="" ng-if="block.key !== 'analysis' || feedEdit.currentAnalysis === subSection.initialItem" ng-repeat="subSection in block.subSections">
-                <md-input-container class="feed-property" ng-class="{booleanProperty : data.isBoolean}" ng-repeat="(key, data) in subSection.controls">
+                <md-input-container class="feed-property" ng-class="{booleanProperty : data.isBoolean, required: data.isRequired}" ng-repeat="(key, data) in subSection.controls">
                     <!-- LABEL -->
                     <label class="self-explanation-link" ng-if="!data.isBoolean">
                         {{data.label}}  {{data.dimension}}

@@ -15,6 +15,7 @@ function convertToControl(item, parentKey) {
                 isNumber: _.isNumber(value),
                 isBoolean: value === true || value === false,
                 isDisabled: feedUtils.disabledFields[parentKey + '.' + key],
+                isRequired: feedUtils.requiredFields[parentKey + '.' + key],
                 isDate: feedUtils.dateFields[parentKey + '.' + key],
 
                 label: lang(key),
