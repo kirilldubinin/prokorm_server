@@ -11,11 +11,11 @@ function CustomStrategy(app) {
     Strategy.call(this);
     
     // required for passport
-
     passport.serializeUser(function(user, done) {
         done(null, user);
     });
     passport.deserializeUser(function(user, done) {
+        console.log('passport.deserializeUser');
         done(null, user);
     });
 }

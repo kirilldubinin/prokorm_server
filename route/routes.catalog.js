@@ -32,7 +32,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             res.status(200).json(result);
         });
     });
-    app.put('/api/catalog/:key', isAuthenticated, function(req, res) {
+    /*app.put('/api/catalog/:key', isAuthenticated, function(req, res) {
         Catalog.findOne({
             key: req.params.key
         }, function(err, item) {
@@ -50,5 +50,5 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 });
             });
         });
-    });
+    });*/
 }

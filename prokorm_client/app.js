@@ -7,7 +7,9 @@
     angular.module('catalog', []);
     angular.module('info', []);
     angular.module('help', []);
-    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons', 'catalog', 'profile', 'feed', 'auth', 'help', 'info']);
+    angular.module('admin', []);
+    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons', 
+        'catalog', 'profile', 'feed', 'auth', 'help', 'info', 'admin']);
     // constant
     angular.module('prokorm').constant('_', window._);
     // config
@@ -132,11 +134,6 @@
         $urlRouterProvider.otherwise('/');
     }
 })();
-(function () { 
- return angular.module("prokorm")
-.constant("version", "0.0.38");
-
-})();
 
 /* global malarkey:false, moment:false 
 (function() {
@@ -164,6 +161,45 @@
 
 })();
 
+(function() {
+    'use strict';
+    angular.module('admin').controller('AdminController', AdminController);
+    /** @ngInject */
+    function AdminController($scope, adminFactory) {
+        
+        var vm = this;
+        adminFactory.getTenants().then(function (tenants) {
+        	vm.tenants = tenants;
+        });
+    }
+})();
+angular.module('admin').factory('adminFactory', ['$http', '$location', function($http, $location) {
+
+	var host = '';
+    var urlBase = host + '/api/';
+    var adminFactory = {};
+    adminFactory.getTenants = function () {
+        return $http.get(urlBase + 'tenants');
+    };
+    return adminFactory;
+}]);
+(function() {
+    'use strict';
+    angular.module('admin').config(routerConfig);
+    /** @ngInject */
+    function routerConfig($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('admin', {
+                url: '/admin',
+                templateUrl: 'app/admin/admin.html',
+                controller: 'AdminController',
+                controllerAs: 'admin',
+                data: {
+                    module: 'admin'
+                }
+            });
+    }
+})();
 angular.module('auth').factory('authFactory', ['$http', '$location', function($http, $location) {
 
 	var host = '';
@@ -313,7 +349,7 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
         $stateProvider
             .state('tenant.catalog', {
                 url: '/catalog',
-                templateUrl: 'app/catalog/catalogList/catalog.html',
+                templateUrl: 'app/catalog/list/catalog.html',
                 controller: 'CatalogController',
                 controllerAs: 'catalog',
                 data: {
@@ -321,7 +357,7 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
                 }
             }).state('tenant.catalog.edit', {
                 url: '/:terms/edit',
-                templateUrl: 'app/catalog/catalogContentEdit/catalogContentEdit.html',
+                templateUrl: 'app/catalog/contentEdit/catalogContentEdit.html',
                 controller: 'CatalogContentEditController',
                 controllerAs: 'catalogContentEdit',
                 params: {
@@ -332,7 +368,7 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
                 }
             }).state('tenant.catalog.instance', {
                 url: '/:terms',
-                templateUrl: 'app/catalog/catalogContent/catalogContent.html',
+                templateUrl: 'app/catalog/content/catalogContent.html',
                 controller: 'CatalogContentController',
                 controllerAs: 'catalogContent',
                 params: {
@@ -563,150 +599,6 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
         });
     }
 })();
-angular.module('feed').factory('feedFactory', ['$http', '$location', function($http, $location) {
-
-    var host = '';
-    var urlBase = host + '/api/';
-    var urlBaseFeed = urlBase + 'feeds/';
-    var feedFactory = {};
-
-    // feed
-    feedFactory.getFeeds = function() {
-        return $http.get(urlBaseFeed);
-    };
-    feedFactory.getFeedDashboard = function() {
-        return $http.get(urlBaseFeed + 'dashboard');
-    };
-    feedFactory.saveFeed = function(feed) {
-        var methode = feed._id ? 'put' : 'post';
-        var url = feed._id ? (urlBaseFeed + feed._id) : urlBaseFeed;
-        return $http[methode](url, feed);
-    };
-    feedFactory.getFeedView = function(feedId) {
-        return $http.get(urlBaseFeed + feedId + '/view');
-    };
-    feedFactory.getFeedEdit = function(feedId) {
-        return $http.get(urlBaseFeed + feedId + '/edit');
-    };
-    feedFactory.getEmptyFeed = function() {
-        return $http.post(urlBaseFeed + 'new');
-    };
-    feedFactory.getEmptyAnalysis = function() {
-        return $http.post(urlBaseFeed + 'newAnalysis');
-    };
-    feedFactory.deleteFeed = function(feedId) {
-        return $http.delete(urlBaseFeed + feedId);
-    };
-    feedFactory.diffFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'diff', {feedIds: feedIds});
-    };
-    feedFactory.sumFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
-    };
-    feedFactory.averageFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
-    };
-    feedFactory.chartsFeeds = function(feedIds) {
-        return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
-    };
-    return feedFactory;
-}]);
-(function() {
-    'use strict';
-    // modules
-    
-})();
-(function() {
-    'use strict';
-    angular.module('feed').config(routerConfig);
-    /** @ngInject */
-    function routerConfig($stateProvider, $urlRouterProvider) {
-        $stateProvider
-            .state('tenant.feed', {
-                url: '/feed',
-                templateUrl: 'app/feed/feedList/feed.html',
-                controller: 'FeedController',
-                controllerAs: 'feed',
-                data: {
-                    module: 'feed'
-                }
-            }).state('tenant.feed.charts', {
-                url: '/charts/:feeds',
-                templateUrl: 'app/feed/charts/charts.html',
-                controller: 'ChartsController',
-                controllerAs: 'charts',
-                params: {
-                    feeds: undefined
-                },
-                data: {
-                    module: 'feed'
-                }
-            }).state('tenant.feed.diff', {
-                url: '/diff/:feeds',
-                templateUrl: 'app/feed/diff/diff.html',
-                controller: 'DiffController',
-                controllerAs: 'diff',
-                params: {
-                    feeds: undefined
-                },
-                data: {
-                    module: 'feed'
-                }
-            }).state('tenant.feed.sum', {
-                url: '/sum/:feeds',
-                templateUrl: 'app/feed/sum/sum.html',
-                controller: 'SumController',
-                controllerAs: 'sum',
-                params: {
-                    feeds: undefined
-                },
-                data: {
-                    module: 'feed'
-                }
-            }).state('tenant.feed.average', {
-                url: '/average/:feeds',
-                templateUrl: 'app/feed/average/average.html',
-                controller: 'AverageController',
-                controllerAs: 'average',
-                params: {
-                    feeds: undefined
-                },
-                data: {
-                    module: 'feed'
-                }
-            }).state('tenant.feed.new', {
-                url: '/new',
-                templateUrl: 'app/feed/feedEdit/feedEdit.html',
-                controller: 'FeedEditController',
-                controllerAs: 'feedEdit',
-                data: {
-                    module: 'feed'
-                }
-            }).state('tenant.feed.edit', {
-                url: '/:feedId/edit',
-                templateUrl: 'app/feed/feedEdit/feedEdit.html',
-                controller: 'FeedEditController',
-                controllerAs: 'feedEdit',
-                params: {
-                    feedId: undefined
-                },
-                data: {
-                    module: 'feed'
-                }
-            }).state('tenant.feed.instance', {
-                url: '/:feedId',
-                templateUrl: 'app/feed/feedView/feedView.html',
-                controller: 'FeedViewController',
-                controllerAs: 'feedView',
-                params: {
-                    feedId: undefined
-                },
-                data: {
-                    module: 'feed'
-                }
-            });
-    }
-})();
 (function() {
     'use strict';
     angular.module('feed').controller('FeedEditController', FeedEdiController);
@@ -845,6 +737,150 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                 'key': key
             });
         };
+    }
+})();
+angular.module('feed').factory('feedFactory', ['$http', '$location', function($http, $location) {
+
+    var host = '';
+    var urlBase = host + '/api/';
+    var urlBaseFeed = urlBase + 'feeds/';
+    var feedFactory = {};
+
+    // feed
+    feedFactory.getFeeds = function() {
+        return $http.get(urlBaseFeed);
+    };
+    feedFactory.getFeedDashboard = function() {
+        return $http.get(urlBaseFeed + 'dashboard');
+    };
+    feedFactory.saveFeed = function(feed) {
+        var methode = feed._id ? 'put' : 'post';
+        var url = feed._id ? (urlBaseFeed + feed._id) : urlBaseFeed;
+        return $http[methode](url, feed);
+    };
+    feedFactory.getFeedView = function(feedId) {
+        return $http.get(urlBaseFeed + feedId + '/view');
+    };
+    feedFactory.getFeedEdit = function(feedId) {
+        return $http.get(urlBaseFeed + feedId + '/edit');
+    };
+    feedFactory.getEmptyFeed = function() {
+        return $http.post(urlBaseFeed + 'new');
+    };
+    feedFactory.getEmptyAnalysis = function() {
+        return $http.post(urlBaseFeed + 'newAnalysis');
+    };
+    feedFactory.deleteFeed = function(feedId) {
+        return $http.delete(urlBaseFeed + feedId);
+    };
+    feedFactory.diffFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'diff', {feedIds: feedIds});
+    };
+    feedFactory.sumFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
+    };
+    feedFactory.averageFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
+    };
+    feedFactory.chartsFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
+    };
+    return feedFactory;
+}]);
+(function() {
+    'use strict';
+    // modules
+    
+})();
+(function() {
+    'use strict';
+    angular.module('feed').config(routerConfig);
+    /** @ngInject */
+    function routerConfig($stateProvider, $urlRouterProvider) {
+        $stateProvider
+            .state('tenant.feed', {
+                url: '/feed',
+                templateUrl: 'app/feed/list/feed.html',
+                controller: 'FeedController',
+                controllerAs: 'feed',
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.charts', {
+                url: '/charts/:feeds',
+                templateUrl: 'app/feed/charts/charts.html',
+                controller: 'ChartsController',
+                controllerAs: 'charts',
+                params: {
+                    feeds: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.diff', {
+                url: '/diff/:feeds',
+                templateUrl: 'app/feed/diff/diff.html',
+                controller: 'DiffController',
+                controllerAs: 'diff',
+                params: {
+                    feeds: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.sum', {
+                url: '/sum/:feeds',
+                templateUrl: 'app/feed/sum/sum.html',
+                controller: 'SumController',
+                controllerAs: 'sum',
+                params: {
+                    feeds: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.average', {
+                url: '/average/:feeds',
+                templateUrl: 'app/feed/average/average.html',
+                controller: 'AverageController',
+                controllerAs: 'average',
+                params: {
+                    feeds: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.new', {
+                url: '/new',
+                templateUrl: 'app/feed/edit/feedEdit.html',
+                controller: 'FeedEditController',
+                controllerAs: 'feedEdit',
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.edit', {
+                url: '/:feedId/edit',
+                templateUrl: 'app/feed/edit/feedEdit.html',
+                controller: 'FeedEditController',
+                controllerAs: 'feedEdit',
+                params: {
+                    feedId: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.instance', {
+                url: '/:feedId',
+                templateUrl: 'app/feed/view/feedView.html',
+                controller: 'FeedViewController',
+                controllerAs: 'feedView',
+                params: {
+                    feedId: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            });
     }
 })();
 (function() {
@@ -1083,6 +1119,37 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
 })();
 (function() {
     'use strict';
+    angular.module('feed').controller('SumController', SumController);
+
+    function SumController($scope, feedFactory, $stateParams, _) {
+
+    	var vm = this;
+        vm._ = _;
+
+        var feeds = $stateParams.feeds;
+    	function updateSum(feedsForDiff) {
+
+    		if (!feedsForDiff.length) {
+    			vm.diffRows = [];
+                vm.headers = [];
+    			return;
+    		}
+
+    		feedFactory.sumFeeds(feedsForDiff).then(function (result) {
+                vm.properties = result.properties;
+                vm.sumsRows = result.sumsRows;
+    		});
+    	}	
+
+        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
+            if (newState.name === 'tenant.feed.sum') {
+                updateSum(_.filter(params.feeds.split(':'), Boolean));
+            }
+        });
+    }
+})();
+(function() {
+    'use strict';
     FeedViewController.$inject = ['$mdDialog', '$stateParams', '$state', 'authFactory', 'feedFactory', '_']
     angular.module('feed').controller('FeedViewController', FeedViewController);
 
@@ -1151,7 +1218,10 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             });
         };
         vm.delete = function(ev) {
-            var confirm = $mdDialog.confirm().title('removeFeedConfirmDialogTitle').textContent('removeFeedConfirmDialogContent').targetEvent(ev).ok('yes').cancel('no');
+            var confirm = $mdDialog.confirm()
+                .title('Удаление')
+                .textContent('Вы хотите удалить корм ' + vm.feed.name + ' ?')
+                .targetEvent(ev).ok('Да').cancel('Отменить');
             $mdDialog.show(confirm).then(function() {
                 feedFactory.deleteFeed($stateParams.feedId).then(function(res) {
                     $state.go('tenant.feed');
@@ -1162,37 +1232,6 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             vm.feed = feedView.general;
             vm.feedItemSections = feedView.feedItemSections;
             vm.actions = feedView.actions;
-        });
-    }
-})();
-(function() {
-    'use strict';
-    angular.module('feed').controller('SumController', SumController);
-
-    function SumController($scope, feedFactory, $stateParams, _) {
-
-    	var vm = this;
-        vm._ = _;
-
-        var feeds = $stateParams.feeds;
-    	function updateSum(feedsForDiff) {
-
-    		if (!feedsForDiff.length) {
-    			vm.diffRows = [];
-                vm.headers = [];
-    			return;
-    		}
-
-    		feedFactory.sumFeeds(feedsForDiff).then(function (result) {
-                vm.properties = result.properties;
-                vm.sumsRows = result.sumsRows;
-    		});
-    	}	
-
-        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.sum') {
-                updateSum(_.filter(params.feeds.split(':'), Boolean));
-            }
         });
     }
 })();

@@ -40,13 +40,21 @@ function convert(feed, sessionData) {
     // set harvestDays if harvest.start and harvest.end is exist
     if (feed.harvest && feed.harvest.start && feed.harvest.end) {
         feed.harvest.harvestDays = 
-        Math.round((feed.harvest.end.getTime() - feed.harvest.start.getTime()) / (1000*60*60*24))
+        Math.round((feed.harvest.end.getTime() - feed.harvest.start.getTime()) / (1000*60*60*24));
+
+        if (feed.harvest.harvestDays === 0) {
+            feed.harvest.harvestDays = 1;
+        }        
     }
 
     // set feedingDays if feeding.start and feeding.end is exist
     if (feed.feeding && feed.feeding.start && feed.feeding.end) {
         feed.feeding.feedingDays = 
-        Math.round((feed.feeding.end.getTime() - feed.feeding.start.getTime()) / (1000*60*60*24))
+        Math.round((feed.feeding.end.getTime() - feed.feeding.start.getTime()) / (1000*60*60*24));
+
+        if (feed.feeding.feedingDays === 0) {
+            feed.feeding.feedingDays = 1;
+        }    
     }
 
     var analysisView = {};
@@ -91,7 +99,7 @@ function convert(feed, sessionData) {
                 label: lang(key),
                 dimension: dimension(key),
                 catalogLink: feedUtils.propertyWithHelp[key] ? 
-                    ('/#/farm/' + sessionData.tenantName + '/catalog/' + feedUtils.propertyWithHelp[key]) : 
+                    ('/#/' + sessionData.tenantName + '/catalog/' + feedUtils.propertyWithHelp[key]) : 
                     undefined
             }
             //}

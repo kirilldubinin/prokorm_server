@@ -68,7 +68,10 @@
             });
         };
         vm.delete = function(ev) {
-            var confirm = $mdDialog.confirm().title('removeFeedConfirmDialogTitle').textContent('removeFeedConfirmDialogContent').targetEvent(ev).ok('yes').cancel('no');
+            var confirm = $mdDialog.confirm()
+                .title('Удаление')
+                .textContent('Вы хотите удалить корм ' + vm.feed.name + ' ?')
+                .targetEvent(ev).ok('Да').cancel('Отменить');
             $mdDialog.show(confirm).then(function() {
                 feedFactory.deleteFeed($stateParams.feedId).then(function(res) {
                     $state.go('tenant.feed');

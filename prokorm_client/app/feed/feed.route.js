@@ -6,7 +6,7 @@
         $stateProvider
             .state('tenant.feed', {
                 url: '/feed',
-                templateUrl: 'app/feed/feedList/feed.html',
+                templateUrl: 'app/feed/list/feed.html',
                 controller: 'FeedController',
                 controllerAs: 'feed',
                 data: {
@@ -58,7 +58,7 @@
                 }
             }).state('tenant.feed.new', {
                 url: '/new',
-                templateUrl: 'app/feed/feedEdit/feedEdit.html',
+                templateUrl: 'app/feed/edit/feedEdit.html',
                 controller: 'FeedEditController',
                 controllerAs: 'feedEdit',
                 data: {
@@ -66,7 +66,7 @@
                 }
             }).state('tenant.feed.edit', {
                 url: '/:feedId/edit',
-                templateUrl: 'app/feed/feedEdit/feedEdit.html',
+                templateUrl: 'app/feed/edit/feedEdit.html',
                 controller: 'FeedEditController',
                 controllerAs: 'feedEdit',
                 params: {
@@ -77,7 +77,7 @@
                 }
             }).state('tenant.feed.instance', {
                 url: '/:feedId',
-                templateUrl: 'app/feed/feedView/feedView.html',
+                templateUrl: 'app/feed/view/feedView.html',
                 controller: 'FeedViewController',
                 controllerAs: 'feedView',
                 params: {

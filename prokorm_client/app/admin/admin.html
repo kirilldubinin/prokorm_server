@@ -1,0 +1,14 @@
+<div class="admin" layout="row">
+	<md-list flex="20">
+        <md-subheader class="md-no-sticky">Tenants ({{admin.tenants.length}})</md-subheader>
+        <md-list-item class="md-3-line" ng-repeat="tenant in admin.tenants" ng-click="null">
+          <div class="md-list-item-text" layout="column">
+            <h3>{{ tenant.name }}</h3>
+            <h4>{{ tenant.login }}</h4>
+            <p>{{ tenant.email }}</p>
+          </div>
+        </md-list-item>
+    </md-list>
+    <div class="admin-dashboard" flex="80" ui-view="">
+    </div>
+</div>

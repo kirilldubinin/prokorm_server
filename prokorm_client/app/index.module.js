@@ -7,7 +7,9 @@
     angular.module('catalog', []);
     angular.module('info', []);
     angular.module('help', []);
-    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons', 'catalog', 'profile', 'feed', 'auth', 'help', 'info']);
+    angular.module('admin', []);
+    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons', 
+        'catalog', 'profile', 'feed', 'auth', 'help', 'info', 'admin']);
     // constant
     angular.module('prokorm').constant('_', window._);
     // config

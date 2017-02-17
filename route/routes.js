@@ -40,7 +40,7 @@ module.exports = function(app) {
     });
 
     // init other routes
-    var routes = ['login', 'profile', 'feed', 'catalog'];
+    var routes = ['login', 'profile', 'feed', 'catalog', 'admin'];
     _.forEach(routes, function (route) {
         require('./routes.' + route)(app, isAuthenticated, errorHandler); 
     });

@@ -37,7 +37,18 @@ app.use(bodyParser.json({type: 'application/vnd.api+json'})); // parse applicati
 app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request
 app.use(cookieParser());
 
-app.use(session({ secret: 'prokorm_kirill' })); // session secret
+app.use(session({ 
+	saveUninitialized: true, // saved new sessions
+	resave: false, // do not automatically write to the session store
+	//store: sessionStore,
+	cookie : { 
+		httpOnly: true, 
+		maxAge: 1000 * 60 * 60 
+	},
+	secret: '4342-dede-5601-xapw-0912-moez', 
+}));
+//app.use(session({ secret: 'prokorm_kirill' })); // session secret
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session

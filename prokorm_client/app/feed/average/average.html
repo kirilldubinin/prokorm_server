@@ -1,7 +1,7 @@
 <div class="average-card" layout="column">
   <div layout="row" class="average-title">
-    <h2 ng-if="!average.analysisRows.length" flex="25">
-      Среднее
+    <h2  flex="25">
+      <label ng-if="!average.analysisRows.length">Среднее</label>
     </h2>
     <div flex class="feed-header" ng-repeat="header in average.headers">
       {{header.name}} <b>{{header.year}}</b>

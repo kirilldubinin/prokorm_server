@@ -3,8 +3,8 @@ var User = require('../models/user');
 var _ = require('lodash');
 var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
+    
     app.get('/api/profile/view', isAuthenticated, function(req, res) {
-        console.log('/api/profile/viewe');
         var sessionUserId = req.user._id;
         User.findOne({
             _id: sessionUserId
@@ -159,8 +159,6 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             if (err) {
                 return errorHandler(err, req, res);
             }
-
-            console.log(user.password);
             if (user.password !== req.body.currentPassword) {
                 return res.status(406).json({
                     message: 'Текущий пароль неверен.'

@@ -34,7 +34,7 @@
         </div>
     </div>
     <!-- HEADER -->
-    <div class="feed-view-header" id="feedViewHeader" layout="row">
+    <div class="feed-view-header" layout="row">
         <div flex="{{block.width}}" ng-repeat="block in feedView.feedItemSections">
             <label class="title">
                 {{block.label}}
@@ -42,7 +42,7 @@
         </div>
     </div>
     <!-- CONTENT -->
-    <div class="feed-view-content" flex="" id="feedViewContent" layout="row">
+    <div class="feed-view-content" flex="" layout="row">
         <div flex="{{block.width}}" id="{{block.key}}" ng-repeat="block in feedView.feedItemSections" ng-switch="block.key">
             <!-- ANALYSIS -->
             <ul class="feed-properties" ng-class="block.key" ng-switch-when="analysis">

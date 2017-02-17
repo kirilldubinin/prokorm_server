@@ -6,7 +6,7 @@
         $stateProvider
             .state('tenant.catalog', {
                 url: '/catalog',
-                templateUrl: 'app/catalog/catalogList/catalog.html',
+                templateUrl: 'app/catalog/list/catalog.html',
                 controller: 'CatalogController',
                 controllerAs: 'catalog',
                 data: {
@@ -14,7 +14,7 @@
                 }
             }).state('tenant.catalog.edit', {
                 url: '/:terms/edit',
-                templateUrl: 'app/catalog/catalogContentEdit/catalogContentEdit.html',
+                templateUrl: 'app/catalog/contentEdit/catalogContentEdit.html',
                 controller: 'CatalogContentEditController',
                 controllerAs: 'catalogContentEdit',
                 params: {
@@ -25,7 +25,7 @@
                 }
             }).state('tenant.catalog.instance', {
                 url: '/:terms',
-                templateUrl: 'app/catalog/catalogContent/catalogContent.html',
+                templateUrl: 'app/catalog/content/catalogContent.html',
                 controller: 'CatalogContentController',
                 controllerAs: 'catalogContent',
                 params: {

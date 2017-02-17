@@ -102,7 +102,6 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             if (err) {
                 return errorHandler(err, req, res);
             } else {
-                console.log(newFeed._id);
                 res.json({
                     message: 'OK',
                     id: newFeed._id
