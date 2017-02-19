@@ -1,5 +1,3 @@
-var math = require('mathjs');
-
 var propertyForRecalculate = {
     milkAcid: 'milkAcid',
     aceticAcid: 'aceticAcid',

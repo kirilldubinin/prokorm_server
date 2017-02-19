@@ -39,12 +39,29 @@ gulp.task('build_libs_js', function(){
 	var libsJS = ['node_modules/angular/angular.min.js',
 				'node_modules/angular-resource/angular-resource.min.js',
 				'node_modules/angular-animate/angular-animate.min.js',
-				//'node_modules/angular-messages/angular-messages.min.js',
 				'node_modules/angular-aria/angular-aria.min.js',
+				
+				/*'node_modules/angular-material/modules/js/button/button.min.js',
+				'node_modules/angular-material/modules/js/card/card.min.js',
+				'node_modules/angular-material/modules/js/checkbox/checkbox.min.js',
+				'node_modules/angular-material/modules/js/radiobutton/radiobutton.min.js',
+				'node_modules/angular-material/modules/js/content/content.min.js',
+				'node_modules/angular-material/modules/js/core/core.min.js',
+				'node_modules/angular-material/modules/js/datepicker/datepicker.min.js',
+				'node_modules/angular-material/modules/js/dialog/dialog.min.js',
+				'node_modules/angular-material/modules/js/icon/icon.min.js',
+				'node_modules/angular-material/modules/js/input/input.min.js',
+				'node_modules/angular-material/modules/js/list/list.min.js',
+				'node_modules/angular-material/modules/js/menu/menu.min.js',
+				'node_modules/angular-material/modules/js/select/select.min.js',
+				'node_modules/angular-material/modules/js/tooltip/tooltip.min.js',
+				'angular-material-icons/angular-material-icons.js',*/
+
 				'node_modules/angular-material/angular-material.min.js',
-				'node_modules/angular-material-icons/angular-material-icons.min.js',
+				'angular-material-icons/angular-material-icons.js',
+				'node_modules/angular-ui-carousel/dist/ui-carousel.min.js',
 				'node_modules/angular-ui-router/release/angular-ui-router.min.js',
-				'node_modules/lodash/lodash.min.js',
+				'node_modules/lodash/core.min.js',
 				'node_modules/moment/min/moment.min.js'];
 
     return gulp.src(libsJS)
@@ -65,7 +82,7 @@ gulp.task('build_app_js', function(){
 		    'index.run.js'
 	  	]))
         .pipe(concat('app.js'))
-        //.pipe(uglify({mangle: false}))
+        .pipe(uglify({mangle: false}))
         .pipe(gulp.dest('./'));
 });
 
@@ -73,6 +90,7 @@ gulp.task('build_libs_css', function(){
 
 	var libsCSS = ['node_modules/angular-material/angular-material.css',
 				'node_modules/angular-material-icons/angular-material-icons.css',
+				'node_modules/angular-ui-carousel/dist/ui-carousel.css',
 				'node_modules/font-awesome/css/font-awesome.min.css',
 				'node_modules/nvd3/build/nv.d3.css'];
 

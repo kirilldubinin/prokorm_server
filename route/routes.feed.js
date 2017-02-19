@@ -15,7 +15,6 @@ var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
 var charts = require('../feed/feed.charts');
 var list = require('../feed/feed.list');
-var config = require('config');
 var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
     function checkUserRightForFeed(feed, req, res) {

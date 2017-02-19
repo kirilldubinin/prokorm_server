@@ -2,7 +2,6 @@ var expect = require("chai").expect;
 var view = require('../../feed/feed.view');
 var lang = require('../../feed/lang');
 var _ = require('lodash');
-var math = require('mathjs');
 describe('feed.view', function() {
     
     describe('feed.analysis', function (){

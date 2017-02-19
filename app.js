@@ -13,7 +13,6 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var log = require('./libs/log');
 var winston = require('winston');
-var config = require('config');
 var helmet = require('helmet')
 
 // configuration ===============================================================

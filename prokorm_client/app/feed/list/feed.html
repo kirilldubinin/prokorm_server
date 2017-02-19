@@ -6,7 +6,7 @@
                 <div class="module-name" flex>
                     Корма
                     <span class="feed-amount" ng-if="feed.feedItems.length">
-                        ({{feed.feedItems.length}})
+                        ({{::feed.feedItems.length}})
                     </span>
                 </div>
                 <md-button class="md-fab md-mini md-primary add-feed-button" ng-click="feed.addFeed()" ng-if="_.some(feed.dashboard.actions, {key: 'addFeed'}) && !(feed.isDiffMode || feed.isAverageMode || feed.isSumMode || feed.isChartMode)">
@@ -29,9 +29,9 @@
                         </ng-md-icon>
                     </md-button>
                     <md-menu-content width="3">
-                        <md-menu-item ng-if="action.key !== 'addFeed'" ng-repeat="action in feed.dashboard.actions">
+                        <md-menu-item ng-if="action.key !== 'addFeed'" ng-repeat="action in ::feed.dashboard.actions">
                             <md-button ng-click="feed[action.key]()">
-                                {{action.label}}
+                                {{::action.label}}
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
@@ -58,7 +58,7 @@
             </div>
         </div>
         <div ng-if="!feed.filter.visible && feed.hiddenItemsLength" class="hide-items-length">
-            {{feed.hiddenItemsLength}} скрыто
+            {{::feed.hiddenItemsLength}} скрыто
             <i class="fa fa-times" aria-hidden="true" ng-click="feed.clearFilter()">
                 <md-tooltip md-direction="bottom">
                     Сбросить фильтр
@@ -76,8 +76,8 @@
                 <label>Год</label>
                 <md-select data-md-container-class="" md-on-close="" multiple="" ng-model="feed.filter.years">
                     <md-optgroup label="Год">
-                        <md-option ng-repeat="year in feed.filterValues.years" ng-value="year">
-                            {{year}}
+                        <md-option ng-repeat="year in ::feed.filterValues.years" ng-value="year">
+                            {{::year}}
                         </md-option>
                     </md-optgroup>
                 </md-select>
@@ -87,8 +87,8 @@
                 <label>Тип</label>
                 <md-select data-md-container-class="" md-on-close="" multiple="" ng-model="feed.filter.feedTypes">
                     <md-optgroup label="Тип">
-                        <md-option ng-repeat="feedType in feed.filterValues.feedTypes" ng-value="feedType">
-                            {{feedType}}
+                        <md-option ng-repeat="feedType in ::feed.filterValues.feedTypes" ng-value="feedType">
+                            {{::feedType}}
                         </md-option>
                     </md-optgroup>
                 </md-select>
@@ -98,8 +98,8 @@
                 <label>Состав</label>
                 <md-select data-md-container-class="" md-on-close="" multiple="" ng-model="feed.filter.compositions">
                     <md-optgroup label="Состав">
-                        <md-option ng-repeat="composition in feed.filterValues.compositions" ng-value="composition">
-                            {{composition}}
+                        <md-option ng-repeat="composition in ::feed.filterValues.compositions" ng-value="composition">
+                            {{::composition}}
                         </md-option>
                     </md-optgroup>
                 </md-select>
@@ -109,8 +109,8 @@
                 <label>Отделение</label>
                 <md-select data-md-container-class="" md-on-close="" multiple="" ng-model="feed.filter.branches">
                     <md-optgroup label="Отделение">
-                        <md-option ng-repeat="branch in feed.filterValues.branches" ng-value="branch">
-                            {{branch}}
+                        <md-option ng-repeat="branch in ::feed.filterValues.branches" ng-value="branch">
+                            {{::branch}}
                         </md-option>
                     </md-optgroup>
                 </md-select>
@@ -120,8 +120,8 @@
                 <label>Хранение</label>
                 <md-select data-md-container-class="" md-on-close="" multiple="" ng-model="feed.filter.storages">
                     <md-optgroup label="Хранение">
-                        <md-option ng-repeat="storage in feed.filterValues.storages" ng-value="storage">
-                            {{storage}}
+                        <md-option ng-repeat="storage in ::feed.filterValues.storages" ng-value="storage">
+                            {{::storage}}
                         </md-option>
                     </md-optgroup>
                 </md-select>
@@ -136,9 +136,9 @@
                     selected: (feedItem._id === feed.selectedItemId || feed.diffFeeds.indexOf(feedItem._id) > -1 || feed.averageFeeds.indexOf(feedItem._id) > -1 || feed.sumFeeds.indexOf(feedItem._id) > -1 
                     || feed.chartFeeds.indexOf(feedItem._id) > -1)
                 }" 
-                ng-show="feedItem.isVisible"
+                ng-if="feedItem.isVisible"
                 ng-click="feed.onFeedClick(feedItem)" 
-                ng-repeat="feedItem in feed.feedItems">
+                ng-repeat="feedItem in ::feed.feedItems">
                 <div class="md-list-item-text">
                     <div layout="row">
                         <p class="title" flex="">
@@ -183,7 +183,7 @@
     </md-card>
     <md-card class="dashboard" flex="80" md-theme="default" md-theme-watch="" ui-view="">
         <md-content layout-padding="">
-            <md-button class="md-primary" md-no-ink="" ng-click="feed[action.key]()" ng-repeat="action in feed.dashboard.actions">
+            <md-button class="md-primary" md-no-ink="" ng-click="feed[action.key]()" ng-repeat="action in ::feed.dashboard.actions">
                 {{action.label}}
             </md-button>
             <div layout="row">
@@ -199,7 +199,7 @@
                             По составу
                         </md-radio-button>
                     </md-radio-group>
-                    <ul class="balance-list" ng-repeat="balance in feed.dashboard.balance.byFeedType" ng-show="feed.dashboard.balance.current === 'byFeedType'">
+                    <ul class="balance-list" ng-repeat="balance in ::feed.dashboard.balance.byFeedType" ng-if="feed.dashboard.balance.current === 'byFeedType'">
                         <li>
                             <div>
                                 <label>
@@ -218,7 +218,7 @@
                                 </span>
                             </div>
                             <ul class="composition">
-                                <li class="composition-item" ng-repeat="composition in balance.byComposition">
+                                <li class="composition-item" ng-repeat="composition in ::balance.byComposition">
                                     {{composition.label}}
                                     <span class="weight-control" ng-class="{opened: composition.balance !== composition.total, done: !composition.balance}">
                                         <span class="balance">
@@ -232,7 +232,7 @@
                             </ul>
                         </li>
                     </ul>
-                    <ul class="balance-list" ng-repeat="balance in feed.dashboard.balance.byComposition" ng-show="feed.dashboard.balance.current === 'byComposition'">
+                    <ul class="balance-list" ng-repeat="balance in ::feed.dashboard.balance.byComposition" ng-if="feed.dashboard.balance.current === 'byComposition'">
                         <li>
                             <div>
                                 <label>
@@ -251,7 +251,7 @@
                                 </span>
                             </div>
                             <ul class="composition">
-                                <li class="composition-item" ng-repeat="composition in balance.byFeedType">
+                                <li class="composition-item" ng-repeat="composition in ::balance.byFeedType">
                                     {{composition.label}}
                                     <span class="weight-control" ng-class="{opened: composition.balance !== composition.total, done: !composition.balance}">
                                         <span class="balance">
@@ -270,7 +270,7 @@
                     <h2>
                         Корма без анализов ({{feed.dashboard.years}})
                     </h2>
-                    <a ng-href="{{noAnalysis.url}}" ng-repeat="noAnalysis in feed.dashboard.noAnalysis">
+                    <a ng-href="{{noAnalysis.url}}" ng-repeat="noAnalysis in ::feed.dashboard.noAnalysis">
                         {{noAnalysis.label}}
                     </a>
                 </md-card>

@@ -6,7 +6,9 @@
         $stateProvider
             .state('public', {
                 url: '/',
-                templateUrl: 'app/public/public.html',
+                templateUrl: 'app/public/public.html'
+                //controller: 'PublicController',
+                //controllerAs: 'public',
             })
             .state('tenant', {
                 url: '/:id',

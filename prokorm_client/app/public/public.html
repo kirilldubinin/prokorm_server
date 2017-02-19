@@ -1,26 +1,44 @@
-<div class="public-screen">
-	<section layout="row" class="header">
-		<div class="prokorm" flex>
-			ПРОКОРМ
-		</div>
-		
-		<md-button class="demo" ng-href="/#/login/demo">демо</md-button>
-		<md-button class="registration" ng-href="/#/registration">зарегестрироваться</md-button>
-		<md-button class="login md-raised" ng-href="/#/login">Вход</md-button>
+<div class="public-screen" layout="column">
+    <section class="header" layout="row">
+        <div class="prokorm" flex="">
+            ПРОКОРМ
+        </div>
+        <md-button class="demo" ng-href="/#/terms">
+            уcловия
+        </md-button>
+        <md-button class="demo" ng-href="/#/login/demo">
+            демо
+        </md-button>
+        <md-button class="registration" ng-href="/#/registration">
+            зарегестрироваться
+        </md-button>
+        <md-button class="login md-raised" ng-href="/#/login">
+            Вход
+        </md-button>
     </section>
-    <div class="info-title">
-		<div>Все данные о Ваших кормах</div>
-    	<div>заготовка&nbsp;&nbsp;&nbsp;анализы&nbsp;&nbsp;&nbsp;кормление&nbsp;&nbsp;&nbsp;аналитика</div>
-	</div>
+    <div layout="row">
+        <div flex class="info-title">
+            Все данные о Ваших кормах
+            <div class="sub-info">
+	            заготовка   анализы   кормление   аналитика
+	        </div>
+        </div>
 
-    <!--<section class="public-section feed">
-		<h2>Модуль упарвления кормами предприятия</h2>
-		Все Ваши корма в одном месте, включая данные о заготовке, кормлении и анализах.
-		Добавляйте, просматривайте или сравнивайте корма 
-
-
-		<div class="section-content">
-			
-		</div>    	
-    </section>-->
+    	<md-button class="sale md-raised md-warn" ng-href="/#/registration">
+            90 дней бесплатного пользования
+        </md-button>
+    </div>
+    <!--<div flex class="carousel">
+    	<iframe src="http://prokorm.com/#/deemo/login"></iframe>
+    </div>
+    <ui-carousel class="carousel" flex="" slides="public.slides" slides-to-scroll="1" slides-to-show="3">
+        	<div ng-repeat="slide in ::public.slides">
+    		<img src="{{slide.image}}"/>
+    	</div>
+        <carousel-item>
+            <div class="image">
+                <img src="{{ item.image }}"/>
+            </div>
+        </carousel-item>
+    </ui-carousel-->
 </div>

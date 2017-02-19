@@ -1,7 +1,7 @@
 <div class="sum-card" layout="column">
   <div layout="row" class="sum-title">
     <h2 flex="25">Сумма</h2>
-    <div flex class="sum-header" ng-repeat="prop in sum.properties">
+    <div flex class="sum-header" ng-repeat="prop in ::sum.properties">
       {{prop.label}}, {{prop.dimension}}
     </div>
   </div>
@@ -10,19 +10,19 @@
       Выберите незавершенные корма с анализами из списка
     </h2>
     <ul ng-if="sum.sumsRows.length" flex class="property-list">
-      <li class="property-row" ng-repeat="row in sum.sumsRows">
+      <li class="property-row" ng-repeat="row in ::sum.sumsRows">
         <div layout="row">
           <label flex="25" class="property-label">{{row.label}}</label>  
-          <span flex class="property-value" ng-repeat="sumByProp in row.sumsByProp track by $index">
+          <span flex class="property-value" ng-repeat="sumByProp in ::row.sumsByProp track by $index">
             {{sumByProp.value | number}}
           </span>
         </div> 
         
         <!-- By Composition -->
         <ul flex class="sub-property-list">
-          <li layout="row" class="property-row" ng-repeat="compositionRow in row.byComposition">
+          <li layout="row" class="property-row" ng-repeat="compositionRow in ::row.byComposition">
             <label flex="25" class="property-label">{{compositionRow.label}}</label>  
-            <span flex class="property-value" ng-repeat="sumByProp in compositionRow.sumsByProp track by $index">
+            <span flex class="property-value" ng-repeat="sumByProp in ::compositionRow.sumsByProp track by $index">
               <span class="percent">({{sumByProp.percentOfTotal}}%)</span>{{sumByProp.value | number}}
             </span>  
           </li>

@@ -2,7 +2,6 @@ var Feed = require('../models/feed');
 var lang = require('./lang');
 var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
-var math = require('mathjs');
 var _ = require('lodash');
 
 function sortFeeds(a, b) {
