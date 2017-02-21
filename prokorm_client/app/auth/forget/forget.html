@@ -1,0 +1,40 @@
+<div layout="row" class="login-screen" >
+  <div flex="30"></div>
+
+  <div class="farm-login" flex>
+    <div class="main-login-header main-header">ПРОКОРМ</div>
+    <md-card md-theme="default" md-theme-watch>
+      <md-card-title>
+        <md-card-title-text>
+          <div class="login-input">
+            <p>Введите ваш емейл</p>
+            <input type="text" name="tenantname" ng-model="forget.email"></input>
+          </div>
+
+          <span class="or">или</span>
+          
+          <div class="login-input">
+            <p>Имя пользователя</p>
+            <input type="text" name="tenantname" ng-model="forget.userName"></input>
+          </div>
+          <div class="login-input">
+            <p>Имя компании</p>
+            <input type="text" name="tenantname" ng-model="forget.tenantName"></input>
+          </div>
+
+          <span class="phone">Если у Вас возникли сложности, пожалуйста позвоните по телефону</span>
+          <span class="phone">8 800</span>
+        </md-card-title-text>
+      </md-card-title>
+      <md-card-actions layout="row" layout-align="">
+        <div flex>
+        </div>
+        <div>
+          <md-button class="md-raised md-primary" ng-click="forget.do()">Отправить запрос</md-button>
+        </div> 
+      </md-card-actions>
+    </md-card>  
+  </div>
+
+  <div flex="30"></div>
+</div>

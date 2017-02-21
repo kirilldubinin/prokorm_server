@@ -20,9 +20,5 @@
                 }
             );
         };
-
-        vm.goToRegistration = function () {
-            
-        };
     }
 })();

@@ -24,19 +24,22 @@ angular.module('auth').factory('authFactory', ['$http', '$location', function($h
 
     // profile
     authFactory.getProfileView = function() {
-        return $http.get(urlBase + 'profile/view');
+        return $http.get(urlBase + 'profile/view/');
     };    
     authFactory.getProfileEdit = function() {
         return $http.get(urlBase + 'profile/edit');
     };
     authFactory.updateProfile = function(profile) {
-        return $http.put(urlBase + 'profile', profile);
+        return $http.put(urlBase + 'profile/', profile);
     };
     authFactory.addUser = function(user) {
-        return $http.post(urlBase + 'users', user);
+        return $http.post(urlBase + 'users/', user);
     };
     authFactory.setPassword = function (pass) {
-        return $http.post(urlBase + 'profile/password', pass);    
+        return $http.post(urlBase + 'profile/password/', pass);    
+    };
+    authFactory.forgetPassword = function (pass) {
+        return $http.post(urlBase + 'forget/', pass);    
     };
 
     return authFactory;
