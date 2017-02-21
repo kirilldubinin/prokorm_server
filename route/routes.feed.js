@@ -66,7 +66,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                     return {
                         _id: f._id,
                         label: f.general.name + ' ' + f.general.year,
-                        url: ('/#/farm/' + req.user.tenantName + '/feed/' + f._id)
+                        url: ('/#/' + req.user.tenantName + '/feed/' + f._id)
                     };
                 })
             });

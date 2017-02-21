@@ -84,8 +84,8 @@
             feedFactory.getEmptyAnalysis().then(function (newAnalysis) {
                 // if no any analysis
                 if (vm.feedItem.analysis && vm.feedItem.analysis.length) {
-                    var max = _.maxBy(vm.feedItem.analysis, 'number');
-                    newAnalysis.initialItem.number = max.number + 1;
+                    var max = _.max(_.map(vm.feedItem.analysis, 'number'));
+                    newAnalysis.initialItem.number = max + 1;
                     vm.feedItem.analysis.push(newAnalysis);
                 }
 

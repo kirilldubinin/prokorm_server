@@ -6,31 +6,52 @@ var modules = require('../config/modules');
 var registration = require('../authentication/registration');
 var CustomStrategy = require('../authentication/local');
 
+var emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+var loginNameRegexp = /^[A-Za-z][A-Za-z0-9]*$/;
 
+var passGenerator = require('generate-password');
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport('smtps://sales%40prokorm.com:4noLimits$@smtp.gmail.com');
+
+function sendForgetEmail(emailData, callback) {
+    var mailOptions = {
+        from: '"ПРОКОРМ" <sales@prokorm.com>', // sender address 
+        to: emailData.to, // list of receivers 
+        subject: 'ПРОКОРМ: Восстановление пароля', // Subject line 
+        html: 
+            '<div>Имя вашей организации: "' + emailData.tenantName + '"</div>' + 
+            '<div>Имя пользователя: "' + emailData.userName + '"</div>' + 
+            '<div>Пароль: "' + emailData.password + '"</div>'
+    };
+    // send mail with defined transport object 
+    transporter.sendMail(mailOptions, function(error, info) {
+        if (error) {
+            return callback(error);
+        }
+        callback(null, info.response);
+    });
+}
 module.exports = function(app, isAuthenticated, errorHandler) {
-
-	var authStrategy = new CustomStrategy(app);
+    var authStrategy = new CustomStrategy(app);
     app.post('/api/registration', function(req, res) {
-
         // validate email
-        var emailRegexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         if (!emailRegexp.test(req.body.email)) {
             return res.status(406).send({
-                message: 'Вы ввели невалидный E-Mail.'
+                message: 'Вы ввели неверный формат E-Mail адреса.'
             });
         }
-
-        var loginnameRegexp = /^[A-Za-z][A-Za-z0-9]*$/;
-        if (!loginnameRegexp.test(req.body.loginname)) {
+        if (!loginNameRegexp.test(req.body.loginname)) {
             return res.status(406).send({
-                message: 'Вы ввели невалидное имя компании.'
+                message: 'Вы ввели неверный формат для имени компании.'
             });
         }
-
         // check if tenant name is exist
         Tenant.findOne({
             loginName: req.body.loginname
         }).lean().exec(function(err, exist) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
             if (exist) {
                 return res.status(406).send({
                     message: 'Компания c именем "' + req.body.loginname + '"" уже существует. Пожалуйста, укажите другое имя.'
@@ -39,6 +60,9 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 Tenant.findOne({
                     email: req.body.email
                 }).lean().exec(function(err, exist) {
+                    if (err) {
+                        return errorHandler(err, req, res);
+                    }
                     if (exist) {
                         return res.status(406).send({
                             message: 'Компания c E-Mail "' + req.body.email + '"" уже существует. Пожалуйста, укажите другой E-Mail.'
@@ -61,9 +85,17 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         });
     });
     app.post('/api/signin', function(req, res) {
-        //console.log(req.body);
-        // yc5NhI
-        // add validation before calling the authenicate() method
+        
+        var tenantname = req.body.tenantname;
+        var username = req.body.username;
+        var password = req.body.password;
+
+        if (!tenantname || !username || !password) {
+            return res.status(401).send({
+                message: 'Вы указали неверные данные для входа.'
+            });
+        }
+
         authStrategy.authenticate(req, function(err, user, tenant) {
             if (!err && user && tenant && user.tenantId.equals(tenant._id)) {
                 // set tenant data for user object
@@ -94,6 +126,66 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 });
             }
         });
+    });
+    app.post('/api/forget', function(req, res) {
+        // check by email
+        if (req.body.email) {
+            if (!emailRegexp.test(req.body.email)) {
+                return res.status(406).send({
+                    message: 'Вы ввели неверный формат E-Mail адреса.'
+                });
+            } else {
+
+                // get user by emeil
+                User.findOne({
+                    email: req.body.email
+                }).lean().exec(function(err, user) {
+                    if (err) {
+                        return errorHandler(err, req, res);
+                    } else if (user) {
+
+                        // get tenant by tenantId
+                        Tenant.findOne({
+                            _id: user.tenantId
+                        }).lean().exec(function(err, tenant) {
+                            if (err) {
+                                return errorHandler(err, req, res);
+                            }
+
+                            // generate new password and save it for user
+                            user.password = passGenerator.generate({
+                                length: 6,
+                                numbers: true
+                            });
+
+                            // save new password for user
+                            user.save(function(err, updatedUser) {
+                                if (err) {
+                                    return errorHandler(err, req, res);
+                                }
+                                var emailData = {
+                                    to: user.email,
+                                    userName: user.name,
+                                    tenantName: tenant.loginName,
+                                    password: user.password
+                                };
+
+                                // send email with new password
+                                sendForgetEmail(emailData, function () {
+                                    res.send({
+                                        message: 'На почту ' + user.email + 'отправлено письмо с дальнейшими инструкциями.'
+                                    });
+                                });
+                            });
+                        });
+                    } else {
+                        return res.status(406).send({
+                            message: 'Пользователь с таким E-Mail адресом не найден.'
+                        });
+                    }
+                });
+            }
+        }
     });
     app.post('/api/logout', isAuthenticated, function(req, res) {
         req.logout();
