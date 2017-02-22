@@ -76,33 +76,33 @@
 
                 // year            
                 if (vm.filter.years && vm.filter.years.length) {
-                    if (!_.includes(vm.filter.years, feedItem.year)) {
+                    if (vm.filter.years.indexOf(feedItem.year) < 0) {
                         return false
                     }
                 }
                 // feedType
                 if (vm.filter.feedTypes && vm.filter.feedTypes.length) {
-                    if (!_.includes(vm.filter.feedTypes, feedItem.feedType)) {
+                    if (vm.filter.feedTypes.indexOf(feedItem.feedType) < 0) {
                         return false
                     }
                 }  
                 // composition
                 if (vm.filter.compositions && vm.filter.compositions.length) {
-                    if (!_.includes(vm.filter.compositions, feedItem.composition)) {
+                    if (vm.filter.compositions.indexOf(feedItem.composition) < 0) {
                         return false
                     }
                 }
 
                 // branch
                 if (vm.filter.branches && vm.filter.branches.length) {
-                    if (!_.includes(vm.filter.branches, feedItem.branch)) {
+                    if (vm.filter.branches.indexOf(feedItem.branch) < 0) {
                         return false
                     }
                 }
 
                 // storage
                 if (vm.filter.storages && vm.filter.storages.length) {
-                    if (!_.includes(vm.filter.storages, feedItem.storage)) {
+                    if (vm.filter.storages.indexOf(feedItem.storage) < 0) {
                         return false
                     }
                 }
