@@ -4,15 +4,19 @@ var User = require('../models/user');
 var lang = require('../feed/lang');
 
 module.exports = function(app, isAuthenticated, errorHandler) {
-    app.get('/api/tenants', function(req, res) {
-
+    
+    function isAdmin(req, res, next) {
+        
         if (req.user && req.user.name === "prokorm" && req.user.tenantName === "prokorm") {
-
+            next()
         } else {
-            res.status(406).send({
-                message: 'You dont have permission for this object.'
+            return res.status(401).send({
+                message: 'Authentication failed'
             });
         }
+    }
+
+    app.get('/api/tenants', function(req, res) {
 
         Tenant.find().lean().exec(function(err, tenants) {
             if (err) {

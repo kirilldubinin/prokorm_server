@@ -1,12 +1,26 @@
-/*(function() {
+(function() {
     'use strict';
     angular.module('prokorm').controller('PublicController', PublicController);
-    function PublicController($http, $state, authFactory) {
+    function PublicController($state, authFactory) {
         var vm = this;
-
-        vm.slides = [{
-            name: 'list',
-            image: 'img/screen.png'
-        }]
+        $state.go('public.view');
+        vm.current = 'view';
+        vm.buttons = [{
+        	name: 'анализы',
+        	key: 'view',
+        	url: '/#/view'
+        }, {
+        	name: 'сравнение',
+        	key: 'diff',
+        	url: '/#/diff'
+        }, {
+        	name: 'среднее',
+        	key: 'average',
+        	url: '/#/average'
+        }, {
+        	name: 'сумма',
+        	key: 'sum',
+        	url: '/#/sum'
+        }];
     }
-})();*/
+})();

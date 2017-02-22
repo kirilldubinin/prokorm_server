@@ -26,7 +26,7 @@ module.exports = function(app) {
             return next();
         } else {
             // IF A USER ISN'T LOGGED IN
-            res.status(401).send({
+            return res.status(401).send({
                 message: 'Authentication failed'
             });
         }
@@ -40,7 +40,7 @@ module.exports = function(app) {
     });
 
     // init other routes
-    var routes = ['login', 'profile', 'feed', 'catalog', 'admin'];
+    var routes = ['login', 'profile', 'feed', 'catalog', 'admin', 'demo'];
     _.forEach(routes, function (route) {
         require('./routes.' + route)(app, isAuthenticated, errorHandler); 
     });

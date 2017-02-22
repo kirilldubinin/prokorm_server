@@ -98,7 +98,7 @@ function convert(feed, sessionData) {
                 values: values,
                 label: lang(key),
                 dimension: dimension(key),
-                catalogLink: feedUtils.propertyWithHelp[key] ? 
+                catalogLink: sessionData && feedUtils.propertyWithHelp[key] ? 
                     ('/#/' + sessionData.tenantName + '/catalog/' + feedUtils.propertyWithHelp[key]) : 
                     undefined
             }

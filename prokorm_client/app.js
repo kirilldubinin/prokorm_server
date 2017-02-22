@@ -118,10 +118,30 @@
     function routerConfig($stateProvider, $urlRouterProvider) {
         $stateProvider
             .state('public', {
-                url: '/',
-                templateUrl: 'app/public/public.html'
-                //controller: 'PublicController',
-                //controllerAs: 'public',
+                url: '',
+                templateUrl: 'app/public/public.html',
+                controller: 'PublicController',
+                controllerAs: 'public'
+            }).state('public.view', {
+                url: '/view',
+                templateUrl: 'app/feed/view/feedView.html',
+                controller: 'FeedViewDemoController',
+                controllerAs: 'feedView'
+            }).state('public.diff', {
+                url: '/diff',
+                templateUrl: 'app/feed/diff/diff.html',
+                controller: 'DiffDemoController',
+                controllerAs: 'diff'
+            }).state('public.average', {
+                url: '/average',
+                templateUrl: 'app/feed/average/average.html',
+                controller: 'AverageDemoController',
+                controllerAs: 'average'
+            }).state('public.sum', {
+                url: '/sum',
+                templateUrl: 'app/feed/sum/sum.html',
+                controller: 'SumDemoController',
+                controllerAs: 'sum'
             })
             .state('tenant', {
                 url: '/:id',
@@ -133,12 +153,12 @@
                     id: undefined
                 }
             });
-        $urlRouterProvider.otherwise('/');
+        //$urlRouterProvider.otherwise('/');
     }
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.52");
+.constant("version", "0.0.53");
 
 })();
 
@@ -473,7 +493,6 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
     function AverageController($scope, feedFactory, $stateParams, _) {
 
     	var vm = this;
-    	vm.propertiesForDiff = [];
         vm._ = _;
 
         var feeds = $stateParams.feeds;
@@ -497,6 +516,24 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
             if (newState.name === 'tenant.feed.average') {
                 updateAverageRows(_.filter(params.feeds.split(':'), Boolean));
             }
+        });
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('feed').controller('AverageDemoController', AverageDemoController);
+
+    function AverageDemoController(feedFactory, _) {
+
+    	var vm = this;
+    	vm.propertiesForDiff = [];
+        vm._ = _;
+
+        feedFactory.averageDemoFeeds().then(function (result) {
+            vm.dryRawValues = result.dryRawValues;
+            vm.headers = result.headers;
+            vm.analysisRows = result.analysis;
+            vm.averageRows = result.average;
         });
     }
 })();
@@ -627,6 +664,22 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
             if (newState.name === 'tenant.feed.diff') {
                 updateDiffRows(_.filter(params.feeds.split(':'), Boolean));
             }
+        });
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('feed').controller('DiffDemoController', DiffDemoController);
+    function DiffDemoController($scope, feedFactory, $stateParams, _) {
+
+    	var vm = this;
+        vm._ = _;
+
+        feedFactory.diffDemoFeeds().then(function (result) {
+
+            vm.dryRawValues = result.dryRawValues;
+            vm.headers = result.headers;
+            vm.diffRows = result.diffs;
         });
     }
 })();
@@ -792,6 +845,9 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.getFeedView = function(feedId) {
         return $http.get(urlBaseFeed + feedId + '/view');
     };
+    feedFactory.getFeedViewDemo = function() {
+        return $http.get(urlBaseFeed + 'viewDemo');
+    };
     feedFactory.getFeedEdit = function(feedId) {
         return $http.get(urlBaseFeed + feedId + '/edit');
     };
@@ -807,11 +863,20 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.diffFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'diff', {feedIds: feedIds});
     };
+    feedFactory.diffDemoFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'diffDemo');
+    };
     feedFactory.sumFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
     };
+    feedFactory.sumDemoFeeds = function() {
+        return $http.post(urlBaseFeed + 'sumDemo');
+    };
     feedFactory.averageFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
+    };
+    feedFactory.averageDemoFeeds = function() {
+        return $http.post(urlBaseFeed + 'averageDemo');
     };
     feedFactory.chartsFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
@@ -1181,6 +1246,21 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
 })();
 (function() {
     'use strict';
+    angular.module('feed').controller('SumDemoController', SumDemoController);
+
+    function SumDemoController(feedFactory, _) {
+
+    	var vm = this;
+        vm._ = _;
+
+        feedFactory.sumDemoFeeds().then(function (result) {
+            vm.properties = result.properties;
+            vm.sumsRows = result.sumsRows;
+        });
+    }
+})();
+(function() {
+    'use strict';
     FeedViewController.$inject = ['$mdDialog', '$stateParams', '$state', 'authFactory', 'feedFactory', '_']
     angular.module('feed').controller('FeedViewController', FeedViewController);
 
@@ -1260,6 +1340,73 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             }, function() {});
         };
         feedFactory.getFeedView(feedId).then(function(feedView) {
+            vm.feed = feedView.general;
+            vm.feedItemSections = feedView.feedItemSections;
+            vm.actions = feedView.actions;
+        });
+    }
+})();
+(function() {
+    'use strict';
+    FeedViewDemoController.$inject = ['$stateParams', '$state', 'feedFactory', '_']
+    angular.module('feed').controller('FeedViewDemoController', FeedViewDemoController);
+
+    function FeedViewDemoController($stateParams, $state, feedFactory, _) {
+        var vm = this;
+        vm._ = _;
+        vm.isDrySwitch = true;
+        vm.print = function() {
+            
+            authFactory.getSessionData().then(function(data) {
+
+                var analysisPrint = document.getElementById('analysis');
+                var generalPrint = document.getElementById('general');
+                var harvestPrint = document.getElementById('harvest');
+                var feedingPrint = document.getElementById('feeding');
+
+                var popupWin = window.open('', '_blank');
+                popupWin.document.open();
+                popupWin.document.write(
+                    '<html style="background-color: #fff;">'+
+                        '<title>ПРОКОРМ:печать</title>'+
+                        '<head>'+
+                            '<link rel="stylesheet" type="text/css" href="app.css"/>'+
+                            '<link rel="stylesheet" type="text/css" href="libs.css"/>'+
+                        '</head>'+
+                        '<body onload="setTimeout(function() {window.print(); window.close();}, 500)" class="feed print">' + 
+                            (analysisPrint ? 
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + 
+                                '</h2><label class="key">анализы:  </label>' + vm.feed.name + '&nbsp;&nbsp;&nbsp;' + vm.feed.year + '&nbsp;&nbsp;&nbsp;' +  vm.feed.storage + '</div>' +
+                                '<br/>' +
+                                analysisPrint.innerHTML + 
+                                '<div class="break"></div>') : ''
+                            ) +
+                            (generalPrint ? 
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">основные:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                '<br/>' +
+                                generalPrint.innerHTML + 
+                                '<br/>') : ''
+                            ) +
+                            (harvestPrint ? 
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">заготовка:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                '<br/>' +
+                                harvestPrint.innerHTML + 
+                                '<br/>') : '' 
+                            ) +
+                            (feedingPrint ? 
+                                ('<div class="print-title"><h2>' + data.user.tenantFullName + '</h2><label class="key">кормление:  </label>' + vm.feed.name + '   ' + vm.feed.year + '</div>' +
+                                '<br/>' +
+                                feedingPrint.innerHTML) : ''
+                            ) + 
+                        '</body>'+
+                        '<footer>prokorm.com</footer>' +
+                    '</html>');
+                popupWin.document.close();
+                //popupWin.onfocus=function(){ popupWin.close();}
+
+            });
+        };
+        feedFactory.getFeedViewDemo().then(function(feedView) {
             vm.feed = feedView.general;
             vm.feedItemSections = feedView.feedItemSections;
             vm.actions = feedView.actions;
@@ -1668,18 +1815,32 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         };
     }
 })();
-/*(function() {
+(function() {
     'use strict';
     angular.module('prokorm').controller('PublicController', PublicController);
-    function PublicController($http, $state, authFactory) {
+    function PublicController($state, authFactory) {
         var vm = this;
-
-        vm.slides = [{
-            name: 'list',
-            image: 'img/screen.png'
-        }]
+        $state.go('public.view');
+        vm.current = 'view';
+        vm.buttons = [{
+        	name: 'анализы',
+        	key: 'view',
+        	url: '/#/view'
+        }, {
+        	name: 'сравнение',
+        	key: 'diff',
+        	url: '/#/diff'
+        }, {
+        	name: 'среднее',
+        	key: 'average',
+        	url: '/#/average'
+        }, {
+        	name: 'сумма',
+        	key: 'sum',
+        	url: '/#/sum'
+        }];
     }
-})();*/
+})();
 (function() {
     'use strict';
     angular.module('prokorm').controller('SettingsController', SettingsController);

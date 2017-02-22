@@ -2,6 +2,7 @@
     <section class="header" layout="row">
         <div class="prokorm" flex="">
             ПРОКОРМ
+            <div class="sub-info">Все данные о Ваших кормах</div>
         </div>
         <md-button class="demo" ng-href="/#/terms">
             уcловия
@@ -18,27 +19,19 @@
     </section>
     <div layout="row">
         <div flex class="info-title">
-            Все данные о Ваших кормах
-            <div class="sub-info">
+            
+            <!--<div class="sub-info">
 	            заготовка   анализы   кормление   аналитика
-	        </div>
-        </div>
-
-    	<md-button class="sale md-raised md-warn" ng-href="/#/registration">
+                <md-button class="sale md-raised md-warn" ng-href="/#/registration">
             90 дней бесплатного пользования
+            
         </md-button>
+	        </div>-->
+             <md-button ng-click="public.current = button.key" ng-class="{ 'md-raised': public.current === button.key }" ng-repeat="button in public.buttons"  ng-href="{{button.url}}">
+                {{button.name}}
+            </md-button>
+        </div>
     </div>
-    <!--<div flex class="carousel">
-    	<iframe src="http://prokorm.com/#/deemo/login"></iframe>
+    <div flex class="carousel feed" ui-view="">
     </div>
-    <ui-carousel class="carousel" flex="" slides="public.slides" slides-to-scroll="1" slides-to-show="3">
-        	<div ng-repeat="slide in ::public.slides">
-    		<img src="{{slide.image}}"/>
-    	</div>
-        <carousel-item>
-            <div class="image">
-                <img src="{{ item.image }}"/>
-            </div>
-        </carousel-item>
-    </ui-carousel-->
 </div>

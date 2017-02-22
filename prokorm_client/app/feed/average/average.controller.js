@@ -5,7 +5,6 @@
     function AverageController($scope, feedFactory, $stateParams, _) {
 
     	var vm = this;
-    	vm.propertiesForDiff = [];
         vm._ = _;
 
         var feeds = $stateParams.feeds;

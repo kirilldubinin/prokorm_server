@@ -20,6 +20,9 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.getFeedView = function(feedId) {
         return $http.get(urlBaseFeed + feedId + '/view');
     };
+    feedFactory.getFeedViewDemo = function() {
+        return $http.get(urlBaseFeed + 'viewDemo');
+    };
     feedFactory.getFeedEdit = function(feedId) {
         return $http.get(urlBaseFeed + feedId + '/edit');
     };
@@ -35,11 +38,20 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.diffFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'diff', {feedIds: feedIds});
     };
+    feedFactory.diffDemoFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'diffDemo');
+    };
     feedFactory.sumFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
     };
+    feedFactory.sumDemoFeeds = function() {
+        return $http.post(urlBaseFeed + 'sumDemo');
+    };
     feedFactory.averageFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
+    };
+    feedFactory.averageDemoFeeds = function() {
+        return $http.post(urlBaseFeed + 'averageDemo');
     };
     feedFactory.chartsFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});

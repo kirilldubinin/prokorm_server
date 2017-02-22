@@ -43,13 +43,18 @@
         	margin-bottom: 20px;
             margin-left: 16px;
             margin-right: 16px;
+        }
 
-            .forget {
-                font-size: 14px;
-                padding-top: 12px;
-                display: inline-block;
-                color: rgb(63,81,181);
-            }
+        .or {
+            color: #3f51b5;
+            margin: 20px 0 2px 0;
+            font-size: 18px;
+            text-align: center;
+        }
+        .phone {
+            color: #3f51b5;
+            font-size: 14px;
+            margin: 20px 0 10px 0;
         }
     }
 }
