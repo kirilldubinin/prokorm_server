@@ -25,6 +25,8 @@ var demoConfig = {
     '588f5567a136f8601a505728','588f571ca136f8601a50572a','588f4a90a136f8601a505720']
 };
 
+var demoCache = {};
+
 module.exports = function(app, isAuthenticated, errorHandler) {
     app.get('/api/feeds/viewDemo', function(req, res) {
         
@@ -40,12 +42,15 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 });
             }
 
-            var feedView = view(feed);
-            return res.json({
-                general: feedView.general,
-                feedItemSections: feedView.feedItemSections,
-                actions: [_.find(feedView.actions, {key: 'print'})]
-            });
+            if (!demoCache.viewDemo) {
+                var feedView = view(feed);
+                demoCache.viewDemo = {
+                    general: feedView.general,
+                    feedItemSections: feedView.feedItemSections,
+                    actions: [_.find(feedView.actions, {key: 'print'})]
+                };
+            }
+            return res.json(demoCache.viewDemo);
         });
     });
 
@@ -54,7 +59,10 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             return Feed.findById(feedId);
         });
         Q.all(promises).then(function(feeds) {
-            res.status(200).json(diff(feeds));
+            if (!demoCache.diffDemo) {
+                demoCache.diffDemo = diff(feeds);
+            }
+            res.status(200).json(demoCache.diffDemo);
         }, function(err) {
             res.send(err);
         });
@@ -65,7 +73,11 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             return Feed.findById(feedId);
         });
         Q.all(promises).then(function(feeds) {
-            res.status(200).json(average(feeds));
+
+            if (!demoCache.averageDemo) {
+                demoCache.averageDemo = average(feeds);
+            }
+            res.status(200).json(demoCache.averageDemo);
         }, function(err) {
             res.send(err);
         });
@@ -76,7 +88,10 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             return Feed.findById(feedId);
         });
         Q.all(promises).then(function(feeds) {
-            res.status(200).json(sum(feeds));
+            if (!demoCache.sumDemo) {
+                demoCache.sumDemo = sum(feeds);
+            }
+            res.status(200).json(demoCache.sumDemo);
         }, function(err) {
             res.send(err);
         });

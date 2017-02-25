@@ -15,6 +15,7 @@ function lang(key) {
         averageFeed: 'Средний корм', 
         sumFeed: 'Сумма кормов',
         chartsFeed: 'Аналитика',
+        ratingFeed: 'Рейтинг',
 
         userName: 'Имя пользователя',
         userFullName: 'Полное имя пользователя',

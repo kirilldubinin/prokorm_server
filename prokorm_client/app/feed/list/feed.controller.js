@@ -42,13 +42,15 @@
         vm.sumFeed = function() {
             $state.go('tenant.feed.sum');
         };
-
         vm.chartsFeed = function() {
             $state.go('tenant.feed.charts');
         };
+        vm.ratingFeed = function() {
+            $state.go('tenant.feed.rating');
+        };
 
         vm.isDisabled = function (feedItem) {
-            if (vm.isDiffMode || vm.isAverageMode || vm.isChartMode) {
+            if (vm.isDiffMode || vm.isAverageMode || vm.isChartMode || vm.isRatingMode) {
                 return !Boolean(feedItem.analysis);
             } else if (vm.isSumMode) {
                 return (!Boolean(feedItem.analysis) || !Boolean(feedItem.balanceWeight));
@@ -157,7 +159,7 @@
         }
 
         vm.onFeedClick = function(feedItem) {
-            if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode || vm.isChartMode) {
+            if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode || vm.isChartMode || vm.isRatingMode) {
 
                 var currentFeeds = _.filter($state.params.feeds.split(':'), function (o) { return o; });
                 var ind = currentFeeds.indexOf(feedItem._id);
@@ -187,12 +189,14 @@
             vm.isAverageMode = newState.name === 'tenant.feed.average';
             vm.isSumMode = newState.name === 'tenant.feed.sum';
             vm.isChartMode = newState.name === 'tenant.feed.charts';
+            vm.isRatingMode = newState.name === 'tenant.feed.rating';
 
             vm.selectedItemId = null;
             vm.diffFeeds = null;
             vm.averageFeeds = null;
             vm.sumFeeds = null;
             vm.chartFeeds = null;
+            vm.ratingFeeds = null;
 
             // update list after switch to diff mode
             if (vm.isDiffMode) {
@@ -207,6 +211,9 @@
             } else if (vm.isChartMode) {
                 vm.selectedItemId = null;
                 vm.chartFeeds = params.feeds.split(':');
+            } else if (vm.isRatingMode) {
+                vm.selectedItemId = null;
+                vm.ratingFeeds = params.feeds.split(':');
             }
             else if (newState.name === 'tenant.feed') {
                 vm.selectedItemId = null;

@@ -14,6 +14,7 @@ var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
 var charts = require('../feed/feed.charts');
+var rating = require('../feed/feed.rating');
 var list = require('../feed/feed.list');
 var lang = require('../feed/lang');
 module.exports = function(app, isAuthenticated, errorHandler) {
@@ -45,7 +46,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 return checkUserRightForFeed(f, req);
             });
             // set user actions for Feed module
-            var actions = ['diffFeed', 'averageFeed', 'sumFeed', 'chartsFeed'];
+            var actions = ['diffFeed', 'averageFeed', 'sumFeed', 'ratingFeed', 'chartsFeed'];
             var canAdd = (req.user.permissions.indexOf('admin') > -1 || req.user.permissions.indexOf('write') > -1);
             if (canAdd) {
                 actions.unshift('addFeed');
@@ -274,6 +275,23 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
             });
             return res.json(charts(feeds));
+        }, function(err) {
+            res.send(err);
+        });
+    });
+    // rating
+    app.post('/api/feeds/rating', isAuthenticated, function(req, res) {
+        var feedIds = req.body.feedIds;
+        var promises = _.map(feedIds, function(feedId) {
+            return Feed.findById(feedId);
+        });
+        Q.all(promises).then(function(feeds) {
+            // double check checkUserRightForFeed and feed has analysis
+            // sort by harvest.end
+            feeds = _.filter(feeds, function(f) {
+                return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
+            });
+            return res.json(rating(feeds));
         }, function(err) {
             res.send(err);
         });

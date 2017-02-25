@@ -158,7 +158,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.53");
+.constant("version", "0.0.56");
 
 })();
 
@@ -881,6 +881,9 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.chartsFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
     };
+    feedFactory.ratingFeeds = function (feedIds) {
+        return $http.post(urlBaseFeed + 'rating', {feedIds: feedIds});
+    };
     return feedFactory;
 }]);
 (function() {
@@ -940,6 +943,17 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                 templateUrl: 'app/feed/average/average.html',
                 controller: 'AverageController',
                 controllerAs: 'average',
+                params: {
+                    feeds: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.rating', {
+                url: '/rating/:feeds',
+                templateUrl: 'app/feed/rating/rating.html',
+                controller: 'RatingController',
+                controllerAs: 'rating',
                 params: {
                     feeds: undefined
                 },
@@ -1023,13 +1037,15 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         vm.sumFeed = function() {
             $state.go('tenant.feed.sum');
         };
-
         vm.chartsFeed = function() {
             $state.go('tenant.feed.charts');
         };
+        vm.ratingFeed = function() {
+            $state.go('tenant.feed.rating');
+        };
 
         vm.isDisabled = function (feedItem) {
-            if (vm.isDiffMode || vm.isAverageMode || vm.isChartMode) {
+            if (vm.isDiffMode || vm.isAverageMode || vm.isChartMode || vm.isRatingMode) {
                 return !Boolean(feedItem.analysis);
             } else if (vm.isSumMode) {
                 return (!Boolean(feedItem.analysis) || !Boolean(feedItem.balanceWeight));
@@ -1138,7 +1154,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         }
 
         vm.onFeedClick = function(feedItem) {
-            if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode || vm.isChartMode) {
+            if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode || vm.isChartMode || vm.isRatingMode) {
 
                 var currentFeeds = _.filter($state.params.feeds.split(':'), function (o) { return o; });
                 var ind = currentFeeds.indexOf(feedItem._id);
@@ -1168,12 +1184,14 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             vm.isAverageMode = newState.name === 'tenant.feed.average';
             vm.isSumMode = newState.name === 'tenant.feed.sum';
             vm.isChartMode = newState.name === 'tenant.feed.charts';
+            vm.isRatingMode = newState.name === 'tenant.feed.rating';
 
             vm.selectedItemId = null;
             vm.diffFeeds = null;
             vm.averageFeeds = null;
             vm.sumFeeds = null;
             vm.chartFeeds = null;
+            vm.ratingFeeds = null;
 
             // update list after switch to diff mode
             if (vm.isDiffMode) {
@@ -1188,6 +1206,9 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             } else if (vm.isChartMode) {
                 vm.selectedItemId = null;
                 vm.chartFeeds = params.feeds.split(':');
+            } else if (vm.isRatingMode) {
+                vm.selectedItemId = null;
+                vm.ratingFeeds = params.feeds.split(':');
             }
             else if (newState.name === 'tenant.feed') {
                 vm.selectedItemId = null;
@@ -1209,6 +1230,37 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                 });
             } else {
                 vm.updateVisible();
+            }
+        });
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('feed').controller('RatingController', RatingController);
+
+    function RatingController($scope, feedFactory, $stateParams, _) {
+
+    	var vm = this;
+        vm._ = _;
+
+        var feeds = $stateParams.feeds;
+    	function updateRating(feeds) {
+
+    		if (!feeds.length) {
+    			vm.feeds = [];
+                vm.properties = [];
+    			return;
+    		}
+
+    		feedFactory.ratingFeeds(feeds).then(function (result) {
+                vm.properties = result.properties;
+                vm.feeds = result.feeds;
+    		});
+    	}	
+
+        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
+            if (newState.name === 'tenant.feed.rating') {
+                updateRating(_.filter(params.feeds.split(':'), Boolean));
             }
         });
     }
