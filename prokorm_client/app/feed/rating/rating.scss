@@ -77,14 +77,23 @@
     			font-weight: 600;
 		    }
 
-		    &.best-vaue {
-		    	background-color: #FFCC80;
+		    &.in-range {
+		    	background-color: #80CBC4;
+			    color: #555555;
+			    font-weight: 600;
+		    }
+
+		    &.out-range {
+		    	background-color: #EF9A9A;
 			    color: #555555;
 			    font-weight: 600;
 		    }
 
 		    &.feed-name {
 		    	text-align: left;
+		    	background-color: transparent;
+			    color: #555;
+			    font-weight: normal;
 		    }
 		}
 	}

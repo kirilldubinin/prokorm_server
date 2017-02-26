@@ -6,25 +6,29 @@ var _ = require('lodash');
 
 var ratingProperties = [{
     key: 'dryMaterial',
-    bestValue: 40
+    min: 30,
+    max: 50
 }, {
     key: 'oeb',
-    bestValue: 30
+    min: 5,
+    max: 55
 }, {
     key: 'vcos',
-    bestValue: 100000
+    min: 60
 }, {
     key: 'nh3',
-    bestValue: -1
+    max: 10
 }, {
     key: 'sugar',
-    bestValue: 100
+    min: 60,
+    max: 140
 }, {
     key: 'ndf',
-    bestValue: 455
+    min: 430,
+    max: 480
 } , {
     key: 'crudeProtein',
-    bestValue: 100000
+    min: 200
 }];
 
 function sortByClosest(feeds, prop) {
@@ -35,6 +39,16 @@ function sortByClosest(feeds, prop) {
         return Math.abs(prop.bestValue - a) - Math.abs(prop.bestValue - b)
     });
 }
+
+function inRange (prop, value) {
+    if (prop.min && prop.max) {
+        return value >= prop.min && value <= prop.max;
+    } else if (prop.min && !prop.max) {
+        return value > prop.min;
+    } else if (!prop.min && prop.max) {
+        return value < prop.max;
+    }
+};
 
 function getRaiting(feeds) {
 
@@ -47,43 +61,43 @@ function getRaiting(feeds) {
             });
     });
 
-    _.forEach(ratingProperties, function (prop) {
-        feeds = sortByClosest(feeds, prop);
-        _.each(feeds, function (feed, index) {
-            
-            if (feed.index === undefined) {
-                feed.index = 0;
-            }
-            feed.index += index;
+    var ratingFeeds = _.map(feeds, function (feed) {
+        var values = _.map(ratingProperties, function (prop) {
+            var lastAnalysis = _.last(feed.analysis);
+            var dryMaterial = lastAnalysis.dryMaterial/100;
+            var value = Math.round(
+                (lastAnalysis.isNaturalWet ? 
+                    (lastAnalysis[prop.key] / dryMaterial) : 
+                    lastAnalysis[prop.key]
+                )*100
+            )/100;
 
-            if (feed.bestValuesByProp === undefined) {
-                feed.bestValuesByProp = [];
-            }
-
-            if (index === 0 && _.last(feed.analysis)[prop.key] !== _.last(feeds[index+1].analysis)[prop.key]) {
-                feed.bestValuesByProp.push(prop);                    
+            return {
+                value: value,
+                key: prop,
+                inRange: inRange(prop, value)
             }
         });
-        /*_.each(feeds, function (feed, index) {
-            if (feed.bestValuesByProp === undefined) {
-                feed.bestValuesByProp = [];
-            }
-            if (feed.index === 0) {
-                feed.bestValuesByProp.push(prop);                    
-            }
-        });*/
+        return [feed.general].concat(values);
+    });
+
+    ratingFeeds = ratingFeeds.sort(function (a, b) {
+
+        var aInRange = _.filter(a, {inRange: true}).length;
+        var bInRange = _.filter(b, {inRange: true}).length;
+        return bInRange - aInRange;
     });
 
     return {
         properties: _.map(ratingProperties, function (prop) {
             
             var bestValue;
-            if (prop.bestValue === 100000) {
-                bestValue = 'Больше'
-            } else if (prop.bestValue === -1) {
-                bestValue = 'Меньше'
-            } else {
-                bestValue = prop.bestValue;
+            if (prop.min && prop.max) {
+                bestValue = prop.min + ' - ' + prop.max;
+            } else if (prop.min && !prop.max) {
+                bestValue = 'Больше ' + prop.min;
+            } else if (!prop.min && prop.max) {
+                bestValue = 'Меньше ' + prop.max;
             }
 
             return {
@@ -93,7 +107,8 @@ function getRaiting(feeds) {
                 bestValue: bestValue
             }
         }),
-        feeds: _.map(feeds.sort(function (a,b) {
+        feeds: ratingFeeds
+        /* _.map(feeds.sort(function (a,b) {
             return a.index - b.index;
         }), function (feed) {
 
@@ -105,7 +120,7 @@ function getRaiting(feeds) {
                 }
             });
             return [feed.general].concat(values);
-        })
+        })*/
     };
 }
 module.exports = getRaiting;

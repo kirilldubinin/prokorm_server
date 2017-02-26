@@ -11,13 +11,13 @@ describe.only('feed.rating', function() {
                 year: 2015,
                 price: '',
             },analysis: [{
-                    dryMaterial: 20,
-                    oeb: 25,
-                    vcos: 100,
-                    nh3: 2,
-                    sugar: 120,
-                    ndf: 430,
-                    crudeProtein: 120
+                    dryMaterial: 32.3,
+                    oeb: 80,
+                    vcos: 75.9,
+                    nh3: 7,
+                    sugar: 21,
+                    ndf: 362,
+                    crudeProtein: 209
                 }]
         }, {
             _id: '2',
@@ -26,13 +26,13 @@ describe.only('feed.rating', function() {
                 year: 2015,
                 price:  null
             },analysis: [{
-                    dryMaterial: 10,
-                    oeb: 5,
-                    vcos: 10,
-                    nh3: 20,
-                    sugar: 100,
-                    ndf: 130,
-                    crudeProtein: 90
+                    dryMaterial: 39.1,
+                    oeb: 23,
+                    vcos: 63,
+                    nh3: 7,
+                    sugar: 54,
+                    ndf: 522,
+                    crudeProtein: 122
                 }]
         }, {
             _id: '3',
@@ -41,16 +41,18 @@ describe.only('feed.rating', function() {
                 year: 2015,
                 price:  null
             },analysis: [{
-                    dryMaterial: 10,
-                    vcos: 10,
-                    nh3: 20,
-                    sugar: 100,
-                    ndf: 130,
-                    crudeProtein: 90
+                    dryMaterial: 48.9,
+                    oeb: -35,
+                    vcos: 71.3,
+                    nh3: 5,
+                    sugar: 114,
+                    ndf: 560,
+                    crudeProtein: 70
                 }]
         }];
 
         var raitingAverage = rating(feeds);
+        console.log(raitingAverage.feeds);
         //console.log(raitingAverage);
         done();
     });

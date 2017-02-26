@@ -29,7 +29,7 @@
         <div layout="row">
           <!--<label flex="25" class="property-label">{{row.label}}</label--> 
           <span class="index property-value">{{$index+1}}</span> 
-          <span flex class="property-value" ng-class="{'best-vaue': feedValue.isBestValue, 'feed-name': feedValue.name}" ng-repeat="feedValue in ::row track by $index">
+          <span flex class="property-value" ng-class="{'in-range': feedValue.inRange, 'out-range': !feedValue.inRange, 'feed-name': feedValue.name}" ng-repeat="feedValue in ::row track by $index">
             {{feedValue.name ? feedValue.name : feedValue.value}}
           </span>
         </div> 
