@@ -4,7 +4,7 @@
 
     function ChartsDemoController($scope, feedFactory, $stateParams, _) {
         var vm = this;
-
+        vm.feeds = ['fake'];
         feedFactory.chartsDemoFeeds().then(function(data) {
             Highcharts.chart('container', {
                 legend: {

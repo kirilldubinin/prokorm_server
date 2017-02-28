@@ -168,7 +168,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.63");
+.constant("version", "0.0.64");
 
 })();
 
@@ -610,7 +610,7 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
 
     function ChartsDemoController($scope, feedFactory, $stateParams, _) {
         var vm = this;
-
+        vm.feeds = ['fake'];
         feedFactory.chartsDemoFeeds().then(function(data) {
             Highcharts.chart('container', {
                 legend: {
