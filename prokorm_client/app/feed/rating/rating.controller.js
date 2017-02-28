@@ -14,7 +14,7 @@
             'Переваримость органического вещества, VCOS',
             'NH3-фракция', 'Крахмал', 'Нейтрально-детергентная клетчатка, NDF'];
         
-        vm.feedType = $state.current.data.feedType;
+        vm.feedType = $state.params.feedType;
         //vm.feedTypes = [{key: 'haylage', name: 'Сенаж'}, {key: 'silage', name: 'Силос'}];
 
         var feeds = $stateParams.feeds;

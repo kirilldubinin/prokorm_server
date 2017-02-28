@@ -32,7 +32,7 @@
 			</ul>
 			<h2>
 				<ng-md-icon class="arrow-icon" icon="arrow_back"></ng-md-icon>
-				Выберите травяные сенажы из списка
+				Выберите {{ rating.feedType === 'haylage' ? 'травяные сенажы' : 'кукурузные силосы' }} из списка
 			</h2>
 		</div>
 		<ul class="property-list" flex="" ng-if="rating.feeds.length">
