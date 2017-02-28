@@ -31,12 +31,12 @@
                 controllerAs: 'sum'
             }).state('public.rating', {
                 url: '/rating',
-                templateUrl: 'app/feed/sum/sum.html',
+                templateUrl: 'app/feed/rating/ratingInstance.html',
                 controller: 'RatingDemoController',
                 controllerAs: 'rating'
             }).state('public.charts', {
                 url: '/charts',
-                templateUrl: 'app/feed/sum/sum.html',
+                templateUrl: 'app/feed/charts/charts.html',
                 controller: 'ChartsDemoController',
                 controllerAs: 'charts'
             })

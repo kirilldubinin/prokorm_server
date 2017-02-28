@@ -144,12 +144,12 @@
                 controllerAs: 'sum'
             }).state('public.rating', {
                 url: '/rating',
-                templateUrl: 'app/feed/sum/sum.html',
+                templateUrl: 'app/feed/rating/ratingInstance.html',
                 controller: 'RatingDemoController',
                 controllerAs: 'rating'
             }).state('public.charts', {
                 url: '/charts',
-                templateUrl: 'app/feed/sum/sum.html',
+                templateUrl: 'app/feed/charts/charts.html',
                 controller: 'ChartsDemoController',
                 controllerAs: 'charts'
             })
@@ -168,7 +168,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.62");
+.constant("version", "0.0.63");
 
 })();
 
@@ -1327,8 +1327,6 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             'NH3-фракция', 'Крахмал', 'Нейтрально-детергентная клетчатка, NDF'];
         
         vm.feedType = $state.params.feedType;
-        //vm.feedTypes = [{key: 'haylage', name: 'Сенаж'}, {key: 'silage', name: 'Силос'}];
-
         var feeds = $stateParams.feeds;
 
         vm.goToHaylage = function () {
@@ -1370,7 +1368,6 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     function RatingDemoController($scope, feedFactory, $state, $stateParams, _) {
 
     	var vm = this;
-        vm.feedType = 'haylage';
     	feedFactory.ratingDemoFeeds().then(function (result) {
             vm.properties = result.properties;
             vm.feeds = result.feeds;

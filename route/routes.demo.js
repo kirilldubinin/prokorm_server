@@ -15,6 +15,7 @@ var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
 var charts = require('../feed/feed.charts');
 var list = require('../feed/feed.list');
+var rating = require('../feed/feed.rating');
 var lang = require('../feed/lang');
 //588f4854a136f8601a50571e:588f4c21a136f8601a505722:588f5353a136f8601a505726
 var demoConfig = {
@@ -132,7 +133,6 @@ module.exports = function(app, isAuthenticated, errorHandler) {
     });
 
     app.post('/api/feeds/ratingDemo', function(req, res) {
-        
         if (!demoCache.ratingDemo) {
             var feedIds = demoConfig.ratingDemoFeeds;
             var feedType = 'haylage';
@@ -142,13 +142,21 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             });
             Q.all(promises).then(function(feeds) {
                 
+                feeds = _.filter(feeds, Boolean);
                 if (!feeds || !feeds.length) {
                     return res.status(406).json({
                         message: 'Нет доступных кормов.'
                     });
                 }                
 
-                demoCache.ratingDemo = rating(feeds, feedType);    
+                try {
+                    demoCache.ratingDemo = rating(feeds, feedType);  
+                } catch(e) {
+                console.log(e);
+                }
+
+                  
+                console.log(demoCache.ratingDemo);
                 return res.json(demoCache.ratingDemo);
             }, function(err) {
                 res.send(err);
@@ -156,6 +164,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         } else {
             res.json(demoCache.ratingDemo);
         }
+        
     });
 
     app.post('/api/feeds/chartsDemo', function(req, res) {
@@ -173,7 +182,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                         message: 'Нет доступных кормов.'
                     });
                 } 
-                
+
                 demoCache.chartsDemo = charts(feeds);
                 return res.json(demoCache.chartsDemo);
             }, function(err) {
