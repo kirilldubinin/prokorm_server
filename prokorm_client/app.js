@@ -168,7 +168,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.65");
+.constant("version", "0.0.67");
 
 })();
 
@@ -1125,7 +1125,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             return false;
         };
 
-        isVisible = function (feedItem) {
+        function isVisible(feedItem) {
 
             // by filter
             if (vm.filter) {
@@ -1173,7 +1173,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                     }
                 }
             }
-            
+
             return true;
         };
 
@@ -1197,7 +1197,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
 
         vm.updateVisible = function () {
             _.forEach(vm.feedItems, function (feed) {
-                feedItem.isVisible = isVisible(feed);
+                feed.isVisible = isVisible(feed);
             });
             vm.hiddenItemsLength = _.size(_.filter(vm.feedItems, {'isVisible': false}));
         }

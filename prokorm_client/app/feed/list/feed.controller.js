@@ -58,7 +58,7 @@
             return false;
         };
 
-        isVisible = function (feedItem) {
+        function isVisible(feedItem) {
 
             // by filter
             if (vm.filter) {
@@ -106,7 +106,7 @@
                     }
                 }
             }
-            
+
             return true;
         };
 
@@ -130,7 +130,7 @@
 
         vm.updateVisible = function () {
             _.forEach(vm.feedItems, function (feed) {
-                feedItem.isVisible = isVisible(feed);
+                feed.isVisible = isVisible(feed);
             });
             vm.hiddenItemsLength = _.size(_.filter(vm.feedItems, {'isVisible': false}));
         }
