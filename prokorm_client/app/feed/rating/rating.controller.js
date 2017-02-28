@@ -45,7 +45,7 @@
     	};	
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.rating.haylage') {
+            if (newState.name === 'tenant.feed.rating.instance') {
                 updateRating(_.filter(params.feeds.split(':'), Boolean));
             }
         });

@@ -1196,8 +1196,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             vm.isAverageMode = newState.name === 'tenant.feed.average';
             vm.isSumMode = newState.name === 'tenant.feed.sum';
             vm.isChartMode = newState.name === 'tenant.feed.charts';
-            vm.isRatingMode = newState.name === 
-                'tenant.feed.rating.haylage' || 'tenant.feed.rating.silage';
+            vm.isRatingMode = newState.name === 'tenant.feed.rating.instance';
 
             vm.selectedItemId = null;
             vm.diffFeeds = null;
@@ -1206,22 +1205,26 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             vm.chartFeeds = null;
             vm.ratingFeeds = null;
 
+            var paramFeeds = params.feeds ?
+                params.feeds.split(':') :
+                [];
+
             // update list after switch to diff mode
             if (vm.isDiffMode) {
                 vm.selectedItemId = null;
-                vm.diffFeeds = params.feeds.split(':');
+                vm.diffFeeds = paramFeeds;
             } else if (vm.isAverageMode) {
                 vm.selectedItemId = null;
-                vm.averageFeeds = params.feeds.split(':');
+                vm.averageFeeds = paramFeeds;
             } else if (vm.isSumMode) {
                 vm.selectedItemId = null;
-                vm.sumFeeds = params.feeds.split(':');
+                vm.sumFeeds = paramFeeds;
             } else if (vm.isChartMode) {
                 vm.selectedItemId = null;
-                vm.chartFeeds = params.feeds.split(':');
+                vm.chartFeeds = paramFeeds;
             } else if (vm.isRatingMode) {
                 vm.selectedItemId = null;
-                vm.ratingFeeds = params.feeds.split(':');
+                vm.ratingFeeds = paramFeeds;
             }
             else if (newState.name === 'tenant.feed') {
                 vm.selectedItemId = null;
@@ -1294,7 +1297,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     	};	
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.rating.haylage') {
+            if (newState.name === 'tenant.feed.rating.instance') {
                 updateRating(_.filter(params.feeds.split(':'), Boolean));
             }
         });
