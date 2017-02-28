@@ -21,6 +21,14 @@
         	name: 'сумма',
         	key: 'sum',
         	url: '/#/sum'
+        }, {
+            name: 'рейтинг',
+            key: 'rating',
+            url: '/#/rating'
+        }, {
+            name: 'аналитика',
+            key: 'charts',
+            url: '/#/charts'
         }];
     }
 })();

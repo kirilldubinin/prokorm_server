@@ -29,6 +29,16 @@
                 templateUrl: 'app/feed/sum/sum.html',
                 controller: 'SumDemoController',
                 controllerAs: 'sum'
+            }).state('public.rating', {
+                url: '/rating',
+                templateUrl: 'app/feed/sum/sum.html',
+                controller: 'RatingDemoController',
+                controllerAs: 'rating'
+            }).state('public.charts', {
+                url: '/charts',
+                templateUrl: 'app/feed/sum/sum.html',
+                controller: 'ChartsDemoController',
+                controllerAs: 'charts'
             })
             .state('tenant', {
                 url: '/:id',

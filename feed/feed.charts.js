@@ -13,69 +13,77 @@ function sortFeeds(a, b) {
 }
 
 function charts(feeds) {
+    console.log('start charts');
+    console.log(feeds);
     var series = ['dryMaterial', 'ph', 'milkAcid', 'aceticAcid', 'oilAcid', 
                 'exchangeEnergy', 'nel', 'crudeAsh', 'crudeProtein', 'crudeFat',
                 'sugar', 'starch', 'crudeFiber', 'ndf', 'adf', 'adl'];
 
     var byDefault = ['dryMaterial', 'ph', 'exchangeEnergy', 'crudeAsh', 'crudeProtein', 'crudeFiber'];
-                
-    var allYears = [];
-    var chartSeries = _.map(series, function(seria) {
+    
+    try {
 
-        var seriaDates = _.map(feeds, function(feed) {
-            var lastAnalys = _.last(feed.analysis);
-            var value = null;
-            allYears.push(lastAnalys.date.getFullYear());
-            var canBerecalcalated = feedUtils.propertyForRecalculate[seria];
-            if (_.isNumber(lastAnalys[seria])) {
-                if (canBerecalcalated) {
-                    var isNaturalWet = lastAnalys.isNaturalWet;
-                    var dryMaterial = lastAnalys.dryMaterial / 100;
-                    value = isNaturalWet ? 
-                    	(lastAnalys[seria] / dryMaterial) : 
-                    	lastAnalys[seria];
+        var allYears = [];
+        var chartSeries = _.map(series, function(seria) {
 
-                } else {
-                    value = lastAnalys[seria];
+            var seriaDates = _.map(feeds, function(feed) {
+                var lastAnalys = _.last(feed.analysis);
+                var value = null;
+                allYears.push(lastAnalys.date.getFullYear());
+                var canBerecalcalated = feedUtils.propertyForRecalculate[seria];
+                if (_.isNumber(lastAnalys[seria])) {
+                    if (canBerecalcalated) {
+                        var isNaturalWet = lastAnalys.isNaturalWet;
+                        var dryMaterial = lastAnalys.dryMaterial / 100;
+                        value = isNaturalWet ? 
+                        	(lastAnalys[seria] / dryMaterial) : 
+                        	lastAnalys[seria];
+
+                    } else {
+                        value = lastAnalys[seria];
+                    }
                 }
-            }
-            return {
-                year: lastAnalys.date.getFullYear(),
-                data: value
-            };
-        });     
-        seriaDates = _.groupBy(seriaDates, 'year');
-        seriaDates = _.map(seriaDates, function(data, key) {
+                return {
+                    year: lastAnalys.date.getFullYear(),
+                    data: value
+                };
+            });     
+            seriaDates = _.groupBy(seriaDates, 'year');
+            seriaDates = _.map(seriaDates, function(data, key) {
 
-	        data = _.filter(data, function (d) { return _.isNumber(d.data); });
-	        if (data.length) {
-	        	return {
-	        		year: key,
-                	data: math.round(_.sumBy(data, 'data')/data.length, 2)
-	        	}
-	        } else {
-	        	return {
-	        		year: key,
-	        		data: null
-	        	}
-	        }
+    	        data = _.filter(data, function (d) { return _.isNumber(d.data); });
+    	        if (data.length) {
+    	        	return {
+    	        		year: key,
+                    	data: Math.round((_.sumBy(data, 'data')/data.length)*100)/100
+    	        	}
+    	        } else {
+    	        	return {
+    	        		year: key,
+    	        		data: null
+    	        	}
+    	        }
+            });
+
+            return {
+                dimension: dimension(seria),
+                name: lang(seria),
+                visible: _.some(byDefault, function (d) { return d === seria; }),
+                data: seriaDates.sort(function(a, b) {
+                    return a.year - b.year;
+                })
+            }
         });
 
-        return {
-            dimension: dimension(seria),
-            name: lang(seria),
-            visible: _.some(byDefault, function (d) { return d === seria; }),
-            data: seriaDates.sort(function(a, b) {
-                return a.year - b.year;
-            })
-        }
-    });
 
+        allYears = _.uniq(allYears).sort(function(a, b) {
+            return a - b;
+        });
+    } catch(e) {
+        console.log(e);
+    }  
+    console.log('2');
 
-    allYears = _.uniq(allYears).sort(function(a, b) {
-        return a - b;
-    });
-    
     chartSeries = _.map(chartSeries, function(chartSeria) {
         var groupByYear = _.groupBy(chartSeria.data, 'year');
         return {
@@ -90,6 +98,7 @@ function charts(feeds) {
             visible: chartSeria.visible
         }
     });
+
     return {
         categories: allYears,
         chartSeries: chartSeries

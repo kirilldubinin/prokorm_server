@@ -299,7 +299,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
             });
-            return res.json(rating(feeds));
+            return res.json(rating(feeds, feedType));
         }, function(err) {
             res.send(err);
         });

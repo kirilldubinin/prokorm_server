@@ -10,10 +10,10 @@ function lang(key) {
         delete: 'удалить',
         print: 'печать',
 
-        addFeed: 'Добавить корм',
-        diffFeed: 'Сравнить корма', 
-        averageFeed: 'Средний корм', 
-        sumFeed: 'Сумма кормов',
+        addFeed: 'Добавить',
+        diffFeed: 'Сравнить', 
+        averageFeed: 'Средний', 
+        sumFeed: 'Сумма',
         chartsFeed: 'Аналитика',
         ratingFeed: 'Рейтинг',
 

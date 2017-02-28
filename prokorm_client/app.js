@@ -142,6 +142,16 @@
                 templateUrl: 'app/feed/sum/sum.html',
                 controller: 'SumDemoController',
                 controllerAs: 'sum'
+            }).state('public.rating', {
+                url: '/rating',
+                templateUrl: 'app/feed/sum/sum.html',
+                controller: 'RatingDemoController',
+                controllerAs: 'rating'
+            }).state('public.charts', {
+                url: '/charts',
+                templateUrl: 'app/feed/sum/sum.html',
+                controller: 'ChartsDemoController',
+                controllerAs: 'charts'
             })
             .state('tenant', {
                 url: '/:id',
@@ -595,6 +605,50 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
     }
 })();
 (function() {
+    'use strict';
+    angular.module('feed').controller('ChartsDemoController', ChartsDemoController);
+
+    function ChartsDemoController($scope, feedFactory, $stateParams, _) {
+        var vm = this;
+
+        feedFactory.chartsDemoFeeds().then(function(data) {
+            Highcharts.chart('container', {
+                legend: {
+                    itemStyle: {
+                        fontWeight: '500'
+                    },
+                    itemDistance: 40,
+                    itemMarginBottom: 10,
+                },
+                chart: {
+                    type: 'spline'
+                },
+                title: false,
+                plotOptions: {
+                    spline: {
+                        lineWidth: 4,
+                        states: {
+                            hover: {
+                                lineWidth: 5
+                            }
+                        },
+                        marker: {
+                            enabled: false
+                        }
+                    }
+                },
+                xAxis: {
+                    categories: data.categories
+                },
+                yAxis: {
+                    title: false
+                },
+                series: data.chartSeries
+            });
+        });
+    }
+})();
+(function() {
   angular.module('feed').directive('groupButtons', groupButtons);
   function groupButtons() {
       var directive = {
@@ -881,8 +935,14 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.chartsFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
     };
+    feedFactory.chartsDemoFeeds = function(feedIds) {
+        return $http.post(urlBaseFeed + 'chartsDemo');
+    };
     feedFactory.ratingFeeds = function (feedIds, feedType) {
         return $http.post(urlBaseFeed + 'rating', {feedIds: feedIds, feedType: feedType});
+    };
+    feedFactory.ratingDemoFeeds = function () {
+        return $http.post(urlBaseFeed + 'ratingDemo');
     };
     return feedFactory;
 }]);
@@ -1300,6 +1360,20 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             if (newState.name === 'tenant.feed.rating.instance') {
                 updateRating(_.filter(params.feeds.split(':'), Boolean));
             }
+        });
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('feed').controller('RatingDemoController', RatingDemoController);
+
+    function RatingDemoController($scope, feedFactory, $state, $stateParams, _) {
+
+    	var vm = this;
+        vm.feedType = 'haylage';
+    	feedFactory.ratingDemoFeeds().then(function (result) {
+            vm.properties = result.properties;
+            vm.feeds = result.feeds;
         });
     }
 })();
@@ -1928,6 +2002,14 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         	name: 'сумма',
         	key: 'sum',
         	url: '/#/sum'
+        }, {
+            name: 'рейтинг',
+            key: 'rating',
+            url: '/#/rating'
+        }, {
+            name: 'аналитика',
+            key: 'charts',
+            url: '/#/charts'
         }];
     }
 })();
