@@ -56,8 +56,8 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.chartsFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
     };
-    feedFactory.ratingFeeds = function (feedIds) {
-        return $http.post(urlBaseFeed + 'rating', {feedIds: feedIds});
+    feedFactory.ratingFeeds = function (feedIds, feedType) {
+        return $http.post(urlBaseFeed + 'rating', {feedIds: feedIds, feedType: feedType});
     };
     return feedFactory;
 }]);

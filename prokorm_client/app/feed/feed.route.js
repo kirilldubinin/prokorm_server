@@ -57,11 +57,23 @@
                     module: 'feed'
                 }
             }).state('tenant.feed.rating', {
-                url: '/rating/:feeds',
+                url: '/rating',
                 templateUrl: 'app/feed/rating/rating.html',
                 controller: 'RatingController',
                 controllerAs: 'rating',
                 params: {
+                    feeds: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.rating.instance', {
+                url: '/:feedType/:feeds',
+                templateUrl: 'app/feed/rating/ratingInstance.html',
+                controller: 'RatingController',
+                controllerAs: 'rating',
+                params: {
+                    feedType: undefined,
                     feeds: undefined
                 },
                 data: {

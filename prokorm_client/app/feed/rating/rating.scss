@@ -44,6 +44,26 @@
 
 	.rating-dashboard {
 		margin-top: 20px;
+
+		.mode-description {
+			font-size: 14px;
+			.feed-type-select {
+				margin-left: 20px;
+			}
+			.prop-list {
+				margin: 10px 0 20px 0;
+				li {
+					padding: 2px 0;
+				}
+			}
+			h2 {
+				font-size: 16px;
+				.arrow-icon {
+					margin-bottom: 1px;
+				}
+			}
+		}
+
 		.empty-select-message {
 			margin: auto;
 		}

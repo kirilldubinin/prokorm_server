@@ -1,0 +1,52 @@
+<div class="rating-card" layout="column">
+	<div class="rating-title" layout="row">
+		<span class="index rating-header">
+		</span>
+		<h2 class="" flex="">
+			Рейтинг
+		</h2>
+		<div class="rating-header" flex="" ng-repeat="prop in ::rating.properties">
+			{{prop.label}}, {{prop.dimension}}
+		</div>
+	</div>
+	<div class="rating-title best-value" layout="row" ng-if="rating.feeds.length">
+		<span class="index rating-header">
+			#
+		</span>
+		<h2 class="rating-header" flex="">
+			Оптимально
+		</h2>
+		<div class="rating-header" flex="" ng-repeat="prop in ::rating.properties">
+			{{prop.bestValue}}
+		</div>
+	</div>
+	<div class="rating-dashboard" flex="" layout="row">
+		<div flex class="mode-description" ng-if="!rating.feeds.length">
+			<p>
+				В рейтинге могут участвовать 
+				{{ rating.feedType === 'haylage' ? 'травяные сенажы' : 'кукурузные силосы' }} 
+				у которых в последнем анализе были указаны следущие показатели:
+			<p/>
+			<ul class="prop-list">
+				<li ng-repeat="prop in rating.props">{{prop}}</li>
+			</ul>
+			<h2>
+				<ng-md-icon class="arrow-icon" icon="arrow_back"></ng-md-icon>
+				Выберите травяные сенажы из списка
+			</h2>
+		</div>
+		<ul class="property-list" flex="" ng-if="rating.feeds.length">
+			<li class="property-row" ng-repeat="row in ::rating.feeds">
+				<div layout="row">
+					<!--<label flex="25" class="property-label">{{row.label}}</label-->
+					<span class="index property-value">
+						{{$index+1}}
+					</span>
+					<span class="property-value" flex="" ng-class="{'in-range': feedValue.inRange, 'out-range': !feedValue.inRange, 'feed-name': feedValue.name}" ng-repeat="feedValue in ::row track by $index">
+						{{feedValue.name ? feedValue.name : feedValue.value}}
+					</span>
+				</div>
+			</li>
+		</ul>
+	</div>
+</div>

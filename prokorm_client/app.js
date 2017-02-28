@@ -158,7 +158,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.57");
+.constant("version", "0.0.60");
 
 })();
 
@@ -881,8 +881,8 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.chartsFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'charts', {feedIds: feedIds});
     };
-    feedFactory.ratingFeeds = function (feedIds) {
-        return $http.post(urlBaseFeed + 'rating', {feedIds: feedIds});
+    feedFactory.ratingFeeds = function (feedIds, feedType) {
+        return $http.post(urlBaseFeed + 'rating', {feedIds: feedIds, feedType: feedType});
     };
     return feedFactory;
 }]);
@@ -950,11 +950,23 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                     module: 'feed'
                 }
             }).state('tenant.feed.rating', {
-                url: '/rating/:feeds',
+                url: '/rating',
                 templateUrl: 'app/feed/rating/rating.html',
                 controller: 'RatingController',
                 controllerAs: 'rating',
                 params: {
+                    feeds: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
+            }).state('tenant.feed.rating.instance', {
+                url: '/:feedType/:feeds',
+                templateUrl: 'app/feed/rating/ratingInstance.html',
+                controller: 'RatingController',
+                controllerAs: 'rating',
+                params: {
+                    feedType: undefined,
                     feeds: undefined
                 },
                 data: {
@@ -1184,7 +1196,8 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             vm.isAverageMode = newState.name === 'tenant.feed.average';
             vm.isSumMode = newState.name === 'tenant.feed.sum';
             vm.isChartMode = newState.name === 'tenant.feed.charts';
-            vm.isRatingMode = newState.name === 'tenant.feed.rating';
+            vm.isRatingMode = newState.name === 
+                'tenant.feed.rating.haylage' || 'tenant.feed.rating.silage';
 
             vm.selectedItemId = null;
             vm.diffFeeds = null;
@@ -1238,12 +1251,34 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     'use strict';
     angular.module('feed').controller('RatingController', RatingController);
 
-    function RatingController($scope, feedFactory, $stateParams, _) {
+    function RatingController($scope, feedFactory, $state, $stateParams, _) {
 
     	var vm = this;
-        vm._ = _;
+        vm.props = $state.current.data.feedType === 'haylage' ?
+            ['Сухое вещество', 'Баланс расщепляемого протеина, OEB', 
+            'Переваримость органического вещества, VCOS', 'NH3-фракция', 
+            'Сахар', 'Нейтрально-детергентная клетчатка, NDF',
+            'Сырой протеин'] :
+            ['Сухое вещество', 'Чистая энергия на лактацию, NEL', 
+            'Переваримость органического вещества, VCOS',
+            'NH3-фракция', 'Крахмал', 'Нейтрально-детергентная клетчатка, NDF'];
+        
+        vm.feedType = $state.current.data.feedType;
+        //vm.feedTypes = [{key: 'haylage', name: 'Сенаж'}, {key: 'silage', name: 'Силос'}];
 
         var feeds = $stateParams.feeds;
+
+        vm.goToHaylage = function () {
+            $state.go('tenant.feed.rating.instance', {
+                feedType: 'haylage'
+            });
+        };
+        vm.goToSilage = function () {
+            $state.go('tenant.feed.rating.instance', {
+                feedType: 'silage'
+            });
+        };
+
     	function updateRating(feeds) {
 
     		if (!feeds.length) {
@@ -1252,14 +1287,14 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     			return;
     		}
 
-    		feedFactory.ratingFeeds(feeds).then(function (result) {
+    		feedFactory.ratingFeeds(feeds, vm.feedType).then(function (result) {
                 vm.properties = result.properties;
                 vm.feeds = result.feeds;
     		});
-    	}	
+    	};	
 
         $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.rating') {
+            if (newState.name === 'tenant.feed.rating.haylage') {
                 updateRating(_.filter(params.feeds.split(':'), Boolean));
             }
         });

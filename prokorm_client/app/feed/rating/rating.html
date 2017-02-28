@@ -1,39 +1,28 @@
-<div class="rating-card" layout="column">
-  <div layout="row" class="rating-title">
-    <span class="index rating-header"></span> 
-    <h2 flex class="">Рейтинг</h2>
-    <div flex class="rating-header" ng-repeat="prop in ::rating.properties">
-      {{prop.label}}, {{prop.dimension}}
-    </div>
-    <!--div flex class="rating-header" ng-repeat="prop in ::rating.properties">
-      {{prop.bestValue}}
-      Требуемое значение
-    </div-->
-  </div>
-  <div ng-if="rating.feeds.length" layout="row" class="rating-title best-value">
-    <span class="index rating-header">#</span> 
-    <h2 flex class="rating-header">Оптимально</h2>
-    <div flex class="rating-header" ng-repeat="prop in ::rating.properties">
-      {{prop.bestValue}}
-    </div>
-    <!--div flex class="rating-header" ng-repeat="prop in ::rating.properties">
-      {{prop.bestValue}}
-    </div-->
-  </div>
-  <div flex class="rating-dashboard" layout="row">
-    <h2 class="empty-select-message" ng-if="!rating.feeds.length">
-      Выберите незавершенные корма с анализами из списка
-    </h2>
-    <ul ng-if="rating.feeds.length" flex class="property-list">
-      <li class="property-row" ng-repeat="row in ::rating.feeds">
-        <div layout="row">
-          <!--<label flex="25" class="property-label">{{row.label}}</label--> 
-          <span class="index property-value">{{$index+1}}</span> 
-          <span flex class="property-value" ng-class="{'in-range': feedValue.inRange, 'out-range': !feedValue.inRange, 'feed-name': feedValue.name}" ng-repeat="feedValue in ::row track by $index">
-            {{feedValue.name ? feedValue.name : feedValue.value}}
-          </span>
-        </div> 
-      </li>
-    </ul>
-  </div>
+<div class="rating-card" layout="column" ui-view="">
+	<div class="rating-title" layout="row">
+		<span class="index rating-header">
+		</span>
+		<h2 class="" flex="">
+			Рейтинг
+		</h2>
+	</div>
+	<div class="rating-dashboard" flex="" layout="row">
+		<div flex class="mode-description" ng-if="!rating.feeds.length">
+			<p>
+				Рейтинг кормов составляется из нескольких показателей, и доступен для двух видов кормрв - Сенаж Травяной и Силос Кукурузный. 
+			<p/>
+			<p>
+				Рейтинг корма зависит от того, сколько показателей попадут в "Оптимальную" зону.
+			</p>
+  			Выберите тип корма: 
+  			<md-button class="md-primary" md-no-ink="" ng-click="rating.goToHaylage();">
+                Сенаж травяной
+            </md-button>
+			<md-button class="md-primary" md-no-ink="" ng-click="rating.goToSilage();">
+                Силос кукурузный
+            </md-button>
+			
+		</div>
+		
+	</div>
 </div>

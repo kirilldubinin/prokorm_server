@@ -189,7 +189,8 @@
             vm.isAverageMode = newState.name === 'tenant.feed.average';
             vm.isSumMode = newState.name === 'tenant.feed.sum';
             vm.isChartMode = newState.name === 'tenant.feed.charts';
-            vm.isRatingMode = newState.name === 'tenant.feed.rating';
+            vm.isRatingMode = newState.name === 
+                'tenant.feed.rating.haylage' || 'tenant.feed.rating.silage';
 
             vm.selectedItemId = null;
             vm.diffFeeds = null;

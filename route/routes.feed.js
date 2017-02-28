@@ -282,6 +282,14 @@ module.exports = function(app, isAuthenticated, errorHandler) {
     // rating
     app.post('/api/feeds/rating', isAuthenticated, function(req, res) {
         var feedIds = req.body.feedIds;
+        var feedType = req.body.feedType;
+
+        if (!feedType) {
+            return res.status(406).json({
+                message: 'Необходимо ввести тип корма.'
+            });
+        }
+
         var promises = _.map(feedIds, function(feedId) {
             return Feed.findById(feedId);
         });
