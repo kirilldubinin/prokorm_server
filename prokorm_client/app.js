@@ -168,7 +168,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.64");
+.constant("version", "0.0.65");
 
 })();
 
@@ -1125,11 +1125,8 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             return false;
         };
 
-        vm.isVisible = function (feedItem) {
+        isVisible = function (feedItem) {
 
-            //console.log(feedItem._id);
-
-            feedItem.isVisible = false;
             // by filter
             if (vm.filter) {
 
@@ -1176,19 +1173,8 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                     }
                 }
             }
-
-            //  by mode
-            /*if (vm.isDiffMode && !feedItem.analysis) {
-                return false;
-            } else if (vm.isAverageMode && !feedItem.analysis) {
-                return false;
-            } else if (vm.isSumMode && (!feedItem.analysis || !feedItem.balanceWeight)) {
-                return false;
-            } else if (vm.isChartMode && !feedItem.analysis) {
-                return false;
-            }*/
-
-            return feedItem.isVisible = true;
+            
+            return true;
         };
 
         vm.clearFilter = function () {
@@ -1211,7 +1197,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
 
         vm.updateVisible = function () {
             _.forEach(vm.feedItems, function (feed) {
-                feed.isVisible = vm.isVisible(feed);
+                feedItem.isVisible = isVisible(feed);
             });
             vm.hiddenItemsLength = _.size(_.filter(vm.feedItems, {'isVisible': false}));
         }

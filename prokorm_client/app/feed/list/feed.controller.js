@@ -58,11 +58,8 @@
             return false;
         };
 
-        vm.isVisible = function (feedItem) {
+        isVisible = function (feedItem) {
 
-            //console.log(feedItem._id);
-
-            feedItem.isVisible = false;
             // by filter
             if (vm.filter) {
 
@@ -109,19 +106,8 @@
                     }
                 }
             }
-
-            //  by mode
-            /*if (vm.isDiffMode && !feedItem.analysis) {
-                return false;
-            } else if (vm.isAverageMode && !feedItem.analysis) {
-                return false;
-            } else if (vm.isSumMode && (!feedItem.analysis || !feedItem.balanceWeight)) {
-                return false;
-            } else if (vm.isChartMode && !feedItem.analysis) {
-                return false;
-            }*/
-
-            return feedItem.isVisible = true;
+            
+            return true;
         };
 
         vm.clearFilter = function () {
@@ -144,7 +130,7 @@
 
         vm.updateVisible = function () {
             _.forEach(vm.feedItems, function (feed) {
-                feed.isVisible = vm.isVisible(feed);
+                feedItem.isVisible = isVisible(feed);
             });
             vm.hiddenItemsLength = _.size(_.filter(vm.feedItems, {'isVisible': false}));
         }
