@@ -3,8 +3,7 @@ var lang = require('./lang');
 var feedUtils = require('./feed.utils');
 var dimension = require('./dimension');
 var _ = require('lodash');
-
-var ratingProperties = [{
+var ratingPropertiesHaylage = [{
     key: 'dryMaterial',
     min: 30,
     max: 50
@@ -31,6 +30,29 @@ var ratingProperties = [{
     min: 200
 }];
 
+var ratingPropertiesSilage = [{
+    key: 'dryMaterial',
+    min: 30,
+    max: 40
+}, {
+    key: 'nel',
+    min: 6.5
+}, {
+    key: 'vcos',
+    min: 60
+}, {
+    key: 'nh3',
+    max: 10
+}, {
+    key: 'starch',
+    min: 300,
+    max: 400
+}, {
+    key: 'ndf',
+    min: 370,
+    max: 420
+}];
+
 function sortByClosest(feeds, prop) {
     return feeds.sort(function (a, b) {
         a = _.last(a.analysis)[prop.key];
@@ -50,9 +72,13 @@ function inRange (prop, value) {
     }
 };
 
-function getRaiting(feeds) {
+function getRaiting(feeds, feedType) {
 
     // filter by ratingProperties
+    var ratingProperties = feedType === 'haylage' ?
+        ratingPropertiesHaylage :
+        ratingPropertiesSilage;
+
     // each feeds shoul have analysis with all ratingProperties
     feeds = _.filter(feeds, function (feed) {
         return feed.analysis.length &&
