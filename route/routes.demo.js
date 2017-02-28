@@ -37,12 +37,12 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         Feed.findById(demoConfig.viewDemoFeedId).lean().exec(function(err, feed) {
             if (err) {
                 return res.status(406).json({
-                    message: 'Нет корма с таким идентификатором.'
+                    message: 'Нет доступных кормов.'
                 });
             }
             if (feed === null) {
                 return res.status(406).json({
-                    message: 'Нет корма с таким идентификатором.'
+                    message: 'Нет доступных кормов.'
                 });
             }
 
@@ -59,74 +59,128 @@ module.exports = function(app, isAuthenticated, errorHandler) {
     });
 
     app.post('/api/feeds/diffDemo', function(req, res) {
-        var promises = _.map(demoConfig.diffDemoFeedIds, function(feedId) {
-            return Feed.findById(feedId);
-        });
-        Q.all(promises).then(function(feeds) {
-            if (!demoCache.diffDemo) {
-                demoCache.diffDemo = diff(feeds);
-            }
+        
+        if (!demoCache.diffDemo) {
+            var promises = _.map(demoConfig.diffDemoFeedIds, function(feedId) {
+                return Feed.findById(feedId);
+            });
+            Q.all(promises).then(function(feeds) {
+                
+                if (!feeds || !feeds.length) {
+                    return res.status(406).json({
+                        message: 'Нет доступных кормов.'
+                    });
+                }
+
+                demoCache.diffDemo = diff(feeds);    
+                res.status(200).json(demoCache.diffDemo);
+            }, function(err) {
+                res.send(err);
+            });
+        } else {
             res.status(200).json(demoCache.diffDemo);
-        }, function(err) {
-            res.send(err);
-        });
+        }
     });
 
     app.post('/api/feeds/averageDemo', function(req, res) {
-        var promises = _.map(demoConfig.averageDemoFeedIds, function(feedId) {
-            return Feed.findById(feedId);
-        });
-        Q.all(promises).then(function(feeds) {
+        
+        if (!demoCache.averageDemo) {
+            var promises = _.map(demoConfig.averageDemoFeedIds, function(feedId) {
+                return Feed.findById(feedId);
+            });
+            Q.all(promises).then(function(feeds) {
+                
+                if (!feeds || !feeds.length) {
+                    return res.status(406).json({
+                        message: 'Нет доступных кормов.'
+                    });
+                }
 
-            if (!demoCache.averageDemo) {
-                demoCache.averageDemo = average(feeds);
-            }
+                demoCache.averageDemo = average(feeds);    
+                res.status(200).json(demoCache.averageDemo);
+            }, function(err) {
+                res.send(err);
+            });
+        } else {
             res.status(200).json(demoCache.averageDemo);
-        }, function(err) {
-            res.send(err);
-        });
+        }
     });
 
     app.post('/api/feeds/sumDemo', function(req, res) {
-        var promises = _.map(demoConfig.sumDemoFeedIds, function(feedId) {
-            return Feed.findById(feedId);
-        });
-        Q.all(promises).then(function(feeds) {
-            if (!demoCache.sumDemo) {
-                demoCache.sumDemo = sum(feeds);
-            }
+        
+        if (!demoCache.sumDemo) {
+            var promises = _.map(demoConfig.sumDemoFeedIds, function(feedId) {
+                return Feed.findById(feedId);
+            });
+            Q.all(promises).then(function(feeds) {
+
+                if (!feeds || !feeds.length) {
+                    return res.status(406).json({
+                        message: 'Нет доступных кормов.'
+                    });
+                }
+
+                demoCache.sumDemo = sum(feeds);    
+                res.status(200).json(demoCache.sumDemo);
+            }, function(err) {
+                res.send(err);
+            });    
+            
+        }  else {
             res.status(200).json(demoCache.sumDemo);
-        }, function(err) {
-            res.send(err);
-        });
+        }
     });
 
     app.post('/api/feeds/ratingDemo', function(req, res) {
-        var feedIds = demoConfig.ratingDemoFeeds;
-        var feedType = 'haylage';
+        
+        if (!demoCache.ratingDemo) {
+            var feedIds = demoConfig.ratingDemoFeeds;
+            var feedType = 'haylage';
 
-        var promises = _.map(feedIds, function(feedId) {
-            return Feed.findById(feedId);
-        });
-        Q.all(promises).then(function(feeds) {
-            return res.json(rating(feeds, feedType));
-        }, function(err) {
-            res.send(err);
-        });
+            var promises = _.map(feedIds, function(feedId) {
+                return Feed.findById(feedId);
+            });
+            Q.all(promises).then(function(feeds) {
+                
+                if (!feeds || !feeds.length) {
+                    return res.status(406).json({
+                        message: 'Нет доступных кормов.'
+                    });
+                }                
+
+                demoCache.ratingDemo = rating(feeds, feedType);    
+                return res.json(demoCache.ratingDemo);
+            }, function(err) {
+                res.send(err);
+            });
+        } else {
+            res.json(demoCache.ratingDemo);
+        }
     });
 
     app.post('/api/feeds/chartsDemo', function(req, res) {
-        var feedIds = demoConfig.chartsDemoFeeds;
-        var feedType = 'haylage';
+        if (!demoCache.chartsDemo) {
+            var feedIds = demoConfig.chartsDemoFeeds;
+            var feedType = 'haylage';
 
-        var promises = _.map(feedIds, function(feedId) {
-            return Feed.findById(feedId);
-        });
-        Q.all(promises).then(function(feeds) {
-            return res.json(charts(feeds));
-        }, function(err) {
-            res.send(err);
-        });
+            var promises = _.map(feedIds, function(feedId) {
+                return Feed.findById(feedId);
+            });
+            Q.all(promises).then(function(feeds) {
+
+                if (!feeds || !feeds.length) {
+                    return res.status(406).json({
+                        message: 'Нет доступных кормов.'
+                    });
+                } 
+                
+                demoCache.chartsDemo = charts(feeds);
+                return res.json(demoCache.chartsDemo);
+            }, function(err) {
+                res.send(err);
+            });
+        } else {
+            res.json(demoCache.chartsDemo);
+        }
     });
-
 }
