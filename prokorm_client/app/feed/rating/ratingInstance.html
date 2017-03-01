@@ -43,7 +43,8 @@
 						{{$index+1}}
 					</span>
 					<span class="property-value" flex="" ng-class="{'in-range': feedValue.inRange, 'out-range': !feedValue.inRange, 'feed-name': feedValue.name}" ng-repeat="feedValue in ::row track by $index">
-						{{feedValue.name ? feedValue.name : feedValue.value}}
+						{{feedValue.name ? feedValue.name : feedValue.value}} <b>{{feedValue.year}}</b>
+						{{feedValue.branch}} {{feedValue.storage}}
 					</span>
 				</div>
 			</li>

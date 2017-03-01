@@ -18,9 +18,19 @@
         </div>
     </div>
     <div class="diff-dashboard" flex="" layout="row">
-        <h2 class="empty-select-message" ng-if="!diff.diffRows.length">
-            Выберите корма с анализами из списка
-        </h2>
+        <div flex class="mode-description" ng-if="!diff.diffRows.length">
+            <p>
+                Сравнение кормов происходит по всем видам показателей, включая - анализы, основные, заготовку и кормелние.
+                Для анализов доступно сравнение показателей на сухое вещество или на натуральную влажность. 
+            </p>
+            <p>
+                Корма без анализов не могут участвовать в сравнении.
+            </p> 
+            <h2>
+                <ng-md-icon class="arrow-icon" icon="arrow_back"></ng-md-icon>
+                Выберите корма с анализами из списка
+            </h2>
+        </div>
         <ul class="property-list" flex="" ng-if="diff.diffRows.length">
             <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in ::diff.diffRows">
                 <h4 class="root-property">

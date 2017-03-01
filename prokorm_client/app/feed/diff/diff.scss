@@ -29,10 +29,14 @@
 
 	.diff-dashboard {
 
-		.empty-select-message {
-			margin: 100px auto;
-			i {
-				font-size: 22px;
+		.mode-description {
+			p {
+				color: #555;
+			    font-size: 12px;
+			    line-height: 20px;
+			}
+			h2 {
+				font-size: 14px;
 			}
 		}
 

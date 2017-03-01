@@ -168,7 +168,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.67");
+.constant("version", "0.0.68");
 
 })();
 

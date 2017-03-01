@@ -5,9 +5,22 @@
         </h2>
     </div>
     <div class="charts-dashboard" flex layout="column">
-    	<h2 class="empty-select-message" ng-if="!charts.feeds || !charts.feeds.length">
-	    	Выберите корма с анализами из списка
-	    </h2>
+        <div class="mode-description" flex="" ng-if="!charts.feeds || !charts.feeds.length">
+            <p>
+                Для построения графика аналитики кормов необходимо выбрать корма как минимум за несколько лет, по горизонтальной оси будут - "Года заготовки"" кормов, по вертикальной оси - "Показатели". 
+            </p>
+            <p>
+                Вы можете включить или отключить любой показатель, в итоге вы получаете кривую изменения показателя корма в зависимости от года. 
+            </p>
+            <p>
+                Корма без анализов не могут участвовать в аналитике.
+            </p>            
+            <h2>
+                <ng-md-icon class="arrow-icon" icon="arrow_back">
+                </ng-md-icon>
+                Выберите корма с анализами из списка
+            </h2>
+        </div>
 	    <div id="container" flex layout="row" ng-if="charts.feeds && charts.feeds.length"></div>
     </div>
 </div>

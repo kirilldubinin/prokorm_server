@@ -1,34 +1,54 @@
 <div class="sum-card" layout="column">
-  <div layout="row" class="sum-title">
-    <h2 flex="25">Сумма</h2>
-    <div flex class="sum-header" ng-repeat="prop in ::sum.properties">
-      {{prop.label}}, {{prop.dimension}}
+    <div class="sum-title" layout="row">
+        <h2 flex="25">
+            Сумма
+        </h2>
+        <div class="sum-header" flex="" ng-repeat="prop in ::sum.properties">
+            {{prop.label}}, {{prop.dimension}}
+        </div>
     </div>
-  </div>
-  <div flex class="sum-dashboard" layout="row">
-    <h2 class="empty-select-message" ng-if="!sum.sumsRows.length">
-      Выберите незавершенные корма с анализами из списка
-    </h2>
-    <ul ng-if="sum.sumsRows.length" flex class="property-list">
-      <li class="property-row" ng-repeat="row in ::sum.sumsRows">
-        <div layout="row">
-          <label flex="25" class="property-label">{{row.label}}</label>  
-          <span flex class="property-value" ng-repeat="sumByProp in ::row.sumsByProp track by $index">
-            {{sumByProp.value | number}}
-          </span>
-        </div> 
-        
-        <!-- By Composition -->
-        <ul flex class="sub-property-list">
-          <li layout="row" class="property-row" ng-repeat="compositionRow in ::row.byComposition">
-            <label flex="25" class="property-label">{{compositionRow.label}}</label>  
-            <span flex class="property-value" ng-repeat="sumByProp in ::compositionRow.sumsByProp track by $index">
-              <span class="percent">({{sumByProp.percentOfTotal}}%)</span>{{sumByProp.value | number}}
-            </span>  
-          </li>
+    <div class="sum-dashboard" flex="" layout="row">
+        <div class="mode-description" flex="" ng-if="!sum.sumsRows.length">
+            <p>
+                Показатели одного вида корма будут суммироватся, каждый вид корма в свою очередь разделяется по составу, где указывается процентное соотношение каждого типа сырья.  Завершенные корма не могут участвовать в суммировании.
+            </p>
+            <p>
+                Все расчет указаны на сухое вещество.
+            </p>
+            <p>
+                Корма без анализов не могут участвовать в сумме.
+            </p> 
+            <h2>
+                <ng-md-icon class="arrow-icon" icon="arrow_back">
+                </ng-md-icon>
+                Выберите незавершенные корма с анализами из списка
+            </h2>
+        </div>
+        <ul class="property-list" flex="" ng-if="sum.sumsRows.length">
+            <li class="property-row" ng-repeat="row in ::sum.sumsRows">
+                <div layout="row">
+                    <label class="property-label" flex="25">
+                        {{row.label}}
+                    </label>
+                    <span class="property-value" flex="" ng-repeat="sumByProp in ::row.sumsByProp track by $index">
+                        {{sumByProp.value | number}}
+                    </span>
+                </div>
+                <!-- By Composition -->
+                <ul class="sub-property-list" flex="">
+                    <li class="property-row" layout="row" ng-repeat="compositionRow in ::row.byComposition">
+                        <label class="property-label" flex="25">
+                            {{compositionRow.label}}
+                        </label>
+                        <span class="property-value" flex="" ng-repeat="sumByProp in ::compositionRow.sumsByProp track by $index">
+                            <span class="percent">
+                                ({{sumByProp.percentOfTotal}}%)
+                            </span>
+                            {{sumByProp.value | number}}
+                        </span>
+                    </li>
+                </ul>
+            </li>
         </ul>
-
-      </li>
-    </ul>
-  </div>
+    </div>
 </div>

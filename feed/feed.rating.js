@@ -100,10 +100,13 @@ function getRaiting(feeds, feedType) {
 
             return {
                 value: value,
-                key: prop,
                 inRange: inRange(prop, value)
             }
         });
+
+        if (!feed.general.name) {
+            feed.general.name = lang(feed.general.feedType) + ': ' + feed.general.composition;
+        }
         return [feed.general].concat(values);
     });
 

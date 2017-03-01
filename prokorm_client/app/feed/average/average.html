@@ -1,65 +1,87 @@
 <div class="average-card" layout="column">
-  <div layout="row" class="average-title">
-    <h2  flex="25">
-      <label ng-if="!average.analysisRows.length">Среднее</label>
-    </h2>
-    <div flex class="feed-header" ng-repeat="header in ::average.headers">
-      {{header.name}} <b>{{header.year}}</b>
-      <br/>
-      <span class="feed-composition">{{header.composition}},</span>
-      <span class="feed-storage">{{header.storage}}</span>
+    <div class="average-title" layout="row">
+        <h2 flex="25">
+            <label ng-if="!average.analysisRows.length">
+                Среднее
+            </label>
+        </h2>
+        <div class="feed-header" flex="" ng-repeat="header in ::average.headers">
+            {{header.name}}
+            <b>
+                {{header.year}}
+            </b>
+            <br/>
+            <span class="feed-composition">
+                {{header.composition}},
+            </span>
+            <span class="feed-storage">
+                {{header.storage}}
+            </span>
+        </div>
     </div>
-  </div>
-  <div flex class="average-dashboard" layout="row">
-    <h2 ng-if="!average.analysisRows.length" class="empty-select-message" ng-if="!diff.diffRows.length">
-      Выберите корма с анализами из списка
-    </h2>
-    <ul ng-if="average.analysisRows.length" flex class="property-list">
-      <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in ::average.analysisRows">
-        <h4 class="root-property">
-          {{property.label}}
-        </h4>
-        <ul ng-if="property.children && !property.hidden">
-          <li class="property-values" ng-repeat="child in ::property.children" ng-switch="child.key" layout="row">
-            <span flex="25" class="property-label">{{child.label}} {{child.dimension}}</span>  
-
-            <span flex class="property-value" ng-repeat="value in ::child.values" layout="row" ng-init="valueIdx = $index">
-              
-              <!-- DRY Control -->
-              <span flex ng-if="child.key === 'isNaturalWet'" ng-repeat="v in ::average.dryRawValues[valueIdx] track by $index">
-                <md-checkbox class="md-primary dry-switch" ng-model="average.dryRawValues[valueIdx][$index]">
-                  ({{ average.dryRawValues[valueIdx][$index] ? 'Да' : 'Нет' }})
-                </md-checkbox>
-              </span> 
-              <span ng-class="{'is-number': average._.isNumber(v) || average._.isNumber(v.dryValue) || average._.isNumber(v.rawValue)}" flex ng-if="child.key !== 'isNaturalWet'"  ng-repeat="v in ::value track by $index">
-                {{
+    <div class="average-dashboard" flex="" layout="row">
+        <div class="mode-description" flex="" ng-if="!average.analysisRows.length">
+            <p>
+                Среднее значение показателя корма расчитывается методом сложения одного показателя всех выбранных Вами кормов и делением на количество выбранных Вами кормов. 
+            </p>
+            <p>
+                Это позволяет Вам быстро оценить средний показатель корма, например среднее количество белка в сенажа за текущий год.
+            </p>
+            <p>
+                Корма без анализов не могут участвовать в расчете средних показателей.
+            </p>
+            <h2>
+                <ng-md-icon class="arrow-icon" icon="arrow_back">
+                </ng-md-icon>
+                Выберите корма с анализами из списка
+            </h2>
+        </div>
+        <ul class="property-list" flex="" ng-if="average.analysisRows.length">
+            <li class="property-row" ng-if="property.key === 'analysis'" ng-repeat="property in ::average.analysisRows">
+                <h4 class="root-property">
+                    {{property.label}}
+                </h4>
+                <ul ng-if="property.children && !property.hidden">
+                    <li class="property-values" layout="row" ng-repeat="child in ::property.children" ng-switch="child.key">
+                        <span class="property-label" flex="25">
+                            {{child.label}} {{child.dimension}}
+                        </span>
+                        <span class="property-value" flex="" layout="row" ng-init="valueIdx = $index" ng-repeat="value in ::child.values">
+                            <!-- DRY Control -->
+                            <span flex="" ng-if="child.key === 'isNaturalWet'" ng-repeat="v in ::average.dryRawValues[valueIdx] track by $index">
+                                <md-checkbox class="md-primary dry-switch" ng-model="average.dryRawValues[valueIdx][$index]">
+                                    ({{ average.dryRawValues[valueIdx][$index] ? 'Да' : 'Нет' }})
+                                </md-checkbox>
+                            </span>
+                            <span flex="" ng-class="{'is-number': average._.isNumber(v) || average._.isNumber(v.dryValue) || average._.isNumber(v.rawValue)}" ng-if="child.key !== 'isNaturalWet'" ng-repeat="v in ::value track by $index">
+                                {{
                   (average._.isNumber(v.dryValue) || average._.isNumber(v.rawValue)) ? 
                   (average.dryRawValues[valueIdx][$index] ? v.rawValue : v.dryValue) :
                   (average._.isObject(v) ? '' : v)
                 }}
-              </span>
-            </span> 
-          </li>
+                            </span>
+                        </span>
+                    </li>
+                </ul>
+            </li>
+            <li class="property-row" ng-if="property.key !== 'analysis'" ng-repeat="property in ::average.analysisRows">
+                <h4 class="root-property">
+                    {{property.label}}
+                    <a href="" ng-click="property.hidden = !property.hidden">
+                        {{ property.hidden ? 'показать' : 'скрыть' }}
+                    </a>
+                </h4>
+                <ul ng-if="property.children && !property.hidden">
+                    <li class="property-values" layout="row" ng-repeat="child in ::property.children">
+                        <span class="property-label" flex="25">
+                            {{child.label}}
+                        </span>
+                        <span class="property-value" flex="" ng-repeat="value in ::child.values track by $index">
+                            {{value}}
+                        </span>
+                    </li>
+                </ul>
+            </li>
         </ul>
-      </li>
-
-      <li class="property-row" ng-if="property.key !== 'analysis'" ng-repeat="property in ::average.analysisRows">
-        <h4 class="root-property">
-          {{property.label}}
-          <a href ng-click="property.hidden = !property.hidden">
-            {{ property.hidden ? 'показать' : 'скрыть' }}
-          </a>
-        </h4>
-        <ul ng-if="property.children && !property.hidden">
-          <li class="property-values" ng-repeat="child in ::property.children" layout="row">
-            <span flex="25" class="property-label">{{child.label}}</span>  
-            <span flex  class="property-value" ng-repeat="value in ::child.values track by $index">
-              {{value}}
-            </span>  
-          </li>
-        </ul>
-      </li>
-
-    </ul>
-  </div>
+    </div>
 </div>
