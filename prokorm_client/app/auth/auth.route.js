@@ -14,6 +14,9 @@
                 templateUrl: 'app/auth/login/login.html',
                 controller: 'LoginController',
                 controllerAs: 'login'
+            }).state('eula', {
+                url: '/eula',
+                templateUrl: 'app/auth/eula/eula.html'
             }).state('forget', {
                 url: '/forget',
                 templateUrl: 'app/auth/forget/forget.html',

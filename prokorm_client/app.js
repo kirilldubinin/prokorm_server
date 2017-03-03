@@ -168,7 +168,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.68");
+.constant("version", "0.0.69");
 
 })();
 
@@ -299,6 +299,9 @@ angular.module('auth').factory('authFactory', ['$http', '$location', function($h
                 templateUrl: 'app/auth/login/login.html',
                 controller: 'LoginController',
                 controllerAs: 'login'
+            }).state('eula', {
+                url: '/eula',
+                templateUrl: 'app/auth/eula/eula.html'
             }).state('forget', {
                 url: '/forget',
                 templateUrl: 'app/auth/forget/forget.html',

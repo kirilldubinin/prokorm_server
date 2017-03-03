@@ -137,19 +137,6 @@ function getRaiting(feeds, feedType) {
             }
         }),
         feeds: ratingFeeds
-        /* _.map(feeds.sort(function (a,b) {
-            return a.index - b.index;
-        }), function (feed) {
-
-            var values = _.map(ratingProperties, function (prop) {
-                return {
-                    value: _.last(feed.analysis)[prop.key],
-                    key: prop,
-                    isBestValue: _.some(feed.bestValuesByProp, function (_prop) { return _prop === prop; })
-                }
-            });
-            return [feed.general].concat(values);
-        })*/
     };
 }
 module.exports = getRaiting;

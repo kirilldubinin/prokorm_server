@@ -107,7 +107,12 @@ function getDiff(feeds) {
     });
     return {
         dryRawValues: result.dryRawValues,
-        headers: _.map(feeds, 'general'),
+        headers: _.map(feeds, function (feed) {
+            if (!feed.general.name) {
+                feed.general.name = lang(feed.general.feedType) + ': ' + feed.general.composition;
+            }
+            return feed.general;
+        }),
         diffs: _.filter(diffs, function(diff) {
             return diff.children.length;
         })

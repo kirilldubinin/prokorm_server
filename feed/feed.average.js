@@ -138,7 +138,12 @@ function getAverage(feeds) {
         total: _.sumBy(feeds, function(f) {
             return f.general.totalWeight;
         }),
-        headers: _.map(feeds, 'general').concat({
+        headers: _.map(feeds, function (feed) {
+            if (!feed.general.name) {
+                feed.general.name = lang(feed.general.feedType) + ': ' + feed.general.composition;
+            }
+            return feed.general;
+        }).concat({
             name: 'Среднее',
             key: 'average'
         }),

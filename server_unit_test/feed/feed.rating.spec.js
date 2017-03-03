@@ -1,7 +1,7 @@
 var expect = require("chai").expect;
 var rating = require('../../feed/feed.rating');
 var _ = require('lodash');
-describe.only('feed.rating', function() {
+describe('feed.rating', function() {
     
     it('rating', function(done) {
         var feeds = [{
@@ -52,7 +52,7 @@ describe.only('feed.rating', function() {
         }];
 
         var raitingAverage = rating(feeds);
-        console.log(raitingAverage.feeds);
+        //console.log(raitingAverage.feeds);
         //console.log(raitingAverage);
         done();
     });

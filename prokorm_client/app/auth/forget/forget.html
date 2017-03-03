@@ -6,14 +6,13 @@
     <md-card md-theme="default" md-theme-watch>
       <md-card-title>
         <md-card-title-text>
+          <p>Забыли пароль ?</p>
           <div class="login-input">
             <p>Введите ваш емейл</p>
             <input type="text" name="tenantname" ng-model="forget.email"></input>
           </div>
-
-          <span class="or">или</span>
           
-          <div class="login-input">
+          <!--div class="login-input">
             <p>Имя пользователя</p>
             <input type="text" name="tenantname" ng-model="forget.userName"></input>
           </div>
@@ -23,16 +22,23 @@
           </div>
 
           <span class="phone">Если у Вас возникли сложности, пожалуйста позвоните по телефону</span>
-          <span class="phone">8 800</span>
+          <span class="phone">8 800</span-->
         </md-card-title-text>
       </md-card-title>
       <md-card-actions layout="row" layout-align="">
         <div flex>
         </div>
         <div>
-          <md-button class="md-raised md-primary" ng-click="forget.do()">Отправить запрос</md-button>
+          <md-button class="md-raised md-primary" ng-click="forget.do()">Получить новый пароль</md-button>
         </div> 
       </md-card-actions>
+
+      <p class="or">
+            или позвоните 
+            <br/> 
+            <b>8 800 550 28 27</b>
+          </span>
+
     </md-card>  
   </div>
 
