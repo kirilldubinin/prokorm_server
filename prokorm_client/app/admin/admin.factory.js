@@ -6,5 +6,8 @@ angular.module('admin').factory('adminFactory', ['$http', '$location', function(
     adminFactory.getTenants = function () {
         return $http.get(urlBase + 'tenants');
     };
+    adminFactory.getTenant = function (_id) {
+        return $http.get(urlBase + 'tenants/' + _id);
+    };
     return adminFactory;
 }]);

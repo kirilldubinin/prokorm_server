@@ -12,6 +12,17 @@
                 data: {
                     module: 'admin'
                 }
+            }).state('admin.tenant', {
+                url: '/:tenant_id',
+                templateUrl: 'app/admin/tenant.html',
+                controller: 'TenantController',
+                controllerAs: 'tenant',
+                params: {
+                    tenant_id: undefined
+                },
+                data: {
+                    module: 'admin'
+                }
             });
     }
 })();

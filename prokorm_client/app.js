@@ -168,7 +168,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.69");
+.constant("version", "0.0.70");
 
 })();
 
@@ -202,9 +202,14 @@
     'use strict';
     angular.module('admin').controller('AdminController', AdminController);
     /** @ngInject */
-    function AdminController($scope, adminFactory) {
+    function AdminController($state, $scope, adminFactory) {
         
-        var vm = this;
+        var vm = this
+        vm.goToTenantInfo = function (_id) {
+        	$state.go('admin.tenant', {
+        		tenant_id: _id
+        	});
+        };
         adminFactory.getTenants().then(function (tenants) {
         	vm.tenants = tenants;
         });
@@ -217,6 +222,9 @@ angular.module('admin').factory('adminFactory', ['$http', '$location', function(
     var adminFactory = {};
     adminFactory.getTenants = function () {
         return $http.get(urlBase + 'tenants');
+    };
+    adminFactory.getTenant = function (_id) {
+        return $http.get(urlBase + 'tenants/' + _id);
     };
     return adminFactory;
 }]);
@@ -234,7 +242,31 @@ angular.module('admin').factory('adminFactory', ['$http', '$location', function(
                 data: {
                     module: 'admin'
                 }
+            }).state('admin.tenant', {
+                url: '/:tenant_id',
+                templateUrl: 'app/admin/tenant.html',
+                controller: 'TenantController',
+                controllerAs: 'tenant',
+                params: {
+                    tenant_id: undefined
+                },
+                data: {
+                    module: 'admin'
+                }
             });
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('admin').controller('TenantController', TenantController);
+    function TenantController($scope, $stateParams,  adminFactory) {
+        var vm = this;
+
+        if ($stateParams.tenant_id) {
+        	adminFactory.getTenant($stateParams.tenant_id).then(function (tenant) {
+	        	vm.info = tenant;
+	        });	
+        }
     }
 })();
 angular.module('auth').factory('authFactory', ['$http', '$location', function($http, $location) {

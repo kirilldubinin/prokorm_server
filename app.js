@@ -13,7 +13,7 @@ var session = require('express-session');
 var flash = require('connect-flash');
 var log = require('./libs/log');
 var winston = require('winston');
-var helmet = require('helmet')
+var helmet = require('helmet');
 
 // configuration ===============================================================
 mongoose.connect(database.localUrl);

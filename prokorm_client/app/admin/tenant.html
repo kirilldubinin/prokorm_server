@@ -1,0 +1,33 @@
+<div class="tenant" layout="row">
+    <div flex="40" class="tenant-info">
+        <h4>Tenant Info</h4>
+        <p>
+            <label>Login</label>
+            {{tenant.info.login}}
+        </p>
+        <p>
+            <label>Full Name</label>
+            {{tenant.info.name}}
+        </p>
+        <p>
+            <label>E-mail</label>
+            {{tenant.info.email}}
+        </p>
+        <p>
+            <label>Created at</label>
+            {{tenant.info.createdAt | date:'dd/MM/yyyy'}}
+        </p>
+    </div>
+    <div flex="30" class="tenant-feeds">
+        <h4>Tenant Feeds</h4>
+        <p ng-repeat="(key, value) in tenant.info.feeds">
+            {{key}} <span class="feeds-length">[{{value.length}}]</span>
+        </p>
+    </div>
+    <div flex="30" class="tenant-users">
+        <h4>Tenant Users</h4>
+        <p ng-repeat="user in tenant.info.users">
+            {{user.name}} <span class="user-permissions">[{{user.permissions.join(',')}}]</span>
+        </p>
+    </div>
+</div>
