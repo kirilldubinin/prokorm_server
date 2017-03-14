@@ -4,6 +4,14 @@
     /** @ngInject */
     function routerConfig($stateProvider, $urlRouterProvider) {
         $stateProvider
+            .state('eula', {
+                url: '/eula',
+                templateUrl: 'app/public/eula.html'
+            })
+            .state('conditions', {
+                url: '/conditions',
+                templateUrl: 'app/public/conditions.html'
+            })
             .state('public', {
                 url: '',
                 templateUrl: 'app/public/public.html',

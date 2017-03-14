@@ -117,6 +117,14 @@
     /** @ngInject */
     function routerConfig($stateProvider, $urlRouterProvider) {
         $stateProvider
+            .state('eula', {
+                url: '/eula',
+                templateUrl: 'app/public/eula.html'
+            })
+            .state('conditions', {
+                url: '/conditions',
+                templateUrl: 'app/public/conditions.html'
+            })
             .state('public', {
                 url: '',
                 templateUrl: 'app/public/public.html',
@@ -168,7 +176,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.70");
+.constant("version", "0.0.74");
 
 })();
 
@@ -331,9 +339,6 @@ angular.module('auth').factory('authFactory', ['$http', '$location', function($h
                 templateUrl: 'app/auth/login/login.html',
                 controller: 'LoginController',
                 controllerAs: 'login'
-            }).state('eula', {
-                url: '/eula',
-                templateUrl: 'app/auth/eula/eula.html'
             }).state('forget', {
                 url: '/forget',
                 templateUrl: 'app/auth/forget/forget.html',
@@ -1327,6 +1332,37 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                 });
             } else {
                 vm.updateVisible();
+            }
+        });
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('feed').controller('PlanningController', PlanningController);
+
+    function PlanningController($scope, feedFactory, $stateParams, _) {
+
+    	var vm = this;
+        vm._ = _;
+
+        var feeds = $stateParams.feeds;
+    	function updateSum(feedsForDiff) {
+
+    		if (!feedsForDiff.length) {
+    			vm.diffRows = [];
+                vm.headers = [];
+    			return;
+    		}
+
+    		feedFactory.sumFeeds(feedsForDiff).then(function (result) {
+                vm.properties = result.properties;
+                vm.sumsRows = result.sumsRows;
+    		});
+    	}	
+
+        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
+            if (newState.name === 'tenant.feed.sum') {
+                updateSum(_.filter(params.feeds.split(':'), Boolean));
             }
         });
     }

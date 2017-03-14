@@ -119,7 +119,6 @@ function getRaiting(feeds, feedType) {
 
     return {
         properties: _.map(ratingProperties, function (prop) {
-            
             var bestValue;
             if (prop.min && prop.max) {
                 bestValue = prop.min + ' - ' + prop.max;

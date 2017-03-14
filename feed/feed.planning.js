@@ -47,13 +47,13 @@ function getSumsByProps(props, feeds) {
 
             return {
                 key: prop,
-                value: Math.round(total)
+                value: total
             }
         }
     });
 }
 
-function getSum(feeds) {
+function getPlanning(feeds) {
     //filter feeds, feed shoul have analysis
     feeds = _.filter(feeds, function(feed) {
         return feed.analysis.length;
@@ -61,12 +61,7 @@ function getSum(feeds) {
     // filter properties
     // each feed from feeds should have properties from list
     // in last analysis 
-    var allProps = ['dryWeight', 'nel', 'exchangeEnergy', 'crudeProtein'];
-    var props = _.filter(allProps, function(prop) {
-        return prop === 'dryWeight' || !_.some(feeds, function(feed) {
-            return !_.isNumber(_.last(feed.analysis)[prop])
-        });
-    });
+    var props = ['dryWeight'];
     var byFeedType = _.map(feeds, function(feed) {
         feed.feedType = feed.general.feedType;
         feed.composition = feed.general.composition;
@@ -94,9 +89,18 @@ function getSum(feeds) {
             label: lang(key),
             key: key,
             byComposition: byComposition,
-            sumsByProp: Math.round(sumsByProp)
+            sumsByProp: sumsByProp
         };
     });
+
+    sums = _.map(sums, function (sum) {
+        return sum.sumsByProp.push({
+            key: 'consumptionPerDay',
+            label: lang('consumptionPerDay'),
+            dimension: dimension('dryWeight')
+        })
+    });
+
     return {
         properties: _.map(props, function(prop) {
             return {
@@ -104,8 +108,12 @@ function getSum(feeds) {
                 dimension: dimension(prop),
                 key: prop
             }
-        }),
+        }).concat([{
+            key: 'consumptionPerDay',
+            label: lang('consumptionPerDay'),
+            dimension: dimension('dryWeight')
+        }]),
         sumsRows: sums
     }
 }
-module.exports = getSum;
+module.exports = getPlanning;

@@ -107,6 +107,8 @@ function lang(key) {
         phosphorus: 'Фосфор',
         carotene: 'Каротин',
 
+        consumptionPerDay: 'Расход в день',
+
         //feeding
         feeding: 'Кормление',
         start: 'Начало',
