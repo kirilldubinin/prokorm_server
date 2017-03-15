@@ -56,6 +56,25 @@
             }
         ];
 
+        vm.storageTypes = [
+            {
+                value: 'silo',
+                name: 'Траншея'
+            },
+            {
+                value: 'mound',
+                name: 'Курган'
+            },
+            {
+                value: 'polymerSleeve',
+                name: 'Полимерный рукав'
+            },
+            {
+                value: 'polymerCoil',
+                name: 'Полимерный рулон'
+            }
+        ];
+
         vm.feedItemControls = [];
         var feedId = $stateParams.feedId;
         var promise = feedId ? feedFactory.getFeedEdit(feedId) : feedFactory.getEmptyFeed();

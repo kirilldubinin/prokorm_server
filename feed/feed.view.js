@@ -5,7 +5,7 @@ var dimension = require('./dimension');
 var Feed = require('../models/feed');
 
 function convertValue(key, val) {
-    if (key === 'feedType') {
+    if (key === 'feedType' || key === 'storageType') {
         return lang(val);
     } else if (key === 'isNaturalWet') {
         return val;

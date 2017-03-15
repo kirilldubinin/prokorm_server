@@ -28,8 +28,13 @@
                         {{data.label}}: ({{ subSection.initialItem[data.key] ? 'Да' : 'Нет' }})
                     </md-checkbox>
                     <!-- SELECT -->
-                    <md-select ng-if="data.isEnum" ng-model="subSection.initialItem[data.key]">
+                    <md-select ng-if="data.isEnum && data.key === 'feedType'" ng-model="subSection.initialItem[data.key]">
                         <md-option ng-repeat="type in feedEdit.feedTypes" ng-value="type.value">
+                            {{type.name}}
+                        </md-option>
+                    </md-select>
+                    <md-select ng-if="data.isEnum && data.key === 'storageType'" ng-model="subSection.initialItem[data.key]">
+                        <md-option ng-repeat="type in feedEdit.storageTypes" ng-value="type.value">
                             {{type.name}}
                         </md-option>
                     </md-select>

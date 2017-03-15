@@ -15,8 +15,26 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    addField_branch_for_FEED_GENERAL();
+    addField_storageType_for_FEED_GENERAL();
 });
+
+function addField_storageType_for_FEED_GENERAL () {
+    Feed.find().then(function(feeds) {
+        feeds.forEach(function (feed){
+            
+            if (feed.general.storageType === undefined) {
+                winston.info('update feed with name: ' + feed.general.name);
+                feed.general.storageType = null;
+            }
+
+            feed.save(function(err, _feed) {
+                if (err) {
+                    winston.error(err);
+                }
+            });  
+        });
+    });
+}
 
 function addField_price_for_FEED_GENERAL () {
     Feed.find().then(function(feeds) {

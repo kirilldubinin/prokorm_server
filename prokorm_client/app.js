@@ -176,7 +176,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.74");
+.constant("version", "0.0.75");
 
 })();
 
@@ -832,6 +832,25 @@ angular.module('catalog').factory('catalogFactory', ['$http', '$location', funct
             {
                 value: 'tmr',
                 name: 'TMR'
+            }
+        ];
+
+        vm.storageTypes = [
+            {
+                value: 'silo',
+                name: 'Траншея'
+            },
+            {
+                value: 'mound',
+                name: 'Курган'
+            },
+            {
+                value: 'polymerSleeve',
+                name: 'Полимерный рукав'
+            },
+            {
+                value: 'polymerCoil',
+                name: 'Полимерный рулон'
             }
         ];
 

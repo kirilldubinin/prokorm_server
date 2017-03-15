@@ -35,7 +35,8 @@ function lang(key) {
         year: 'Год',
         opened: 'Открыт',
         price: 'Себестоимость',
-        storage: 'Хранение',
+        storage: 'Место хранения',
+        storageType: 'Тип хранения',
         field: 'Поле',
         branch: 'Отделение',
         done: 'Завершён',
@@ -43,11 +44,12 @@ function lang(key) {
         date: 'Дата',
         feedType: 'Тип',
         none: 'Нет',
-        haylage: 'Сенаж',
-        silage: 'Силос',
+        
         grain: 'Зерно',
         cornSilage: 'Силосованное зерно',
 
+        haylage: 'Сенаж',
+        silage: 'Силос',
         straw: 'Солома',
         hay: 'Сено',
         oilcake: 'Жмых',
@@ -55,6 +57,10 @@ function lang(key) {
         greenWeight: 'Зеленая масса',
         tmr: 'ТМР',
 
+        silo: 'Траншея',
+        mound: 'Курган',
+        polymerSleeve: 'Полимерный рукав',
+        polymerCoil: 'Полимерный рулон',
         totalWeight: 'Всего',
         balanceWeight: 'Осталось',
 

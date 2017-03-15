@@ -90,6 +90,7 @@ var FeedSchema = new Schema({
         totalWeight: Number,
         balanceWeight: Number,
         storage: String,
+        storageType: String,
         price: Number,
         opened: Boolean,
         done: Boolean
@@ -157,6 +158,7 @@ var goldObject = {
         year: null,
         branch: '',
         storage: '',
+        storageType: '',
         field: '',
         totalWeight: null,
         balanceWeight: null,

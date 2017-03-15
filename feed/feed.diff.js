@@ -11,7 +11,7 @@ var dimension = require('./dimension');
 var _ = require('lodash');
 
 function convertValue(key, val) {
-    if (key === 'feedType') {
+    if (key === 'feedType' || key === 'storageType') {
         return lang(val);
     } else if (_.isBoolean(val)) {
         return lang(val);

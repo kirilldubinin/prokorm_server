@@ -90,7 +90,9 @@ var disabledFields = {
 };
 
 var enumFields = {
-    'general.feedType': 'enum'
+    'general.feedType': 'enum',
+    'general.storageType': 'enum'
+
 };
 
 var propertyWithHelp = {
