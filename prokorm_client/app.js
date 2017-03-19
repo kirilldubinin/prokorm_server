@@ -176,7 +176,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.77");
+.constant("version", "0.0.78");
 
 })();
 
@@ -1816,7 +1816,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         vm.changePassword = function(ev) {
             $mdDialog.show({
                 controller: ChangePasswordController,
-                templateUrl: './app/profile/changePassword.html',
+                templateUrl: './app/profile/changePassword/changePassword.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: false

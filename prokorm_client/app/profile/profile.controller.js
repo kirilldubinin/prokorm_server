@@ -15,7 +15,7 @@
         vm.changePassword = function(ev) {
             $mdDialog.show({
                 controller: ChangePasswordController,
-                templateUrl: './app/profile/changePassword.html',
+                templateUrl: './app/profile/changePassword/changePassword.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: false
