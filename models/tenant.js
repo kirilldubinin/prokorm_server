@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-// Tenant
+
 var TenantSchema = new Schema({
     loginName: {
         type: String,
@@ -18,6 +18,20 @@ var TenantSchema = new Schema({
     createdAt: {
         type: Date,
         default: Date.now
-    }
+    },
+    license: {
+        feed: {
+            endDate: Date,
+            tariffPlan: Schema.Types.ObjectId
+        },
+        ration: {
+            endDate: Date,
+            tariffPlan: Schema.Types.ObjectId
+        }, 
+        field: {
+            endDate: Date,
+            tariffPlan: Schema.Types.ObjectId
+        }
+    } 
 });
 module.exports = mongoose.model('Tenant', TenantSchema);

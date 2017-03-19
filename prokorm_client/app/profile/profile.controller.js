@@ -5,8 +5,9 @@
     function ProfileViewController($scope, $state, $mdDialog, authFactory) {
         var vm = this;
         authFactory.getProfileView().then(function(result) {
-            vm.userInfo = result.controls;
+            vm.userInfo = result.userInfo;
             vm.companyUsers = result.companyUsers;
+            vm.companyLicense = result.companyLicense;
         });
         vm.edit = function() {
             $state.go('tenant.profile.edit');

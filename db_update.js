@@ -6,6 +6,8 @@ var database = require('./config/database');
 var winston = require('winston');
 var _ = require('lodash');
 var Feed = require('./models/feed');
+var Tenant = require('./models/tenant');
+var Tariff = require('./models/tariff');
 
 // configuration ===============================================================
 mongoose.connect(database.localUrl);    // Connect to local MongoDB instance. A remoteUrl is also available (modulus.io)
@@ -15,8 +17,44 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    addField_storageType_for_FEED_GENERAL();
+    addField_license_for_TENANT();
 });
+
+function add_Tariff_Plans () {
+    var tariff = new Tariff();
+    tariff.module = 'feed';
+    tariff.plan = 'under_40';
+
+    tariff.save(function (err, newTariff) {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log(newTariff);
+        }   
+    });
+}
+
+function addField_license_for_TENANT () {
+
+    Tenant.find().then(function(tenants) {
+        tenants.forEach(function (tenant){
+
+            if (tenant.license.feed.endDate === undefined) {
+                winston.info('update feed with name: ' + tenant.loginName);
+                tenant.license.feed = {
+                    endDate: new Date('01/01/2018'),
+                    tariffPlan: '58ce78000900e1704ee3c44e'    
+                }
+
+                tenant.save(function(err, _tenant) {
+                    if (err) {
+                        winston.error(err);
+                    }
+                });  
+            }
+        });
+    });
+}
 
 function addField_storageType_for_FEED_GENERAL () {
     Feed.find().then(function(feeds) {
@@ -95,7 +133,6 @@ function addField_SW_for_FEED_ANALYSIS () {
         });
     });
 } 
-
 
 function addField_starchPassesPercent_for_FEED_ANALYSIS () {
 

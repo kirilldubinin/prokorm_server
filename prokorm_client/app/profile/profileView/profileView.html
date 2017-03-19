@@ -1,5 +1,5 @@
 <div class="profile-view" layout="row">
-	<div class="user-info" flex="50">
+	<div class="user-info" flex="40">
 		<h2>Текущий пользователь
 			<md-button class="md-raised" ng-click="profileView.edit()">
 		        Редактировать
@@ -17,8 +17,8 @@
             </md-button>
 		</p>
 	</div>
-	<div ng-if="profileView.companyUsers !== undefined" flex="50" class="company-users">
-		<h2>Пользователи в компании
+	<div ng-if="profileView.companyUsers !== undefined" flex="20" class="company-users">
+		<h2>Пользователи
 			<md-button class="md-raised" ng-click="profileView.addUser()">
 		        Добавить
 	      	</md-button>
@@ -27,5 +27,19 @@
 		<p ng-repeat="cmpUser in profileView.companyUsers">
 			<a href="#">{{cmpUser.userName}}</a>
 		</p>
+	</div>
+	<div ng-if="profileView.companyLicense !== undefined" flex="40" class="company-license">
+		<h2>Лицензия
+			<md-button class="md-raised" ng-click="profileView.addUser()">
+		        Изменить
+	      	</md-button>
+      	</h2>
+		<div ng-repeat="license in profileView.companyLicense">
+			<h4>{{license.title}}</h4>
+			<p layout="row" ng-repeat="info in license.subInfo">
+				<label flex="30">{{info.label}}:</label>
+				<span flex>{{info.value | date:'dd/MM/yyyy'}}</span>
+			</p>
+		</div>
 	</div>
 </div>

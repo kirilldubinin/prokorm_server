@@ -176,7 +176,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.75");
+.constant("version", "0.0.77");
 
 })();
 
@@ -1806,8 +1806,9 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     function ProfileViewController($scope, $state, $mdDialog, authFactory) {
         var vm = this;
         authFactory.getProfileView().then(function(result) {
-            vm.userInfo = result.controls;
+            vm.userInfo = result.userInfo;
             vm.companyUsers = result.companyUsers;
+            vm.companyLicense = result.companyLicense;
         });
         vm.edit = function() {
             $state.go('tenant.profile.edit');

@@ -1,4 +1,6 @@
 var Tenant = require('../models/tenant');
+var Tariff = require('../models/tariff');
+var Q = require('q');
 var User = require('../models/user');
 var _ = require('lodash');
 var lang = require('../feed/lang');
@@ -32,17 +34,68 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 }).join(',')
             }];
             if (isAdmin) {
+
+                // users in company
                 User.find({
                     tenantId: req.user.tenantId
                 }).then(function(users) {
-                    return res.json({
-                        controls: userInfo,
-                        companyUsers: _.map(users, function(u) {
-                            return {
-                                _id: u._id,
-                                userName: u.name
-                            };
+
+                    // license for company
+                    Tenant.findById(req.user.tenantId).lean().exec(function(err, tenant) {
+                        if (err) {
+                            return errorHandler(err, req, res);
+                        }
+                        // get Tariff plans
+                        var promises = [];
+                        tenant.license.feed && promises.push(tenant.license.feed.tariffPlan);
+                        tenant.license.ration && promises.push(tenant.license.ration.tariffPlan);
+                        tenant.license.field && promises.push(tenant.license.field.tariffPlan);
+
+                        promises = _.map(promises, function (p) {
+                            return Tariff.findById(p);
                         })
+                        Q.all(promises).then(function(plans) {
+                            
+                            if (tenant.license.feed) {
+                                tenant.license.feed.tariffPlan = plans[0].plan;
+                            }
+                            if (tenant.license.ration) {
+                                tenant.license.ration.tariffPlan = plans[1].plan;
+                            }
+                            if (tenant.license.field) {
+                                tenant.license.field.tariffPlan = plans[2].plan;
+                            }
+
+                            var licenseInfo = _.map(tenant.license, function (value, key) {
+                                return {
+                                    title: lang(key),
+                                    subInfo: [
+                                        {
+                                            label: lang('licenseEnd'),
+                                            value: value.endDate
+                                        },
+                                        {
+                                            label: lang('tariffPlan'),
+                                            value: lang(value.tariffPlan)
+                                        }
+                                    ]
+                                }
+                            });
+
+                            return res.json({
+                                userInfo: userInfo,
+                                companyUsers: _.map(users, function(u) {
+                                    return {
+                                        _id: u._id,
+                                        userName: u.name
+                                    };
+                                }),
+                                companyLicense: licenseInfo
+                            });
+
+                        }, function(err) {
+                            return errorHandler(err, req, res);
+                        });
                     });
                 });
             } else {

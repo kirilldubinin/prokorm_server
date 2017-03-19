@@ -17,7 +17,7 @@
     .profile-view {
     	background-color: transparent;
 
-        p {
+        div, p {
             label {
                 display: inline-block;
                 text-align: right;
@@ -30,6 +30,10 @@
             }
             a {
                 font-size: 14px;    
+            }
+
+            h4 {
+                text-transform: uppercase;
             }
         }
     }

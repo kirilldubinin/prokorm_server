@@ -6,6 +6,15 @@ function lang(key) {
         read: 'Чтение',
         write: 'Редактирования',
 
+        licenseEnd: 'Оплаченный период',
+        tariffPlan: 'Тарифный план',
+
+        under_40: 'До 40 кормов',
+
+        feed: 'корма',
+        ration: 'рационы',
+        field: 'роля',
+
         edit: 'редактировать',
         delete: 'удалить',
         print: 'печать',

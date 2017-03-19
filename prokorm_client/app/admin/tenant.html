@@ -17,6 +17,27 @@
             <label>Created at</label>
             {{tenant.info.createdAt | date:'dd/MM/yyyy'}}
         </p>
+        
+        <div ng-if="tenant.info.license.feed.endDate">
+            <p>License Feed</p>
+            <p>
+                <label>Until</label>
+                {{tenant.info.license.feed.endDate | date:'dd/MM/yyyy'}}
+            </p>
+            <p>
+                <label>Tariff</label>
+                {{tenant.info.license.feed.tariffPlan}}
+            </p>
+        </div>
+
+
+        <p ng-repeat="tariffPlan tenant.info.tariffPlans">
+            <label>Module</label>
+            {{tariffPlan.moduleKey}}
+            <br/>
+            <label>Module</label>
+            {{tariffPlan.planName}}
+        </p>
     </div>
     <div flex="30" class="tenant-feeds">
         <h4>Tenant Feeds</h4>
