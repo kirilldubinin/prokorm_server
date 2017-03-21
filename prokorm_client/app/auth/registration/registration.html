@@ -16,9 +16,12 @@
             <input type="text" name="email" ng-model="registration.user.email"></input>
           </div>
 
-          <p class="terms">
+          <p ng-if="!registration.successMessage" class="terms">
             Регистрируясь вы принимаете 
             <a class="terms-button" href="#/eula">пользовательское соглашение</a>
+          </p>
+          <p ng-if="registration.successMessage" class="terms">
+            {{registration.successMessage}}
           </p>
           <!--<md-button class="md-raised register-button" ng-click="login.goToRegistration()">Зарегестрироваться</md-button>-->
         </md-card-title-text>

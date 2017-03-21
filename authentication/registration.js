@@ -9,6 +9,14 @@ function createTenant(data, callback) {
     newTenant.loginName = data.loginname;
     newTenant.email = data.email;
     newTenant.createdAt = new Date();
+
+    newTenant.license = {
+        feed: {
+            endDate: new Date('01/01/2018'),
+            tariffPlan: '58ce78000900e1704ee3c44e'     
+        }    
+    };
+
     newTenant.save(function(err, _tenant) {
         if (err) return callback(err);
         else {
