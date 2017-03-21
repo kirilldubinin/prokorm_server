@@ -17,7 +17,7 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    addField_license_for_TENANT();
+    addField_storageType_for_FEED_GENERAL();
 });
 
 function add_Tariff_Plans (ready) {
