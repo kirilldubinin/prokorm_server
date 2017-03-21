@@ -17,10 +17,13 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    addField_license_for_TENANT();
+
+    add_Tariff_Plans(function () {
+        addField_license_for_TENANT();    
+    });
 });
 
-function add_Tariff_Plans () {
+function add_Tariff_Plans (ready) {
     var tariff = new Tariff();
     tariff.module = 'feed';
     tariff.plan = 'under_40';
@@ -30,6 +33,7 @@ function add_Tariff_Plans () {
             console.log(err);
         } else {
             console.log(newTariff);
+            ready();
         }   
     });
 }
