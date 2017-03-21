@@ -5,9 +5,17 @@ var Feed = require('../models/feed');
 
 function convert(feeds) {
 
+    // filter
+    // balance weight should exist
+
+    feeds = _.filter(feeds, function (feed) {
+        return feed.general.totalWeight && feed.general.balanceWeight;
+    });
+
     var byFeedType = _.map(feeds, 'general');
     byFeedType = _.groupBy(byFeedType, 'feedType');
     byFeedType = _.map(byFeedType, function (value, key) {
+        
         var byCompos = _.map(_.groupBy(value, 'composition'), function (value, key){
             
             var total = _.sumBy(value, 'totalWeight');
