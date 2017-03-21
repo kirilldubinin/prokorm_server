@@ -17,7 +17,7 @@ db.on('error', function(err) {
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");
-    add_Tariff_Plans();
+    addField_license_for_TENANT();
 });
 
 function add_Tariff_Plans (ready) {
@@ -30,7 +30,6 @@ function add_Tariff_Plans (ready) {
             console.log(err);
         } else {
             console.log(newTariff);
-            ready();
         }   
     });
 }
@@ -44,7 +43,7 @@ function addField_license_for_TENANT () {
                 winston.info('update feed with name: ' + tenant.loginName);
                 tenant.license.feed = {
                     endDate: new Date('01/01/2018'),
-                    tariffPlan: '58ce78000900e1704ee3c44e'    
+                    tariffPlan: '58d18c84542a803bd64feccc'    
                 }
 
                 tenant.save(function(err, _tenant) {
