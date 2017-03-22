@@ -3,7 +3,7 @@ var rating = require('../../feed/feed.rating');
 var _ = require('lodash');
 describe('feed.rating', function() {
     
-    it('rating', function(done) {
+    it.only('rating', function(done) {
         var feeds = [{
             _id: '1',
             general: {
@@ -52,7 +52,7 @@ describe('feed.rating', function() {
         }];
 
         var raitingAverage = rating(feeds);
-        //console.log(raitingAverage.feeds);
+        console.log(raitingAverage);
         //console.log(raitingAverage);
         done();
     });

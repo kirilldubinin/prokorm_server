@@ -18,10 +18,10 @@ function getSumsByProps(props, feeds) {
         if (prop === 'dryWeight') {
             return {
                 key: 'dryWeight',
-                value: _.sumBy(feeds, function(v) {
+                value: Math.round(_.sumBy(feeds, function(v) {
                     var dryMaterial = _.last(v.analysis).dryMaterial;
                     return dryMaterial / 100 * v.general.balanceWeight;
-                }) * 1000
+                }) * 1000)
             }
         } else {
             var total = _.sumBy(feeds, function(v) {
@@ -42,8 +42,6 @@ function getSumsByProps(props, feeds) {
                         1000 * lastAnalysis[prop] * dryBalanceWeight;    
                 }
             });
-
-            
 
             return {
                 key: prop,
@@ -94,7 +92,7 @@ function getSum(feeds) {
             label: lang(key),
             key: key,
             byComposition: byComposition,
-            sumsByProp: Math.round(sumsByProp)
+            sumsByProp: sumsByProp
         };
     });
     return {

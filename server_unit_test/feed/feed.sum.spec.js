@@ -37,7 +37,18 @@ describe('feed.sum', function() {
                 }]
         }];
 
-        var feedAverage = sum(feeds);
+        var feedSum = sum(feeds);
+
+        expect(feedSum.properties.length).to.equal(2);
+        expect(feedSum.sumsRows.length).to.equal(1);
+
+        var sumsByProp = feedSum.sumsRows[0];
+
+        expect(sumsByProp.sumsByProp[0].value).to.equal(300);
+        expect(sumsByProp.sumsByProp[1].value).to.equal(210);
+        expect(sumsByProp.byComposition.length).to.equal(2);
+        expect(sumsByProp.byComposition[0].key).to.equal('foo');
+        expect(sumsByProp.byComposition[1].key).to.equal('bar');
         done();
     });
 });
