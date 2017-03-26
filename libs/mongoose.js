@@ -1,4 +1,4 @@
-var mongoose = require('mongoose');
+/*var mongoose = require('mongoose');
 var logger = require('./log')(module);
 
 mongoose.connect('mongodb://localhost:27017/feed');
@@ -29,4 +29,4 @@ Feed.path('year').validate(function (v) {
 });
 var FeedModel = mongoose.model('Feed', Feed);
 module.exports.FeedModel = FeedModel;
-// Feed END
+// Feed END*/

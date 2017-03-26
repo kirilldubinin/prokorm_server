@@ -4,27 +4,38 @@ var app = express();
 var mongoose = require('mongoose');
 var port = process.env.PORT || 8080;
 var database = require('./config/database');
-var morgan = require('morgan');
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var passport = require('passport');
 var session = require('express-session');
 var flash = require('connect-flash');
-var log = require('./libs/log');
-var winston = require('winston');
 var helmet = require('helmet');
+var morgan = require('morgan');
+
+// logging =====================================================================
+// create a custom timestamp format for log statements
+const opts = {
+	logFilePath:'logs.log',
+	timestampFormat:'YYYY-MM-DD HH:mm:ss.SSS'
+	//logDirectory:'/logs',
+    //fileNamePattern:'roll-<DATE>.log',
+    //dateFormat:'YYYY.MM.DD'
+};
+const SimpleNodeLogger = require('simple-node-logger'),
+	log = SimpleNodeLogger.createSimpleLogger(opts);
 
 // configuration ===============================================================
 mongoose.connect(database.localUrl);
 var db = mongoose.connection;
 db.on('error', function(err) {
-    winston.error('connection error:', err.message);
+    log.info('connection error:', err.message);
 });
 db.once('open', function callback() {
-    winston.info("Connected to DB!");
+    console.log("Connected to DB!");
 	// listen (start app with node server.js) ======================================
 	app.listen(port);
+	log.info("App listening on port " + port);
 	console.log("App listening on port " + port);
 });
 
@@ -53,19 +64,13 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 app.use(helmet());
 
+
+
 // routes ======================================================================
-require('./route/routes.js')(app);
+require('./route/routes.js')(app, log);
 
-
-// tmp ========================================================================
-
-/*var schedule = require('node-schedule');
- 
-var rule = new schedule.RecurrenceRule();
-rule.minute = 1;
- 
-var j = schedule.scheduleJob(rule, function(){
-  console.log('The answer to life, the universe, and everything!');
-});*/
+// run scheduler ===============================================================
+// each day
+var feedScheduler = require('./feed/feed.schedule.js')(log);
 
 

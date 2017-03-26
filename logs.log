@@ -1,0 +1,48 @@
+2017-03-26 18:59:16.859 INFO  App listening on port 8080 
+2017-03-26 19:00:00.361 INFO  START FEED scheduler: 
+2017-03-26 19:02:24.409 INFO  App listening on port 8080 
+2017-03-26 19:03:28.934 INFO  App listening on port 8080 
+2017-03-26 19:04:00.740 INFO  START FEED scheduler: 
+2017-03-26 19:05:00.738 INFO  START FEED scheduler: 
+2017-03-26 19:06:00.738 INFO  START FEED scheduler: 
+2017-03-26 19:07:00.737 INFO  START FEED scheduler: 
+2017-03-26 19:08:00.737 INFO  START FEED scheduler: 
+2017-03-26 19:09:00.738 INFO  START FEED scheduler: 
+2017-03-26 19:10:00.736 INFO  START FEED scheduler: 
+2017-03-26 19:11:00.738 INFO  START FEED scheduler: 
+2017-03-26 19:12:00.736 INFO  START FEED scheduler: 
+2017-03-26 19:13:00.738 INFO  START FEED scheduler: 
+2017-03-26 19:14:52.864 INFO  App listening on port 8080 
+2017-03-26 19:15:00.669 INFO  START FEED scheduler 
+2017-03-26 19:16:00.668 INFO  START FEED scheduler 
+2017-03-26 19:16:37.869 INFO  App listening on port 8080 
+2017-03-26 19:17:00.666 INFO  START FEED scheduler 
+2017-03-26 19:17:55.472 INFO  App listening on port 8080 
+2017-03-26 19:18:00.276 INFO  START FEED scheduler 
+2017-03-26 19:19:00.273 INFO  START FEED scheduler 
+2017-03-26 19:20:00.275 INFO  START FEED scheduler 
+2017-03-26 19:21:00.273 INFO  START FEED scheduler 
+2017-03-26 19:22:00.270 INFO  START FEED scheduler 
+2017-03-26 19:23:00.272 INFO  START FEED scheduler 
+2017-03-26 19:24:00.272 INFO  START FEED scheduler 
+2017-03-26 19:25:00.272 INFO  START FEED scheduler 
+2017-03-26 19:26:00.272 INFO  START FEED scheduler 
+2017-03-26 19:27:37.779 INFO  App listening on port 8080 
+2017-03-26 19:28:00.582 INFO  START FEED scheduler 
+2017-03-26 19:29:00.580 INFO  START FEED scheduler 
+2017-03-26 19:29:12.440 INFO  START FEED scheduler 
+2017-03-26 19:29:12.675 INFO  App listening on port 8080 
+2017-03-26 19:29:30.470 INFO  START FEED scheduler 
+2017-03-26 19:29:30.697 INFO  App listening on port 8080 
+2017-03-26 19:31:06.341 INFO  START FEED scheduler 
+2017-03-26 19:31:06.560 INFO  App listening on port 8080 
+2017-03-26 19:31:28.992 INFO  START FEED scheduler 
+2017-03-26 19:31:29.208 INFO  App listening on port 8080 
+2017-03-26 19:33:15.263 INFO  START FEED scheduler 
+2017-03-26 19:33:15.477 INFO  App listening on port 8080 
+2017-03-26 19:33:15.611 INFO  {"errors":{"general.balanceWeight":{"message":"Cast to Number failed for value \"NaN\" at path \"general.balanceWeight\"","name":"CastError","stringValue":"\"NaN\"","kind":"Number","value":null,"path":"general.balanceWeight","reason":{"message":"Cast to number failed for value \"NaN\" at path \"general.balanceWeight\"","name":"CastError","stringValue":"\"NaN\"","kind":"number","value":null,"path":"general.balanceWeight"}}},"message":"Feed validation failed","name":"ValidationError"} 
+2017-03-26 19:42:08.647 INFO  START FEED scheduler 
+2017-03-26 19:42:08.867 INFO  App listening on port 8080 
+2017-03-26 19:42:09.238 INFO  FEED scheduler: was set balanceWeight to591 
+2017-03-26 20:08:26.429 INFO  App listening on port 8080 
+2017-03-26 20:09:41.562 INFO  App listening on port 8080 

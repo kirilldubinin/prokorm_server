@@ -17,7 +17,9 @@ var charts = require('../feed/feed.charts');
 var rating = require('../feed/feed.rating');
 var list = require('../feed/feed.list');
 var lang = require('../feed/lang');
-module.exports = function(app, isAuthenticated, errorHandler) {
+
+module.exports = function(app, isAuthenticated, errorHandler, log) {
+    
     function checkUserRightForFeed(feed, req, res) {
         var check = feed.createdBy.tenantId.equals(req.user.tenantId);
         if (res && !check) {

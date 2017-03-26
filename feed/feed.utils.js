@@ -78,11 +78,9 @@ var requiredFields = {
     'general.feedType': 'required',
     'general.composition': 'required',
     'general.year': 'required',
-
     'analysis.number': 'required',
     'analysis.dryMaterial': 'required',
-    'analysis.date': 'required',
-
+    'analysis.date': 'required'
 };
 
 var disabledFields = {

@@ -27,6 +27,7 @@
     "q": "^1.4.1",
     "util": "^0.10.3",
     "winston": "2.3.0",
+    "simple-node-logger": "^0.93.16",
     "helmet": "3.4.0"
   },
   "devDependencies": {

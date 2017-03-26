@@ -1,12 +1,11 @@
 // set up ======================================================================
 var _ = require('lodash');
-var winston = require('winston');
 
 // routes =====================================================================
-module.exports = function(app) {
+module.exports = function(app, log) {
 
     function errorHandler(err, req, res) {
-        winston.error(err.name + ':', err.message);
+        log.info.error('ROUTE: ' + err.name + ':', err.message);
         if (err.name === 'ValidationError') {
             return res.status(406).json({
                 message: err.message
@@ -42,6 +41,6 @@ module.exports = function(app) {
     // init other routes
     var routes = ['login', 'profile', 'feed', 'catalog', 'admin', 'demo'];
     _.forEach(routes, function (route) {
-        require('./routes.' + route)(app, isAuthenticated, errorHandler); 
+        require('./routes.' + route)(app, isAuthenticated, errorHandler, log); 
     });
 }

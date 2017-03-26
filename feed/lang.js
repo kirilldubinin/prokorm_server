@@ -129,7 +129,8 @@ function lang(key) {
         start: 'Начало',
         end: 'Конец',
         tonnPerDay: 'Тонн в день',
-        feedingDays: 'Дней кормления'
+        feedingDays: 'Дней кормления',
+        autoDecrement: 'Автовычитание'
     };
 
     if (_.isBoolean(key)) {

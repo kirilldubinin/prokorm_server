@@ -3,14 +3,13 @@ var express = require('express');
 var app = express();
 var mongoose = require('mongoose');
 var database = require('./config/database');
-var winston = require('winston');
 var _ = require('lodash');
 var Catalog = require('./models/catalog');
 // configuration ===============================================================
 mongoose.connect(database.localUrl); // Connect to local MongoDB instance. A remoteUrl is also available (modulus.io)
 var db = mongoose.connection;
 db.on('error', function(err) {
-    winston.error('connection error:', err.message);
+    console.log('connection error:', err.message);
 });
 db.once('open', function callback() {
     winston.info("Connected to DB!");

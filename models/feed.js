@@ -106,7 +106,8 @@ var FeedSchema = new Schema({
     feeding: {
         start: Date,
         end: Date,
-        tonnPerDay: Number
+        tonnPerDay: Number,
+        autoDecrement: Boolean
     }
 });
 var goldObject = {
@@ -177,7 +178,8 @@ var goldObject = {
     feeding: {
         start: null,
         end: null,
-        tonnPerDay: null
+        tonnPerDay: null,
+        autoDecrement: false
     }
 };
 FeedSchema.statics.getSkeleton = function() {
