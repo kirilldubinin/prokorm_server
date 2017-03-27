@@ -47,6 +47,11 @@
                 templateUrl: 'app/feed/charts/charts.html',
                 controller: 'ChartsDemoController',
                 controllerAs: 'charts'
+            }).state('sano', {
+                url: '/sano',
+                templateUrl: 'app/sano/sano.html',
+                controller: 'SanoController',
+                controllerAs: 'sano'
             })
             .state('tenant', {
                 url: '/:id',

@@ -25,7 +25,7 @@ function decrement(feeds, log) {
             feed.general.balanceWeight > 0) {
 
             feed.general.balanceWeight = feed.general.balanceWeight - feed.feeding.tonnPerDay;
-            if (feed.general.balanceWeight < 0) {
+            if (feed.general.balanceWeight < 0 || feed.general.balanceWeight === 0) {
                 feed.general.balanceWeight = 0;
                 feed.general.done = true;
             }
@@ -42,7 +42,7 @@ function decrement(feeds, log) {
 
 function run(log) {
     
-    var format = '* 0 * * *';
+    var format = '59 23 * * *';
 
     // run each hours
     schedule.scheduleJob(format, function() {

@@ -160,6 +160,11 @@
                 templateUrl: 'app/feed/charts/charts.html',
                 controller: 'ChartsDemoController',
                 controllerAs: 'charts'
+            }).state('sano', {
+                url: '/sano',
+                templateUrl: 'app/sano/sano.html',
+                controller: 'SanoController',
+                controllerAs: 'sano'
             })
             .state('tenant', {
                 url: '/:id',
@@ -176,7 +181,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.78");
+.constant("version", "0.0.80");
 
 })();
 
@@ -2085,6 +2090,15 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             key: 'charts',
             url: '/#/charts'
         }];
+    }
+})();
+(function() {
+    'use strict';
+    angular.module('prokorm').controller('SanoController', SanoController);
+    /** @ngInject */
+    function SanoController($scope, $state, $mdDialog) {
+        var vm = this;
+        
     }
 })();
 (function() {
