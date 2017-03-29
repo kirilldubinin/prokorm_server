@@ -5,7 +5,7 @@ var _ = require('lodash');
 module.exports = function(app, log) {
 
     function errorHandler(err, req, res) {
-        log.info.error('ROUTE: ' + err.name + ':', err.message);
+        log.info('ROUTE: ' + err.name + ':', err.message);
         if (err.name === 'ValidationError') {
             return res.status(406).json({
                 message: err.message

@@ -9,11 +9,11 @@
         vm.tenantName = ''
         vm.do = function () {
             authFactory.forgetPassword({
-                email: vm.email,
-                userName: vm.userNam,
-                tenantName: vm.tenantName
+                email: vm.email
+                //userName: vm.userNam,
+                //tenantName: vm.tenantName
             }).then(function (result) {
-
+                vm.successMessage = result.message;
             });
         };
     }

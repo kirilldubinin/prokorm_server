@@ -139,10 +139,8 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 // get user by emeil
                 User.findOne({
                     email: req.body.email
-                }).lean().exec(function(err, user) {
-                    if (err) {
-                        return errorHandler(err, req, res);
-                    } else if (user) {
+                }).then(function (user) {
+                    if (user) {
 
                         // get tenant by tenantId
                         Tenant.findOne({
@@ -173,7 +171,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                                 // send email with new password
                                 sendForgetEmail(emailData, function () {
                                     res.send({
-                                        message: 'На почту ' + user.email + 'отправлено письмо с дальнейшими инструкциями.'
+                                        message: 'На почту ' + user.email + ' отправлено письмо с дальнейшими инструкциями.'
                                     });
                                 });
                             });
@@ -183,6 +181,8 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                             message: 'Пользователь с таким E-Mail адресом не найден.'
                         });
                     }
+                }, function (err) {
+                    return errorHandler(err, req, res);
                 });
             }
         }

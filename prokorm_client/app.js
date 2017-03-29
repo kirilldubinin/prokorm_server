@@ -181,7 +181,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.80");
+.constant("version", "0.0.83");
 
 })();
 
@@ -371,11 +371,11 @@ angular.module('auth').factory('authFactory', ['$http', '$location', function($h
         vm.tenantName = ''
         vm.do = function () {
             authFactory.forgetPassword({
-                email: vm.email,
-                userName: vm.userNam,
-                tenantName: vm.tenantName
+                email: vm.email
+                //userName: vm.userNam,
+                //tenantName: vm.tenantName
             }).then(function (result) {
-
+                vm.successMessage = result.message;
             });
         };
     }
@@ -1238,6 +1238,19 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                 }
             }
 
+            //  by mode
+            if (vm.isDiffMode && !feedItem.analysis) {
+                return false;
+            } else if (vm.isAverageMode && !feedItem.analysis) {
+                return false;
+            } else if (vm.isSumMode && (!feedItem.analysis || !feedItem.balanceWeight)) {
+                return false;
+            } else if (vm.isChartMode && !feedItem.analysis) {
+                return false;
+            } else if (vm.isRatingMode && !feedItem.analysis) {
+                return false;
+            }
+
             return true;
         };
 
@@ -1749,63 +1762,6 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
 })();
 (function() {
     'use strict';
-    angular.module('prokorm').controller('LoginController', LoginController);
-    /** @ngInject */
-    function LoginController($http, $state, authFactory) {
-        var vm = this;
-
-        vm.tenantName = $state.params.tenant;
-        vm.user = {
-            tenantname: vm.tenantName || '',
-            username: '',
-            password: ''
-        };
-        vm.do = function () {
-            authFactory.login(vm.user).then(
-                function(response) {
-                    $state.go('tenant.feed', { 'id': response.tenantName });
-                }, function (err) {
-                    vm.info = err.message;
-                }
-            );
-        };
-
-        vm.goToRegistration = function () {
-            
-        };
-    }
-})();
-(function() {
-    'use strict';
-    angular.module('prokorm').controller('RegistrationController', RegistrationController);
-    /** @ngInject */
-    function RegistrationController($http, authFactory) {
-        var vm = this;
-        vm.user = {
-            loginname: '',
-            email: ''
-        };
-        vm.do = function () {
-            vm.error = '';
-            authFactory.registration(vm.user).then(
-                function(response) {
-                    if (response && response.message) {
-                        vm.successMessage = response.message;
-                    }
-                }, 
-                function(err) {
-                    vm.error = err.message;
-                }
-            );
-        };
-
-        vm.goToRegistration = function () {
-            
-        };
-    }
-})();
-(function() {
-    'use strict';
     angular.module('prokorm').controller('ProfileViewController', ProfileViewController);
     /** @ngInject */
     function ProfileViewController($scope, $state, $mdDialog, authFactory) {
@@ -2098,14 +2054,6 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     /** @ngInject */
     function SanoController($scope, $state, $mdDialog) {
         var vm = this;
-        
-    }
-})();
-(function() {
-    'use strict';
-    angular.module('prokorm').controller('SettingsController', SettingsController);
-    /** @ngInject */
-    function SettingsController($scope, $state) {
         
     }
 })();

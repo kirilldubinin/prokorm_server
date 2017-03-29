@@ -107,6 +107,19 @@
                 }
             }
 
+            //  by mode
+            if (vm.isDiffMode && !feedItem.analysis) {
+                return false;
+            } else if (vm.isAverageMode && !feedItem.analysis) {
+                return false;
+            } else if (vm.isSumMode && (!feedItem.analysis || !feedItem.balanceWeight)) {
+                return false;
+            } else if (vm.isChartMode && !feedItem.analysis) {
+                return false;
+            } else if (vm.isRatingMode && !feedItem.analysis) {
+                return false;
+            }
+
             return true;
         };
 

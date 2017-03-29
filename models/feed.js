@@ -219,12 +219,17 @@ FeedSchema.statics.sort = function(object, rootProperty) {
     return result;
 };
 FeedSchema.pre('validate', function(next) {
+    
+    // general properies
     if (!this.general.year || 
         this.general.feedType === 'none' || 
         !this.general.feedType ||
         !this.general.composition) {
         return next(Error('"Год", "Тип" и "Состав" корма обязательны для заполнения.'));
-    } else if (this.analysis.length) {
+    } 
+
+    // analysis
+    if (this.analysis.length) {
 
         if (_.some(this.analysis, function (a) {
             return !a.number;
@@ -243,11 +248,16 @@ FeedSchema.pre('validate', function(next) {
         })) {
             return next(Error('"Сухое вещество" анализа обязательно для заполнения'));
         }
-
-        return next();
-    } else {
-        return next();
     }
+
+    // feeding 
+    if (this.feeding.autoDecrement && !_.isNumber(this.feeding.tonnPerDay)) {
+        return next(Error('"Тонн в день" обязательно для заполнения при включенном автовычитании'));
+    }
+
+
+    // VALIDATION OK
+    return next();
 });
 /*FeedSchema.path("general.name").validate(function (v) {
     return v.length;

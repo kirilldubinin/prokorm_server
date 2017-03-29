@@ -1,39 +1,54 @@
 <div class="registration-screen" layout="row">
-  <div flex="25"></div>
-  <div class="farm-registration" flex>
-    <div class="main-registration-header main-header">ПРОКОРМ</div>
-    <md-card md-theme="default" md-theme-watch>
-      <md-card-title>
-        <md-card-title-text>
-          <p>Регистрация новой организации</p>
-          <div  class="registration-input">
-            <p>Имя организации</p>
-            <input type="text" name="tenantname" ng-model="registration.user.loginname"></input>
-            <p class="info">только латинские буквы, пробелы и спец символы запрещены</p>
-          </div>
-          <div class="registration-input">
-            <p>E-Mail</p>
-            <input type="text" name="email" ng-model="registration.user.email"></input>
-          </div>
-
-          <p ng-if="!registration.successMessage" class="terms">
-            Регистрируясь вы принимаете 
-            <a class="terms-button" href="#/eula">пользовательское соглашение</a>
-          </p>
-          <p ng-if="registration.successMessage" class="terms">
-            {{registration.successMessage}}
-          </p>
-          <!--<md-button class="md-raised register-button" ng-click="login.goToRegistration()">Зарегестрироваться</md-button>-->
-        </md-card-title-text>
-      </md-card-title>
-      <md-card-actions layout="row" ng-if="!registration.successMessage" layout-align="">
-        <div flex></div>
-        <div>
-          <md-button class="md-raised md-primary" ng-click="registration.do()">Регистрация</md-button>
+    <div flex="25">
+    </div>
+    <div class="farm-registration" flex="">
+        <div class="main-registration-header main-header">
+            <a alt="prokorm.com" href="/">ПРОКОРМ</a>
         </div>
-      </md-card-actions>
-    </md-card>  
-  </div>
-
-  <div flex="25"></div>
+        <md-card md-theme="default" md-theme-watch="">
+            <md-card-title>
+                <md-card-title-text>
+                    <p>
+                        Регистрация новой организации
+                    </p>
+                    <div class="registration-input">
+                        <p>
+                            Имя организации
+                        </p>
+                        <input name="tenantname" ng-model="registration.user.loginname" type="text"/>
+                        <p class="info">
+                            только латинские буквы, пробелы и спец символы запрещены
+                        </p>
+                    </div>
+                    <div class="registration-input">
+                        <p>
+                            E-Mail
+                        </p>
+                        <input name="email" ng-model="registration.user.email" type="text"/>
+                    </div>
+                    <p class="terms" ng-if="!registration.successMessage">
+                        Регистрируясь вы принимаете
+                        <a class="terms-button" target="_blank" href="#/eula">
+                            пользовательское соглашение
+                        </a>
+                    </p>
+                    <p class="terms" ng-if="registration.successMessage">
+                        {{registration.successMessage}}
+                    </p>
+                    <!--<md-button class="md-raised register-button" ng-click="login.goToRegistration()">Зарегестрироваться</md-button>-->
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="" ng-if="!registration.successMessage">
+                <div flex="">
+                </div>
+                <div>
+                    <md-button class="md-raised md-primary" ng-click="registration.do()">
+                        Регистрация
+                    </md-button>
+                </div>
+            </md-card-actions>
+        </md-card>
+    </div>
+    <div flex="25">
+    </div>
 </div>

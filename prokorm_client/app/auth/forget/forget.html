@@ -1,18 +1,26 @@
-<div layout="row" class="login-screen" >
-  <div flex="30"></div>
-
-  <div class="farm-login" flex>
-    <div class="main-login-header main-header">ПРОКОРМ</div>
-    <md-card md-theme="default" md-theme-watch>
-      <md-card-title>
-        <md-card-title-text>
-          <p>Забыли пароль ?</p>
-          <div class="login-input">
-            <p>Введите ваш емейл</p>
-            <input type="text" name="tenantname" ng-model="forget.email"></input>
-          </div>
-          
-          <!--div class="login-input">
+<div class="login-screen" layout="row">
+    <div flex="30">
+    </div>
+    <div class="farm-login" flex="">
+        <div class="main-login-header main-header">
+            <a href="/">ПРОКОРМ</a>
+        </div>
+        <md-card md-theme="default" md-theme-watch="">
+            <md-card-title>
+                <md-card-title-text>
+                    <p>
+                        Забыли пароль ?
+                    </p>
+                    <div class="login-input">
+                        <p>
+                            Введите ваш емейл
+                        </p>
+                        <input name="tenantname" ng-model="forget.email" type="text"/>
+                    </div>
+                    <p ng-if="forget.successMessage">
+                        {{forget.successMessage}}
+                    </p>
+                    <!--div class="login-input">
             <p>Имя пользователя</p>
             <input type="text" name="tenantname" ng-model="forget.userName"></input>
           </div>
@@ -23,24 +31,26 @@
 
           <span class="phone">Если у Вас возникли сложности, пожалуйста позвоните по телефону</span>
           <span class="phone">8 800</span-->
-        </md-card-title-text>
-      </md-card-title>
-      <md-card-actions layout="row" layout-align="">
-        <div flex>
-        </div>
-        <div>
-          <md-button class="md-raised md-primary" ng-click="forget.do()">Получить новый пароль</md-button>
-        </div> 
-      </md-card-actions>
-
-      <p class="or">
-            или позвоните 
-            <br/> 
-            <b>8 800 550 28 27</b>
-          </span>
-
-    </md-card>  
-  </div>
-
-  <div flex="30"></div>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-actions layout="row" layout-align="" ng-if="!forget.successMessage">
+                <div flex="">
+                </div>
+                <div>
+                    <md-button class="md-raised md-primary" ng-click="forget.do()">
+                        Получить новый пароль
+                    </md-button>
+                </div>
+            </md-card-actions>
+            <p class="or">
+                или позвоните
+                <br/>
+                <b>
+                    8 800 550 28 27
+                </b>
+            </p>
+        </md-card>
+    </div>
+    <div flex="30">
+    </div>
 </div>
