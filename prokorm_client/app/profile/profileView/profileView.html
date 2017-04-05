@@ -1,7 +1,7 @@
 <div class="profile-view" layout="row">
 	<div class="user-info" flex="40">
 		<h2>Текущий пользователь
-			<md-button class="md-raised" ng-click="profileView.edit()">
+			<md-button class="md-raised" ng-if="profileView.admin" ng-click="profileView.edit()">
 		        Редактировать
 	      	</md-button>
 		</h2>
