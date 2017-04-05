@@ -90,7 +90,8 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                                         userName: u.name
                                     };
                                 }),
-                                companyLicense: licenseInfo
+                                companyLicense: licenseInfo,
+                                admin: isAdmin
                             });
 
                         }, function(err) {
@@ -100,7 +101,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 });
             } else {
                 return res.json({
-                    controls: userInfo
+                    userInfo: userInfo
                 });
             }
         });
@@ -193,7 +194,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
     app.post('/api/profile/password', isAuthenticated, function(req, res) {
         // check new password
         if (!req.body.newPassword || req.body.newPassword !== req.body.newPassword2) {
-            return res.status(406).json({
+            return res.json({
                 message: 'Повторите ввод нового пароля.'
             });
         }
@@ -202,7 +203,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         var passRegExp = new RegExp(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/);
 
         if (!passRegExp.test(req.body.newPassword)) {
-            return res.status(406).json({
+            return res.json({
                 message: 'Новый пароль недостаточно защищен'
             });    
         }
@@ -213,7 +214,7 @@ module.exports = function(app, isAuthenticated, errorHandler) {
                 return errorHandler(err, req, res);
             }
             if (user.password !== req.body.currentPassword) {
-                return res.status(406).json({
+                return res.json({
                     message: 'Текущий пароль неверен.'
                 });
             }

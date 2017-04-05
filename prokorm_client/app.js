@@ -181,7 +181,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.92");
+.constant("version", "0.0.93");
 
 })();
 
@@ -1770,21 +1770,22 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             vm.userInfo = result.userInfo;
             vm.companyUsers = result.companyUsers;
             vm.companyLicense = result.companyLicense;
+            vm.admin = result.admin;
         });
         vm.edit = function() {
             $state.go('tenant.profile.edit');
         };
         vm.changePassword = function(ev) {
+            ev.stopPropagation();
+            ev.preventDefault();
             $mdDialog.show({
                 controller: ChangePasswordController,
                 templateUrl: './app/profile/changePassword/changePassword.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
-                clickOutsideToClose: false
-            }).then(function(answer) {
-                $state.go('tenant.profile.view');
-            }, function() {
-                $state.go('tenant.profile.view');
+                clickOutsideToClose: false,
+                escapeToClose: false,
+                backdrop : 'static'
             });
         };
 
@@ -1847,7 +1848,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     }
     angular.module('prokorm').controller('ChangePasswordController', ChangePasswordController);
     /** @ngInject */
-    function ChangePasswordController($scope, $mdDialog, authFactory) {
+    function ChangePasswordController($scope, $state, $mdDialog, authFactory) {
         
         $scope.currentPassword = '';
         $scope.newPassword = '';
@@ -1857,14 +1858,26 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             $mdDialog.cancel();
         };
         $scope.save = function () {
+            $scope.error = null;
             authFactory.setPassword({
                 currentPassword: $scope.currentPassword,
                 newPassword: $scope.newPassword,
                 newPassword2: $scope.newPassword2
             }).then(function (data) {
                 if (data.message === 'OK') {
-                    $state.go('tenant.profile.view');
+                    $mdDialog.show(
+                        $mdDialog
+                        .alert()
+                        .clickOutsideToClose(false)
+                        .title('Смена пароля')
+                        .textContent('Новый пароль сохранен')
+                        .ok('Ok')
+                    );
+                } else {
+                    $scope.error = data.message;
                 }
+            }, function () {
+                return false;
             });
         };
     }

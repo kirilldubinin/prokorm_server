@@ -10,9 +10,9 @@
 			<span flex>{{userInfo.value}}</span>
 		</p>	
 
-		<p layout="row">
+		<p ng-if="profileView.admin" layout="row">
 			<label flex="25"></label>
-			<md-button class="md-primary" ng-click="profileView.changePassword()" md-no-ink="">
+			<md-button class="md-primary" ng-click="profileView.changePassword($event)" md-no-ink="">
                 Сменить пароль
             </md-button>
 		</p>
