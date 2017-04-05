@@ -181,7 +181,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.83");
+.constant("version", "0.0.88");
 
 })();
 
@@ -2019,7 +2019,11 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     angular.module('prokorm').controller('PublicController', PublicController);
     function PublicController($state, authFactory) {
         var vm = this;
-        $state.go('public.view');
+
+        if ($state.current.name === 'public') {
+            $state.go('public.view');    
+        }
+        
         vm.current = 'view';
         vm.buttons = [{
         	name: 'анализы',

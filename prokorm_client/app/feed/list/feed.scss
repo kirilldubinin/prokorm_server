@@ -1,23 +1,25 @@
 .feed {
 
 	.weight-control {
-		border: 2px solid #009688;
-	    height: 38px;
-	    border-radius: 3px;
-	    font-size: 22px;
-	    margin: auto;
 	    font-family: 'Titillium Web', sans-serif;
 
 		.balance {
 			display: none;
 		    color: #FF9800;
-		    padding: 1px 10px;
+		    padding: 0px 10px;
+		    background-color: #fff;
+		    border: 2px solid #ff9800;
+		    box-sizing: border-box;
+		    border-radius: 3px 0 0 3px;
+		    border-right: 0px;
 		}
 
 		.total {
 		    background-color: #009688;
 		    color: #fff;
-		    padding: 0px 10px;
+		    padding: 0 10px;
+		    border: 2px solid #009688;
+		    border-radius: 3px;
 		}
 
 		&.opened {
@@ -27,6 +29,7 @@
 			}
 
 			border-color: #FF9800;
+
 			.left {
 				display: none;
 				color: #FF9800;
@@ -34,6 +37,8 @@
 
 			.total {
 			    background-color: #FF9800;
+			    border-color: #FF9800;
+			    border-radius: 0 3px 3px 0;
 			}
 		}
 
@@ -51,6 +56,12 @@
 			    background-color: #999;
 			    padding: 1px 10px;
 			}
+		}
+	}
+
+	.feed-title {
+		.weight-control { 
+			margin-top: 16px;
 		}
 	}
 	

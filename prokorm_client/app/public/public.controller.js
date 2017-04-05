@@ -3,7 +3,11 @@
     angular.module('prokorm').controller('PublicController', PublicController);
     function PublicController($state, authFactory) {
         var vm = this;
-        $state.go('public.view');
+
+        if ($state.current.name === 'public') {
+            $state.go('public.view');    
+        }
+        
         vm.current = 'view';
         vm.buttons = [{
         	name: 'анализы',
