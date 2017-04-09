@@ -153,8 +153,8 @@ var emailsPiter = [
 
 var mailOptions = {
     from: '"ПРОКОРМ" <sales@prokorm.com>', // sender address 
-    to: "dubininkg@gmail.com", // list of receivers 
-    subject: 'ПРОКОРМ: Управление кормами', // Subject line 
+    to: ["dubininkg@gmail.com", "kirill@prokorm.com"], // list of receivers 
+    subject: 'ПРОКОРМ: Управление кормами #1', // Subject line 
     html: 
         `<meta charset="utf-8">
         <section style="color: #444444; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 20px;">
@@ -172,8 +172,7 @@ var mailOptions = {
                 Как это работает ?
                 </h4>
                 <br/>
-                Регистрируясь в системе ПРОКОРМ, вы создаете собственную компанию, доступ к которой защищен логином и паролем, 
-                далее Вы вводите корма Вашего предприятия в систему, доступ к которым будете иметь только ВЫ.
+                Регистрируясь в системе ПРОКОРМ, вы создаете собственную компанию, доступ к которой защищен логином и паролем, далее Вы вводите корма Вашего предприятия в систему, доступ к которым будете иметь только ВЫ.
                 <br/>
             </div>
             
@@ -234,11 +233,7 @@ var mailOptions = {
                 </span>
                 <br/>
                 <span style="color: #666;font-size:12px;">
-                    Получить средние показатели кукурузного зерна для разных отделений предприятия
-                </span>
-                <br/>
-                <span style="color: #666;font-size:12px;">
-                    Какое процентное соотношение из общей массы сенажа составляет козлятник, а сколько люцерна.
+                    Какое процентное соотношение из общей массы сенажа составляет козлятник, а сколько - люцерна.
                 </span>
                 <br/>
                 <span style="color: #666;font-size:12px;">
@@ -273,15 +268,15 @@ var mailOptions = {
                 </a>
                 <br/>
                 <span style="color: #666;font-size:12px;">
-                    Графическое представление изменения показателей кормов по годам
+                    Графическое представление изменения показателей кормов по годам.
                 </span>
                 <br/>
                 <span style="color: #666;font-size:12px;">
-                    Узнать стали лучше ли Ваши корма за последние 5 лет
+                    Узнать улучшились ли Ваши корма за последние 5 лет.
                 </span>
                 <br/>
                 <span style="color: #666;font-size:12px;">
-                    Какой именно показатель кормов ухудшается с каждым годом
+                    Какой именно показатель кормов ухудшается с каждым годом.
                 </span>
                 <br/>
                 <a href="http://prokorm.com/#/charts" style="color: #3F51B5; font-size:12px;">
