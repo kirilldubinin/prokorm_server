@@ -5,10 +5,12 @@
         var vm = this;
 
         if ($state.current.name === 'public') {
-            $state.go('public.view');    
+            $state.go('public.view');
+            vm.current = 'view';    
+        } else {
+            vm.current = $state.current.name.split('.')[1];
         }
         
-        vm.current = 'view';
         vm.buttons = [{
         	name: 'анализы',
         	key: 'view',

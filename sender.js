@@ -1,5 +1,6 @@
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport('smtps://sales%40prokorm.com:4noLimits$@smtp.gmail.com');
+var _ = require('lodash');
 
 var emailsNovikov = [
     'redin.molkoop@gmail.com',
@@ -140,7 +141,6 @@ var emailsPiter = [
     'pzplamya@gmail.com',
     'secretary@pz-lesnoe.ru', 
     'premiumagro@mail.ru',
-    'agrobalt@yandex.ru',
     'zakaz@pfsin.ru', 
     'predport@list.ru',
     'info@lkkz.ru', 
@@ -151,10 +151,12 @@ var emailsPiter = [
     'info@agro78.ru' 
 ];
 
+var emails = ["dubininkg@gmail.com", "kirill@prokorm.com"];
+
 var mailOptions = {
     from: '"ПРОКОРМ" <sales@prokorm.com>', // sender address 
-    to: ["dubininkg@gmail.com", "kirill@prokorm.com"], // list of receivers 
-    subject: 'ПРОКОРМ: Управление кормами #1', // Subject line 
+    to: null, // list of receivers 
+    subject: 'ПРОКОРМ: Управление кормами #2', // Subject line 
     html: 
         `<meta charset="utf-8">
         <section style="color: #444444; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 20px;">
@@ -166,7 +168,7 @@ var mailOptions = {
             </lavel>
             <div style="font-size:12px;">
                 <h4 style="color:#3F51B5;">
-                ПРОКОРМ - это новая электоронная система управления кормами.
+                ПРОКОРМ - это новая электронная система управления кормами.
                 </h4>
                 <h4 style="color:#3F51B5;margin:0;">
                 Как это работает ?
@@ -303,12 +305,46 @@ var mailOptions = {
                 </h4>
                 Звоните - 8 800 550 28 27
             </div>
+
+            <br/>
+            <div style="font-size:10px; color: #999">
+                Общество с ограниченной ответственностью
+                «ПРОКОРМ»
+                <br/>
+                (ООО«ПРОКОРМ»)
+                <br/>
+                Юридический адрес: 603123, г. Нижний Новгород,
+                <br/>
+                ул. Героя Шнитникова, д. 4, кв. (оф.) 3.
+                <br/>
+                Почтовый адрес: 603116, г. Нижний Новгород,
+                ул. Московское шоссе, д. 12, офис 10.
+                <br/>
+                ИНН 5256122945 КПП 525601001 ОГРН 1135256005994
+                <br/>
+                р/с 40702810323000478853 Поволжский филиал ЗАО «Райффайзенбанк» в г. Нижнем Новгороде.
+                <br/>
+                к/с 30101810300000000847
+                <br/>
+                БИК 042202847
+                <br/>
+                Тел./факс: 8-800-550-28-27 
+                <br/>
+                Email: sales@prokorm.com
+            </div>
+
         </section>`
 };
- 
-// send mail with defined transport object 
-transporter.sendMail(mailOptions, function(error, info){
-    if(error){
-        console.log(error);
-    }
+
+_.forEach(emails, function (email) {
+    mailOptions.to = email;
+    // send mail with defined transport object 
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            console.log(error);
+        } else if (info) {
+            console.log(info);
+        }
+    });
 });
+ 

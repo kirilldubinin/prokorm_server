@@ -74,6 +74,10 @@ function inRange (prop, value) {
 
 function getRaiting(feeds, feedType) {
 
+    if (feedType !== 'haylage' && feedType !== 'silage') {
+        return null;
+    }
+
     // filter by ratingProperties
     var ratingProperties = feedType === 'haylage' ?
         ratingPropertiesHaylage :

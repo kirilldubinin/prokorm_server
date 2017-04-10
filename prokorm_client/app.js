@@ -181,7 +181,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.93");
+.constant("version", "0.0.95");
 
 })();
 
@@ -2034,10 +2034,13 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         var vm = this;
 
         if ($state.current.name === 'public') {
-            $state.go('public.view');    
+            $state.go('public.view');
+            vm.current = 'view';    
+        } else {
+            vm.current = $state.current.name.split('.')[1];
+            alert(vm.current);
         }
         
-        vm.current = 'view';
         vm.buttons = [{
         	name: 'анализы',
         	key: 'view',
