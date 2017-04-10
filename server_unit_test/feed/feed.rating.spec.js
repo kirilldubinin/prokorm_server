@@ -12,7 +12,7 @@ describe.only('feed.rating', function() {
                 price: '',
             },
             analysis: [{
-                dryMaterial: 32.3,
+                dryMaterial: 22.3,
                 oeb: 80,
                 vcos: 75.9,
                 nh3: 7,
@@ -63,8 +63,30 @@ describe.only('feed.rating', function() {
     });
     it('should return rating for haylage', function(done) {
         var raitingAverage = rating(feeds, 'haylage');
-        console.log(raitingAverage);
-        //console.log(raitingAverage);
+
+        _.forEach(raitingAverage.properties, function (prop) {
+            expect(prop.key).to.be.a('string');
+            expect(prop.label).to.be.a('string');
+            expect(prop.dimension).to.be.a('string');
+            expect(prop.bestValue).to.be.a('string');
+        });
+
+        var feed_1 = raitingAverage.feeds[0];
+        var feed_1_in_range = _.filter(feed_1, {"inRange": true});
+        expect(feed_1[0].name).to.be.equal('2');
+        expect(feed_1_in_range.length).to.be.equal(4);
+
+        var feed_2 = raitingAverage.feeds[1];
+        var feed_2_in_range = _.filter(feed_2, {"inRange": true});
+        expect(feed_2[0].name).to.be.equal('3');
+        expect(feed_2_in_range.length).to.be.equal(4);
+
+        var feed_3 = raitingAverage.feeds[2];
+        var feed_3_in_range = _.filter(feed_3, {"inRange": true});
+        expect(feed_3[0].name).to.be.equal('1');
+        expect(feed_3_in_range.length).to.be.equal(3);
+
+       
         done();
     });
 });
