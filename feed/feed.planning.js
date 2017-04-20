@@ -15,53 +15,23 @@ function getSumsByProps(props, feeds) {
         return dryMaterial / 100 * v.general.balanceWeight;
     });*/
     return _.map(props, function(prop) {
-        if (prop === 'dryWeight') {
-            return {
-                key: 'dryWeight',
-                value: _.sumBy(feeds, function(v) {
-                    var dryMaterial = _.last(v.analysis).dryMaterial;
-                    return dryMaterial / 100 * v.general.balanceWeight;
-                }) * 1000
-            }
-        } else {
-            var total = _.sumBy(feeds, function(v) {
-
-                var lastAnalysis = _.last(v.analysis);
-                var dryMaterial = lastAnalysis.dryMaterial / 100;
-                var isNaturalWet = lastAnalysis.isNaturalWet;
-                var dryBalanceWeight = dryMaterial * v.general.balanceWeight
-                //console.log((1000 * (lastAnalysis[prop] / dryMaterial)))
-
-                if (prop === 'crudeProtein') {
-                    return isNaturalWet ? 
-                        lastAnalysis[prop] / dryMaterial * dryBalanceWeight : 
-                        lastAnalysis[prop] * dryBalanceWeight;
-                } else {
-                    return isNaturalWet ? 
-                        1000 * (lastAnalysis[prop] / dryMaterial) * dryBalanceWeight : 
-                        1000 * lastAnalysis[prop] * dryBalanceWeight;    
-                }
-            });
-
-            
-
-            return {
-                key: prop,
-                value: total
-            }
+        return {
+            key: 'balanceWeight',
+            value: _.sumBy(feeds, function(v) {
+                return v.general.balanceWeight;
+            })
         }
     });
 }
 
-function getPlanning(feeds) {
+function getSum(planningParams) {
+
+    var feeds = planningParams.feeds;
     //filter feeds, feed shoul have analysis
     feeds = _.filter(feeds, function(feed) {
         return feed.analysis.length;
     });
-    // filter properties
-    // each feed from feeds should have properties from list
-    // in last analysis 
-    var props = ['dryWeight'];
+    
     var byFeedType = _.map(feeds, function(feed) {
         feed.feedType = feed.general.feedType;
         feed.composition = feed.general.composition;
@@ -73,10 +43,20 @@ function getPlanning(feeds) {
             return {
                 label: lang(key),
                 key: key,
-                sumsByProp: getSumsByProps(props, _value)
+                sumsByProp: _.sumBy(_value, function(v) {
+                    return v.general.balanceWeight;
+                })
             };
         });
-        var sumsByProp = getSumsByProps(props, value);
+        var sumsByProp = _.sumBy(value, function(v) {
+            return v.general.balanceWeight;
+        });
+        // add percent for byComposition
+        // how many percent of each composition in feedType
+        _.forEach(byComposition, function(byCompos) {
+            byCompos.percentOfTotal = Math.round(byCompos.sumsByProp / sumsByProp * 100);
+        });
+
         // add percent for byComposition
         // how many percent of each composition in feedType
         _.forEach(byComposition, function(byCompos) {
@@ -85,22 +65,34 @@ function getPlanning(feeds) {
                 compositionSumByProp.percentOfTotal = Math.round(compositionSumByProp.value / totalSum.value * 100);
             });
         });
+
+        var tonnPerDay = planningParams.tonnPerDay[key];
+        var willEnd;
+        var daysLeft;
+        if (tonnPerDay > 0) {
+            willEnd = new Date(new Date().getTime() + Math.floor(sumsByProp/tonnPerDay) * 24 * 60 *60 * 1000)
+            willEnd = ('0' + 
+                        willEnd.getDate()).slice(-2) + 
+                        '/' + 
+                        ('0' + (willEnd.getMonth() + 1)).slice(-2) + 
+                        '/' + 
+                        willEnd.getFullYear();
+
+            daysLeft = Math.floor(sumsByProp/tonnPerDay);
+        }
+        
         return {
             label: lang(key),
             key: key,
+            tonnPerDay: planningParams.tonnPerDay[key],
+            willEnd: willEnd,
+            daysLeft: daysLeft,
             byComposition: byComposition,
-            sumsByProp: sumsByProp
+            balanceWeight: sumsByProp
         };
     });
 
-    sums = _.map(sums, function (sum) {
-        return sum.sumsByProp.push({
-            key: 'consumptionPerDay',
-            label: lang('consumptionPerDay'),
-            dimension: dimension('dryWeight')
-        })
-    });
-
+    var props = ['leftWeight', 'tonnPerDay', 'daysLeft', 'willEnd'];
     return {
         properties: _.map(props, function(prop) {
             return {
@@ -108,12 +100,16 @@ function getPlanning(feeds) {
                 dimension: dimension(prop),
                 key: prop
             }
-        }).concat([{
-            key: 'consumptionPerDay',
-            label: lang('consumptionPerDay'),
-            dimension: dimension('dryWeight')
-        }]),
+        }),
         sumsRows: sums
     }
 }
-module.exports = getPlanning;
+
+function getPlan() {
+
+}
+
+module.exports = {
+    getSum: getSum,
+    getPlan: getPlan
+};

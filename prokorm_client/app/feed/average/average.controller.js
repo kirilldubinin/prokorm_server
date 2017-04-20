@@ -2,7 +2,7 @@
     'use strict';
     angular.module('feed').controller('AverageController', AverageController);
 
-    function AverageController($scope, feedFactory, $stateParams, _) {
+    function AverageController($scope, $state, feedFactory, $stateParams, _) {
 
     	var vm = this;
         vm._ = _;
@@ -23,11 +23,6 @@
                 vm.averageRows = result.average;
     		});
     	}	
-
-        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.average') {
-                updateAverageRows(_.filter(params.feeds.split(':'), Boolean));
-            }
-        });
+        updateAverageRows(_.filter($state.params.feeds.split(':'), Boolean));
     }
 })();

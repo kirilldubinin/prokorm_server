@@ -1,16 +1,17 @@
-<div class="sum-card" layout="column">
-    <div class="sum-title" layout="row">
+<div class="planning-card" layout="column">
+    <div class="planning-title" layout="row">
         <h2 flex="25">
-            Сумма
+            Планирование
         </h2>
-        <div class="sum-header" flex="" ng-repeat="prop in ::sum.properties">
-            {{prop.label}}, {{prop.dimension}}
+        <div class="planning-header" flex="" ng-repeat="prop in ::planning.properties">
+            {{prop.label}}<label ng-if="prop.dimension">, {{prop.dimension}}</label>
         </div>
     </div>
-    <div class="sum-dashboard" flex="" layout="row">
-        <div class="mode-description" flex="" ng-if="!sum.sumsRows.length">
+    <div class="planning-dashboard" flex="" layout="row">
+        <div class="mode-description" flex="" ng-if="!planning.rows.length">
             <p>
-                Показатели одного вида корма будут суммироватся, каждый вид корма в свою очередь разделяется по составу, где указывается процентное соотношение каждого типа сырья.  Завершенные корма не могут участвовать в суммировании.
+                Показатели одного вида корма будут суммироватся, каждый вид корма в свою очередь разделяется по составу, где указывается процентное соотношение каждого типа сырья. Для планирования укажите средний расход по каждому виду кормов.
+                Завершенные корма не могут участвовать в суммировании.
             </p>
             <p>
                 Все расчет указаны на сухое вещество.
@@ -21,30 +22,46 @@
             <h2>
                 <ng-md-icon class="arrow-icon" icon="arrow_back">
                 </ng-md-icon>
-                Выберите незавершенные корма с анализами из списка
+                Выберите незавершенные корма из списка
             </h2>
         </div>
-        <ul class="property-list" flex="" ng-if="sum.sumsRows.length">
-            <li class="property-row" ng-repeat="row in ::sum.sumsRows">
+        <ul class="property-list" flex="" ng-if="planning.rows.length">
+            <li class="property-row" ng-repeat="row in planning.rows">
                 <div layout="row">
                     <label class="property-label" flex="25">
                         {{row.label}}
                     </label>
-                    <span class="property-value" flex="" ng-repeat="sumByProp in ::row.sumsByProp track by $index">
-                        {{sumByProp.value | number}}
+                    <span class="property-value" flex>
+                        {{row.balanceWeight | number}}
+                    </span>
+                    <span class="property-value input" flex>
+                        <input ng-change="planning.onChange()" type="number" ng-model="planning.tonnPerDay[row.key]"/>
+                    </span>
+                    <span class="property-value" flex>
+                        {{row.daysLeft}}
+                    </span>
+                    <span class="property-value" flex>
+                        {{row.willEnd}}
                     </span>
                 </div>
                 <!-- By Composition -->
                 <ul class="sub-property-list" flex="">
-                    <li class="property-row" layout="row" ng-repeat="compositionRow in ::row.byComposition">
+                    <li class="property-row" layout="row" ng-repeat="compositionRow in row.byComposition">
                         <label class="property-label" flex="25">
                             {{compositionRow.label}}
                         </label>
-                        <span class="property-value" flex="" ng-repeat="sumByProp in ::compositionRow.sumsByProp track by $index">
+
+                        <span class="property-value" flex>
                             <span class="percent">
-                                ({{sumByProp.percentOfTotal}}%)
+                                ({{compositionRow.percentOfTotal}}%)
                             </span>
-                            {{sumByProp.value | number}}
+                            {{compositionRow.sumsByProp | number}}
+                        </span>
+                        <span class="property-value" flex>
+                        </span>
+                        <span class="property-value" flex>
+                        </span>
+                        <span class="property-value" flex>
                         </span>
                     </li>
                 </ul>

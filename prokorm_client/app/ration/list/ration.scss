@@ -1,0 +1,65 @@
+.ration {
+
+	
+	.ration-list {
+		font-size: 12px;
+	    overflow: auto;
+	    padding-top: 0;
+
+		.ration-item {
+
+			border-left: 4px solid #009688;
+			
+			.md-button {
+				padding: 0 10px;			
+			}
+
+			&.selected {
+				background-color: #BBDEFB !important;
+			}
+
+			cursor: pointer;
+			background-color: #fff;
+			min-height: 68px;
+			border-bottom: 1px solid #eee;
+			button {
+				&.md-no-style {
+					min-height: 68px;
+				} 
+			}
+			.md-list-item-text {
+				line-height: normal;
+			}
+
+			.second-line {
+				margin: 6px 0;
+			}
+
+			.ration-type {
+				background-color: #2196F3;
+			    color: #fff;
+			    padding: 2px 6px;
+			    border-radius: 3px;
+			    margin-right: 10px;
+			}
+
+			.ration-yield {
+				background-color: #009688;
+			    color: #fff;
+			    padding: 4px 8px;
+			    border-radius: 2px;
+			    font-size: 12px;
+			}
+
+			.ration-price {
+				font-size: 12px;
+			    color: #3F51B5;
+			    font-weight: bold;
+			}
+
+			.ration-date {
+				padding: 4px 0;
+			}
+		}
+	}
+}

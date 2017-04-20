@@ -23,6 +23,7 @@ function lang(key) {
         diffFeed: 'Сравнить', 
         averageFeed: 'Средний', 
         sumFeed: 'Сумма',
+        planningFeed: 'Планирование',
         chartsFeed: 'Аналитика',
         ratingFeed: 'Рейтинг',
 
@@ -130,7 +131,10 @@ function lang(key) {
         end: 'Конец',
         tonnPerDay: 'Тонн в день',
         feedingDays: 'Дней кормления',
-        autoDecrement: 'Автовычитание'
+        autoDecrement: 'Автовычитание',
+        leftWeight: 'Осталось тонн',
+        willEnd: 'Дата завершения',
+        daysLeft: 'Осталось дней'
     };
 
     if (_.isBoolean(key)) {

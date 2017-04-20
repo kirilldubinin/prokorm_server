@@ -2,7 +2,7 @@
     'use strict';
     angular.module('feed').controller('ChartsController', ChartsController);
 
-    function ChartsController($scope, feedFactory, $stateParams, _) {
+    function ChartsController($scope, $state, feedFactory, $stateParams, _) {
         var vm = this;
         function updateCharts() {
 
@@ -47,11 +47,7 @@
             });
         }   
 
-        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.charts') {
-                vm.feeds = _.filter(params.feeds.split(':'), Boolean);
-                updateCharts();
-            }
-        });
+        vm.feeds = _.filter($state.params.feeds.split(':'), Boolean);
+        updateCharts();
     }
 })();

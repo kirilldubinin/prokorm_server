@@ -2,78 +2,15 @@
     'use strict';
     angular.module('feed').controller('FeedEditController', FeedEdiController);
     /** @ngInject */
-    function FeedEdiController($window, $stateParams, $state, $scope, feedFactory) {
+    function FeedEdiController($window, $stateParams, $state, $scope, feedFactory, FEED_TYPES, STORAGE_TYPES) {
         var vm = this;
 
         vm.feedItem = {
             analysis: []
         };
 
-        vm.feedTypes = [
-            {
-                value: 'none',
-                name: 'Нет'
-            },
-            {
-                value: 'haylage',
-                name: 'Сенаж'
-            },
-            {
-                value: 'silage',
-                name: 'Силос'
-            },
-            {
-                value: 'grain',
-                name: 'Зерно'
-            },
-            {
-                value: 'cornSilage',
-                name: 'Силосованное зерно'
-            },
-            {
-                value: 'straw',
-                name: 'Солома'
-            },
-            {
-                value: 'hay',
-                name: 'Сено'
-            },
-            {
-                value: 'oilcake',
-                name: 'Жмых'
-            },
-            {
-                value: 'meal',
-                name: 'Шрот'
-            },
-            {
-                value: 'greenWeight',
-                name: 'Зеленая масса'
-            },
-            {
-                value: 'tmr',
-                name: 'TMR'
-            }
-        ];
-
-        vm.storageTypes = [
-            {
-                value: 'silo',
-                name: 'Траншея'
-            },
-            {
-                value: 'mound',
-                name: 'Курган'
-            },
-            {
-                value: 'polymerSleeve',
-                name: 'Полимерный рукав'
-            },
-            {
-                value: 'polymerCoil',
-                name: 'Полимерный рулон'
-            }
-        ];
+        vm.feedTypes = FEED_TYPES;
+        vm.storageTypes = STORAGE_TYPES;
 
         vm.feedItemControls = [];
         var feedId = $stateParams.feedId;

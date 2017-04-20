@@ -2,7 +2,7 @@
     'use strict';
     angular.module('feed').controller('SumController', SumController);
 
-    function SumController($scope, feedFactory, $stateParams, _) {
+    function SumController($scope, $state, feedFactory, $stateParams, _) {
 
     	var vm = this;
         vm._ = _;
@@ -22,10 +22,6 @@
     		});
     	}	
 
-        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.sum') {
-                updateSum(_.filter(params.feeds.split(':'), Boolean));
-            }
-        });
+        updateSum(_.filter($state.params.feeds.split(':'), Boolean));
     }
 })();

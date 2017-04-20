@@ -67,6 +67,17 @@
                 data: {
                     module: 'feed'
                 }
+            }).state('tenant.feed.planning', {
+                url: '/planning/:feeds',
+                templateUrl: 'app/feed/planning/planning.html',
+                controller: 'PlanningController',
+                controllerAs: 'planning',
+                params: {
+                    feeds: undefined
+                },
+                data: {
+                    module: 'feed'
+                }
             }).state('tenant.feed.rating.instance', {
                 url: '/:feedType/:feeds',
                 templateUrl: 'app/feed/rating/ratingInstance.html',

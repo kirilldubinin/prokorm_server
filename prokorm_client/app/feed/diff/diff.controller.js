@@ -2,7 +2,7 @@
     'use strict';
     angular.module('feed').controller('DiffController', DiffController);
 
-    function DiffController($scope, feedFactory, $stateParams, _) {
+    function DiffController($scope, $state, feedFactory, $stateParams, _) {
 
     	var vm = this;
         vm._ = _;
@@ -24,10 +24,6 @@
     		});
     	}	
 
-        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.diff') {
-                updateDiffRows(_.filter(params.feeds.split(':'), Boolean));
-            }
-        });
+        updateDiffRows(_.filter($state.params.feeds.split(':'), Boolean));
     }
 })();

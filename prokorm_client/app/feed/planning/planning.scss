@@ -1,0 +1,96 @@
+.planning-card {
+	padding: 0 20px;
+    height: 100%;
+    overflow: hidden;
+    
+    .planning-title {
+    	color: #333;
+	    font-size: 14px;
+	    padding-bottom: 12px;
+	    border-bottom: 3px solid #FF9800;
+    	margin-bottom: 20px;
+
+    	h2 {
+    		padding-top: 12px;
+    	}
+	    .planning-header {
+	    	padding-top: 12px;
+		    text-align: right;
+		    /* padding-right: 30px; */
+		    color: #666;
+		    padding-right: 20px;
+	    }
+    }
+
+	.planning-dashboard {
+
+		.mode-description {
+			p {
+				color: #555;
+			    font-size: 12px;
+			    line-height: 20px;
+			}
+			h2 {
+				font-size: 14px;
+			}
+		}
+
+		/*height: calc(100% - 75px);*/
+		overflow: auto;
+		ul, li {
+			list-style-type: none;
+			margin: 0;
+			padding:0;
+			font-size: 12px;
+		}
+
+		.sub-property-list {
+			.property-label {
+				font-size: 11px;
+			    color: rgba(0, 0, 0, 0.54);
+			    padding-left: 20px;
+			}
+
+			.property-value {
+				font-size: 11px;
+			    color: rgba(0, 0, 0, 0.54);
+			    .percent {
+			    	margin-right: 10px;
+			    }
+			}
+		}
+
+		.property-label {
+			font-size: 16px;
+		    color: #333;
+		    border-bottom: 1px solid #DDD;
+		    line-height: 26px;
+		}
+			
+		.property-value {
+			color: #333;
+		    padding: 6px 20px;
+		    min-width: 60px;
+		    text-align: right;
+		    border-left: 1px solid #FF9800;
+		    border-bottom: 1px solid #DDD;
+		    font-size: 14px;
+
+		    &.input {
+		    	padding: 1px 20px;
+		    }
+
+		    input {
+		    	text-align: right;
+			    border-color: #FF9800;
+			    margin: 0px auto;
+			    width: 60px;
+			    border-radius: 3px;
+			    border-width: 1px;
+			    display: block;
+			    min-width: 60px;
+			    height: 100%;
+		    }
+		}
+	}
+}

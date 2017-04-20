@@ -1,7 +1,7 @@
 var expect = require("chai").expect;
 var rating = require('../../feed/feed.rating');
 var _ = require('lodash');
-describe.only('feed.rating', function() {
+describe('feed.rating', function() {
     var feeds;
     beforeEach(function() {
         feeds = [{

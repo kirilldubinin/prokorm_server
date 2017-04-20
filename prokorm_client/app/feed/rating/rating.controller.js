@@ -2,7 +2,7 @@
     'use strict';
     angular.module('feed').controller('RatingController', RatingController);
 
-    function RatingController($scope, feedFactory, $state, $stateParams, _) {
+    function RatingController($scope, $state, feedFactory, $stateParams, _) {
 
     	var vm = this;
         vm.props = $state.current.data.feedType === 'haylage' ?
@@ -42,10 +42,6 @@
     		});
     	};	
 
-        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.rating.instance') {
-                updateRating(_.filter(params.feeds.split(':'), Boolean));
-            }
-        });
+        updateRating(_.filter($state.params.feeds.split(':'), Boolean));
     }
 })();

@@ -7,9 +7,8 @@ function convert(feeds) {
 
     // filter
     // balance weight should exist
-
     feeds = _.filter(feeds, function (feed) {
-        return feed.general.totalWeight && feed.general.balanceWeight;
+        return _.isNumber(feed.general.totalWeight) && _.isNumber(feed.general.balanceWeight);
     });
 
     var byFeedType = _.map(feeds, 'general');

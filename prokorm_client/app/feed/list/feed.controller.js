@@ -42,6 +42,9 @@
         vm.sumFeed = function() {
             $state.go('tenant.feed.sum');
         };
+        vm.planningFeed = function() {
+            $state.go('tenant.feed.planning');
+        };
         vm.chartsFeed = function() {
             $state.go('tenant.feed.charts');
         };
@@ -114,6 +117,8 @@
                 return false;
             } else if (vm.isSumMode && (!feedItem.analysis || !feedItem.balanceWeight)) {
                 return false;
+            } else if (vm.isPlanningMode && (!feedItem.analysis || !feedItem.balanceWeight)) {
+                return false;
             } else if (vm.isChartMode && !feedItem.analysis) {
                 return false;
             } else if (vm.isRatingMode && !feedItem.analysis) {
@@ -158,7 +163,12 @@
         }
 
         vm.onFeedClick = function(feedItem) {
-            if (vm.isDiffMode || vm.isAverageMode || vm.isSumMode || vm.isChartMode || vm.isRatingMode) {
+            if (vm.isDiffMode || 
+                vm.isAverageMode || 
+                vm.isSumMode ||
+                vm.isPlanningMode ||
+                vm.isChartMode || 
+                vm.isRatingMode) {
 
                 var currentFeeds = _.filter($state.params.feeds.split(':'), function (o) { return o; });
                 var ind = currentFeeds.indexOf(feedItem._id);
@@ -187,6 +197,7 @@
             vm.isDiffMode = newState.name === 'tenant.feed.diff';
             vm.isAverageMode = newState.name === 'tenant.feed.average';
             vm.isSumMode = newState.name === 'tenant.feed.sum';
+            vm.isPlanningMode = newState.name === 'tenant.feed.planning';
             vm.isChartMode = newState.name === 'tenant.feed.charts';
             vm.isRatingMode = newState.name === 'tenant.feed.rating.instance';
 
@@ -194,6 +205,7 @@
             vm.diffFeeds = null;
             vm.averageFeeds = null;
             vm.sumFeeds = null;
+            vm.planningFeeds = null;
             vm.chartFeeds = null;
             vm.ratingFeeds = null;
 
@@ -211,6 +223,9 @@
             } else if (vm.isSumMode) {
                 vm.selectedItemId = null;
                 vm.sumFeeds = paramFeeds;
+            } else if (vm.isPlanningMode) {
+                vm.selectedItemId = null;
+                vm.planningFeeds = paramFeeds;
             } else if (vm.isChartMode) {
                 vm.selectedItemId = null;
                 vm.chartFeeds = paramFeeds;

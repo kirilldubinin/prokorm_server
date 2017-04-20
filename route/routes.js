@@ -39,7 +39,7 @@ module.exports = function(app, log) {
     });
 
     // init other routes
-    var routes = ['login', 'profile', 'feed', 'catalog', 'admin', 'demo'];
+    var routes = ['login', 'profile', 'feed', 'ration', 'catalog', 'admin', 'demo'];
     _.forEach(routes, function (route) {
         require('./routes.' + route)(app, isAuthenticated, errorHandler, log); 
     });

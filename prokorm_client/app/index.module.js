@@ -3,13 +3,14 @@
     // modules
     angular.module('auth', []);
     angular.module('feed', []);
+    angular.module('ration', []);
     angular.module('profile', []);
     angular.module('catalog', []);
     angular.module('info', []);
     angular.module('help', []);
     angular.module('admin', []);
     angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons', 'ui.carousel',
-        'catalog', 'profile', 'feed', 'auth', 'help', 'info', 'admin']);
+        'catalog', 'profile', 'feed', 'ration', 'auth', 'help', 'info', 'admin']);
     // constant
     angular.module('prokorm').constant('_', window._);
     // config

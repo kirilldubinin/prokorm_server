@@ -44,6 +44,9 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.sumFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
     };
+    feedFactory.planningFeeds = function(params) {
+        return $http.post(urlBaseFeed + 'planning', params);
+    };
     feedFactory.sumDemoFeeds = function() {
         return $http.post(urlBaseFeed + 'sumDemo');
     };
