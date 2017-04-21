@@ -1492,7 +1492,11 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     		});
     	};	
 
-        updateRating(_.filter($state.params.feeds.split(':'), Boolean));
+        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
+            if (newState.name === 'tenant.feed.rating.instance' && params.feeds && params.feeds.length) {
+                updateRating(_.filter(params.feeds.split(':'), Boolean));
+            }
+        });
     }
 })();
 (function() {
