@@ -196,9 +196,9 @@
                 <ul class="auto-decrement-feeds">
                     <li ng-repeat="feed in ::feed.dashboard.progress.autoDecrementFeeds">
                         <div class="feed-name" layout="row">
-                            <a href="#">{{feed.name}}</a>
+                            <a ng-href="{{feed.url}}">{{feed.name}}</a>
 
-                            <div flex class="feeding-progress">
+                            <div flex ng-class="{'min': feed.percentLeft < 10}" class="feeding-progress">
                                 <div style="width: {{feed.percentLeft}}%" class="left-percent">{{feed.percentLeft}}%</div>
                             </div>
 
@@ -306,7 +306,7 @@
             </div>
 
             <div layout="row">
-                <md-card class="dashboard-card dashboard-no-analysis" flex="50" layout-padding="" ng-if="feed.dashboard.noAnalysis.length && false">
+                <md-card class="dashboard-card dashboard-no-analysis" flex="30" layout-padding="" ng-if="feed.dashboard.noAnalysis.length">
                     <h2>
                         Корма без анализов ({{feed.dashboard.years}})
                     </h2>

@@ -64,7 +64,7 @@ module.exports = function(app, isAuthenticated, errorHandler, log) {
                 }),
                 years: [prevYear, currentYear].join('-'),
                 balance: balance(feeds, [prevYear, currentYear]),
-                progress: progress(feeds),
+                progress: progress(feeds, req.user.tenantName),
                 //perDay: perDay(feeds),
                 noAnalysis: _.map(_.filter(feeds, function(f) {
                     return !f.analysis.length;

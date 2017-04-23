@@ -3,7 +3,7 @@ var lang = require('./lang');
 var dimension = require('./dimension');
 var Feed = require('../models/feed');
 
-function progress(feeds) {
+function progress(feeds, tenantName) {
 
     // filter
     // feed should be opened and not done
@@ -39,7 +39,7 @@ function progress(feeds) {
         var percentLeft = Math.round(feed.general.balanceWeight/feed.general.totalWeight*100);
 
         return {
-            _id: feed._id,
+            url: ('/#/' + tenantName + '/feed/' + feed._id),
             name: name,
             tonnPerDay: tonnPerDay,
             willEnd: willEnd,
