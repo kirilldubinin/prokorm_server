@@ -259,6 +259,44 @@
 
 			.dashboard-no-analysis {
 			}
+
+			.dashboard-scheduler {
+
+				.weight-control {
+				    height: 22px;
+				    font-size: 12px;
+				    vertical-align: middle;
+				    float: right;
+				}
+
+				.feed-schedule {
+					font-size: 14px;
+				    margin: 8px 0;
+				    line-height: 20px;
+
+				    label {
+				    	color: rgba(0,0,0,.54);
+					    font-size: 12px;
+					    display: inline-block;
+					    min-width: 110px;
+				    }
+				}
+
+				.feeding-progress {
+					border: 1px solid #009688;
+				    height: 14px;
+				    width: 100%;
+				    margin: 2px 20px;
+				    .left-percent {
+				    	background-color: #009688;
+					    height: 100%;
+					    float: right;
+					    text-align: center;
+					    font-size: 11px;
+					    color: #fff;
+				    }
+				}
+			}
 		}
 	}
 }

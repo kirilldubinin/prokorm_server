@@ -187,87 +187,126 @@
             <md-button class="md-primary" md-no-ink="" ng-click="feed[action.key]()" ng-repeat="action in ::feed.dashboard.actions">
                 {{action.label}}
             </md-button>
+
             <div layout="row">
-                <md-card class="dashboard-card dashboard-balance" flex="50" layout-padding="16" ng-if="feed.dashboard.balance.byFeedType.length">
-                    <h2>
-                        Доступные корма ({{feed.dashboard.years}})
-                    </h2>
-                    <md-radio-group class="md-primary" layout="row" ng-model="feed.dashboard.balance.current">
-                        <md-radio-button value="byFeedType">
-                            По типу
-                        </md-radio-button>
-                        <md-radio-button value="byComposition">
-                            По составу
-                        </md-radio-button>
-                    </md-radio-group>
-                    <ul class="balance-list" ng-repeat="balance in ::feed.dashboard.balance.byFeedType" ng-if="feed.dashboard.balance.current === 'byFeedType'">
-                        <li>
-                            <div>
-                                <label>
-                                    {{balance.label}}
-                                </label>
-                                <label class="balance-percent">
-                                    ({{balance.balancePercent}} %)
-                                </label>
-                                <span class="weight-control" ng-class="{opened: balance.balance !== balance.total, done: !balance.balance}">
+            <md-card class="dashboard-card dashboard-scheduler" flex="60" layout-padding="" ng-if="feed.dashboard.noAnalysis.length">
+                <h2>
+                    Расход кормов ({{feed.dashboard.years}})
+                </h2>
+                <ul class="auto-decrement-feeds">
+                    <li ng-repeat="feed in ::feed.dashboard.progress.autoDecrementFeeds">
+                        <div class="feed-name" layout="row">
+                            <a href="#">{{feed.name}}</a>
+
+                            <div flex class="feeding-progress">
+                                <div style="width: {{feed.percentLeft}}%" class="left-percent">{{feed.percentLeft}}%</div>
+                            </div>
+
+                            <span class="weight-control opened">
+                                <span class="balance">
+                                    {{feed.balanceWeight}}
+                                </span>
+                                <span class="total">
+                                    {{feed.totalWeight}}
+                                </span>
+                            </span>
+                        </div>
+                        
+                        <div class="feed-schedule">
+                            <span flex>
+                                <label>Дней осталось: </label>{{feed.daysLeft}}<br/>
+                                <label>Тонн в день: </label>{{feed.tonnPerDay}}<br/>
+                                <label>Дата завершения: </label>{{feed.willEnd}}<br/>
+                            </span>
+                        </div>
+                        
+                    </li> 
+                </ul>
+            </md-card>
+
+            <md-card class="dashboard-card dashboard-balance" flex="40" layout-padding="16" ng-if="feed.dashboard.balance.byFeedType.length">
+                <h2>
+                    Доступные корма ({{feed.dashboard.years}})
+                </h2>
+                <md-radio-group class="md-primary" layout="row" ng-model="feed.dashboard.balance.current">
+                    <md-radio-button value="byFeedType">
+                        По типу
+                    </md-radio-button>
+                    <md-radio-button value="byComposition">
+                        По составу
+                    </md-radio-button>
+                </md-radio-group>
+                <ul class="balance-list" ng-repeat="balance in ::feed.dashboard.balance.byFeedType" ng-if="feed.dashboard.balance.current === 'byFeedType'">
+                    <li>
+                        <div>
+                            <label>
+                                {{balance.label}}
+                            </label>
+                            <label class="balance-percent">
+                                ({{balance.balancePercent}} %)
+                            </label>
+                            <span class="weight-control" ng-class="{opened: balance.balance !== balance.total, done: !balance.balance}">
+                                <span class="balance">
+                                    {{balance.balance}}
+                                </span>
+                                <span class="total">
+                                    {{balance.total}}
+                                </span>
+                            </span>
+                        </div>
+                        <ul class="composition">
+                            <li class="composition-item" ng-repeat="composition in ::balance.byComposition">
+                                {{composition.label}}
+                                <span class="weight-control" ng-class="{opened: composition.balance !== composition.total, done: !composition.balance}">
                                     <span class="balance">
-                                        {{balance.balance}}
+                                        {{composition.balance}}
                                     </span>
                                     <span class="total">
-                                        {{balance.total}}
+                                        {{composition.total}}
                                     </span>
                                 </span>
-                            </div>
-                            <ul class="composition">
-                                <li class="composition-item" ng-repeat="composition in ::balance.byComposition">
-                                    {{composition.label}}
-                                    <span class="weight-control" ng-class="{opened: composition.balance !== composition.total, done: !composition.balance}">
-                                        <span class="balance">
-                                            {{composition.balance}}
-                                        </span>
-                                        <span class="total">
-                                            {{composition.total}}
-                                        </span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <ul class="balance-list" ng-repeat="balance in ::feed.dashboard.balance.byComposition" ng-if="feed.dashboard.balance.current === 'byComposition'">
-                        <li>
-                            <div>
-                                <label>
-                                    {{balance.label}}
-                                </label>
-                                <label class="balance-percent">
-                                    ({{balance.balancePercent}} %)
-                                </label>
-                                <span class="weight-control" ng-class="{opened: balance.balance !== balance.total, done: !balance.balance}">
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <ul class="balance-list" ng-repeat="balance in ::feed.dashboard.balance.byComposition" ng-if="feed.dashboard.balance.current === 'byComposition'">
+                    <li>
+                        <div>
+                            <label>
+                                {{balance.label}}
+                            </label>
+                            <label class="balance-percent">
+                                ({{balance.balancePercent}} %)
+                            </label>
+                            <span class="weight-control" ng-class="{opened: balance.balance !== balance.total, done: !balance.balance}">
+                                <span class="balance">
+                                    {{balance.balance}}
+                                </span>
+                                <span class="total">
+                                    {{balance.total}}
+                                </span>
+                            </span>
+                        </div>
+                        <ul class="composition">
+                            <li class="composition-item" ng-repeat="composition in ::balance.byFeedType">
+                                {{composition.label}}
+                                <span class="weight-control" ng-class="{opened: composition.balance !== composition.total, done: !composition.balance}">
                                     <span class="balance">
-                                        {{balance.balance}}
+                                        {{composition.balance}}
                                     </span>
                                     <span class="total">
-                                        {{balance.total}}
+                                        {{composition.total}}
                                     </span>
                                 </span>
-                            </div>
-                            <ul class="composition">
-                                <li class="composition-item" ng-repeat="composition in ::balance.byFeedType">
-                                    {{composition.label}}
-                                    <span class="weight-control" ng-class="{opened: composition.balance !== composition.total, done: !composition.balance}">
-                                        <span class="balance">
-                                            {{composition.balance}}
-                                        </span>
-                                        <span class="total">
-                                            {{composition.total}}
-                                        </span>
-                                    </span>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </md-card>
-                <md-card class="dashboard-card dashboard-no-analysis" flex="50" layout-padding="" ng-if="feed.dashboard.noAnalysis.length">
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </md-card>
+            </div>
+
+            <div layout="row">
+                <md-card class="dashboard-card dashboard-no-analysis" flex="50" layout-padding="" ng-if="feed.dashboard.noAnalysis.length && false">
                     <h2>
                         Корма без анализов ({{feed.dashboard.years}})
                     </h2>

@@ -14,6 +14,7 @@ var average = require('../feed/feed.average');
 var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
+var progress = require('../feed/feed.progress');
 var charts = require('../feed/feed.charts');
 var rating = require('../feed/feed.rating');
 var list = require('../feed/feed.list');
@@ -63,6 +64,7 @@ module.exports = function(app, isAuthenticated, errorHandler, log) {
                 }),
                 years: [prevYear, currentYear].join('-'),
                 balance: balance(feeds, [prevYear, currentYear]),
+                progress: progress(feeds),
                 //perDay: perDay(feeds),
                 noAnalysis: _.map(_.filter(feeds, function(f) {
                     return !f.analysis.length;

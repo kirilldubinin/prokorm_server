@@ -65,7 +65,7 @@ describe('feed.planning', function() {
         expect(haylage.label).to.equal('Сенаж');
         expect(haylage.key).to.equal('haylage');
         expect(haylage.tonnPerDay).to.equal(10);
-        expect(haylage.willEnd).to.equal('16/11/2017');
+        expect(haylage.willEnd).to.exist;
         expect(haylage.daysLeft).to.equal(210);
         expect(haylage.balanceWeight).to.equal(2100);
         done();
