@@ -61,6 +61,7 @@
             return false;
         };
 
+        vm.filterByMode = false;
         function isVisible(feedItem) {
 
             // by filter
@@ -137,6 +138,7 @@
         };
 
         vm.toggleFilter = function () {
+            vm.filterByMode = false;
             if (vm.filter.visible) {
                 $state.go(vm.lastState, {
                   'feeds': []
@@ -250,6 +252,7 @@
                     vm.feedItems = result.feeds;
                     vm.filterValues = result.filterValues;
                     vm.updateVisible();
+                    vm.filterByMode = true;
                 });
             } else {
                 vm.updateVisible();

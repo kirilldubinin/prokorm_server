@@ -1196,6 +1196,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
             return false;
         };
 
+        vm.filterByMode = false;
         function isVisible(feedItem) {
 
             // by filter
@@ -1272,6 +1273,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         };
 
         vm.toggleFilter = function () {
+            vm.filterByMode = false;
             if (vm.filter.visible) {
                 $state.go(vm.lastState, {
                   'feeds': []
@@ -1385,6 +1387,7 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
                     vm.feedItems = result.feeds;
                     vm.filterValues = result.filterValues;
                     vm.updateVisible();
+                    vm.filterByMode = true;
                 });
             } else {
                 vm.updateVisible();

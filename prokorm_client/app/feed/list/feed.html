@@ -59,7 +59,8 @@
         </div>
         <div ng-if="!feed.filter.visible && feed.hiddenItemsLength" class="hide-items-length">
             {{::feed.hiddenItemsLength}} скрыто
-            <i class="fa fa-times" aria-hidden="true" ng-click="feed.clearFilter()">
+            <i class="fa fa-times" aria-hidden="true" ng-show="feed.filterByMode" ng-click="feed.clearFilter()">
+                {{feed.filterByMode}}
                 <md-tooltip md-direction="bottom">
                     Сбросить фильтр
                 </md-tooltip>
@@ -196,7 +197,7 @@
                 <ul class="auto-decrement-feeds">
                     <li ng-repeat="feed in ::feed.dashboard.progress.autoDecrementFeeds">
                         <div class="feed-name" layout="row">
-                            <a ng-href="{{feed.url}}">{{feed.name}}</a>
+                            <a flex="30" ng-href="{{feed.url}}">{{feed.name}}</a>
 
                             <div flex ng-class="{'min': feed.percentLeft < 10}" class="feeding-progress">
                                 <div style="width: {{feed.percentLeft}}%" class="left-percent">{{feed.percentLeft}}%</div>
