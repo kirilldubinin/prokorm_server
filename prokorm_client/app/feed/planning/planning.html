@@ -35,7 +35,7 @@
                         {{row.balanceWeight | number}}
                     </span>
                     <span class="property-value input" flex>
-                        <input ng-change="planning.onChange()" type="number" ng-model="planning.tonnPerDay[row.key]"/>
+                        <input ng-disabled="planning.demoMode" ng-change="planning.onChange()" type="number" ng-model="planning.tonnPerDay[row.key]"/>
                     </span>
                     <span class="property-value" flex>
                         {{row.daysLeft}}

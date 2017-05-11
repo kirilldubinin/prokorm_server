@@ -9,6 +9,7 @@ var Catalog = require('../models/catalog');
 // helpers =====================================================================
 var diff = require('../feed/feed.diff');
 var sum = require('../feed/feed.sum');
+var planning = require('../feed/feed.planning');
 var average = require('../feed/feed.average');
 var view = require('../feed/feed.view');
 var edit = require('../feed/feed.edit');
@@ -27,7 +28,8 @@ var demoConfig = {
     ratingDemoFeeds: ['588f4854a136f8601a50571e', '588f4c21a136f8601a505722', '588f5353a136f8601a505726'],
     chartsDemoFeeds:    ['58957f9b9149da6cbc815976','589495e729f0f068bd468f2e','589495e729f0f068bd468f2c',
                         '5894943b29f0f068bd468f2a','5894931729f0f068bd468f28','5891ef318548cb4080704792'
-                        ,'5891edc18548cb4080704790']
+                        ,'5891edc18548cb4080704790'],
+    planningDemoFeeds: ['588f4854a136f8601a50571e', '588f4c21a136f8601a505722']
 };
 
 var demoCache = {};
@@ -132,6 +134,38 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         }
     });
 
+    app.post('/api/feeds/planningDemo', function(req, res) {
+        
+        if (!demoCache.planningDemo) {
+            var feedIds = demoConfig.planningDemoFeeds;
+            var promises = _.map(feedIds, function(feedId) {
+                return Feed.findById(feedId);
+            });
+            Q.all(promises).then(function(feeds) {
+
+                if (!feeds || !feeds.length) {
+                    return res.status(406).json({
+                        message: 'Нет доступных кормов.'
+                    });
+                }
+
+                console.log('1')
+                demoCache.planningDemo = planning({
+                    feeds: feeds, 
+                    tonnPerDay: {
+                        haylage: 32
+                    }
+                });
+                console.log('2')
+                res.status(200).json(demoCache.planningDemo);
+            }, function(err) {
+                res.send(err);
+            });  
+        } else {
+            res.status(200).json(demoCache.planningDemo);
+        }
+    });
+
     app.post('/api/feeds/ratingDemo', function(req, res) {
         if (!demoCache.ratingDemo) {
             var feedIds = demoConfig.ratingDemoFeeds;
@@ -164,7 +198,6 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         } else {
             res.json(demoCache.ratingDemo);
         }
-        
     });
 
     app.post('/api/feeds/chartsDemo', function(req, res) {

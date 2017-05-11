@@ -1,0 +1,251 @@
+<div class="ration-view" layout="column">
+    <div class="ration-title" layout="row">
+        <div class="ration-type">
+            раздой
+        </div>
+        <span class="ration-target">
+            32 литра
+        </span>
+        <h2 class="ration-name" flex="">
+            20-100 дней, двор 6
+        </h2>
+        <div class="actions">
+            <md-button ng-click="">
+                редактировать
+            </md-button>
+        </div>
+    </div>
+    <div class="ration-view-content" flex="" layout="column">
+        <md-tabs md-border-bottom="" md-dynamic-height="">
+            <md-tab label="Состав">
+                <md-content class="md-padding">
+                    <div class="composition" flex="">
+                        <table>
+                            <thead>
+                                <th>
+                                    #
+                                </th>
+                                <th class="feed-name">
+                                    Компонент
+                                </th>
+                                <th>
+                                    Доля, кг
+                                </th>
+                                <th>
+                                    СВ, г/кг
+                                </th>
+                                <th>
+                                    Итого СВ, кг
+                                </th>
+                                <th>
+                                    Цена, руб/кг
+                                </th>
+                                <th>
+                                    Цена, руб
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td class="feed-name">
+                                        <a href="#">
+                                            Сенаж: Люцерна 2016
+                                        </a>
+                                        <p>
+                                            Гавриловка, Курган Семеново
+                                        </p>
+                                    </td>
+                                    <td>
+                                        246
+                                    </td>
+                                    <td>
+                                        3198
+                                    </td>
+                                    <td>
+                                        13.000
+                                    </td>
+                                    <td>
+                                        1.20
+                                    </td>
+                                    <td>
+                                        15.60
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td class="feed-name">
+                                        <a href="#">
+                                            Сенаж: Люцерна 2016
+                                        </a>
+                                        <p>
+                                            Гавриловка, Курган Семеново
+                                        </p>
+                                    </td>
+                                    <td>
+                                        246
+                                    </td>
+                                    <td>
+                                        3198
+                                    </td>
+                                    <td>
+                                        13.000
+                                    </td>
+                                    <td>
+                                        1.20
+                                    </td>
+                                    <td>
+                                        15.60
+                                    </td>
+                                </tr>
+                                <tr class="total">
+                                    <td>
+                                    </td>
+                                    <td class="feed-name">
+                                    </td>
+                                    <td>
+                                        21.6
+                                    </td>
+                                    <td>
+                                        52.6
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        154.80
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Параметры">
+                <md-content class="md-padding">
+                    <div class="properties" flex="">
+                        <table>
+                            <thead>
+                                <th>
+                                    #
+                                </th>
+                                <th class="property-name">
+                                    Параметры
+                                </th>
+                                <th>
+                                    Мин.
+                                </th>
+                                <th>
+                                    Содержание
+                                </th>
+                                <th>
+                                    Макс.
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td class="property-name">
+                                        Сухое вещество, г
+                                    </td>
+                                    <td>
+                                        
+                                    </td>
+                                    <td>
+                                        21586
+                                    </td>
+                                    <td>
+                                        22000
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td class="property-name">
+                                        Влажность рациона, %
+                                    </td>
+                                    <td>
+                                        45
+                                    </td>
+                                    <td>
+                                        58.5
+                                    </td>
+                                    <td>
+                                        60
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+        <!--ul class="ration-info">
+            <li class="property" layout="row">
+                <label>
+                    Имя
+                </label>
+                <div class="value" flex="">
+                    20-100 дней, двор 6
+                </div>
+            </li>
+            <li class="property" layout="row">
+                <label>
+                    Тип
+                </label>
+                <div class="value" flex="">
+                    раздой
+                </div>
+            </li>
+            <li class="property" layout="row">
+                <label>
+                    Цель
+                </label>
+                <div class="value" flex="">
+                    32 литра
+                </div>
+            </li>
+            
+            <li class="property" layout="row">
+                <label>
+                    Вес коровы
+                </label>
+                <div class="value" flex="">
+                    600 кг.
+                </div>
+            </li>
+        </ul-->
+        <!--div class="properties" flex="40">
+            <ul>
+                <li flex class="header" layout="row">
+                    <span flex>Параметры</span>
+                    <span>Ед.</span>
+                    <span>Мин.</span>
+                    <span>Содержание</span>
+                    <span>Макс.</span>
+                </li>
+                <li flex layout="row">
+                    <span flex>Сухое вещество</span>
+                    <span>г</span>
+                    <span></span>
+                    <span>21586</span>
+                    <span>2200</span>
+                </li>
+                <li flex layout="row">
+                    <span flex>Влажность</span>
+                    <span>%</span>
+                    <span>45</span>
+                    <span>58.5</span>
+                    <span>60</span>
+                </li>
+            </ul>
+        </div-->
+    </div>
+</div>

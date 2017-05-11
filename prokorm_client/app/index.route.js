@@ -37,6 +37,11 @@
                 templateUrl: 'app/feed/sum/sum.html',
                 controller: 'SumDemoController',
                 controllerAs: 'sum'
+            }).state('public.planning', {
+                url: '/planning',
+                templateUrl: 'app/feed/planning/planning.html',
+                controller: 'PlanningDemoController',
+                controllerAs: 'planning'
             }).state('public.rating', {
                 url: '/rating',
                 templateUrl: 'app/feed/rating/ratingInstance.html',

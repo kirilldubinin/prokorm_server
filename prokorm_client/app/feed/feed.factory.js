@@ -44,11 +44,14 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.sumFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
     };
+    feedFactory.sumDemoFeeds = function() {
+        return $http.post(urlBaseFeed + 'sumDemo');
+    };
     feedFactory.planningFeeds = function(params) {
         return $http.post(urlBaseFeed + 'planning', params);
     };
-    feedFactory.sumDemoFeeds = function() {
-        return $http.post(urlBaseFeed + 'sumDemo');
+    feedFactory.planningDemoFeeds = function(params) {
+        return $http.post(urlBaseFeed + 'planningDemo');
     };
     feedFactory.averageFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
@@ -68,5 +71,8 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.ratingDemoFeeds = function () {
         return $http.post(urlBaseFeed + 'ratingDemo');
     };
+    feedFactory.searchFeeds = function (query) {
+        return $http.post(urlBaseFeed + 'search', {query: query});
+    }
     return feedFactory;
 }]);

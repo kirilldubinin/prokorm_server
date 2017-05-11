@@ -3,6 +3,14 @@ var lang = require('./lang');
 var dimension = require('./dimension');
 var Feed = require('../models/feed');
 
+function getName (feed) {
+    if (!feed.general.name) {
+        return lang(feed.general.feedType) + ':' + feed.general.composition;
+    } else {
+        return feed.general.name;
+    }
+}
+
 function progress(feeds, tenantName) {
 
     // filter
@@ -19,13 +27,6 @@ function progress(feeds, tenantName) {
 
     autoDecrementFeeds = _.map(autoDecrementFeeds, function (feed) {
 
-        var name;
-        if (!feed.general.name) {
-            name = lang(feed.general.feedType) + ':' + feed.general.composition;
-        } else {
-            name = feed.general.name;
-        }
-
         var tonnPerDay = feed.feeding.tonnPerDay;
         var willEnd = new Date(new Date().getTime() + Math.floor(feed.general.balanceWeight/tonnPerDay) * 24 * 60 *60 * 1000)
         willEnd = ('0' + 
@@ -40,7 +41,7 @@ function progress(feeds, tenantName) {
 
         return {
             url: ('/#/' + tenantName + '/feed/' + feed._id),
-            name: name,
+            name: getName(feed),
             tonnPerDay: tonnPerDay,
             willEnd: willEnd,
             daysLeft: daysLeft,
@@ -52,8 +53,20 @@ function progress(feeds, tenantName) {
 
     autoDecrementFeeds = _.sortBy(autoDecrementFeeds, 'daysLeft');
 
+    var nonAutoDecrementFeeds = _.filter(feeds, function (feed) {
+        return !feed.feeding.autoDecrement;
+    });
+
+    nonAutoDecrementFeeds = _.map(nonAutoDecrementFeeds, function (feed) {
+        return {
+            url: ('/#/' + tenantName + '/feed/' + feed._id),
+            name: getName(feed)
+        }
+    })
+
     return {
-        autoDecrementFeeds: autoDecrementFeeds
+        autoDecrementFeeds: autoDecrementFeeds,
+        nonAutoDecrementFeeds: nonAutoDecrementFeeds
     }
 }
 module.exports = progress;

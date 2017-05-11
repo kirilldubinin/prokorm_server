@@ -4,16 +4,7 @@ var feedUtils = require('./feed.utils');
 var dimension = require('./dimension.sum');
 var _ = require('lodash');
 
-/*
- * Collect sum each properties for each feed from param
- * @return [{key: "dryWeight", value: 456}, {key: "exchangeEnergy", value: 230}]
- */
 function getSumsByProps(props, feeds) {
-
-    /*var dryBalanceWeight = _.sumBy(feeds, function(v) {
-        var dryMaterial = _.last(v.analysis).dryMaterial;
-        return dryMaterial / 100 * v.general.balanceWeight;
-    });*/
     return _.map(props, function(prop) {
         return {
             key: 'balanceWeight',
@@ -25,6 +16,8 @@ function getSumsByProps(props, feeds) {
 }
 
 function getSum(planningParams) {
+
+    console.log(planningParams);
 
     var feeds = planningParams.feeds;
     //filter feeds, feed shoul have analysis
@@ -105,11 +98,4 @@ function getSum(planningParams) {
     }
 }
 
-function getPlan() {
-
-}
-
-module.exports = {
-    getSum: getSum,
-    getPlan: getPlan
-};
+module.exports = getSum;

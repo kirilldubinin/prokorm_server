@@ -192,8 +192,9 @@
             <div layout="row">
             <md-card class="dashboard-card dashboard-scheduler" flex="60" layout-padding="" ng-if="feed.dashboard.noAnalysis.length">
                 <h2>
-                    Расход кормов ({{feed.dashboard.years}})
+                    Открытые корма ({{feed.dashboard.years}})
                 </h2>
+                <p>Корма с Автовычитанием</p>
                 <ul class="auto-decrement-feeds">
                     <li ng-repeat="feed in ::feed.dashboard.progress.autoDecrementFeeds">
                         <div class="feed-name" layout="row">
@@ -223,6 +224,11 @@
                         
                     </li> 
                 </ul>
+
+                <p>Корма без Автовычитания</p>
+                <a ng-href="{{feed.url}}" ng-repeat="feed in ::feed.dashboard.progress.nonAutoDecrementFeeds">
+                    {{feed.name}}
+                </a>
             </md-card>
 
             <md-card class="dashboard-card dashboard-balance" flex="40" layout-padding="16" ng-if="feed.dashboard.balance.byFeedType.length">

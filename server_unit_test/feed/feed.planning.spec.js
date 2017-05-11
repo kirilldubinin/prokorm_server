@@ -51,7 +51,7 @@ describe('feed.planning', function() {
                 }]
         }];
 
-        var feedPlanning = planning.getSum({
+        var feedPlanning = planning({
             feeds: feeds, 
             tonnPerDay:{
                 haylage: 10,

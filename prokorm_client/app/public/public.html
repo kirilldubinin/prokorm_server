@@ -1,10 +1,10 @@
 <div class="public-screen" layout="column">
-    <section class="header" layout="row">
+    <section class="header" layout="row" layout-xs="column">
         <div class="prokorm">
             <a href="/">ПРОКОРМ</a>
             <div class="sub-info">Все данные о Ваших кормах</div>
         </div>
-        <div class="contact" flex="">
+        <div class="contact" flex>
             8 800 550 28 27
             <div class="sub-info">sales@prokorm.com</div>
         </div>
@@ -17,12 +17,12 @@
         <md-button class="registration" ng-href="/#/registration">
             зарегестрироваться
         </md-button>
-        <md-button class="login md-raised" ng-href="/#/login">
+        <md-button class="login" ng-href="/#/login">
             Вход
         </md-button>
     </section>
     <div layout="row">
-        <div flex class="info-title">
+        <div hide-xs flex class="info-title">
             
             <!--<div class="sub-info">
 	            заготовка   анализы   кормление   аналитика
@@ -36,6 +36,6 @@
             </md-button>
         </div>
     </div>
-    <div flex class="carousel feed" ui-view="">
+    <div flex class="carousel feed" hide-xs ui-view="">
     </div>
 </div>

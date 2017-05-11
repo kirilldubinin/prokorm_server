@@ -28,6 +28,10 @@
         	key: 'sum',
         	url: '/#/sum'
         }, {
+            name: 'планирование',
+            key: 'planning',
+            url: '/#/planning'
+        }, {
             name: 'рейтинг',
             key: 'rating',
             url: '/#/rating'

@@ -53,7 +53,6 @@ describe('feed.progress', function() {
 
         expect(autoDecrementFeeds.length).to.equal(1);
         expect(autoDecrementFeeds[0].name).to.equal('1');
-        expect(autoDecrementFeeds[0]._id).to.equal('1');
         expect(autoDecrementFeeds[0].tonnPerDay).to.equal(12);
         expect(autoDecrementFeeds[0].willEnd).to.exist;
         expect(autoDecrementFeeds[0].daysLeft).to.equal(10);

@@ -1,6 +1,26 @@
-.ration {
+.md-autocomplete-suggestions-container {
+	width: 300px;
 
-	
+	.md-autocomplete-suggestions {
+		li {
+			height: 60px;
+			line-height: 60px;
+			.item-title, .item-storage {
+				display: block;
+				line-height: 2;
+				margin: 0;
+				padding: 0;
+			}
+
+			p {
+				font-size: 12px;
+				color: rgba(0,0,0,.54);
+			}
+		}
+	}
+}
+
+.ration {
 	.ration-list {
 		font-size: 12px;
 	    overflow: auto;
@@ -8,8 +28,6 @@
 
 		.ration-item {
 
-			border-left: 4px solid #009688;
-			
 			.md-button {
 				padding: 0 10px;			
 			}
@@ -31,35 +49,52 @@
 				line-height: normal;
 			}
 
+			.first-line {
+				.ration-type {
+					background-color: #2196F3;
+				    color: #fff;
+				    padding: 4px 8px;
+				    border-radius: 3px;
+				    text-transform: uppercase;
+				    font-size: 12px;
+				    max-height: 22px;
+				}
+				p {
+					color: #555;
+					text-align: right;
+					white-space: nowrap;
+				    overflow: hidden;
+				    text-overflow: ellipsis;
+				    padding-left: 10px;
+				}
+			}
+
 			.second-line {
 				margin: 6px 0;
+				.ration-target {
+					background-color: #009688;
+				    color: #fff;
+				    padding: 4px 8px;
+				    border-radius: 2px;
+				    font-size: 12px;
+				}
+				.ration-date {
+					padding: 4px 0;
+					text-align: right;
+				}
 			}
 
-			.ration-type {
-				background-color: #2196F3;
-			    color: #fff;
-			    padding: 2px 6px;
-			    border-radius: 3px;
-			    margin-right: 10px;
+			.third-line {
+				.ration-price {
+					font-size: 12px;
+				    color: #3F51B5;
+				    font-weight: bold;
+				}
+				.ration-weight {
+					text-align: right;
+				}
 			}
-
-			.ration-yield {
-				background-color: #009688;
-			    color: #fff;
-			    padding: 4px 8px;
-			    border-radius: 2px;
-			    font-size: 12px;
-			}
-
-			.ration-price {
-				font-size: 12px;
-			    color: #3F51B5;
-			    font-weight: bold;
-			}
-
-			.ration-date {
-				padding: 4px 0;
-			}
+			
 		}
 	}
 }

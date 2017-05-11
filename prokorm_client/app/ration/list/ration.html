@@ -1,5 +1,5 @@
 <div class="ration" layout="row">
-    <md-card class="navigator" flex="20" md-theme="default" layout="column" md-theme-watch="">
+    <md-card class="navigator" flex="23" md-theme="default" layout="column" md-theme-watch="">
         <div class="list-header">
             <!-- HEADER -->
             <div layout="row">
@@ -15,25 +15,27 @@
             <md-list-item class="md-3-line ration-item" 
                 ng-repeat="rationItem in ration.rationItems">
                 <div class="md-list-item-text" layout="column">
-                    <div layout="row">
+                    <div class="first-line" layout="row">
+                        <span class="ration-type">{{rationItem.type}}</span>
                         <p class="title" flex="">
-                            <span class="ration-type">{{rationItem.type}}</span>{{rationItem.name}}
+                            {{rationItem.name}}
                         </p>
                     </div>
                     <div layout="row" class="second-line">
+                        <span class="ration-target">
+                            {{rationItem.target}}
+                        </span>
                         <span flex class="ration-date">
                             {{rationItem.start}}
                         </span>
-                        <span class="ration-yield">
-                            {{rationItem.targetCow.milkYield}}
-                        </span>
+                        
                     </div>
-                    <div layout="row">
+                    <div class="third-line" layout="row">
+                        <span class="ration-price">
+                            154.80 руб.
+                        </span>
                         <span flex class="ration-weight">
                             <b>СВ: 21.2 кг</b>
-                        </span>
-                        <span class="ration-price">
-                            154.80
                         </span>
                     </div>
                 </div>
@@ -42,7 +44,7 @@
             </md-divider>
         </md-list>
     </md-card>
-    <md-card class="dashboard" flex="80" md-theme="default" md-theme-watch="" ui-view="">
+    <md-card class="dashboard" flex md-theme="default" md-theme-watch="" ui-view="">
         <md-content layout-padding="">
             
         </md-content>

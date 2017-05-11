@@ -1,0 +1,321 @@
+<div class="ration-edit" layout="column">
+    <div class="ration-title" layout="row">
+        <div class="ration-type">
+            раздой
+        </div>
+        <span class="ration-target">
+            32 литра
+        </span>
+        <h2 class="ration-name" flex="">
+            20-100 дней, двор 6
+        </h2>
+        <div class="actions">
+            <md-button ng-click="">
+                редактировать
+            </md-button>
+        </div>
+    </div>
+    <div class="ration-edit-content" flex="" layout="column">
+        <md-tabs flex="" md-border-bottom="" md-dynamic-height="">
+            <md-tab label="Свойства">
+                <div layout="row"  class="md-padding">
+                    <div flex="" layout="column" class="md-padding">
+                        <md-input-container>
+                            <label class="self-explanation-link" ng-if="!data.isBoolean">
+                                Тип
+                            </label>
+                            <input type="text"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <label class="self-explanation-link" ng-if="!data.isBoolean">
+                                Цель
+                            </label>
+                            <input type="text"/>
+                        </md-input-container>
+                        <md-input-container flex="">
+                            <label class="self-explanation-link" ng-if="!data.isBoolean">
+                                Имя
+                            </label>
+                            <input type="text"/>
+                        </md-input-container>
+                    </div>
+                    <div flex="" layout="column" class="md-padding">
+                        <md-input-container>
+                            <label class="self-explanation-link" ng-if="!data.isBoolean">
+                                Группа коров
+                            </label>
+                            <input type="text"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <label class="self-explanation-link" ng-if="!data.isBoolean">
+                                Вес коров
+                            </label>
+                            <input type="text"/>
+                        </md-input-container>
+                    </div>
+                    <div flex="" layout="column" class="md-padding">
+                        <md-checkbox class="checkbox md-primary">
+                            В кормлении
+                        </md-checkbox>
+                        <md-input-container>
+                            <label class="self-explanation-link" ng-if="!data.isBoolean">
+                                Начало кормления
+                            </label>
+                            <input type="text"/>
+                        </md-input-container>
+                        <md-input-container>
+                            <label class="self-explanation-link" ng-if="!data.isBoolean">
+                                Конец кормления
+                            </label>
+                            <input type="text"/>
+                        </md-input-container>
+                    </div>
+                </div>
+            </md-tab>
+            <md-tab label="Состав">
+                <md-content class="md-padding">
+                    <div class="composition" flex="">
+                        <table>
+                            <thead>
+                                <th>
+                                    #
+                                </th>
+                                <th class="feed-name">
+                                    Компонент
+                                </th>
+                                <th>
+                                    Доля, кг
+                                </th>
+                                <th>
+                                    СВ, г/кг
+                                </th>
+                                <th>
+                                    Итого СВ, кг
+                                </th>
+                                <th>
+                                    Цена, руб/кг
+                                </th>
+                                <th>
+                                    Цена, руб
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <ng-md-icon class="delete-feed-item" icon="delete_forever" size="20">
+                                            <md-tooltip md-direction="bottom">
+                                                Удалить компонент
+                                            </md-tooltip>
+                                        </ng-md-icon>
+                                    </td>
+                                    <td class="feed-name">
+                                        <md-autocomplete 
+                                        md-item-text="item.name" 
+                                        md-items="item in rationEdit.querySearch(rationEdit.searchText)" md-menu-class="autocomplete-custom-template" 
+                                        md-min-length="0" 
+                                        md-no-cache="rationEdit.noCache" 
+                                        md-search-text="rationEdit.searchText" 
+                                        md-search-text-change="rationEdit.searchTextChange(rationEdit.searchText)" md-selected-item="rationEdit.selectedItem" 
+                                        md-selected-item-change="rationEdit.selectedItemChange(item)" 
+                                        ng-disabled="rationEdit.isDisabled" 
+                                        md-menu-class="autocomplete-custom-template"
+                                        placeholder="Выберите корм">
+                                            <md-item-template>
+                                                <div class="item-title">
+                                                    {{item.name}} <b>{{item.year}}</b>
+                                                </div>
+                                                <p class="item-storage">
+                                                    {{item.branch}} {{item.storage}}
+                                                </p>
+                                            </md-item-template>
+                                        </md-autocomplete>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        2
+                                    </td>
+                                    <td class="feed-name">
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                </tr>
+                                <tr class="total">
+                                    <td>
+                                    </td>
+                                    <td class="feed-name">
+                                        <md-button class="md-raised" ng-click="">
+                                            Добавить
+                                        </md-button>
+                                    </td>
+                                    <td>
+                                        21.6
+                                    </td>
+                                    <td>
+                                        52.6
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        154.80
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </md-content>
+            </md-tab>
+            <md-tab label="Параметры">
+                <md-content class="md-padding">
+                    <div class="properties" flex="">
+                        <table>
+                            <thead>
+                                <th>
+                                    #
+                                </th>
+                                <th class="property-name">
+                                    Параметры
+                                </th>
+                                <th>
+                                    Мин.
+                                </th>
+                                <th>
+                                    Содержание
+                                </th>
+                                <th>
+                                    Макс.
+                                </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td class="property-name">
+                                        Сухое вещество, г
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        21586
+                                    </td>
+                                    <td>
+                                        22000
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        1
+                                    </td>
+                                    <td class="property-name">
+                                        Влажность рациона, %
+                                    </td>
+                                    <td>
+                                        45
+                                    </td>
+                                    <td>
+                                        58.5
+                                    </td>
+                                    <td>
+                                        60
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </md-content>
+            </md-tab>
+        </md-tabs>
+        <!--ul class="ration-info">
+            <li class="property" layout="row">
+                <label>
+                    Имя
+                </label>
+                <div class="value" flex="">
+                    20-100 дней, двор 6
+                </div>
+            </li>
+            <li class="property" layout="row">
+                <label>
+                    Тип
+                </label>
+                <div class="value" flex="">
+                    раздой
+                </div>
+            </li>
+            <li class="property" layout="row">
+                <label>
+                    Цель
+                </label>
+                <div class="value" flex="">
+                    32 литра
+                </div>
+            </li>
+            
+            <li class="property" layout="row">
+                <label>
+                    Вес коровы
+                </label>
+                <div class="value" flex="">
+                    600 кг.
+                </div>
+            </li>
+        </ul-->
+        <!--div class="properties" flex="40">
+            <ul>
+                <li flex class="header" layout="row">
+                    <span flex>Параметры</span>
+                    <span>Ед.</span>
+                    <span>Мин.</span>
+                    <span>Содержание</span>
+                    <span>Макс.</span>
+                </li>
+                <li flex layout="row">
+                    <span flex>Сухое вещество</span>
+                    <span>г</span>
+                    <span></span>
+                    <span>21586</span>
+                    <span>2200</span>
+                </li>
+                <li flex layout="row">
+                    <span flex>Влажность</span>
+                    <span>%</span>
+                    <span>45</span>
+                    <span>58.5</span>
+                    <span>60</span>
+                </li>
+            </ul>
+        </div-->
+    </div>
+</div>

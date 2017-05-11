@@ -151,6 +151,11 @@
                 templateUrl: 'app/feed/sum/sum.html',
                 controller: 'SumDemoController',
                 controllerAs: 'sum'
+            }).state('public.planning', {
+                url: '/planning',
+                templateUrl: 'app/feed/planning/planning.html',
+                controller: 'PlanningDemoController',
+                controllerAs: 'planning'
             }).state('public.rating', {
                 url: '/rating',
                 templateUrl: 'app/feed/rating/ratingInstance.html',
@@ -182,7 +187,7 @@
 })();
 (function () { 
  return angular.module("prokorm")
-.constant("version", "0.0.97");
+.constant("version", "0.0.100");
 
 })();
 
@@ -912,11 +917,14 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.sumFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'sum', {feedIds: feedIds});
     };
+    feedFactory.sumDemoFeeds = function() {
+        return $http.post(urlBaseFeed + 'sumDemo');
+    };
     feedFactory.planningFeeds = function(params) {
         return $http.post(urlBaseFeed + 'planning', params);
     };
-    feedFactory.sumDemoFeeds = function() {
-        return $http.post(urlBaseFeed + 'sumDemo');
+    feedFactory.planningDemoFeeds = function(params) {
+        return $http.post(urlBaseFeed + 'planningDemo');
     };
     feedFactory.averageFeeds = function(feedIds) {
         return $http.post(urlBaseFeed + 'average', {feedIds: feedIds});
@@ -936,6 +944,9 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.ratingDemoFeeds = function () {
         return $http.post(urlBaseFeed + 'ratingDemo');
     };
+    feedFactory.searchFeeds = function (query) {
+        return $http.post(urlBaseFeed + 'search', {query: query});
+    }
     return feedFactory;
 }]);
 (function() {
@@ -1449,6 +1460,24 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         }
 
         updatePlanning(_.filter($state.params.feeds.split(':'), Boolean));
+    }
+})();
+(function() {
+    'use strict';
+
+    angular.module('feed').controller('PlanningDemoController', PlanningController);
+    function PlanningController($scope, $state, feedFactory, $stateParams, tonnPerDay, _) {
+
+    	var vm = this;
+        vm._ = _;
+        vm.tonnPerDay = tonnPerDay;
+        vm.demoMode = true;
+
+        feedFactory.planningDemoFeeds().then(function (result) {
+            vm.properties = result.properties;
+            vm.rows = result.sumsRows;
+            vm.tonnPerDay.haylage = 32;
+        });
     }
 })();
 (function() {
@@ -2100,6 +2129,10 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         	key: 'sum',
         	url: '/#/sum'
         }, {
+            name: 'планирование',
+            key: 'planning',
+            url: '/#/planning'
+        }, {
             name: 'рейтинг',
             key: 'rating',
             url: '/#/rating'
@@ -2112,6 +2145,35 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
 })();
 (function() {
     'use strict';
+    RationEditController.$inject = ['$mdDialog', '$stateParams', '$state', 'authFactory', 'feedFactory', '_']
+    angular.module('ration').controller('RationEditController', RationEditController);
+
+    function RationEditController($mdDialog, $stateParams, $state, authFactory, rationFactory, _) {
+        var vm = this;
+        vm.items = [{
+            name: '1',
+            year: 2015,
+            feedType: 'haylage',
+            composition: 'foo',
+            balanceWeight: 1
+        }, {
+            name: '1',
+            year: 2015,
+            feedType: 'haylage',
+            composition: 'foo',
+            balanceWeight: 1
+        }];
+        vm.querySearch = function(query) {
+        	return rationFactory.searchFeeds(query);
+        };
+
+        vm.searchTextChange = function () {
+
+        };
+    }
+})();
+(function() {
+    'use strict';
     angular.module('ration').controller('RationController', RationController);
 
     function RationController($scope, $window, $state, rationFactory, $mdDialog) {
@@ -2119,15 +2181,28 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
         
         vm.rationItems = [
             {
-                type: 'Раздой',
-                name: '20-100 дней',
+                type: 'раздой',
+                target: '32 литра',
+                name: '20-100 дней, двор 620-100 дней, двор 6',
                 description: '',
                 targetCow: {
                     group: 'Раздой 20-100',
-                    milkYield: 32,
                     weight: 600
                 },
                 start: '12 Apr 2016',
+                end: '',
+                inProgress: true
+            },
+            {
+                type: 'сухостой',
+                target: '12 литров',
+                name: '200-260 дней, двор 4',
+                description: '',
+                targetCow: {
+                    group: 'Раздой 20-100',
+                    weight: 600
+                },
+                start: '12 Nov 2016',
                 end: '',
                 inProgress: true
             }
@@ -2213,6 +2288,16 @@ angular.module('ration').factory('rationFactory', ['$http', '$location', functio
                     module: 'ration'
                 }
             });
+    }
+})();
+(function() {
+    'use strict';
+    RationViewController.$inject = ['$mdDialog', '$stateParams', '$state', 'authFactory', 'feedFactory', '_']
+    angular.module('ration').controller('RationViewController', RationViewController);
+
+    function RationViewController($mdDialog, $stateParams, $state, authFactory, feedFactory, _) {
+        var vm = this;
+        
     }
 })();
 (function() {

@@ -7,15 +7,28 @@
         
         vm.rationItems = [
             {
-                type: 'Раздой',
-                name: '20-100 дней',
+                type: 'раздой',
+                target: '32 литра',
+                name: '20-100 дней, двор 620-100 дней, двор 6',
                 description: '',
                 targetCow: {
                     group: 'Раздой 20-100',
-                    milkYield: 32,
                     weight: 600
                 },
                 start: '12 Apr 2016',
+                end: '',
+                inProgress: true
+            },
+            {
+                type: 'сухостой',
+                target: '12 литров',
+                name: '200-260 дней, двор 4',
+                description: '',
+                targetCow: {
+                    group: 'Раздой 20-100',
+                    weight: 600
+                },
+                start: '12 Nov 2016',
                 end: '',
                 inProgress: true
             }

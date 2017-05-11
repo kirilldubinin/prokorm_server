@@ -129,6 +129,34 @@ module.exports = function(app, isAuthenticated, errorHandler, log) {
             res.json(list(feeds));
         });
     });
+    // get feeds by search query
+    app.post('/api/feeds/search', isAuthenticated, function(req, res) {
+        var query = req.body.query;
+        console.log(query);
+
+        Feed.find({
+            'createdBy.tenantId': req.user.tenantId
+        }).lean().exec(function(err, feeds) {
+            if (err) {
+                return errorHandler(err, req, res);
+            }
+            // double check checkUserRightForFeed
+            feeds = _.filter(feeds, function(f) {
+                return checkUserRightForFeed(f, req);
+            });
+
+            var result = list(feeds).feeds;
+            result = _.filter(result, function (feed) {
+                console.log(feed.name);
+                console.log(feed.name.indexOf(query) > -1);
+                return feed.name.indexOf(query) > -1;
+            });
+
+            console.log(result);
+
+            res.json(result);
+        });
+    });
     // get feed by id for view mode
     app.get('/api/feeds/:feed_id/view', isAuthenticated, function(req, res) {
         Feed.findById(req.params.feed_id).lean().exec(function(err, feed) {
@@ -264,7 +292,7 @@ module.exports = function(app, isAuthenticated, errorHandler, log) {
                 return checkUserRightForFeed(f, req);
             });
 
-            res.status(200).json(planning.getSum({feeds: feeds, tonnPerDay: req.body.tonnPerDay}));
+            res.status(200).json(planning({feeds: feeds, tonnPerDay: req.body.tonnPerDay}));
         }, function(err) {
             res.send(err);
         });
