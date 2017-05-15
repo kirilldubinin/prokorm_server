@@ -16,32 +16,37 @@ var RationSchema = new Schema({
             required: true
         }
     },
-    start: Date,
-    end: Date,
-    inProgress: Boolean,
-	name: {
-		type: String,
-        required: true
-	},
-	description: {
-		type: String
-	},
-	targetCow: {
-		group: {
-			type: String
-		},
-		milkYield: {
-			type: Number
-		},
-		weight: {
-			type: Number
-		}
-	},
+    general: {
+        type: {
+            type: String,
+            required: true
+        },
+        target: {
+            type: String,
+            required: true
+        },
+        name: {
+            type: String,
+            required: true
+        },
+        groupName: {
+            type: String
+        },
+        cowWeight: {
+            type: Number
+        },
+        startDate: Date,
+        endDate: Date
+    },
     feeds: [{
-        feedId: Schema.Types.ObjectId,
-        dryMaterial: Number,
+        _id: Schema.Types.ObjectId,
+        name: String,
+        year: Number,
+        branch: String,
+        storage: String,
         weight: Number,
-        price: Number
+        dryMaterial: Number, // gr/kilo
+        price: Number // for kilo
     }],
     parameters: [{
         dryMaterial: {
