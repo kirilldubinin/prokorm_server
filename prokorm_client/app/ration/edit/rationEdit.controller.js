@@ -1,23 +1,19 @@
 (function() {
     'use strict';
-    RationEditController.$inject = ['$mdDialog', '$stateParams', '$state', 'authFactory', 'feedFactory', '_']
+    RationEditController.$inject = ['$mdDialog', '$stateParams', '$state', 'authFactory', 'rationFactory', '_']
     angular.module('ration').controller('RationEditController', RationEditController);
 
     function RationEditController($mdDialog, $stateParams, $state, authFactory, rationFactory, _) {
         var vm = this;
-        vm.items = [{
-            name: '1',
-            year: 2015,
-            feedType: 'haylage',
-            composition: 'foo',
-            balanceWeight: 1
-        }, {
-            name: '1',
-            year: 2015,
-            feedType: 'haylage',
-            composition: 'foo',
-            balanceWeight: 1
-        }];
+
+        var rationId = $stateParams.rationId;
+        var promise = rationId ? 
+            rationFactory.getRationEdit(rationId) : 
+            rationFactory.getEmptyRation();
+
+        promise.then(function(ration) {
+            vm.rationItemSections = ration;
+        });
         vm.querySearch = function(query) {
         	return rationFactory.searchFeeds(query);
         };

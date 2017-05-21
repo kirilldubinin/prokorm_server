@@ -2,7 +2,7 @@ angular.module('ration').factory('rationFactory', ['$http', '$location', functio
 
     var host = '';
     var urlBase = host + '/api/';
-    var urlBaseRation = urlBase + 'ration/';
+    var urlBaseRation = urlBase + 'rations/';
     var rationFactory = {};
 
     // feed
@@ -17,5 +17,9 @@ angular.module('ration').factory('rationFactory', ['$http', '$location', functio
         var url = ration._id ? (urlBaseRation + ration._id) : urlBaseRation;
         return $http[methode](url, ration);
     };
+    rationFactory.getEmptyRation = function() {
+        return $http.post(urlBaseRation + 'new');
+    };
+
     return rationFactory;
 }]);

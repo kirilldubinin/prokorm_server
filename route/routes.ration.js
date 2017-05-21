@@ -12,7 +12,7 @@ var diff = require('../feed/feed.diff');
 var sum = require('../feed/feed.sum');
 var average = require('../feed/feed.average');
 var view = require('../feed/feed.view');
-var edit = require('../feed/feed.edit');
+var edit = require('../ration/ration.edit');
 var balance = require('../feed/feed.balance');
 var charts = require('../feed/feed.charts');
 var rating = require('../feed/feed.rating');
@@ -87,5 +87,10 @@ module.exports = function(app, isAuthenticated, errorHandler, log) {
             });
             res.json(list(rations));
         });
+    });
+
+    // get ration skeleton
+    app.post('/api/rations/new', isAuthenticated, function(req, res) {
+        res.json(edit());
     });
 }

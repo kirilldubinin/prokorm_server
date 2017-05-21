@@ -57,7 +57,6 @@ function filterValueExist(v) {
 function getAverage(feeds) {
 
     var rows = [];
-    var allProps = Feed.getSkeleton();
     var result = {
         dryRawValues: _.map(feeds, 'analysis').map(function(analys) {
             return _.map(analys, 'isNaturalWet');

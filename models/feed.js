@@ -259,10 +259,4 @@ FeedSchema.pre('validate', function(next) {
     // VALIDATION OK
     return next();
 });
-/*FeedSchema.path("general.name").validate(function (v) {
-    return v.length;
-});
-FeedSchema.path('general.year').validate(function (v) {
-    return v.length;
-});*/
 module.exports = mongoose.model('Feed', FeedSchema);

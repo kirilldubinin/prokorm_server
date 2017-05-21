@@ -17,7 +17,22 @@
     </div>
     <div class="ration-edit-content" flex="" layout="column">
         <md-tabs flex="" md-border-bottom="" md-dynamic-height="">
-            <md-tab label="Свойства">
+
+            <md-tab ng-repeat="section in ::rationEdit.rationItemSections" label="{{section.label}}" >
+                <div ng-switch="section.key" layout="row" class="md-padding">
+                    <div ng-switch-when="general">
+                        <md-input-container ng-repeat="control in section.controls">
+                            <label>{{control.label}}</label>
+                            <input type="text" ng-model="section.initialItem[control.key]"/>
+                        </md-input-container>
+                    </div>
+                    <div ng-switch-default="">
+                        123
+                    </div>
+                </div>
+            </md-tab>
+
+            <!--md-tab label="Свойства">
                 <div layout="row"  class="md-padding">
                     <div flex="" layout="column" class="md-padding">
                         <md-input-container>
@@ -255,67 +270,7 @@
                         </table>
                     </div>
                 </md-content>
-            </md-tab>
+            </md-tab-->
         </md-tabs>
-        <!--ul class="ration-info">
-            <li class="property" layout="row">
-                <label>
-                    Имя
-                </label>
-                <div class="value" flex="">
-                    20-100 дней, двор 6
-                </div>
-            </li>
-            <li class="property" layout="row">
-                <label>
-                    Тип
-                </label>
-                <div class="value" flex="">
-                    раздой
-                </div>
-            </li>
-            <li class="property" layout="row">
-                <label>
-                    Цель
-                </label>
-                <div class="value" flex="">
-                    32 литра
-                </div>
-            </li>
-            
-            <li class="property" layout="row">
-                <label>
-                    Вес коровы
-                </label>
-                <div class="value" flex="">
-                    600 кг.
-                </div>
-            </li>
-        </ul-->
-        <!--div class="properties" flex="40">
-            <ul>
-                <li flex class="header" layout="row">
-                    <span flex>Параметры</span>
-                    <span>Ед.</span>
-                    <span>Мин.</span>
-                    <span>Содержание</span>
-                    <span>Макс.</span>
-                </li>
-                <li flex layout="row">
-                    <span flex>Сухое вещество</span>
-                    <span>г</span>
-                    <span></span>
-                    <span>21586</span>
-                    <span>2200</span>
-                </li>
-                <li flex layout="row">
-                    <span flex>Влажность</span>
-                    <span>%</span>
-                    <span>45</span>
-                    <span>58.5</span>
-                    <span>60</span>
-                </li>
-            </ul>
-        </div-->
     </div>
 </div>

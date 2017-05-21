@@ -1,3 +1,4 @@
+var _ = require('lodash');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var RationSchema = new Schema({
@@ -75,4 +76,63 @@ var RationSchema = new Schema({
         milkByNxp: Number
     }]
 });
+
+var goldObject = {
+    general: {
+        type: '',
+        target: '',
+        name: '',
+        groupName: '',
+        cowWeight: null,
+        startDate: null,
+        endDate: null
+    },
+    feeds: [],
+    parameters: [{
+        dryMaterial: null,
+        wet: null,
+        exchangeEnergy: null,
+        exchangeEnergyInKg: null,
+        nel: null,
+        nelInKg: null,
+        crudeProtein: null,
+        nxp: null,
+        rnb: null,
+        crudeFat: null,
+        crudeFiber: null,
+        structuralFiber: null,
+        sugar: null,
+        starch: null,
+        uncrackedStarch: null,
+        starchPlusSugar: null,
+        milkByNel: null,
+        milkByProtein: null,
+        milkByNxp: null
+    }]
+};
+
+RationSchema.statics.getEmptyFeed = function() {
+    return goldObject;
+};
+RationSchema.statics.sort = function(object, rootProperty) {
+    var result = {};
+    _.forEach(_.isArray(goldObject[rootProperty]) ? goldObject[rootProperty][0] : goldObject[rootProperty], function(value, key) {
+        if ((_.isBoolean(object[key]) || _.isNumber(object[key]) || object[key])) {
+            result[key] = object[key];
+        }
+    });
+    return result;
+};
+RationSchema.pre('validate', function(next) {
+    
+    // general properies
+    if (!this.general.type || 
+        !this.general.name) {
+        return next(Error('"Тип" и "Имя" рациона обязательны для заполнения.'));
+    } 
+
+    // VALIDATION OK
+    return next();
+});
+
 module.exports = mongoose.model('Ration', RationSchema);

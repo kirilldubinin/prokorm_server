@@ -58,7 +58,7 @@ function convert(ration, sessionData) {
 	    		'',
 	    		_.sumBy(ration.feeds, 'weight'), // weight
 	    		'',
-	    		_.sumBy(ration.feeds, 'dryMaterial')/1000, // dru material
+	    		_.sumBy(ration.feeds, 'dryMaterial')/1000, // dry material
 	    		'',
 	    		_.sumBy(ration.feeds, function (feed) {
 	    			return Math.round(feed.weight * feed.price);
@@ -66,6 +66,17 @@ function convert(ration, sessionData) {
 	    	]
 	    } :
 	    null;
+
+    var parametersView = _.size(ration.feeds) ?
+    	{
+    		head: _.map([
+	    		'#',
+				'parameters', 
+				'min', 
+				'current', 
+				'max'], lang)
+    	} :
+    	null;
 
 
     var rationItemSections = [generalView];
@@ -83,12 +94,12 @@ function convert(ration, sessionData) {
 	            label: lang('feeds'),
 	            key: 'feeds',
 	            controls: feedsView
-    		}/*,
+    		},
     		{
 	            label: lang('parameters'),
 	            key: 'parameters',
 	            controls: parametersView
-    		}*/
+    		}
     	]
     };
 }

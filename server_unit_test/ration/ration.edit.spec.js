@@ -1,10 +1,49 @@
 var expect = require("chai").expect;
-var view = require('../../ration/ration.view');
+var edit = require('../../ration/ration.edit');
 var lang = require('../../ration/ration.lang');
 var dimension = require('../../ration/ration.dimension');
+var Ration = require('../../models/ration');
 var _ = require('lodash');
-describe('ration.view', function() {
-    describe('general tab', function() {
+
+describe('ration.edit', function() {
+
+    describe('get new ration for edit from scratch', function () {
+        
+        var editRation;
+        beforeEach(function () {
+            editRation = edit()
+        });
+
+        describe('general tab', function () {
+
+            var editRationGeneral;
+            beforeEach(function () {
+                editRationGeneral = editRation[0];
+            });            
+
+            it('should have label', function () {
+                expect(editRationGeneral.label).to.equal(lang('general'));
+            });
+            it('should have key', function () {
+                expect(editRationGeneral.key).to.equal('general');
+            });
+
+            it('should have initialItem', function () {
+                expect(editRationGeneral.initialItem).to.deep.equal(Ration.getEmptyFeed().general); 
+            });
+
+            it('should have controls', function () {
+                
+                _.forEach(editRationGeneral.controls, function (control) {
+                    expect(control.key).to.exist;
+                    expect(control.label).to.exist;
+                    expect(control.value).to.be.oneOf([null, '']);
+                });
+            });
+        });
+    });
+
+    xdescribe('general tab', function() {
         var ration = {
             createdAt: new Date('10-10-2010'),
             general: {
@@ -44,7 +83,7 @@ describe('ration.view', function() {
             })
         });
     });
-    describe('feeds tab', function() {
+    xdescribe('feeds tab', function() {
         var ration = {
             createdAt: new Date('10-10-2010'),
             general: {

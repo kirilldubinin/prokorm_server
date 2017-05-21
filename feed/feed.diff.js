@@ -56,7 +56,6 @@ function filterValueExist(v) {
 
 function getDiff(feeds) {
     var rows = [];
-    var allProps = Feed.getSkeleton();
     var result = {
         diff: {},
         dryRawValues: _.map(feeds, 'analysis').map(function(analys) {
