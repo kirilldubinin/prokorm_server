@@ -41,6 +41,77 @@ describe('ration.edit', function() {
                 });
             });
         });
+
+        describe('feeds tab', function () {
+
+            var editRationGeneral;
+            beforeEach(function () {
+                editRationFeeds = editRation[1];
+            });            
+
+            it('should have label', function () {
+                expect(editRationFeeds.label).to.equal(lang('feeds'));
+            });
+            it('should have key', function () {
+                expect(editRationFeeds.key).to.equal('feeds');
+            });
+
+            it('should have initialItem: []', function () {
+                expect(editRationFeeds.initialItem).to.deep.equal([]); 
+            });
+
+            it('should have header', function () {
+                expect(editRationFeeds.header).to.deep.equal([
+                    {
+                        label: '#'
+                    },
+                    {
+                        label: lang('feed')
+                    },
+                    {
+                        label: lang('weight')
+                    },
+                    {
+                        label: lang('dryMaterial')
+                    },
+                    {
+                        label: lang('dryMaterialTotal')
+                    },
+                    {
+                        label: lang('price')
+                    },
+                    {
+                        label: lang('priceTotal')
+                    }
+                ]); 
+            });
+            it('should have body', function () {
+                expect(editRationFeeds.body).to.deep.equal([]); 
+            });
+        });
+
+        xdescribe('parameters tab', function () {
+
+            var editRationGeneral;
+            beforeEach(function () {
+                editRationParameters = editRation[1];
+            });            
+
+            it('should have label', function () {
+                expect(editRationParameters.label).to.equal(lang('parameters'));
+            });
+            it('should have key', function () {
+                expect(editRationParameters.key).to.equal('parameters');
+            });
+
+            it('should have initialItem: []', function () {
+                expect(editRationParameters.initialItem).to.deep.equal([]); 
+            });
+
+            it('should have controls: []', function () {
+                expect(editRationParameters.controls).to.deep.equal([]); 
+            });
+        });
     });
 
     xdescribe('general tab', function() {

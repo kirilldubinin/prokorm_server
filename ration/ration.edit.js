@@ -31,6 +31,46 @@ function convert(ration) {
             key: 'general',
             initialItem: ration.general,
             controls: Ration.sort(convertToControl(ration.general, 'general'), 'general')
+        },
+        {
+            label: lang('feeds'),
+            key: 'feeds',
+            initialItem: ration.feeds,
+            header: [
+                {
+                    label: '#'
+                },
+                {
+                    label: lang('feed')
+                },
+                {
+                    label: lang('weight')
+                },
+                {
+                    label: lang('dryMaterial')
+                },
+                {
+                    label: lang('dryMaterialTotal')
+                },
+                {
+                    label: lang('price')
+                },
+                {
+                    label: lang('priceTotal')
+                }
+            ],
+            body: _.map(ration.feeds, function (feed, index) {
+
+                return [
+                    index,
+                    feed.name,
+                    feed.weight,
+                    feed.dryMaterial,
+                    Math.round(feed.weight * feed.dryMaterial),
+                    feed.price,
+                    Math.round(feed.weight * feed.price)
+                ];
+            })
         }
     ];
 }

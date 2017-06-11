@@ -1,33 +1,117 @@
 <div class="ration-edit" layout="column">
-    <div class="ration-title" layout="row">
-        <div class="ration-type">
-            раздой
-        </div>
-        <span class="ration-target">
-            32 литра
-        </span>
-        <h2 class="ration-name" flex="">
-            20-100 дней, двор 6
-        </h2>
-        <div class="actions">
-            <md-button ng-click="">
-                редактировать
-            </md-button>
-        </div>
-    </div>
+    <!-- CONTENT -->
     <div class="ration-edit-content" flex="" layout="column">
         <md-tabs flex="" md-border-bottom="" md-dynamic-height="">
 
-            <md-tab ng-repeat="section in ::rationEdit.rationItemSections" label="{{section.label}}" >
-                <div ng-switch="section.key" layout="row" class="md-padding">
-                    <div ng-switch-when="general">
-                        <md-input-container ng-repeat="control in section.controls">
-                            <label>{{control.label}}</label>
-                            <input type="text" ng-model="section.initialItem[control.key]"/>
-                        </md-input-container>
+            <md-tab ng-repeat="section in rationEdit.ration" label="{{section.label}}" >
+                <div ng-switch="section.key" class="md-padding">
+                    <div layout="row" flex ng-switch-when="general">
+                        <div flex>
+                            <md-input-container 
+                                class=""
+                                ng-repeat="control in 
+                                    [section.controls.type, section.controls.name, section.controls.target]">
+                                <label>{{control.label}}</label>
+                                <input type="text" ng-model="section.initialItem[control.key]"/>
+                            </md-input-container>    
+                        </div>
+
+                        <div flex="30">
+                            <md-input-container 
+                                class=""
+                                ng-repeat="control in 
+                                    [section.controls.groupName, section.controls.cowWeight]">
+                                <label>{{control.label}}</label>
+                                <input type="text" ng-model="section.initialItem[control.key]"/>
+                            </md-input-container>    
+                        </div>
+
+                        <div flex="30">
+                            <md-input-container 
+                                class=""
+                                ng-repeat="control in 
+                                    [section.controls.startDate, section.controls.endDate]">
+                                <label>{{control.label}}</label>
+                                <input type="text" ng-model="section.initialItem[control.key]"/>
+                            </md-input-container>    
+                        </div>
+                        
                     </div>
-                    <div ng-switch-default="">
-                        123
+                    <div ng-switch-when="feeds">
+                        <table>
+                            <thead>
+                                <th ng-repeat="cell in section.header">
+                                    {{cell.label}}
+                                </th>
+                            </thead>
+                            <tbody>
+
+                                <tr ng-repeat="cell in section.body">
+                                    <td>
+                                    </td>
+                                    <td class="feed-name">
+                                        <md-autocomplete 
+                                        md-item-text="item.name" 
+                                        md-items="item in rationEdit.querySearch(rationEdit.searchText)" md-menu-class="autocomplete-custom-template" 
+                                        md-min-length="0" 
+                                        md-no-cache="rationEdit.noCache" 
+                                        md-search-text="rationEdit.searchText" 
+                                        md-search-text-change="rationEdit.searchTextChange(rationEdit.searchText)" md-selected-item="rationEdit.selectedItem" 
+                                        md-selected-item-change="rationEdit.selectedItemChange(item)" 
+                                        ng-disabled="rationEdit.isDisabled" 
+                                        md-menu-class="autocomplete-custom-template"
+                                        placeholder="Выберите корм">
+                                            <md-item-template>
+                                                <div class="item-title">
+                                                    {{item.name}} <b>{{item.year}}</b>
+                                                </div>
+                                                <p class="item-storage">
+                                                    {{item.branch}} {{item.storage}}
+                                                </p>
+                                            </md-item-template>
+                                        </md-autocomplete>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td>
+                                    <td>
+                                        <input type="text"/>
+                                    </td> 
+                                </tr>   
+
+                                <tr class="total">
+                                    <td>
+                                    </td>
+                                    <td class="feed-name">
+                                        <md-button class="md-raised" ng-click="rationEdit.addFeed()">
+                                            Добавить
+                                        </md-button>
+                                    </td>
+                                    <td>
+                                        {{rationEdit.totalWeight}}
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        {{rationEdit.totalDryWeight}}
+                                    </td>
+                                    <td>
+                                    </td>
+                                    <td>
+                                        {{rationEdit.totalPrice}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </md-tab>
@@ -272,5 +356,14 @@
                 </md-content>
             </md-tab-->
         </md-tabs>
+    </div>
+    <!-- ACTIONS -->
+    <div class="ration-edit-actions" layout="row" layout-align="center left" layout-sm="column" layout-wrap="">
+        <md-button class="md-raised" ng-click="feedEdit.cancel()">
+            Отмена
+        </md-button>
+        <md-button class="md-raised md-primary" ng-click="feedEdit.save()">
+            Сохранить
+        </md-button>
     </div>
 </div>
