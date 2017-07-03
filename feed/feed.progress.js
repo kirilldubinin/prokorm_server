@@ -22,9 +22,13 @@ function progress(feeds, tenantName) {
                 _.isNumber(feed.general.totalWeight);
     });
 
-    var autoDecrementFeeds = _.filter(feeds, 'feeding.autoDecrement');
-    autoDecrementFeeds = _.filter(autoDecrementFeeds, 'feeding.tonnPerDay');
+    console.log(feeds.length);
 
+    var autoDecrementFeeds = _.filter(feeds, 'feeding.autoDecrement');
+    console.log(autoDecrementFeeds.length);
+    autoDecrementFeeds = _.filter(autoDecrementFeeds, 'feeding.tonnPerDay');
+    console.log(autoDecrementFeeds.length);
+    
     autoDecrementFeeds = _.map(autoDecrementFeeds, function (feed) {
 
         var tonnPerDay = feed.feeding.tonnPerDay;
