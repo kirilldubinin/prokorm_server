@@ -12,7 +12,7 @@ function getName (feed) {
 }
 
 function progress(feeds, tenantName) {
-
+    console.log(feeds.length);
     // filter
     // feed should be opened and not done
     feeds = _.filter(feeds, function (feed) {
