@@ -34,7 +34,8 @@ CustomStrategy.prototype.authenticate = function(req, callback) {
         } else if (_tenant) {
             // get user by name
             User.findOne({
-                name: username
+                name: username,
+                tenantId: _tenant._id
             }).select('+password').exec(function(err, _user) {
                 if (err) {
                     callback(err, null);

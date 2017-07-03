@@ -9,7 +9,7 @@
     angular.module('info', []);
     angular.module('help', []);
     angular.module('admin', []);
-    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons', 'ui.carousel',
+    angular.module('prokorm', ['ngResource', 'ui.router', 'ngMaterial', 'ngMdIcons',
         'catalog', 'profile', 'feed', 'ration', 'auth', 'help', 'info', 'admin']);
     // constant
     angular.module('prokorm').constant('_', window._);

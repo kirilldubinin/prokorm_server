@@ -9,8 +9,14 @@ angular.module('feed').factory('feedFactory', ['$http', '$location', function($h
     feedFactory.getFeeds = function() {
         return $http.get(urlBaseFeed);
     };
+    feedFactory.getDemoFeeds = function() {
+        return $http.get(urlBase + 'demoFeeds');
+    };
     feedFactory.getFeedDashboard = function() {
         return $http.get(urlBaseFeed + 'dashboard');
+    };
+    feedFactory.getDemoFeedDashboard = function() {
+        return $http.get(urlBaseFeed + 'demoDashboard');
     };
     feedFactory.saveFeed = function(feed) {
         var methode = feed._id ? 'put' : 'post';
