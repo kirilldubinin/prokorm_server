@@ -12,24 +12,16 @@ function getName (feed) {
 }
 
 function progress(feeds, tenantName) {
-    console.log(feeds.length);
     // filter
     // feed should be opened and not done
     feeds = _.filter(feeds, function (feed) {
-        console.log(feed.general);
         return feed.general.opened && 
                 !feed.general.done && 
                 _.isNumber(feed.general.balanceWeight) &&
                 _.isNumber(feed.general.totalWeight);
     });
-
-    console.log(feeds.length);
-
     var autoDecrementFeeds = _.filter(feeds, 'feeding.autoDecrement');
-    console.log(autoDecrementFeeds.length);
-    autoDecrementFeeds = _.filter(autoDecrementFeeds, 'feeding.tonnPerDay');
-    console.log(autoDecrementFeeds.length);
-    
+    autoDecrementFeeds = _.filter(autoDecrementFeeds, 'feeding.tonnPerDay');    console.log(autoDecrementFeeds.length);
     autoDecrementFeeds = _.map(autoDecrementFeeds, function (feed) {
 
         var tonnPerDay = feed.feeding.tonnPerDay;

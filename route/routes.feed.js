@@ -22,6 +22,14 @@ var lang = require('../feed/lang');
 
 module.exports = function(app, isAuthenticated, errorHandler, log) {
     
+    function getName (feed) {
+        if (!feed.general.name) {
+            return lang(feed.general.feedType) + ':' + feed.general.composition;
+        } else {
+            return feed.general.name;
+        }
+    }
+
     function checkUserRightForFeed(feed, req, res) {
         var check = feed.createdBy.tenantId.equals(req.user.tenantId);
         if (res && !check) {
@@ -71,7 +79,7 @@ module.exports = function(app, isAuthenticated, errorHandler, log) {
                 }), function(f) {
                     return {
                         _id: f._id,
-                        label: f.general.name + ' ' + f.general.year,
+                        label: getName(f),
                         url: ('/#/' + req.user.tenantName + '/feed/' + f._id)
                     };
                 })
