@@ -16,6 +16,7 @@ function progress(feeds, tenantName) {
     // filter
     // feed should be opened and not done
     feeds = _.filter(feeds, function (feed) {
+        console.log(feed.general);
         return feed.general.opened && 
                 !feed.general.done && 
                 _.isNumber(feed.general.balanceWeight) &&
