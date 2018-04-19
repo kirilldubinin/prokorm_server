@@ -5,13 +5,17 @@
         var vm = this;
 
         if ($state.current.name === 'public') {
-            $state.go('public.view');
-            vm.current = 'view';    
+            $state.go('public.list');
+            vm.current = 'list';    
         } else {
             vm.current = $state.current.name.split('.')[1];
         }
         
         vm.buttons = [{
+            name: 'список',
+            key: 'list',
+            url: '/#/list'
+        }, {
         	name: 'анализы',
         	key: 'view',
         	url: '/#/view'

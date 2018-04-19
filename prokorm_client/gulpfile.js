@@ -59,7 +59,6 @@ gulp.task('build_libs_js', function(){
 
 				'node_modules/angular-material/angular-material.min.js',
 				'angular-material-icons/angular-material-icons.js',
-				'node_modules/angular-ui-carousel/dist/ui-carousel.min.js',
 				'node_modules/angular-ui-router/release/angular-ui-router.min.js',
 				'node_modules/lodash/core.min.js',
 				'node_modules/moment/min/moment.min.js'];
@@ -82,7 +81,7 @@ gulp.task('build_app_js', function(){
 		    'index.run.js'
 	  	]))
         .pipe(concat('app.js'))
-        //.pipe(uglify({mangle: false}))
+        .pipe(uglify({mangle: false}))
         .pipe(gulp.dest('./'));
 });
 

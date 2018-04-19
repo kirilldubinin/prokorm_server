@@ -17,6 +17,12 @@
                 templateUrl: 'app/public/public.html',
                 controller: 'PublicController',
                 controllerAs: 'public'
+            })
+            .state('public.list', {
+                url: '/list',
+                templateUrl: 'app/feed/list/feedDemo.html',
+                controller: 'FeedDemoController',
+                controllerAs: 'feed'
             }).state('public.view', {
                 url: '/view',
                 templateUrl: 'app/feed/view/feedView.html',

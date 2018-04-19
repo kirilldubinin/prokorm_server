@@ -194,21 +194,34 @@ module.exports = function(app, isAuthenticated, errorHandler) {
         });
     });
     app.post('/api/users', isAuthenticated, function(req, res) {
-        var user = new User();
-        user.tenantId = req.user.tenantId;
-        user.createdAt = new Date();
-        user.name = req.body.name;
-        user.fullName = req.body.fullName;
-        user.email = req.body.email;
-        user.password = req.body.password;
-        user.permissions = req.body.permissions;
-        user.save(function(err, newUser) {
+        
+        // check if this tenant allready has a user with name req.body.name
+        User.findOne({
+            name: req.body.name,
+            tenantId: req.user.tenantId
+        }).exec(function(err, _user) {
             if (err) {
-                return errorHandler(err, req, res);
-            } else {
-                res.json({
-                    message: 'OK',
-                    id: newUser._id
+                var user = new User();
+                user.tenantId = req.user.tenantId;
+                user.createdAt = new Date();
+                user.name = req.body.name;
+                user.fullName = req.body.fullName;
+                user.email = req.body.email;
+                user.password = req.body.password;
+                user.permissions = req.body.permissions;
+                user.save(function(err, newUser) {
+                    if (err) {
+                        return errorHandler(err, req, res);
+                    } else {
+                        res.json({
+                            message: 'OK',
+                            id: newUser._id
+                        });
+                    }
+                });
+            } else if (_user) {
+                res.status(406).json({
+                    message: 'Пользователь с таким именем уже существует в Вашей компании.'
                 });
             }
         });

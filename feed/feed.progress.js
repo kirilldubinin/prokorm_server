@@ -12,7 +12,6 @@ function getName (feed) {
 }
 
 function progress(feeds, tenantName) {
-
     // filter
     // feed should be opened and not done
     feeds = _.filter(feeds, function (feed) {
@@ -21,10 +20,8 @@ function progress(feeds, tenantName) {
                 _.isNumber(feed.general.balanceWeight) &&
                 _.isNumber(feed.general.totalWeight);
     });
-
     var autoDecrementFeeds = _.filter(feeds, 'feeding.autoDecrement');
-    autoDecrementFeeds = _.filter(autoDecrementFeeds, 'feeding.tonnPerDay');
-
+    autoDecrementFeeds = _.filter(autoDecrementFeeds, 'feeding.tonnPerDay');    console.log(autoDecrementFeeds.length);
     autoDecrementFeeds = _.map(autoDecrementFeeds, function (feed) {
 
         var tonnPerDay = feed.feeding.tonnPerDay;

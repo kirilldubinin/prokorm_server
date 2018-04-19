@@ -13,19 +13,17 @@ function sortFeeds(a, b) {
 }
 
 function charts(feeds) {
-    console.log('start charts');
-    console.log(feeds);
-    var series = ['dryMaterial', 'ph', 'milkAcid', 'aceticAcid', 'oilAcid', 
+    /*var series = ['dryMaterial', 'ph', 'milkAcid', 'aceticAcid', 'oilAcid', 
                 'exchangeEnergy', 'nel', 'crudeAsh', 'crudeProtein', 'crudeFat',
-                'sugar', 'starch', 'crudeFiber', 'ndf', 'adf', 'adl'];
+                'sugar', 'starch', 'crudeFiber', 'ndf', 'adf', 'adl'];*/
 
-    var byDefault = ['dryMaterial', 'ph', 'exchangeEnergy', 'crudeAsh', 'crudeProtein', 'crudeFiber'];
+    const series = ['crudeProtein'];
     
+    var byDefault = ['dryMaterial', 'ph', 'exchangeEnergy', 'crudeAsh', 'crudeProtein', 'crudeFiber'];
+    var byDefault = ['crudeProtein'];
     try {
-
         var allYears = [];
         var chartSeries = _.map(series, function(seria) {
-
             var seriaDates = _.map(feeds, function(feed) {
                 var lastAnalys = _.last(feed.analysis);
                 var value = null;
@@ -33,29 +31,41 @@ function charts(feeds) {
                 var canBerecalcalated = feedUtils.propertyForRecalculate[seria];
                 if (_.isNumber(lastAnalys[seria])) {
                     if (canBerecalcalated) {
-                        var isNaturalWet = lastAnalys.isNaturalWet;
-                        var dryMaterial = lastAnalys.dryMaterial / 100;
-                        value = isNaturalWet ? 
-                        	(lastAnalys[seria] / dryMaterial) : 
-                        	lastAnalys[seria];
+                        value = lastAnalys.isNaturalWet ? 
+                            
+                            feedUtils.calcDryRaw(true, lastAnalys.dryMaterial, lastAnalys[seria]).dryValue : 
+                            lastAnalys[seria];
 
                     } else {
                         value = lastAnalys[seria];
                     }
                 }
                 return {
-                    year: lastAnalys.date.getFullYear(),
-                    data: value
+                    year: feed.general.year,
+                    value: value,
+                    // dry weight
+                    balanceDryWeight: feed.general.balanceWeight / lastAnalys.dryMaterial
                 };
             });     
             seriaDates = _.groupBy(seriaDates, 'year');
             seriaDates = _.map(seriaDates, function(data, key) {
 
-    	        data = _.filter(data, function (d) { return _.isNumber(d.data); });
+    	        data = _.filter(data, function (d) { return _.isNumber(d.value); });
     	        if (data.length) {
+
+                    /*
+                     * C = (C1*V1 + ... Cn*Vn) / (V1 + ... Vn)
+                     * c - concetration, v - volume/weight
+                    */
+
+                    var top = _.sumBy(data, function (d) {
+                        return d.value * d.balanceDryWeight;
+                    });
+                    var bottom = _.sumBy(data, 'balanceDryWeight');
+                    var resultData = top/bottom;
     	        	return {
     	        		year: key,
-                    	data: Math.round((_.sumBy(data, 'data')/data.length)*100)/100
+                    	data: Math.round(resultData*100)/100
     	        	}
     	        } else {
     	        	return {
@@ -82,8 +92,6 @@ function charts(feeds) {
     } catch(e) {
         console.log(e);
     }  
-    console.log('2');
-
     chartSeries = _.map(chartSeries, function(chartSeria) {
         var groupByYear = _.groupBy(chartSeria.data, 'year');
         return {
