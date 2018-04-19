@@ -151,7 +151,7 @@ gulp.task('index', function () {
   // It's not necessary to read the files (will speed up things), we're only after their paths: 
   var sources = gulp.src(['./app/**/*.js', './styles/**/*.css'], {read: false});
  
-  return target.pipe(inject(sources)).pipe(gulp.dest('./'));;
+  return target.pipe(inject(sources)).pipe(gulp.dest('./'));
 });
 
 gulp.task('build', ['styles', 'index']);

@@ -1,162 +1,42 @@
 var nodemailer = require('nodemailer');
 var transporter = nodemailer.createTransport('smtps://sales%40prokorm.com:4noLimits$@smtp.gmail.com');
 var _ = require('lodash');
+var fs = require('fs');
+var schedule = require('node-schedule');
 
-var emailsNovikov = [
-    'redin.molkoop@gmail.com',
-    'rzay2008@rambler.ru',
-    'klueva.tanya@mail.ru',
-    'yukatex@yandex.ru',
-    'info@allgroup.su',
-    'ilkino.spk@mail.ru',
-    'ilkino-vladimir@mail.ru',
-    'intelclean@yandex.ru',
-    'ooo.gmk@mail.ru',
-    'ozhiganova@moloko.vologda.ru',
-    'oao_emelanovka@mail.ru',
-    'poluhin.roman@mail.ru',
-    'pzbarybino@yandex.ru',
-    'plemzavod@yandex.ru',
-    'alexiwa@mail.ru',
-    'atkblg@mail.ru',
-    's.kluchnikov@agrivolga.ru',
-    'sasha2006_@mail.ru',
-    'denlezin@gmail.com',
-    'fabdec.ru@gmail.com',
-    'kmomin@mail.ru',
-    'kripets@extraservice.by',
-    'lorin@yku.ru',
-    'zaoneva@yandex.ru',
-    'vochrinka@mail.ru',
-    'mikhail.kurashov@yandex.ru',
-    'misagro@yandex.ru',
-    'anna.astafyevaa@gmail.com',
-    'A.Kashkin@agrohold.ru',
-    'andrey.gaponov.2014@mail.ru',
-    'atk-amur@mail.ru',
-    'af-85@list.ru',
-    'koshman@limens.by',
-    'algar2000@mail.ru',
-    'agrogrupa@yandex.ru',
-    'apahmutov@rambler.ru',
-    'a.kazachkov.m@gmail.com',
-    'Anastasia.Shabanova@brenntag.com.ru',
-    'agrokemcfo@gmail.com',
-    'anna.krylova@pepsico.com',
-    'andresmail@rambler.ru',
-    'angela2006@inbox.ru',
-    'akazakov.ecolab@mail.ru',
-    'bobyleva.m@aetp.ru',
-    'bomber2106@mail.ru',
-    'chika-72@yandex.ru',
-    'diter@ivc.nnov.ru',
-    'dimo.murgov@ybp.kz',
-    'doctor@kukareks.ru',
-    'evgen.q7@yandex.ru',
-    'evgeniy.khachay@gefco.ru',
-    'evgenii_shevcov@mail.ru',
-    'Ekaterina.ELISTRATOVA@gefco.ru',
-    'elena_tokareva@coface.ru',
-    'Fomichov@moloko.vologda.ru',
-    'filxxx@mail.ru',
-    'filipp.s@extraservice.by',
-    'radex.grzegorz@wp.pl',
-    'gogi_mob@mail.ru',
-    'geryfox@mail.ru',
-    'gazetasport@mail.ru',
-    'G.Brazhenko@medlex.ru',
-    'galkina_nadezhda@mail.ru',
-    'hotimchenko@ion.ru',
-    'juravlev@mvcvvc.com',
-    'kladov_sekr@prioskolie.ru',
-    'ke@alcert.ru',
-    'vklim2008@yandex.ru',
-    'ksuvet@mail.ru',
-    'mahmuud@rambler.ru',
-    'Kuznetsova@moloko.vologda.ru',
-    'kapustinf1@rambler.ru',
-    'kolesov@sezs.ru',
-    'krugletsov@mail.ru',
-    'lega-dz@yandex.ru',
-    'Lyudmila.SAVENOK@gefco.ru',
-    'Maria.Giatsintova@zenteum.ru',
-    'mikhail.kurashov@yandex.ru',
-    'molokobel@gmail.com',
-    'mylnikov@br.chickenkingdom.ru',
-    'mironov@mamamila.ru',
-    'mos-bulls@mail.ru',
-    '88353821720@mail.ru',
-    'N.Misyra@agrohold.ru',
-    'n.robik@medlex.ru',
-    'natalja.kueffner@krones.com',
-    'shtukin@limens.by',
-    'N.Ohvays@medlex.ru',
-    'n-malceva@mail.ru',
-    'olesya@radex.com.pl',
-    'O.vanDael@vivochem.nl',
-    'o.v.dael@vivochem.nl',
-    'oskolmilk@gmail.com',
-    'Olga.Beleneva@brenntag.com.ru',
-    'o.vetchanina@suzdalbeer.ru',
-    'P.Kruglov@agrohold.ru',
-    'pavel.uomz@mail.ru',
-    'pdp@novadan.dk',
-    'patent-07@mail.ru',
-    'zig_andrei@bk.ru',
-    'zgorodok@mail.ru',
-    'x-dimos@yandex.ru',
-    'verhub@yandex.ru',
-    'vet@prioskolie.ru',
-    'vvgorelik@gmail.com',
-    'Vivian.Brunner@clariant.com',
-    'vdyadkov@aqua-italy.ru',
-    'verdikt@r52.ru',
-    'teh2@molvest.ru',
-    'Vnivip-Dmitrieva@yandex.ru',
-    'vetintorg.bel@mail.ru',
-    'slums@mail.ru',
-    'said-ka@mail.ru',
-    'srs@stg-rus.ru',
-    'sibircenter@mail.ru',
-    'stanki.ru@mail.ru',
-    'titoikin@sezs.ru',
-    'yag-alena@yandex.ru',
-    'yvol55@mail.ru',
-    'y.vlassova@ybp.kz',
-    'yusel1@yandex.ru',
-    'uralbiovet@uralbiovet.ru'
-];
+//var prokorm = JSON.parse(fs.readFileSync('./sender/prokorm.json', 'utf8'));
+var vladimir = JSON.parse(fs.readFileSync('./sender/vladimir.json', 'utf8'));
+var zelenina = JSON.parse(fs.readFileSync('./sender/zelenina.json', 'utf8'));
+var kirov = JSON.parse(fs.readFileSync('./sender/kirov.json', 'utf8'));
+var penza = JSON.parse(fs.readFileSync('./sender/penza.json', 'utf8'));
+var orenburg = JSON.parse(fs.readFileSync('./sender/orenburg.json', 'utf8'));
+var perm = JSON.parse(fs.readFileSync('./sender/perm.json', 'utf8'));
+var mordov = JSON.parse(fs.readFileSync('./sender/mordov.json', 'utf8'));
+var prokorm = JSON.parse(fs.readFileSync('./sender/prokorm.json', 'utf8'));
+var samara = JSON.parse(fs.readFileSync('./sender/samara.json', 'utf8'));
+var tatar = JSON.parse(fs.readFileSync('./sender/tatar.json', 'utf8'));
+var kaluga = JSON.parse(fs.readFileSync('./sender/kaluga.json', 'utf8'));
+var kaluga_adm = JSON.parse(fs.readFileSync('./sender/kaluga.adm.json', 'utf8'));
+var moskva = JSON.parse(fs.readFileSync('./sender/moskva.json', 'utf8'));
+var orel = JSON.parse(fs.readFileSync('./sender/orel.json', 'utf8'));
+var ryzan = JSON.parse(fs.readFileSync('./sender/ryzan.json', 'utf8'));
+var ufo = JSON.parse(fs.readFileSync('./sender/ufo.json', 'utf8'));
+var cfo = JSON.parse(fs.readFileSync('./sender/cfo.json', 'utf8'));
 
-var emailsPiter = [
-    'info@detskoselsky.ru', 
-    'trudeconomist@mail.ru',
-    'rabititsy@inbox.ru', 
-    'sea5555@mail.ru',
-    'Oao-novolad@yandex.ru',
-    'info@prinevskoe.ru',
-    'Mf-bugry@yandex.ru',
-    'info@roskar-spb.ru', 
-    'spk-poljani@yandex.ru',
-    'info@shp-losevo.ru', 
-    'pzplamya@gmail.com',
-    'secretary@pz-lesnoe.ru', 
-    'premiumagro@mail.ru',
-    'zakaz@pfsin.ru', 
-    'predport@list.ru',
-    'info@lkkz.ru', 
-    'grajdansky@yandex.ru',
-    'bratbor@mail.ru',
-    'td-agrotechnika@mail.ru', 
-    'info@idavang.ru',
-    'info@agro78.ru' 
-];
 
-var emails = ["dubininkg@gmail.com", "kirill@prokorm.com"];
+/*_.forEach(prokorm, function (o) {
+
+    if (_.some(novikov, function(q) {
+        return o === q;
+    })) {
+        console.log(o);
+    }
+});*/
 
 var mailOptions = {
     from: '"ПРОКОРМ" <sales@prokorm.com>', // sender address 
     to: null, // list of receivers 
-    subject: 'ПРОКОРМ: Управление кормами #2', // Subject line 
+    subject: 'ПРОКОРМ: Управление кормами #1', // Subject line 
     html: 
         `<meta charset="utf-8">
         <section style="color: #444444; font-family: Helvetica, Arial, sans-serif; font-size: 16px; font-weight: normal; line-height: 20px;">
@@ -336,7 +216,51 @@ var mailOptions = {
         </section>`
 };
 
-_.forEach(emails, function (email) {
+var format = '10 * * * * *';
+
+// run each minute
+var i = 0;
+var emails = _.uniq(cfo);
+
+setInterval(function () {
+
+    console.log(i);
+    if (emails[i]) {
+        mailOptions.to = emails[i].trim();
+        i++;
+        
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error);
+            } else if (info) {
+                console.log(info);
+            }
+        });        
+    } else {
+        console.log('DONE');
+    }
+
+}, 5000);
+
+/*schedule.scheduleJob(format, function() {
+    
+    console.log(i);
+    if (emails[i]) {
+        mailOptions.to = emails[i].trim();
+        i++;
+        
+        transporter.sendMail(mailOptions, function(error, info){
+            if(error){
+                console.log(error);
+            } else if (info) {
+                console.log(info);
+            }
+        });        
+    } else {
+        console.log('DONE');
+    }
+});
+_.forEach(prokorm, function (email) {
     mailOptions.to = email;
     // send mail with defined transport object 
     transporter.sendMail(mailOptions, function(error, info){
@@ -346,5 +270,5 @@ _.forEach(emails, function (email) {
             console.log(info);
         }
     });
-});
+});*/
  
