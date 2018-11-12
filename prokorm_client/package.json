@@ -16,7 +16,7 @@
     "gulp-jshint": "^2.0.4",
     "gulp-order": "",
     "gulp-rename": "",
-    "gulp-sass": "~2.0.4",
+    "gulp-sass": "4.0.2",
     "gulp-uglify": "",
     "jshint": "^2.9.4",
     "gulp-clean-css": "~2.3.2",
@@ -29,15 +29,14 @@
     "angular-animate": "1.5.5",
     "angular-aria": "1.5.5",
     "angular-material": "1.1.1",
-    "angular-resource": "1.6.1",
-    
-    "angular-ui-router": "~0.2.15",
     "angular-material-icons": "~0.7.1",
     "angular-messages": "1.5.5",
-
+    "angular-resource": "1.6.1",
+    "angular-ui-carousel": "0.1.4",
+    "angular-ui-router": "~0.2.15",
     "font-awesome": "4.7.0",
     "lodash": "^4.16.6",
-    "angular-ui-carousel": "0.1.4",
-    "moment": "2.17.1"
+    "moment": "2.17.1",
+    "node-sass": "4.10.0"
   }
 }

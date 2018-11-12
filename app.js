@@ -26,7 +26,7 @@ const SimpleNodeLogger = require('simple-node-logger'),
 	log = SimpleNodeLogger.createSimpleLogger(opts);
 
 // configuration ===============================================================
-mongoose.connect(database.localUrl);
+mongoose.connect(database.localUrl, { useNewUrlParser: true });
 var db = mongoose.connection;
 db.on('error', function(err) {
     log.info('connection error:', err.message);

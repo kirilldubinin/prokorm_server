@@ -4,19 +4,9 @@
 
     function RatingController($scope, $state, feedFactory, $stateParams, _) {
 
-    	var vm = this;
-        vm.props = $state.current.data.feedType === 'haylage' ?
-            ['Сухое вещество', 'Баланс расщепляемого протеина, OEB', 
-            'Переваримость органического вещества, VCOS', 'NH3-фракция', 
-            'Сахар', 'Нейтрально-детергентная клетчатка, NDF',
-            'Сырой протеин'] :
-            ['Сухое вещество', 'Чистая энергия на лактацию, NEL', 
-            'Переваримость органического вещества, VCOS',
-            'NH3-фракция', 'Крахмал', 'Нейтрально-детергентная клетчатка, NDF'];
-        
+        var vm = this;
+       
         vm.feedType = $state.params.feedType;
-        var feeds = $stateParams.feeds;
-
         vm.goToHaylage = function () {
             $state.go('tenant.feed.rating.instance', {
                 feedType: 'haylage'
@@ -27,25 +17,10 @@
                 feedType: 'silage'
             });
         };
-
-    	function updateRating(feeds) {
-
-    		if (!feeds.length) {
-    			vm.feeds = [];
-                vm.properties = [];
-    			return;
-    		}
-
-    		feedFactory.ratingFeeds(feeds, vm.feedType).then(function (result) {
-                vm.properties = result.properties;
-                vm.feeds = result.feeds;
-    		});
-    	};	
-
-        $scope.$on('$stateChangeSuccess', function (event, newState, params, oldState) {
-            if (newState.name === 'tenant.feed.rating.instance' && params.feeds && params.feeds.length) {
-                updateRating(_.filter(params.feeds.split(':'), Boolean));
-            }
-        });
+        vm.goToGreenMass = function () {
+            $state.go('tenant.feed.rating.instance', {
+                feedType: 'greenmass'
+            });
+        };	
     }
 })();

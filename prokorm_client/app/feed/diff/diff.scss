@@ -77,13 +77,15 @@
 		.property-values {
 			
 			&:hover {
-
+				font-weight: bold;
 				.property-value {
 					border-bottom: 1px solid #FF9800;
+					color: #000;
 				}
 
 				.property-label {
 					border-bottom: 1px solid #FF9800;
+					color: #000;
 				}
 
 				.max {

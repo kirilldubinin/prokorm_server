@@ -142,9 +142,9 @@
                 ng-repeat="feedItem in feed.feedItems">
                 <div class="md-list-item-text">
                     <div layout="row">
-                        <p class="title" flex="">
-                            {{feedItem.name}}
-                        </p>
+                        <b class="year" flex>
+                            {{feedItem.year}}
+                        </b>
                         <span class="analysis-length" ng-class="{'no-analysis': !feedItem.analysis}">
                             <i aria-hidden="true" class="fa fa-flask">
                             </i>
@@ -160,16 +160,17 @@
                         </span>
                     </div>
                     <div layout="row">
-                        <p class="composition" flex="">
-                            {{feedItem.feedType ? 
-              feedItem.feedType + ': ' + feedItem.composition : feedItem.composition}}
+                        <p class="title" flex="">
+                            {{feedItem.name}}
                         </p>
-                        <b class="year">
-                            {{feedItem.year}}
-                        </b>
                     </div>
                     <div layout="row">
-                        <p class="source" flex="">
+                        <p class="composition" flex="">
+                            {{feedItem.feedType ? feedItem.feedType + ': ' + feedItem.composition : feedItem.composition}}
+                        </p>
+                    </div>
+                    <div layout="row">
+                        <p class="source" ng-if="feedItem.branch" flex>
                             {{feedItem.branch}}
                         </p>
                         <p class="source">

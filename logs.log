@@ -1,0 +1,53 @@
+2018-11-03 22:52:12.475 INFO  connection error:Authentication failed. 
+2018-11-03 22:54:35.231 INFO  connection error:Authentication failed. 
+2018-11-03 23:01:59.565 INFO  connection error:Authentication failed. 
+2018-11-03 23:11:51.567 INFO  connection error:Authentication failed. 
+2018-11-03 23:15:32.583 INFO  connection error:Authentication failed. 
+2018-11-03 23:17:02.779 INFO  App listening on port 8080 
+2018-11-03 23:59:00.013 INFO  START FEED scheduler 
+2018-11-03 23:59:00.051 INFO  FEED scheduler: was set balanceWeight to1460 
+2018-11-04 23:21:10.362 INFO  connection error:failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017] 
+2018-11-04 23:31:31.869 INFO  App listening on port 8080 
+2018-11-04 23:59:00.019 INFO  START FEED scheduler 
+2018-11-04 23:59:00.059 INFO  FEED scheduler: was set balanceWeight to1438 
+2018-11-05 14:06:46.503 INFO  App listening on port 8080 
+2018-11-05 15:41:17.611 INFO  App listening on port 8080 
+2018-11-05 23:59:00.053 INFO  START FEED scheduler 
+2018-11-05 23:59:00.165 INFO  FEED scheduler: was set balanceWeight to1416 
+2018-11-07 18:26:43.069 INFO  connection error:failed to connect to server [localhost:27017] on first connect [MongoNetworkError: connect ECONNREFUSED 127.0.0.1:27017] 
+2018-11-07 18:30:21.865 INFO  App listening on port 8080 
+2018-11-07 23:59:00.032 INFO  START FEED scheduler 
+2018-11-07 23:59:00.065 INFO  FEED scheduler: was set balanceWeight to1394 
+2018-11-09 20:19:33.724 INFO  App listening on port 8080 
+2018-11-09 20:20:53.807 INFO  App listening on port 8080 
+2018-11-09 20:22:33.072 INFO  App listening on port 8080 
+2018-11-09 20:23:24.576 INFO  App listening on port 8080 
+2018-11-09 20:24:01.435 INFO  App listening on port 8080 
+2018-11-09 20:29:39.223 INFO  App listening on port 8080 
+2018-11-09 20:38:59.403 INFO  App listening on port 8080 
+2018-11-09 20:40:24.290 INFO  App listening on port 8080 
+2018-11-09 20:41:38.805 INFO  App listening on port 8080 
+2018-11-09 20:43:01.667 INFO  App listening on port 8080 
+2018-11-09 20:44:15.823 INFO  App listening on port 8080 
+2018-11-09 20:46:08.919 INFO  App listening on port 8080 
+2018-11-09 20:46:54.499 INFO  App listening on port 8080 
+2018-11-09 20:48:43.795 INFO  App listening on port 8080 
+2018-11-09 21:01:11.697 INFO  App listening on port 8080 
+2018-11-09 21:02:14.762 INFO  App listening on port 8080 
+2018-11-09 21:39:54.458 INFO  App listening on port 8080 
+2018-11-09 21:56:01.866 INFO  App listening on port 8080 
+2018-11-09 22:00:01.845 INFO  App listening on port 8080 
+2018-11-09 22:04:04.735 INFO  App listening on port 8080 
+2018-11-09 22:10:08.098 INFO  App listening on port 8080 
+2018-11-09 22:12:15.312 INFO  App listening on port 8080 
+2018-11-09 22:15:01.075 INFO  App listening on port 8080 
+2018-11-09 22:21:50.643 INFO  App listening on port 8080 
+2018-11-09 22:26:59.208 INFO  App listening on port 8080 
+2018-11-09 22:28:52.684 INFO  App listening on port 8080 
+2018-11-09 22:30:20.512 INFO  App listening on port 8080 
+2018-11-09 23:59:00.042 INFO  START FEED scheduler 
+2018-11-09 23:59:00.108 INFO  FEED scheduler: was set balanceWeight to1372 
+2018-11-10 23:59:00.007 INFO  START FEED scheduler 
+2018-11-10 23:59:00.021 INFO  FEED scheduler: was set balanceWeight to1350 
+2018-11-11 23:59:00.025 INFO  START FEED scheduler 
+2018-11-11 23:59:00.068 INFO  FEED scheduler: was set balanceWeight to1328 

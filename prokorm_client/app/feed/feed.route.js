@@ -81,7 +81,7 @@
             }).state('tenant.feed.rating.instance', {
                 url: '/:feedType/:feeds',
                 templateUrl: 'app/feed/rating/ratingInstance.html',
-                controller: 'RatingController',
+                controller: 'RatingInstanceController',
                 controllerAs: 'rating',
                 params: {
                     feedType: undefined,

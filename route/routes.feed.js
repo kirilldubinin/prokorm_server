@@ -16,7 +16,7 @@ var edit = require('../feed/feed.edit');
 var balance = require('../feed/feed.balance');
 var progress = require('../feed/feed.progress');
 var charts = require('../feed/feed.charts');
-var rating = require('../feed/feed.rating');
+var rating = require('../feed/feed.rating').getRaiting;
 var list = require('../feed/feed.list');
 var lang = require('../feed/lang');
 
@@ -357,7 +357,15 @@ module.exports = function(app, isAuthenticated, errorHandler, log) {
             feeds = _.filter(feeds, function(f) {
                 return checkUserRightForFeed(f, req) && f.analysis && f.analysis.length;
             });
-            return res.json(rating(feeds, feedType));
+            try {
+                return res.json(rating(feeds, feedType));
+            } 
+            catch(e) {
+                res.status(406).json({
+                    message: e
+                });
+            }
+            
         }, function(err) {
             res.send(err);
         });

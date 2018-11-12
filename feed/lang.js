@@ -13,7 +13,7 @@ function lang(key) {
 
         feed: 'корма',
         ration: 'рационы',
-        field: 'роля',
+        field: 'поля',
 
         edit: 'редактировать',
         delete: 'удалить',

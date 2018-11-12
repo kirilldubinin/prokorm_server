@@ -20,7 +20,7 @@
                 popupWin.document.open();
                 popupWin.document.write(
                     '<html style="background-color: #fff;">'+
-                        '<title>ПРОКОРМ:печать</title>'+
+                        '<title><b>AGRO</b>DESK:печать</title>'+
                         '<head>'+
                             '<link rel="stylesheet" type="text/css" href="app.css"/>'+
                             '<link rel="stylesheet" type="text/css" href="libs.css"/>'+

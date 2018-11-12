@@ -1,7 +1,8 @@
 var expect = require("chai").expect;
-var rating = require('../../feed/feed.rating');
+var rating = require('../../feed/feed.rating').getRaiting;
+var score = require('../../feed/feed.rating').getScore;
 var _ = require('lodash');
-describe('feed.rating', function() {
+describe.only('feed.rating', function() {
     var feeds;
     beforeEach(function() {
         feeds = [{
@@ -54,7 +55,7 @@ describe('feed.rating', function() {
             }]
         }];
     });
-    it('return null if feedType undefined', function(done) {
+    xit('return null if feedType undefined', function(done) {
         var raitingAverage = rating(feeds);
         expect(raitingAverage).to.equal(null);
         var raitingAverage = rating(feeds, 'wrong');
@@ -73,7 +74,7 @@ describe('feed.rating', function() {
 
         var feed_1 = raitingAverage.feeds[0];
         var feed_1_in_range = _.filter(feed_1, {"inRange": true});
-        expect(feed_1[0].name).to.be.equal('2');
+        expect(feed_1[0].name).to.be.equal('1');
         expect(feed_1_in_range.length).to.be.equal(4);
 
         var feed_2 = raitingAverage.feeds[1];
@@ -83,10 +84,55 @@ describe('feed.rating', function() {
 
         var feed_3 = raitingAverage.feeds[2];
         var feed_3_in_range = _.filter(feed_3, {"inRange": true});
-        expect(feed_3[0].name).to.be.equal('1');
-        expect(feed_3_in_range.length).to.be.equal(3);
+        expect(feed_3[0].name).to.be.equal('2');
+        expect(feed_3_in_range.length).to.be.equal(4);
 
        
+        done();
+    });
+
+    it('should return rating for greenmass', function(done) {
+        
+        var feeds = [{
+            _id: '1',
+            general: {
+                name: '1',
+                year: 2018,
+                price: '',
+            },
+            analysis: [{
+                dryMaterial: 22.3,
+                crudeProtein: 160,
+                vcos: 75.9,
+                ndf: 380,
+                //adl: 40,
+                oeb: 40,
+                crudeAsh: 209,
+                sugar: 120
+            }]
+        }]
+        try {
+            var raitingAverage = rating(feeds, 'greenmass');
+        } catch(e) {
+            expect(e).to.be.equal('У 1 выбранного корма введены не все обязательные показатели');
+        }
+
+        feeds[0].analysis[0].adl = 40;
+
+        try {
+            var raitingAverage = rating(feeds, 'greenmass');
+            expect(raitingAverage.feeds[0][0].score).to.be.equal(420);
+        } catch(e) {}
+
+        done();
+    });
+
+    it('should return score for sugar', function(done) {
+        expect(score.score_oeb(80)).to.be.equal(20);
+        expect(score.score_vcos(75.9)).to.be.equal(100);
+        expect(score.score_sugar(21)).to.be.equal(10);
+        expect(score.score_ndf(362)).to.be.equal(60);
+        expect(score.score_crudeProtein(209)).to.be.equal(90);
         done();
     });
 });
